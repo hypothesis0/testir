@@ -1,0 +1,142 @@
+backend:
+  name: git-gateway
+  branch: main # 使用您的主分支名称
+
+media_folder: "img/uploads" # 媒体文件存储位置
+public_folder: "/img/uploads" # 媒体文件URL路径前缀
+
+collections:
+  # Fellowship页面管理
+  - name: "fellowship_page"
+    label: "Fellowship页面"
+    files:
+      - name: "fellowship"
+        label: "Fellowship内容"
+        file: "program/fellowship.html"
+        fields:
+          # 基本页面信息
+          - {label: "页面标题", name: "page_title", widget: "string", pattern: ["<title>(.*?)</title>", "$1"]}
+          
+          # 主标题和介绍
+          - {label: "主标题", name: "main_heading", widget: "string", pattern: ["<h1 class=\"main-headline\">(.*?)</h1>", "$1"]}
+          - {label: "介绍文本", name: "intro_text", widget: "markdown", pattern: ["<div class=\"fellowship-intro\">\\s*<p>(.*?)</p>\\s*</div>", "$1"]}
+          
+          # 研究员cohort标题
+          - {label: "研究员群组标题", name: "cohort_heading", widget: "string", pattern: ["<h2 class=\"section-heading\">(.*?)</h2>", "$1"]}
+          
+          # 研究员列表 - 使用list widget允许添加/删除/重新排序
+          - label: "研究员列表"
+            name: "fellows"
+            widget: "list"
+            fields:
+              - {label: "研究员编号", name: "number", widget: "string"}
+              - {label: "研究员名称", name: "name", widget: "string"}
+              - {label: "研究员ID", name: "id", widget: "string", hint: "用于系统识别的唯一ID(如:yu-ji-ho-king-2025)"}
+              - {label: "研究员标题", name: "title", widget: "string"}
+              - {label: "研究员介绍", name: "bio", widget: "markdown"}
+              
+              # 研究员图片 - 支持单张图片或轮播图
+              - label: "图片类型"
+                name: "image_type"
+                widget: "select"
+                options:
+                  - {label: "单张图片", value: "single"}
+                  - {label: "轮播图", value: "carousel"}
+              
+              # 单张图片设置
+              - label: "单张图片"
+                name: "single_image"
+                widget: "object"
+                required: false
+                fields:
+                  - {label: "图片", name: "src", widget: "image"}
+                  - {label: "图片说明", name: "caption", widget: "string", required: false}
+              
+              # 轮播图设置
+              - label: "轮播图图片"
+                name: "carousel_images"
+                widget: "list"
+                required: false
+                fields:
+                  - {label: "图片", name: "src", widget: "image"}
+                  - {label: "图片说明", name: "caption", widget: "string", required: false}
+  
+  # 共享元素管理
+  - name: "shared"
+    label: "共享元素"
+    files:
+      # 导航菜单管理
+      - name: "navigation"
+        label: "导航菜单"
+        file: "shared/navigation.html"
+        fields:
+          - label: "桌面版导航"
+            name: "desktop_nav"
+            widget: "object"
+            fields:
+              - label: "主菜单项"
+                name: "main_items"
+                widget: "list"
+                fields:
+                  - {label: "菜单文本", name: "text", widget: "string"}
+                  - {label: "链接", name: "url", widget: "string"}
+                  - label: "子菜单项"
+                    name: "submenu"
+                    widget: "list"
+                    required: false
+                    fields:
+                      - {label: "菜单文本", name: "text", widget: "string"}
+                      - {label: "链接", name: "url", widget: "string"}
+          
+          - label: "移动版导航"
+            name: "mobile_nav"
+            widget: "object"
+            fields:
+              - label: "主菜单项"
+                name: "main_items"
+                widget: "list"
+                fields:
+                  - {label: "菜单文本", name: "text", widget: "string"}
+                  - {label: "链接", name: "url", widget: "string"}
+                  - label: "子菜单项"
+                    name: "submenu"
+                    widget: "list"
+                    required: false
+                    fields:
+                      - {label: "菜单文本", name: "text", widget: "string"}
+                      - {label: "链接", name: "url", widget: "string"}
+      
+      # 页脚管理
+      - name: "footer"
+        label: "页脚"
+        file: "shared/footer.html"
+        fields:
+          - {label: "地址文本", name: "address", widget: "string"}
+          - {label: "背景颜色", name: "bg_color", widget: "string", default: "rgb(180, 180, 180)"}
+          - {label: "文字颜色", name: "text_color", widget: "string", default: "rgb(23, 23, 23)"}
+  
+  # 样式管理 - 控制移动端和桌面端的外观
+  - name: "styles"
+    label: "样式设置"
+    files:
+      - name: "fellowship_styles"
+        label: "Fellowship页面样式"
+        file: "css/fellowship-custom.css"
+        fields:
+          - label: "桌面样式"
+            name: "desktop_styles"
+            widget: "object"
+            fields:
+              - {label: "主标题字体大小", name: "main_heading_size", widget: "string", default: "43px"}
+              - {label: "介绍文本字体大小", name: "intro_text_size", widget: "string", default: "17px"}
+              - {label: "研究员编号字体大小", name: "fellow_number_size", widget: "string", default: "16px"}
+              - {label: "研究员名称字体大小", name: "fellow_name_size", widget: "string", default: "18px"}
+          
+          - label: "移动样式"
+            name: "mobile_styles"
+            widget: "object"
+            fields:
+              - {label: "主标题字体大小", name: "main_heading_size", widget: "string", default: "28px"}
+              - {label: "介绍文本字体大小", name: "intro_text_size", widget: "string", default: "16px"}
+              - {label: "研究员编号字体大小", name: "fellow_number_size", widget: "string", default: "16px"}
+              - {label: "研究员名称字体大小", name: "fellow_name_size", widget: "string", default: "16px"}
