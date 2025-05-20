@@ -1,26 +1,9 @@
----
-page_title: Fellowship - Inaugural Cohort
-main_heading: Fellowship
-intro_text: Initial Research is a meeting space for creative talents, fostering
-  a continuous exchange of experiences and ideas. At its core, the Initial
-  Research Fellowship provides a select group of creatives with the resources to
-  pursue a self-directed, yearlong research project. Fellows receive access to
-  office and project space, where they develop their work through a series of
-  gatherings, including workshops, lectures, screenings, and reading groups.
-  Each participant will present their research internally and will organize
-  public-facing events.
-cohort_heading: 2025/2026 Inaugural Cohort<
-fellows:
-  - number: "05"
-    name: snow
-    id: "04"
-    bio: "04"
----
 <!DOCTYPE html>
 <html lang="en">
     <!-- Netlify CMS -->
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script src="../js/fellowship-cms.js"></script>
+<script src="/content-loader.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1005,6 +988,7 @@ fellows:
 </footer>
     
     <script>
+        
         fetch('/shared/navigation.html')
         .then(response => response.text())
         .then(data => {
@@ -1013,7 +997,7 @@ fellows:
         .catch(error => {
             console.error('Error loading navigation:', error);
         });
-        
+
           function goToHomepage() {
             window.location.href = '../index.html';
         }
