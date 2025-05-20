@@ -137,4 +137,6 @@ collections:
             widget: "object"
             fields:
               - {label: "Main Heading Font Size", name: "main_heading_size", widget: "string", default: "28px"}
-              - {label: "Intro Text Font Size", name: "intro_text_size", widget: "string", default: "16
+              - {label: "Intro Text Font Size", name: "intro_text_size", widget: "string", default: "16px"}
+              - {label: "Fellow Number Font Size", name: "fellow_number_size", widget: "string", default: "16px"}
+              - {label: "Fellow Name Font Size", name: "fellow_name_size", widget: "string", default: "16px"}
