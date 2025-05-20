@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fellowship - Inaugural Cohort</title>
+     <!-- Google Font - Space Grotesk -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+     
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+            line-height: 1;
+            background-color: rgb(235, 235, 235);
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+            width: 100%; /* Ensure body takes full width */
+        }
+        
+        /* Red top banner - matching exhibition page design */
+        .top-banner {
+            position: fixed;
+            width: 100%;
+            background-color: rgb(241, 61, 33);
+            padding: 8px 0; /* Fixed padding instead of 0.5vh */
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .title-container {
+            padding-left: 48px; /* Fixed padding instead of 3vw */
+        }
+        
+        .top-banner h1 {
+            font-size: 34px;
+            font-weight: 500;
+            color: rgb(23, 23, 23);
+            margin: 0;
+            letter-spacing: 0em;
+            line-height: 1;
+            font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+        }
+        
+        /* Updated Navigation - Block Style (matching exhibition page) */
+        .nav-top {
+            display: flex;
+            gap: 0; /* Remove gap between nav items */
+            padding-right: 48px; /* Fixed padding instead of 3vw */
+            padding-left: 32px; /* Fixed padding instead of 2vw */
+            align-items: flex-end; /* Keep original alignment */
+        }
+        
+        .nav-top a {
+            color: rgb(23, 23, 23);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color ease-in-out;
+            line-height: 1;
+            display: inline-block;
+            font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+            font-weight: 300;
+        }
+        
+        .nav-top a:hover {
+            color: #ffffff;
+        }
+        
+        /* Nav item positioning - now with block style */
+        .nav-item {
+            position: relative;
+            cursor: pointer;
+            padding: 8px 24px; /* Fixed padding instead of 0.5vh 1.5vw */
+            display: flex;
+            align-items: center; /* Center the text vertically */
+            /* Create full height block that matches banner */
+            margin-top: -8px;
+            margin-bottom: -8px;
+            padding-top: 16px;
+            padding-bottom: 8px;
+        }
+        
+        /* Add active state background for desktop nav items - expanded block */
+        .nav-item.active {
+            color: #ffffff;
+        }
+        
+        /* Horizontal Dropdown styles - Click-based with text alignment */
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100%);
+            /* Align dropdown with the navigation text by offsetting the nav-item padding */
+            left: 0;
+            background-color: rgb(241, 61, 33);
+            padding: 0 0 0 0;
+            z-index: 1000;
+            transition: opacity ease;
+            min-width: 400px;
+        }
+        
+        /* Special case for "program" dropdown to make it wider */
+        .nav-item:first-child .dropdown {
+            width: 600px;
+        }
+        
+        /* Dropdown container holding all links */
+        .dropdown-container {
+            display: flex;
+            flex-direction: column;
+            background-color: rgb(241, 61, 33);
+            width: 100%;
+            padding: 0;
+        }
+        
+        /* Dropdown links - full width hover with text aligned */
+        .dropdown a {
+            display: block;
+            font-size: 16px;
+            /* Add left padding back to align text, full padding for hover area */
+            padding: 10px 10px 10px 1.5vw;
+            margin: 0;
+            color: rgb(23, 23, 23);
+            text-align: left;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 300;
+            white-space: nowrap;
+        }
+        
+        .dropdown a:first-child {
+            border-top: none;
+        }
+        
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+        
+        /* Show dropdown when active */
+        .nav-item.active .dropdown {
+            display: block;
+        }
+        
+        .dropdown a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Show dropdown on click with animation */
+        .dropdown {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .nav-item.active .dropdown {
+            opacity: 1;
+            visibility: visible;
+            display: block;
+        }
+        
+        /* MOBILE HAMBURGER MENU */
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-right: 3vw;
+            cursor: pointer;
+        }
+        
+        .hamburger-menu span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: rgb(23, 23, 23);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+        
+        /* Mobile navigation menu */
+        .mobile-nav {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: rgb(241, 61, 33);
+            display: none;
+            flex-direction: column;
+            padding: 0;
+            z-index: 1000;
+        }
+        
+        /* Mobile nav item structure - uniform height */
+        .mobile-nav-item {
+            position: relative;
+        }
+        
+        .mobile-nav-item > a {
+            color: rgb(23, 23, 23);
+            text-decoration: none;
+            /* Match banner height - using same padding as banner */
+            padding: 0.5vh 3vw; /* Match the banner's vertical padding */
+            font-size: 16px;
+            font-weight: 300;
+            border-bottom: 1px solid rgba(23, 23, 23, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+        
+        .mobile-nav-item > a:hover {
+            background-color: rgba(23, 23, 23, 0.1);
+        }
+        
+        /* Mobile arrow indicator */
+        .mobile-arrow {
+            font-size: 20px;
+            transition: transform 0.3s ease;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Only show arrow for items with dropdowns */
+        .mobile-nav-item:last-child .mobile-arrow {
+            display: none;
+        }
+        
+        .mobile-nav-item.active .mobile-arrow {
+            transform: rotate(180deg);
+        }
+        
+        /* Mobile dropdown */
+        .mobile-dropdown {
+            display: none;
+            background-color: rgb(241, 61, 33);
+            flex-direction: column;
+        }
+        
+        .mobile-nav-item.active .mobile-dropdown {
+            display: flex;
+        }
+        
+        .mobile-dropdown a {
+            color: rgb(23, 23, 23);
+            text-decoration: none;
+            padding: 0.5vh 3vw 0.5vh 6vw; /* Match banner padding with left indent */
+            font-size: 16px;
+            font-weight: 300;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+        }
+        
+        .mobile-dropdown a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Make sure it shows when toggled */
+        .mobile-nav.show {
+            display: flex !important;
+        }
+        
+        /* Content area - updated for fixed header */
+        .content {
+            padding: 120px 48px 64px 48px; /* Fixed padding instead of 12vh 3vw 4vw 3vw */
+            max-width: none; /* Remove max-width constraint */
+            margin: 0; /* Remove auto centering */
+            position: relative;
+            z-index: 2;
+            width: 100%; /* Explicitly set to 100% */
+            box-sizing: border-box; /* Include padding in width calculation */
+        }
+        
+        /* Intro container */
+        .intro-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 120px; /* Fixed instead of 15vh */
+            margin-top: 40px; /* Fixed instead of 5vh */
+            width: 100%;
+        }
+        
+        .intro-left {
+            width: 50%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .intro-right {
+            width: 50%;
+        }
+        
+        /* Section title */
+        .section-heading {
+            font-size: 43px; /* Matching exhibition page */
+            font-weight: 400; /* Matching exhibition page */
+            margin: 0 0 80px 0; /* Fixed instead of 10vh */
+            line-height: 1.2;
+        }
+        
+        /* Main Headline */
+        .main-headline {
+            font-size: 43px; /* Matching exhibition page */
+            font-weight: 400; /* Matching exhibition page */
+            text-align: left; /* Changed from center to left */
+            line-height: 1;
+            color: rgb(23, 23, 23); /* Matching exhibition page */
+        }
+        
+        /* Fellowship intro */
+        .fellowship-intro {
+            width: 100%;
+            margin-bottom: 0px; /* Fixed instead of 0vh */
+            margin-top: 56px; /* Fixed instead of 7vh */
+            font-size: 17px; /* Matching exhibition page */
+            justify-self: center;
+            line-height: 1.6; /* Better readability */
+            font-weight: 300;
+        }
+        
+        /* Fellows table */
+        .fellows-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 5rem;
+            table-layout: fixed; /* Ensure table uses full width */
+            box-sizing: border-box; /* Include any borders in width */
+        }
+        
+        .fellows-table tr.fellow-row {
+            transition: background-color 0.2s ease;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .fellows-table tr.fellow-row:hover {
+            background-color: rgb(115, 115, 115);
+            color: white;
+        }
+        
+        /* Active state for fellow row */
+        .fellows-table tr.fellow-row.active {
+            background-color: rgb(70, 70, 70);
+            color: white;
+        }
+        
+        .fellows-table td {
+            padding: 15px 16px; /* Fixed instead of 1.5vh 1vw */
+            vertical-align: top;
+            border-bottom: 1px solid rgb(43, 43, 43);
+        }
+        
+        .fellow-number {
+            width: 10%;
+            font-size: 16px;
+        }
+        
+        .fellow-name {
+            width: 90%;
+            font-size: 18px;
+        }
+        
+        /* Expandable content styles */
+        .expanded-row {
+            display: none;
+            background-color: rgba(200, 200, 200, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .expanded-row.active {
+            display: table-row;
+        }
+        
+        .expanded-content {
+            display: flex;
+            padding: 0;
+            overflow: hidden;
+            max-height: 0;
+            transition: all 0.5s ease;
+            background-color: white;
+            position: relative;
+        }
+        
+        .expanded-content.active {
+            padding: 30px;
+            max-height: 800px;
+        }
+        
+        .expanded-cell {
+            padding: 0 !important;
+            border-bottom: none !important;
+        }
+        
+        .expanded-left {
+            width: 50%;
+            padding-right: 30px;
+            box-sizing: border-box;
+        }
+        
+        .expanded-right {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .expanded-title {
+            font-size: 24px;
+            margin: 0 0 10px 0;
+            font-weight: 500;
+        }
+        
+        .expanded-subtitle {
+            font-size: 18px;
+            margin: 0 0 20px 0;
+            font-weight: 300;
+        }
+        
+        .expanded-text {
+            font-size: 16px;
+            line-height: 1.5;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+        
+        .expanded-projects h4 {
+            font-size: 18px;
+            margin: 20px 0 10px 0;
+            font-weight: 500;
+        }
+        
+        .project-title {
+            font-size: 16px;
+            margin: 0 0 5px 0;
+            font-weight: 400;
+        }
+        
+        .project-description {
+            font-size: 14px;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+        
+        .expanded-image {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(200, 200, 200, 0.5);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(150, 150, 150, 0.8);
+        }
+        
+        h2.section-heading {
+            margin-top: 80px;   /* Fixed instead of 10vh */
+            margin-bottom: 40px; /* Fixed instead of 5vh */
+        }
+        
+        /* Carousel styling */
+        .image-carousel {
+            position: relative;
+            width: 100%;
+        }
+        
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        
+        .carousel-slide {
+            display: none;
+            text-align: center;
+        }
+        
+        .carousel-slide.active {
+            display: block;
+        }
+        
+        .carousel-slide img {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+        }
+        
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            gap: 8px;
+        }
+        
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(23, 23, 23, 0.3);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .carousel-dot.active {
+            background-color: rgb(23, 23, 23);
+        }
+        
+        .photo-credit {
+            font-size: 12px;
+            margin-top: 8px;
+            color: rgb(100, 100, 100);
+            font-style: italic;
+            font-weight: 300;
+        }
+        
+        .single-image-container {
+            text-align: center;
+        }
+        
+        .single-image-container img {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+        }
+        
+        /* Mobile styling */
+        @media (max-width: 768px) {
+            /* Hide desktop nav, show hamburger */
+            .nav-top {
+                display: none !important;
+            }
+            
+            .hamburger-menu {
+                display: flex !important;
+            }
+            
+            /* Mobile nav basic styling */
+            .mobile-nav {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: rgb(241, 61, 33);
+                z-index: 1000;
+            }
+            
+            .content {
+                padding: 20vh 3vw 4vw 3vw; /* Increased top padding for mobile, keep 3vw sides */
+            }
+            
+            .section-heading {
+                font-size: 28px;
+            }
+            
+            .main-headline {
+                font-size: 28px;
+            }
+            
+            .intro-container {
+                flex-direction: column;
+                margin-bottom: 8vh;
+            }
+            
+            .intro-left, .intro-right {
+                width: 100%;
+                margin-bottom: 4vh;
+            }
+            
+            .fellowship-intro {
+                font-size: 16px;
+            }
+                
+            .fellow-number {
+                font-size: 16px;
+            }
+            
+            .fellow-name {
+                font-size: 18px;
+            }
+            
+            .expanded-content.active {
+                flex-direction: column;
+            }
+            
+            .expanded-left, .expanded-right {
+                width: 100%;
+                padding-right: 0;
+            }
+            
+            .expanded-right {
+                margin-top: 20px;
+            }
+            
+            .photo-credit {
+                font-size: 11px;
+                text-align: center;
+            }
+            
+            .carousel-dots {
+                margin-top: 10px;
+            }
+            
+            .carousel-dot {
+                width: 10px;
+                height: 10px;
+            }
+            
+            .expanded-title {
+                font-size: 24px;
+            }
+            
+            .expanded-subtitle {
+                font-size: 18px;
+            }
+            
+            .expanded-text {
+                font-size: 16px;
+            }
+            
+            .expanded-projects h4 {
+                font-size: 18px;
+            }
+            
+            .project-title {
+                font-size: 16px;
+            }
+            
+            .project-description {
+                font-size: 14px;
+            }
+        }
+        
+        /* Auto-switch to desktop when screen is larger than 768px */
+        @media (min-width: 769px) {
+            .nav-top {
+                display: flex !important;
+            }
+            
+            .hamburger-menu {
+                display: none !important;
+            }
+            
+            .mobile-nav {
+                display: none !important;
+            }
+        }
+        
+        /* Large screen optimization (1600px and above) */
+        @media (min-width: 1600px) {
+            .title-container {
+                padding-left: 3vw; /* Keep same as smaller screens */
+            }
+            
+            .nav-top {
+                padding-right: 3vw; /* Keep same as smaller screens */
+                padding-left: 2vw; /* Keep same as smaller screens */
+            }
+            
+            .content {
+                padding: 12vh 3vw 4vw 3vw; /* Keep same vw padding as header */
+                max-width: none; /* Remove max-width to let it span full width */
+                margin: 0; /* Remove auto centering */
+            }
+            
+            /* Ensure intro container spans full width and maintains 50/50 split */
+            .intro-container {
+                width: 100%;
+                max-width: none;
+                display: flex;
+                justify-content: space-between;
+            }
+            
+            .intro-left {
+                width: 50%;
+            }
+            
+            .intro-right {
+                width: 50%;
+            }
+            
+            /* Only limit the width of the table, not the intro section */
+            .fellows-table {
+                max-width: 1400px;
+            }
+            
+            .top-banner h1 {
+                font-size: 34px; /* Fixed size instead of viewport-dependent */
+            }
+            
+            .section-heading {
+                font-size: 43px; /* Fixed size */
+                max-width: 1400px;
+            }
+            
+            .main-headline {
+                font-size: 43px; /* Fixed size */
+            }
+            
+            .fellowship-intro {
+                font-size: 17px; /* Fixed size */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top red banner with title and navigation -->
+    <div class="top-banner">
+        <div class="title-container">
+            <h1>initial research</h1>
+        </div>
+        <nav class="nav-top">
+            <div class="nav-item">
+                <a href="#">program</a>
+                <div class="dropdown">
+                    <div class="dropdown-container">
+                        <a href="#">calendar</a>
+                        <a href="#">fellowship</a>
+                        <a href="#">community hours</a>
+                        <a href="#">seasonal dinner</a>
+                        <a href="#">exhibitions</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nav-item">
+                <a href="#">about</a>
+                <div class="dropdown">
+                    <div class="dropdown-container">
+                        <a href="#">team</a>
+                        <a href="#">mission & vision</a>
+                        <a href="#">contact</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nav-item">
+                <a href="#">support us</a>
+            </div>
+        </nav>
+        
+        <!-- Hamburger menu for mobile -->
+        <div class="hamburger-menu" onclick="toggleMobileNav()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <!-- Mobile navigation menu -->
+        <div class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav-item">
+                <a href="#" onclick="toggleMobileDropdown(event, this)">
+                    program
+                    <span class="mobile-arrow">ᵥ</span>
+                </a>
+                <div class="mobile-dropdown">
+                    <a href="#">calendar</a>
+                    <a href="#">fellowship</a>
+                    <a href="#">community hours</a>
+                    <a href="#">seasonal dinner</a>
+                    <a href="#">exhibitions</a>
+                </div>
+            </div>
+            
+            <div class="mobile-nav-item">
+                <a href="#" onclick="toggleMobileDropdown(event, this)">
+                    about
+                    <span class="mobile-arrow">ᵥ</span>
+                </a>
+                <div class="mobile-dropdown">
+                    <a href="#">team</a>
+                    <a href="#">mission & vision</a>
+                    <a href="#">contact</a>
+                </div>
+            </div>
+            
+            <div class="mobile-nav-item">
+                <a href="#">support us</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Content area with fellowship info and cohort -->
+    <div class="content">
+        <div class="intro-container">
+            <div class="intro-left">
+                <h1 class="main-headline">Fellowship</h1>
+            </div>
+            <div class="intro-right">
+                <div class="fellowship-intro">
+                    <p>Initial Research is a meeting space for creative talents, fostering a continuous exchange of experiences and ideas. At its core, the Initial Research Fellowship provides a select group of creatives with the resources to pursue a self-directed, yearlong research project. Fellows receive access to office and project space, where they develop their work through a series of gatherings, including workshops, lectures, screenings, and reading groups. Each participant will present their research internally and will organize public-facing events.</p>
+                </div>
+            </div>
+        </div>
+        <h2 class="section-heading">2025/2026 Inaugural Cohort</h2>
+        <table class="fellows-table" id="cohort-2025">
+            <tbody>
+                <!-- te editions 2025 -->
+                <tr class="fellow-row" data-fellow-id="te-editions-2025">
+                    <td class="fellow-number">01</td>
+                    <td class="fellow-name">te editions (Michael Guo & Kechun Qin)</td>
+                </tr>
+                <tr class="expanded-row" id="te-editions-2025-row">
+                    <td colspan="2" class="expanded-cell">
+                        <div class="expanded-content" id="te-editions-2025-content">
+                            <div class="expanded-left">
+                                <h3 class="expanded-title">te editions</h3>
+                                <h4 class="expanded-subtitle">Michael Guo & Kechun Qin</h4>
+                                <div class="expanded-text">
+                                    <p>Independent publishing and research studio exploring the intersection of art, design, and technology. Their work focuses on creating experimental publications and digital experiences that challenge traditional forms of knowledge dissemination. Through their fellowship, they aim to investigate new models of collaborative publishing that connect artists, designers, and technologists across disciplines.</p>
+                                    <p>Founded in 2020, te editions has collaborated with various cultural institutions, artists, and researchers to produce publications that exist at the intersection of print and digital media. Their approach emphasizes process-based research and experimentation with new publishing formats.</p>
+                                </div>
+                                
+                            </div>
+                            <div class="expanded-right">
+                                <div class="image-carousel" data-carousel="te-editions-2025">
+                                    <div class="carousel-container">
+                                        <div class="carousel-slide active">
+                                            <img src="/api/placeholder/500/400" alt="te editions" class="expanded-image">
+                                            <div class="photo-credit">Portrait by John Doe</div>
+                                        </div>
+                                        <div class="carousel-slide">
+                                            <img src="/api/placeholder/500/400" alt="te editions workspace" class="expanded-image">
+                                            <div class="photo-credit">Photography by John Doe</div>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-dots">
+                                        <div class="carousel-dot active" onclick="goToSlide('te-editions-2025', 0)"></div>
+                                        <div class="carousel-dot" onclick="goToSlide('te-editions-2025', 1)"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="close-btn">&times;</button>
+                        </div>
+                    </td>
+                </tr>
+                
+                <!-- Nini Dongnier 2025 -->
+                <tr class="fellow-row" data-fellow-id="nini-dongnier-2025">
+                    <td class="fellow-number">02</td>
+                    <td class="fellow-name">Nini Dongnier</td>
+                </tr>
+                <tr class="expanded-row" id="nini-dongnier-2025-row">
+                    <td colspan="2" class="expanded-cell">
+                        <div class="expanded-content" id="nini-dongnier-2025-content">
+                            <div class="expanded-left">
+                                <h3 class="expanded-title">Nini Dongnier</h3>
+                                <h4 class="expanded-subtitle">Visual Artist</h4>
+                                <div class="expanded-text">
+                                    <p>Nini Dongnier is a multimedia artist whose practice explores cultural identity, displacement, and collective memory through video, installation, and performance. Her work often incorporates archival materials and personal narratives to examine the intersection of individual experiences with broader social and historical contexts.</p>
+                                    <p>Born in Shanghai and based between New York and Berlin, Dongnier's practice is informed by her experiences navigating between cultural contexts. She holds an MFA from Columbia University and has exhibited her work internationally.</p>
+                                </div>
+                               
+                            </div>
+                            <div class="expanded-right">
+                                <div class="single-image-container">
+                                    <img src="/api/placeholder/500/400" alt="Nini Dongnier" class="expanded-image">
+                                    <div class="photo-credit">Portrait by Jane Smith</div>
+                                </div>
+                            </div>
+                            <button class="close-btn">&times;</button>
+                        </div>
+                    </td>
+                </tr>
+                
+                <!-- Sowon Kwon 2025 -->
+                <tr class="fellow-row" data-fellow-id="sowon-kwon-2025">
+                    <td class="fellow-number">03</td>
+                    <td class="fellow-name">Sowon Kwon</td>
+                </tr>
+                <tr class="expanded-row" id="sowon-kwon-2025-row">
+                    <td colspan="2" class="expanded-cell">
+                        <div class="expanded-content" id="sowon-kwon-2025-content">
+                            <div class="expanded-left">
+                                <h3 class="expanded-title">Sowon Kwon</h3>
+                                <h4 class="expanded-subtitle">Artist and Educator</h4>
+                                <div class="expanded-text">
+                                    <p>Sowon Kwon is an interdisciplinary artist whose work spans drawing, digital animation, video, and installation. Her practice investigates the construction of cultural identities and the politics of representation through a feminist lens, often incorporating text, historical research, and pop cultural references.</p>
+                                    <p>Kwon is an Associate Professor at Parsons School of Design and has exhibited her work at the Whitney Museum, the Queens Museum, and the Berkeley Art Museum, among others. Her writing has been published in journals such as Women & Performance and Documents.</p>
+                                </div>
+                              
+                            </div>
+                            <div class="expanded-right">
+                                <div class="image-carousel" data-carousel="sowon-kwon-2025">
+                                    <div class="carousel-container">
+                                        <div class="carousel-slide active">
+                                            <img src="/api/placeholder/500/400" alt="Sowon Kwon" class="expanded-image">
+                                            <div class="photo-credit">Portrait by Alex Chen</div>
+                                        </div>
+                                        <div class="carousel-slide">
+                                            <img src="/api/placeholder/500/400" alt="Sowon Kwon artwork" class="expanded-image">
+                                            <div class="photo-credit">Photography by Alex Chen</div>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-dots">
+                                        <div class="carousel-dot active" onclick="goToSlide('sowon-kwon-2025', 0)"></div>
+                                        <div class="carousel-dot" onclick="goToSlide('sowon-kwon-2025', 1)"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="close-btn">&times;</button>
+                        </div>
+                    </td>
+                </tr>
+                
+                <!-- Yu Ji & Ho King Man 2025 -->
+                <tr class="fellow-row" data-fellow-id="yu-ji-ho-king-2025">
+                    <td class="fellow-number">04</td>
+                    <td class="fellow-name">Yu Ji & Ho King Man</td>
+                </tr>
+                <tr class="expanded-row" id="yu-ji-ho-king-2025-row">
+                    <td colspan="2" class="expanded-cell">
+                        <div class="expanded-content" id="yu-ji-ho-king-2025-content">
+                            <div class="expanded-left">
+                                <h3 class="expanded-title">Yu Ji & Ho King Man</h3>
+                                <h4 class="expanded-subtitle">Collaborative Artists</h4>
+                                <div class="expanded-text">
+                                    <p>Yu Ji and Ho King Man are a collaborative duo working at the intersection of spatial practice, sound, and performance. Their projects often respond to specific architectural contexts, creating site-responsive installations that alter viewers' perception of space through subtle interventions.</p>
+                                    <p>Based between Hong Kong and London, they have developed projects for institutions including the Tai Kwun Contemporary, Para Site, and the Institute of Contemporary Arts London. Their work has been supported by the Hong Kong Arts Development Council and the British Council.</p>
+                                </div>
+                              
+                            </div>
+                            <div class="expanded-right">
+                                <div class="single-image-container">
+                                    <img src="/api/placeholder/500/400" alt="Yu Ji & Ho King Man" class="expanded-image">
+                                    <div class="photo-credit">Portrait by Michael Wong</div>
+                                </div>
+                            </div>
+                            <button class="close-btn">&times;</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgb(180, 180, 180);
+    padding: 10px 0;
+    text-align: center;
+    font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: rgb(23, 23, 23);
+    z-index: 1;
+">
+    123 Gallery Street, New York, NY 10001
+</div>
+    
+    <script>
+        // Carousel management
+        const carousels = new Map();
+        let carouselIntervals = new Map();
+        
+        // Initialize all carousels
+        function initCarousels() {
+            const carouselElements = document.querySelectorAll('.image-carousel');
+            carouselElements.forEach(carousel => {
+                initSpecificCarousel(carousel);
+            });
+        }
+        
+        // Initialize a specific carousel
+        function initSpecificCarousel(carouselElement) {
+            const carouselId = carouselElement.dataset.carousel;
+            if (!carouselId) return;
+            
+            const slides = carouselElement.querySelectorAll('.carousel-slide');
+            const dots = carouselElement.querySelectorAll('.carousel-dot');
+            
+            if (slides.length <= 1) return; // Don't initialize carousel for single images
+            
+            // Initialize carousel state
+            carousels.set(carouselId, {
+                currentSlide: 0,
+                totalSlides: slides.length,
+                element: carouselElement
+            });
+            
+            // Show first slide
+            updateCarousel(carouselId);
+            
+            // Start auto-swipe
+            startAutoSwipe(carouselId);
+        }
+        
+        // Update carousel display
+        function updateCarousel(carouselId) {
+            const carousel = carousels.get(carouselId);
+            if (!carousel) return;
+            
+            const slides = carousel.element.querySelectorAll('.carousel-slide');
+            const dots = carousel.element.querySelectorAll('.carousel-dot');
+            
+            // Update slides
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === carousel.currentSlide);
+            });
+            
+            // Update dots
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === carousel.currentSlide);
+            });
+        }
+        
+        // Start auto-swipe for a carousel
+        function startAutoSwipe(carouselId) {
+            const carousel = carousels.get(carouselId);
+            if (!carousel || carousel.totalSlides <= 1) return;
+            
+            // Clear existing interval
+            pauseAutoSwipe(carouselId);
+            
+            // Set new interval (change slide every 4 seconds)
+            const interval = setInterval(() => {
+                carousel.currentSlide = (carousel.currentSlide + 1) % carousel.totalSlides;
+                updateCarousel(carouselId);
+            }, 4000);
+            
+            carouselIntervals.set(carouselId, interval);
+        }
+        
+        // Pause auto-swipe for a carousel
+        function pauseAutoSwipe(carouselId) {
+            const interval = carouselIntervals.get(carouselId);
+            if (interval) {
+                clearInterval(interval);
+                carouselIntervals.delete(carouselId);
+            }
+        }
+        
+        // Pause all carousels
+        function pauseAllCarousels() {
+            carouselIntervals.forEach((interval, carouselId) => {
+                clearInterval(interval);
+            });
+            carouselIntervals.clear();
+        }
+        
+        // Global function for carousel navigation (needed for onclick handlers)
+        function goToSlide(carouselId, slideIndex) {
+            const carousel = carousels.get(carouselId);
+            if (!carousel) return;
+            
+            carousel.currentSlide = slideIndex;
+            updateCarousel(carouselId);
+            
+            // Restart auto-swipe after manual navigation
+            pauseAutoSwipe(carouselId);
+            startAutoSwipe(carouselId);
+        }
+
+        // Mobile navigation functions - matching exhibition page
+        function toggleMobileNav() {
+            const mobileNav = document.getElementById('mobileNav');
+            
+            if (mobileNav.style.display === 'flex' || mobileNav.classList.contains('show')) {
+                mobileNav.style.display = 'none';
+                mobileNav.classList.remove('show');
+                // Close all mobile dropdowns when closing nav
+                const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
+                allMobileNavItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+            } else {
+                mobileNav.style.display = 'flex';
+                mobileNav.classList.add('show');
+            }
+        }
+        
+        // Mobile dropdown toggle
+        function toggleMobileDropdown(event, element) {
+            event.preventDefault();
+            const navItem = element.parentElement;
+            
+            // Check if this nav item has a dropdown
+            const dropdown = navItem.querySelector('.mobile-dropdown');
+            if (!dropdown) {
+                // If no dropdown, it's a regular link - handle navigation here if needed
+                return;
+            }
+            
+            // Close all other mobile dropdowns
+            const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
+            allMobileNavItems.forEach(item => {
+                if (item !== navItem) {
+                    item.classList.remove('active');
+                }
+            });
+            
+            // Toggle current dropdown
+            navItem.classList.toggle('active');
+        }
+
+        // Auto-handle screen resize
+        window.addEventListener('resize', function() {
+            const mobileNav = document.getElementById('mobileNav');
+            const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
+            
+            // If resizing to desktop width, close mobile nav
+            if (window.innerWidth > 768) {
+                mobileNav.style.display = 'none';
+                mobileNav.classList.remove('show');
+                allMobileNavItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Desktop dropdown toggle functionality
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            navItems.forEach(item => {
+                const link = item.querySelector('a');
+                const dropdown = item.querySelector('.dropdown');
+                
+                if (dropdown) {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Close all other dropdowns
+                        navItems.forEach(otherItem => {
+                            if (otherItem !== item) {
+                                otherItem.classList.remove('active');
+                            }
+                        });
+                        
+                        // Toggle current dropdown
+                        item.classList.toggle('active');
+                    });
+                }
+            });
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                const isNavClick = e.target.closest('.nav-item');
+                const isMobileNavClick = e.target.closest('.mobile-nav');
+                
+                if (!isNavClick && !isMobileNavClick) {
+                    navItems.forEach(item => {
+                        item.classList.remove('active');
+                    });
+                }
+            });
+
+            // Initialize carousels immediately for any visible content
+            initCarousels();
+
+            // Fellowship table functionality
+            // Get all fellow rows that should be clickable
+            const fellowRows = document.querySelectorAll('.fellow-row');
+            
+            // Store the state of expanded rows
+            let activeExpansion = null;
+            
+            // Add click event to toggle expanded content
+            fellowRows.forEach((row) => {
+                row.addEventListener('click', function(event) {
+                    // Don't expand if clicking on carousel dots or images
+                    if (event.target.closest('.carousel-dot') || event.target.closest('.image-carousel')) {
+                        return;
+                    }
+                    
+                    const fellowId = this.getAttribute('data-fellow-id');
+                    if (!fellowId) return;
+                    
+                    console.log('Clicking fellow row:', fellowId); // Debug log
+                    
+                    // Find the expanded row and content
+                    const expandedRow = document.getElementById(`${fellowId}-row`);
+                    const expandedContent = document.getElementById(`${fellowId}-content`);
+                    
+                    if (!expandedRow || !expandedContent) {
+                        console.log('Could not find expanded elements for:', fellowId); // Debug log
+                        return;
+                    }
+                    
+                    // Check if this row is already active
+                    const isActive = this.classList.contains('active');
+                    console.log('Is currently active:', isActive); // Debug log
+                    
+                    // Remove active class from all fellow rows
+                    document.querySelectorAll('.fellow-row.active').forEach(row => {
+                        row.classList.remove('active');
+                    });
+                    
+                    // Close all expanded contents
+                    document.querySelectorAll('.expanded-row.active').forEach(row => {
+                        row.classList.remove('active');
+                        const content = row.querySelector('.expanded-content');
+                        if (content) content.classList.remove('active');
+                    });
+                    
+                    // Pause all carousels when closing
+                    pauseAllCarousels();
+                    
+                    // If this row wasn't active before, open it
+                    if (!isActive) {
+                        // Add active class to the clicked row
+                        this.classList.add('active');
+                        
+                        // Show the expanded content row
+                        expandedRow.classList.add('active');
+                        expandedContent.classList.add('active');
+                        
+                        // Update active expansion
+                        activeExpansion = fellowId;
+                        
+                        // Initialize carousels for the newly opened fellow and scroll
+                        setTimeout(() => {
+                            // Re-initialize carousels for the newly expanded content
+                            const newCarousels = expandedContent.querySelectorAll('.image-carousel');
+                            newCarousels.forEach(carousel => {
+                                initSpecificCarousel(carousel);
+                            });
+                            scrollToExpandedContent(expandedRow);
+                        }, 100);
+                    } else {
+                        // This row was active, so we closed it
+                        activeExpansion = null;
+                    }
+                    
+                    // Prevent the event from propagating to document click handler
+                    event.stopPropagation();
+                });
+            });
+            
+            // Handle close button clicks
+            const closeButtons = document.querySelectorAll('.close-btn');
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    const expandedContent = this.closest('.expanded-content');
+                    if (!expandedContent) return;
+                    
+                    // Find the fellow row
+                    const fellowId = expandedContent.id.replace('-content', '');
+                    const fellowRow = document.querySelector(`.fellow-row[data-fellow-id="${fellowId}"]`);
+                    
+                    if (fellowRow) {
+                        fellowRow.classList.remove('active');
+                    }
+                    
+                    // Close the expanded content
+                    expandedContent.classList.remove('active');
+                    const expandedRow = expandedContent.closest('.expanded-row');
+                    if (expandedRow) {
+                        expandedRow.classList.remove('active');
+                    }
+                    
+                    // Reset active expansion
+                    activeExpansion = null;
+                    
+                    // Pause all carousels
+                    pauseAllCarousels();
+                    
+                    // Prevent the event from propagating
+                    event.stopPropagation();
+                });
+            });
+            
+            // Close expanded content when clicking outside
+            document.addEventListener('click', function(event) {
+                // Check if the click was outside both a fellow row and expanded content
+                const targetRow = event.target.closest('.fellow-row');
+                const targetExpandedContent = event.target.closest('.expanded-content');
+                const closeButton = event.target.closest('.close-btn');
+                
+                if (!targetRow && !targetExpandedContent && !closeButton) {
+                    // Reset all fellow rows
+                    document.querySelectorAll('.fellow-row.active').forEach(row => {
+                        row.classList.remove('active');
+                    });
+                    
+                    // Close all expanded contents
+                    document.querySelectorAll('.expanded-row.active').forEach(row => {
+                        row.classList.remove('active');
+                        const content = row.querySelector('.expanded-content');
+                        if (content) content.classList.remove('active');
+                    });
+                    
+                    // Reset active expansion
+                    activeExpansion = null;
+                    
+                    // Pause all carousels
+                    pauseAllCarousels();
+                }
+            });
+            
+            // Add keyboard navigation (Escape key to close expanded content)
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    // Reset all fellow rows
+                    document.querySelectorAll('.fellow-row.active').forEach(row => {
+                        row.classList.remove('active');
+                    });
+                    
+                    // Close all expanded contents
+                    document.querySelectorAll('.expanded-row.active').forEach(row => {
+                        row.classList.remove('active');
+                        const content = row.querySelector('.expanded-content');
+                        if (content) content.classList.remove('active');
+                    });
+                    
+                    // Reset active expansion
+                    activeExpansion = null;
+                    
+                    // Pause all carousels
+                    pauseAllCarousels();
+                }
+            });
+            
+            // Smooth scrolling to expanded content when opened
+            function scrollToExpandedContent(expandedRow) {
+                if (!expandedRow.classList.contains('active')) return;
+                
+                // Calculate the position to scroll to (slightly above the expanded row for better visibility)
+                const rect = expandedRow.getBoundingClientRect();
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const targetY = rect.top + scrollTop - 100; // 100px offset from the top
+                
+                // Smooth scroll to the target position
+                window.scrollTo({
+                    top: targetY,
+                    behavior: 'smooth'
+                });
+            }
+            
+            // Handle window resize to ensure proper layout
+            window.addEventListener('resize', function() {
+                // If there's an active expansion, adjust scroll position
+                if (activeExpansion) {
+                    const expandedRow = document.getElementById(`${activeExpansion}-row`);
+                    if (expandedRow && expandedRow.classList.contains('active')) {
+                        scrollToExpandedContent(expandedRow);
+                    }
+                }
+            });
+            
+            // Handle image loading errors
+            document.querySelectorAll('.expanded-image').forEach(img => {
+                img.addEventListener('error', function() {
+                    console.log('Image failed to load: ' + this.src);
+                    // The onerror attribute should already handle this, but just in case
+                    if (!this.src.includes('/api/placeholder')) {
+                        this.src = this.getAttribute('width') ? 
+                            `/api/placeholder/${this.getAttribute('width')}/${this.getAttribute('height')}` : 
+                            '/api/placeholder/500/400';
+                    }
+                });
+            });
+        });
+        
+        // Close mobile nav when clicking outside
+        document.addEventListener('click', function(e) {
+            const mobileNav = document.getElementById('mobileNav');
+            const hamburger = document.querySelector('.hamburger-menu');
+            
+            if (!hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
+                mobileNav.style.display = 'none';
+                mobileNav.classList.remove('show');
+                // Close all mobile dropdowns when clicking outside
+                const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
+                allMobileNavItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

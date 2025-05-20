@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fellowship - Inaugural Cohorts</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Helvetica, Arial, sans-serif;
+            line-height: 1;
+            background-color: rgb(235, 235, 235);
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Red top banner */
+        .top-banner {
+            position: relative;
+            width: 100%;
+            background-color: rgb(241, 61, 33);
+            padding: 0.5vh 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .title-container {
+            padding-left: 3vw;
+        }
+        
+        .top-banner h1 {
+            font-size: 2.5vw;
+            font-weight: 300;
+            color: rgb(23, 23, 23);
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0em;
+            line-height: 1;
+        }
+        
+        /* Navigation */
+        .nav-top {
+            display: flex;
+            gap: 2vw;
+            padding-right: 3vw;
+            align-items: flex-end;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-top a {
+            color: rgb(43, 43, 43);
+            text-decoration: none;
+            font-size: 0.9vw;
+            transition: color 0.2s ease-in-out;
+            text-transform: uppercase;
+            line-height: 1;
+            display: inline-block;
+        }
+        
+        .nav-top a:hover {
+            color: #c5c4c4;
+        }
+        
+        /* Dropdown connector */
+        .dropdown-connector {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background-color: transparent;
+        }
+        
+        .nav-item:hover > a {
+            color: #ffffff;
+        }
+        
+        /* Dropdown styles - vertical alignment */
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            background-color: transparent;
+            min-width: 15vw;
+            padding: 10px 0;
+            z-index: 1000;
+            text-align: left;
+        }
+        
+        /* Show dropdown on hover */
+        .nav-item:hover .dropdown,
+        .dropdown:hover,
+        .dropdown-connector:hover + .dropdown {
+            display: block;
+        }
+        
+        .dropdown a {
+            display: block;
+            font-size: 0.8vw;
+            padding: 3px 10px;
+            margin-bottom: 5px;
+            color: rgb(43, 43, 43);
+            text-align: left;
+            background-color: #e7d82b;
+        }
+        
+        .dropdown a:hover {
+            color: #777777;
+            background-color: #e7d82b;
+        }
+        
+        /* Cohort items */
+        .cohort-items {
+            display: none;
+            padding-left: 15px;
+            margin-top: 5px;
+        }
+        
+        /* Show cohort items when hovering over fellowship */
+        .fellowship-item:hover .cohort-items {
+            display: block;
+        }
+        
+        /* Content area */
+        .content {
+            padding: 4vw 3vw 4vw 3vw;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Section title */
+        .section-heading {
+            font-size: 1.5vw;
+            font-weight: 600;
+            margin: 0 0 4vh 0;
+            line-height: 1.2;
+            text-transform: none;
+            margin-top: 8vh;
+        }
+        
+        /* Fellowship header */
+        .fellowship-header h2 {
+            font-size: 2.5vw;
+            font-weight: 600;
+            margin: 0 0 4vh 0;
+            text-transform: none;
+        }
+        
+        /* Fellowship intro */
+        .fellowship-intro {
+            width: 50%;
+            margin-bottom: 5vh;
+            font-size: 1.2vw;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+        
+        /* Fellows table */
+        .fellows-table {
+            width: 97%;
+            border-collapse: collapse;
+            font-family: Helvetica, Arial, sans-serif;
+            font-weight: 300;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 6vh;
+        }
+        
+        .fellows-table tr {
+            transition: background-color 0.2s ease;
+            position: relative;
+        }
+        
+        .fellows-table tr:hover {
+            background-color: rgb(115, 115, 115);
+            cursor: pointer;
+        }
+        
+        .fellows-table td {
+            padding: 1.5vh 1vw;
+            vertical-align: top;
+            border-bottom: 1px solid rgb(43, 43, 43);
+        }
+        
+        .fellow-number {
+            width: 10%;
+            font-size: 1vw;
+        }
+        
+        .fellow-name {
+            width: 90%;
+            font-size: 1.2vw;
+        }
+        
+        /* Dynamic rectangle container */
+        .rectangle-container {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100vh;
+            z-index: 100;
+            pointer-events: none;
+        }
+        
+        .hover-rectangle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5vh 0;
+            box-sizing: border-box;
+            color: white;
+            transition: opacity 0.3s ease;
+        }
+        
+        /* Fellow info styling */
+        .fellow-title {
+            text-align: center;
+            margin-top: 5vh;
+        }
+        
+        .fellow-title h2 {
+            font-size: 2vw;
+            margin: 0 0 0.5vh 0;
+            font-weight: normal;
+        }
+        
+        .fellow-title h3 {
+            font-size: 1.5vw;
+            margin: 0;
+            font-weight: 300;
+        }
+        
+        /* Fellow image styling */
+        .fellow-image {
+            width: 60%;
+            height: auto;
+            max-height: 50vh;
+            object-fit: contain;
+        }
+        
+        /* Fellow bio styling */
+        .fellow-bio {
+            text-align: center;
+            margin-bottom: 5vh;
+            width: 80%;
+        }
+        
+        .fellow-bio p {
+            font-size: 1.2vw;
+            margin: 0 0 0.5vh 0;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+        
+        /* Community information section */
+        .community-info {
+            margin-top: 10vh;
+            width: 100%;
+            border-top: 1px solid rgb(43, 43, 43);
+            padding-top: 8vh;
+        }
+        
+        .community-info h2 {
+            font-size: 2.5vw;
+            font-weight: 600;
+            margin: 0 0 3vh 0;
+            text-transform: none;
+        }
+        
+        .community-info p {
+            font-size: 1.2vw;
+            line-height: 1.5;
+            font-weight: 300;
+            margin-bottom: 4vh;
+            width: 50%;
+        }
+        
+        .seasonal-dinner {
+            margin-top: 10vh;
+            padding-top: 8vh;
+            border-top: 1px solid rgb(43, 43, 43);
+            margin-bottom: 10vh;
+        }
+        
+        .seasonal-dinner h2 {
+            font-size: 2.5vw;
+            font-weight: 600;
+            margin: 0 0 3vh 0;
+            text-transform: none;
+        }
+        
+        .seasonal-dinner p {
+            font-size: 1.2vw;
+            line-height: 1.5;
+            font-weight: 300;
+            width: 50%;
+        }
+        
+        /* Colors for rectangles */
+        .rectangle-colors {
+            display: none;
+        }
+        
+        /* Media queries */
+        @media (max-width: 768px) {
+            .top-banner {
+                flex-direction: column;
+                padding: 2vh 0;
+            }
+            
+            .title-container {
+                padding-left: 0;
+                margin-bottom: 2vh;
+            }
+            
+            .top-banner h1 {
+                font-size: 6vw;
+            }
+            
+            .nav-top {
+                padding-right: 0;
+                gap: 5vw;
+                justify-content: center;
+                width: 100%;
+            }
+            
+            .nav-top a {
+                font-size: 2.5vw;
+            }
+            
+            .dropdown a {
+                font-size: 2vw;
+            }
+            
+            .section-heading {
+                font-size: 5vw;
+            }
+            
+            .fellowship-intro {
+                font-size: 3vw;
+                width: 100%;
+            }
+            
+            .fellow-number {
+                font-size: 2.5vw;
+            }
+            
+            .fellow-name {
+                font-size: 2.8vw;
+            }
+            
+            .rectangle-container {
+                position: fixed;
+                top: auto;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 50vh;
+            }
+            
+            .fellow-title h2 {
+                font-size: 4vw;
+            }
+            
+            .fellow-title h3 {
+                font-size: 3vw;
+            }
+            
+            .fellow-bio p {
+                font-size: 2.5vw;
+            }
+            
+            .community-info h2,
+            .seasonal-dinner h2 {
+                font-size: 6vw;
+            }
+            
+            .community-info p,
+            .seasonal-dinner p {
+                font-size: 2.5vw;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top red banner with title and navigation -->
+    <div class="top-banner">
+        <div class="title-container">
+            <h1>INITIAL RESEARCH</h1>
+        </div>
+        <nav class="nav-top">
+            <div class="nav-item">
+                <a href="program.html">PROGRAM</a>
+                <div class="dropdown-connector"></div>
+                <div class="dropdown">
+                    <a href="../../program/upcoming.html">UPCOMING PROGRAMS</a>
+                    <a href="../../program/past.html">PAST PROGRAMS</a>
+                </div>
+            </div>
+            
+            <div class="nav-item">
+                <a href="about.html">ABOUT</a>
+                <div class="dropdown-connector"></div>
+                <div class="dropdown">
+                    <div class="fellowship-item">
+                        <a href="about/fellowship.html">FELLOWSHIP</a>
+                        <div class="cohort-items">
+                            <a href="../../about/fellowship/cohort-2023.html">COHORT 2023</a>
+                            <a href="../../about/fellowship/cohort-2024.html">COHORT 2024</a>
+                            <a href="../../about/fellowship/2025cohort.html">COHORT 2025</a>
+                        </div>
+                    </div>
+                    <a href="../../about/team.html">TEAM</a>
+                    <a href="../../about/missionandvision.html">MISSION & VISION</a>
+                    <a href="../../about/support.html">SUPPORT</a>
+                </div>
+            </div>
+            
+            <div class="nav-item">
+                <a href="contact.html">CONTACT</a>
+            </div>
+        </nav>
+    </div>
+    
+    <!-- Store colors in data attributes -->
+    <div class="rectangle-colors" 
+         data-colors='["rgb(51, 25, 0)", "rgb(101, 101, 50)", "#3b2b1d", "rgb(0, 51, 13)", "rgb(70, 0, 0)", "#56683a", "#3b2b1d", "rgb(39, 39, 39)", "rgb(59, 40, 40)"]'>
+    </div>
+    
+    <!-- Rectangle container for hover effect -->
+    <div class="rectangle-container">
+        <div class="hover-rectangle" id="rectangle-1">
+            <div class="fellow-title">
+                <h2>te editions</h2>
+                <h3>Michael Guo & Kechun Qin</h3>
+            </div>
+            <img src="/api/placeholder/400/320" alt="te editions" class="fellow-image">
+            <div class="fellow-bio">
+                <p>Independent publishing and research studio exploring the intersection of art, design, and technology.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Content area with fellowship info and cohort -->
+    <div class="content">
+        <div class="fellowship-header">
+            <h2>Fellowship</h2>
+        </div>
+        
+        <div class="fellowship-intro">
+            <p>Initial Research is a meeting space for creative talents, fostering a continuous exchange of experiences and ideas. At its core, the Initial Research Fellowship provides a select group of creatives with the resources to pursue a self-directed, yearlong research project. Fellows receive access to office and project space, where they develop their work through a series of gatherings, including workshops, lectures, screenings, and reading groups. Each participant will present their research internally and will organize public-facing events.</p>
+        </div>
+        
+        <!-- 2025/2026 INAUGURAL COHORT -->
+        <h2 class="section-heading">2025/2026 Inaugural Cohort</h2>
+        <table class="fellows-table">
+            <tbody>
+                <tr data-rectangle="1">
+                    <td class="fellow-number">01</td>
+                    <td class="fellow-name"><a href="../../about/fellowship/2025/teeditions.html" style="text-decoration: none; color: inherit;">te editions (Michael Guo & Kechun Qin)</a></td>
+                </tr>
+                <tr data-rectangle="2">
+                    <td class="fellow-number">02</td>
+                    <td class="fellow-name">Nini Dongnier</td>
+                </tr>
+                <tr data-rectangle="3">
+                    <td class="fellow-number">03</td>
+                    <td class="fellow-name">Sowon Kwon</td>
+                </tr>
+                <tr data-rectangle="4">
+                    <td class="fellow-number">04</td>
+                    <td class="fellow-name">Yu Ji & Ho King Man</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 2024 COHORT -->
+        <h2 class="section-heading">2024 Inaugural Cohort</h2>
+        <table class="fellows-table">
+            <tbody>
+                <tr>
+                    <td class="fellow-number">01</td>
+                    <td class="fellow-name">Aya Rodriguez-Izumi</td>
+                </tr>
+                <tr>
+                    <td class="fellow-number">02</td>
+                    <td class="fellow-name">Diane Zhou</td>
+                </tr>
+                <tr>
+                    <td class="fellow-number">03</td>
+                    <td class="fellow-name">Jan Berger</td>
+                </tr>
+                <tr>
+                    <td class="fellow-number">04</td>
+                    <td class="fellow-name">Shuyi Cao</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 2023 COHORT -->
+        <h2 class="section-heading">2023 Inaugural Cohort</h2>
+        <table class="fellows-table">
+            <tbody>
+                <tr>
+                    <td class="fellow-number">01</td>
+                    <td class="fellow-name">Adam Liam Rose</td>
+                </tr>
+                <tr>
+                    <td class="fellow-number">02</td>
+                    <td class="fellow-name">Claire Tian</td>
+                </tr>
+                <tr>
+                    <td class="fellow-number">03</td>
+                    <td class="fellow-name">Meena Hasan</td>
+                </tr>
+                <tr>
+                    <td class="fellow-number">04</td>
+                    <td class="fellow-name">Serena Huang</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Added Community Hours and Seasonal Dinner information -->
+        <div class="community-info">
+            <h2>Community Hours</h2>
+            <p>11:00 am– 4:00 pm</p>
+            <p>Join us on Wednesdays and Thursdays, from 11:00am-4:00pm, during our regular community hours at IR. The space is open for work, meetings, and intimate weekday programs. WiFi, a growing book collection, and tea are all provided. No RSVP required, stop by and say hi!</p>
+            
+            <div class="seasonal-dinner">
+                <h2>The Seasonal (shijie/时节) Dinner at Initial Research</h2>
+                <p>Join us for The Seasonal (shijie/时节) Dinner at Initial Research, a community gathering marking the beginning of each new season.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add event listeners to show/hide rectangles on hover with random colors
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableRows = document.querySelectorAll('.fellows-table tr');
+            const rectangleContainer = document.querySelector('.rectangle-container');
+            const rectangle = document.getElementById('rectangle-1');
+            
+            // Get colors from data attribute
+            const colorsData = document.querySelector('.rectangle-colors').getAttribute('data-colors');
+            const colors = JSON.parse(colorsData);
+            
+            // Set different content for each fellow across all cohorts
+            const fellowsContent = {
+                // 2025/2026 Cohort
+                "te editions (Michael Guo & Kechun Qin)": {
+                    name: "te editions",
+                    subtitle: "Michael Guo & Kechun Qin",
+                    bio: "Independent publishing and research studio exploring the intersection of art, design, and technology."
+                },
+                "Nini Dongnier": {
+                    name: "Nini Dongnier",
+                    subtitle: "",
+                    bio: "Bio for Nini Dongnier."
+                },
+                "Sowon Kwon": {
+                    name: "Sowon Kwon",
+                    subtitle: "",
+                    bio: "Bio for Sowon Kwon."
+                },
+                "Yu Ji & Ho King Man": {
+                    name: "Yu Ji & Ho King Man",
+                    subtitle: "",
+                    bio: "Bio for Yu Ji & Ho King Man."
+                },
+                // 2024 Cohort
+                "Aya Rodriguez-Izumi": {
+                    name: "Aya Rodriguez-Izumi",
+                    subtitle: "",
+                    bio: "Fellow from the 2024 cohort exploring interdisciplinary art practices."
+                },
+                "Diane Zhou": {
+                    name: "Diane Zhou",
+                    subtitle: "",
+                    bio: "Fellow from the 2024 cohort working on innovative research projects."
+                },
+                "Jan Berger": {
+                    name: "Jan Berger",
+                    subtitle: "",
+                    bio: "Fellow from the 2024 cohort focused on experimental approaches to design and media."
+                },
+                "Shuyi Cao": {
+                    name: "Shuyi Cao",
+                    subtitle: "",
+                    bio: "Fellow from the 2024 cohort developing new perspectives in creative research."
+                },
+                // 2023 Cohort
+                "Adam Liam Rose": {
+                    name: "Adam Liam Rose",
+                    subtitle: "",
+                    bio: "Fellow from the 2023 cohort examining spatial practices and social engagement."
+                },
+                "Claire Tian": {
+                    name: "Claire Tian",
+                    subtitle: "",
+                    bio: "Fellow from the 2023 cohort investigating cultural narratives through art."
+                },
+                "Meena Hasan": {
+                    name: "Meena Hasan",
+                    subtitle: "",
+                    bio: "Fellow from the 2023 cohort working at the intersection of art and social practice."
+                },
+                "Serena Huang": {
+                    name: "Serena Huang",
+                    subtitle: "",
+                    bio: "Fellow from the 2023 cohort exploring new media and collaborative methodologies."
+                }
+            };
+            
+            tableRows.forEach((row) => {
+                row.addEventListener('mouseenter', function() {
+                    // Get the fellow name from the row
+                    const fellowName = row.querySelector('.fellow-name').textContent.trim();
+                    
+                    // Get the fellow content if it exists
+                    if (fellowsContent[fellowName]) {
+                        // Get a random color from the array
+                        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                        
+                        // Apply color to the rectangle background
+                        rectangle.style.backgroundColor = randomColor;
+                        
+                        const content = fellowsContent[fellowName];
+                        rectangle.querySelector('.fellow-title h2').textContent = content.name;
+                        rectangle.querySelector('.fellow-title h3').textContent = content.subtitle;
+                        rectangle.querySelector('.fellow-bio p').textContent = content.bio;
+                        
+                        // Show the rectangle
+                        rectangle.style.opacity = 1;
+                    }
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    rectangle.style.opacity = 0;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
