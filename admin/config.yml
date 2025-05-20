@@ -14,24 +14,24 @@ collections:
         label: "Fellowship Content"
         file: "program/fellowship.html"
         fields:
-          # Basic page information - CORRECTED PATTERN
+          # Basic page information
           - {label: "Page Title", name: "page_title", widget: "string", pattern: ["<title>(.*?) - .*?</title>", "$1"]}
           
-          # Main heading and introduction - CORRECTED PATTERNS
+          # Main heading and introduction
           - {label: "Main Heading", name: "main_heading", widget: "string", pattern: ["<h1 class=\"main-headline\">(.*?)</h1>", "$1"]}
           - {label: "Introduction Text", name: "intro_text", widget: "text", pattern: ["<div class=\"fellowship-intro\">\\s*<p>(.*?)</p>\\s*</div>", "$1"]}
           
-          # Cohort heading - CORRECTED PATTERN
+          # Cohort heading
           - {label: "Cohort Heading", name: "cohort_heading", widget: "string", pattern: ["<h2 class=\"section-heading\">(.*?)</h2>", "$1"]}
           
-          # Fellows list - Complete rewrite to match your table structure
-          - label: "Fellows List"
+          # Fellows list - simplified structure
+          - label: "Fellows"
             name: "fellows"
             widget: "list"
             fields:
               - {label: "Fellow Number", name: "number", widget: "string"}
               - {label: "Fellow Name", name: "name", widget: "string"}
-              - {label: "Fellow ID", name: "id", widget: "string"}
+              - {label: "Fellow ID", name: "id", widget: "string", hint: "Unique ID (e.g., te-editions-2025)"}
               - {label: "Fellow Title", name: "title", widget: "string"}
               - {label: "Fellow Bio", name: "bio", widget: "markdown"}
               - label: "Image Type"
@@ -40,9 +40,14 @@ collections:
                 options:
                   - {label: "Single Image", value: "single"}
                   - {label: "Carousel", value: "carousel"}
-              - {label: "Image Path", name: "image_path", widget: "string"}
-              - {label: "Image Caption", name: "image_caption", widget: "string", required: false}
-          
+              - label: "Images"
+                name: "images"
+                widget: "list"
+                required: false
+                fields:
+                  - {label: "Image", name: "src", widget: "image"}
+                  - {label: "Caption", name: "caption", widget: "string", required: false}
+  
   # Shared elements management
   - name: "shared"
     label: "Shared Elements"
@@ -93,7 +98,7 @@ collections:
         label: "Footer"
         file: "shared/footer.html"
         fields:
-          - {label: "Address Text", name: "address", widget: "string"}
+          - {label: "Address Text", name: "address_text", widget: "string"}
           - {label: "Background Color", name: "bg_color", widget: "string", default: "rgb(180, 180, 180)"}
           - {label: "Text Color", name: "text_color", widget: "string", default: "rgb(23, 23, 23)"}
   
