@@ -1,129 +1,30 @@
 backend:
   name: git-gateway
-  branch: main # Use your main branch name
+  branch: main
 
-media_folder: "img/uploads" # Where media files will be stored
-public_folder: "/img/uploads" # Public URL path for media files
+media_folder: "img/uploads"
+public_folder: "/img/uploads"
 
 collections:
-  # Fellowship page management
-  - name: "fellowship_page"
-    label: "Fellowship Page"
+  - name: "pages"
+    label: "Pages"
     files:
       - name: "fellowship"
-        label: "Fellowship Content"
+        label: "Fellowship Page"
         file: "program/fellowship.html"
         fields:
-          # Basic page information
-          - {label: "Page Title", name: "page_title", widget: "string", pattern: ["<title>(.*?) - .*?</title>", "$1"]}
+          - {label: "Page Title", name: "page_title", widget: "string"}
+          - {label: "Main Heading", name: "main_heading", widget: "string"}
+          - {label: "Introduction", name: "intro_text", widget: "text"}
+          - {label: "Cohort Heading", name: "cohort_heading", widget: "string"}
           
-          # Main heading and introduction
-          - {label: "Main Heading", name: "main_heading", widget: "string", pattern: ["<h1 class=\"main-headline\">(.*?)</h1>", "$1"]}
-          - {label: "Introduction Text", name: "intro_text", widget: "text", pattern: ["<div class=\"fellowship-intro\">\\s*<p>(.*?)</p>\\s*</div>", "$1"]}
-          
-          # Cohort heading
-          - {label: "Cohort Heading", name: "cohort_heading", widget: "string", pattern: ["<h2 class=\"section-heading\">(.*?)</h2>", "$1"]}
-          
-          # Fellows list - simplified structure
+          # Simple fellows list
           - label: "Fellows"
             name: "fellows"
             widget: "list"
             fields:
-              - {label: "Fellow Number", name: "number", widget: "string"}
-              - {label: "Fellow Name", name: "name", widget: "string"}
-              - {label: "Fellow ID", name: "id", widget: "string", hint: "Unique ID (e.g., te-editions-2025)"}
-              - {label: "Fellow Title", name: "title", widget: "string"}
-              - {label: "Fellow Bio", name: "bio", widget: "markdown"}
-              - label: "Image Type"
-                name: "image_type"
-                widget: "select"
-                options:
-                  - {label: "Single Image", value: "single"}
-                  - {label: "Carousel", value: "carousel"}
-              - label: "Images"
-                name: "images"
-                widget: "list"
-                required: false
-                fields:
-                  - {label: "Image", name: "src", widget: "image"}
-                  - {label: "Caption", name: "caption", widget: "string", required: false}
-  
-  # Shared elements management
-  - name: "shared"
-    label: "Shared Elements"
-    files:
-      # Navigation menu management
-      - name: "navigation"
-        label: "Navigation Menu"
-        file: "shared/navigation.html"
-        fields:
-          - label: "Desktop Navigation"
-            name: "desktop_nav"
-            widget: "object"
-            fields:
-              - label: "Main Menu Items"
-                name: "main_items"
-                widget: "list"
-                fields:
-                  - {label: "Menu Text", name: "text", widget: "string"}
-                  - {label: "Link", name: "url", widget: "string"}
-                  - label: "Submenu Items"
-                    name: "submenu"
-                    widget: "list"
-                    required: false
-                    fields:
-                      - {label: "Menu Text", name: "text", widget: "string"}
-                      - {label: "Link", name: "url", widget: "string"}
-          
-          - label: "Mobile Navigation"
-            name: "mobile_nav"
-            widget: "object"
-            fields:
-              - label: "Main Menu Items"
-                name: "main_items"
-                widget: "list"
-                fields:
-                  - {label: "Menu Text", name: "text", widget: "string"}
-                  - {label: "Link", name: "url", widget: "string"}
-                  - label: "Submenu Items"
-                    name: "submenu"
-                    widget: "list"
-                    required: false
-                    fields:
-                      - {label: "Menu Text", name: "text", widget: "string"}
-                      - {label: "Link", name: "url", widget: "string"}
-      
-      # Footer management
-      - name: "footer"
-        label: "Footer"
-        file: "shared/footer.html"
-        fields:
-          - {label: "Address Text", name: "address_text", widget: "string"}
-          - {label: "Background Color", name: "bg_color", widget: "string", default: "rgb(180, 180, 180)"}
-          - {label: "Text Color", name: "text_color", widget: "string", default: "rgb(23, 23, 23)"}
-  
-  # Styles management - control mobile and desktop appearance
-  - name: "styles"
-    label: "Style Settings"
-    files:
-      - name: "fellowship_styles"
-        label: "Fellowship Page Styles"
-        file: "css/fellowship-custom.css"
-        fields:
-          - label: "Desktop Styles"
-            name: "desktop_styles"
-            widget: "object"
-            fields:
-              - {label: "Main Heading Font Size", name: "main_heading_size", widget: "string", default: "43px"}
-              - {label: "Intro Text Font Size", name: "intro_text_size", widget: "string", default: "17px"}
-              - {label: "Fellow Number Font Size", name: "fellow_number_size", widget: "string", default: "16px"}
-              - {label: "Fellow Name Font Size", name: "fellow_name_size", widget: "string", default: "18px"}
-          
-          - label: "Mobile Styles"
-            name: "mobile_styles"
-            widget: "object"
-            fields:
-              - {label: "Main Heading Font Size", name: "main_heading_size", widget: "string", default: "28px"}
-              - {label: "Intro Text Font Size", name: "intro_text_size", widget: "string", default: "16px"}
-              - {label: "Fellow Number Font Size", name: "fellow_number_size", widget: "string", default: "16px"}
-              - {label: "Fellow Name Font Size", name: "fellow_name_size", widget: "string", default: "16px"}
+              - {label: "Number", name: "number", widget: "string"}
+              - {label: "Name", name: "name", widget: "string"}
+              - {label: "ID", name: "id", widget: "string"}
+              - {label: "Bio", name: "bio", widget: "text"}
+              - {label: "Image", name: "image", widget: "image", required: false}
