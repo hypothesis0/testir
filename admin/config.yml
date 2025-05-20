@@ -6,19 +6,17 @@ media_folder: "img/uploads"
 public_folder: "/img/uploads"
 
 collections:
-  - name: "pages"
-    label: "Pages"
+  - name: "content"
+    label: "Content"
     files:
       - name: "fellowship"
         label: "Fellowship Page"
-        file: "program/fellowship.html"
+        file: "fellowship-data.json"
         fields:
-          - {label: "Page Title", name: "page_title", widget: "string"}
-          - {label: "Main Heading", name: "main_heading", widget: "string"}
-          - {label: "Introduction", name: "intro_text", widget: "text"}
-          - {label: "Cohort Heading", name: "cohort_heading", widget: "string"}
-          
-          # Simple fellows list
+          - {label: "Page Title", name: "title", widget: "string"}
+          - {label: "Main Heading", name: "heading", widget: "string"}
+          - {label: "Introduction", name: "intro", widget: "text"}
+          - {label: "Cohort Title", name: "cohort_title", widget: "string"}
           - label: "Fellows"
             name: "fellows"
             widget: "list"
@@ -26,5 +24,8 @@ collections:
               - {label: "Number", name: "number", widget: "string"}
               - {label: "Name", name: "name", widget: "string"}
               - {label: "ID", name: "id", widget: "string"}
-              - {label: "Bio", name: "bio", widget: "text"}
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Bio", name: "bio", widget: "markdown"}
+              - {label: "Image Type", name: "image_type", widget: "select", options: ["single", "carousel"]}
               - {label: "Image", name: "image", widget: "image", required: false}
+              - {label: "Image Caption", name: "caption", widget: "string", required: false}
