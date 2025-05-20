@@ -5,13 +5,48 @@
   "cohort_title": "2025/2026 Inaugural Cohort",
   "fellows": [
     {
-      "number": "01",
-      "id": "01",
-      "name": "te editions (Michael Guo & Kechun Qin)",
-      "title": "te editions (Michael Guo & Kechun Qin)",
+      "single_image": {
+        "src": "/img/uploads/teeditions_kechun-qin.jpg"
+      },
       "bio": "te editions is an independent publishing house launched in 2023 by Michael Guo and Kechun Qin. It currently operates in New York and Beijing. te explores the intersection of the arts and humanities, examining historical and contemporary social landscapes through a diversified and microscopic lens. The focus lies on how cultures encounter, collapse, and transform each other within global cultural flows. Driven by “curatorial thinking on paper” in the editorial approach, te editions aims to foster new discussions informed by a genuinely interdisciplinary perspective.\n\nIn 2021, te editions launched the first issue of its annual bilingual publication, te magazine. Each issue draws inspiration from current events, developing a theme that encapsulates the thinking sparked by the moment. Researchers and creators from various fields are invited to contribute their work around this central theme. te editions consistently collaborates with artists, scholars, communities, and cultural organizations to expand on existing projects and to envision new ones.",
-      "image_type": "carousel",
-      "image": "/img/uploads/teeditions_kechun-qin.jpg"
+      "number": "01",
+      "name": "te editions (Michael Guo & Kechun Qin)",
+      "carousel_images": [
+        {
+          "src": "/img/uploads/teeditions_kechun-qin.jpg"
+        },
+        {
+          "src": "/img/uploads/teeditions_michael-guo.jpg"
+        }
+      ],
+      "title": "te editions (Michael Guo & Kechun Qin)",
+      "id": "01",
+      "image": "/img/uploads/teeditions_kechun-qin.jpg",
+      "image_type": "single"
+    },
+    {
+      "number": "02",
+      "id": "02",
+      "name": "Nini Dongnier",
+      "title": "Nini Dongnier",
+      "bio": "Hailing from Inner Mongolia and based in New York, choreographer and artist NiNi Dongnier works in choreographic performance, moving image, and painting. She delves deeply into questions about form, faith, constancy, migration, and the experience of life through explorations of movement, visual art, garment, and the use of tech intervention where necessary. Her work in dialogue with multiple nourishments—from her nomadic roots, classical training in a wide range of traditional to contemporary dance, to art history and Mahāyāna Buddhism. “My desire is to record intuitive truths through the sensual body and its material extensions.”\n\nDongnier’s work has been performed and exhibited at The Watermill Center, New York Live Arts, Movement Research, Mana Contemporary, G Museum, Aranya Art Center, Shanghai Ming Contemporary Art Museum, National Centre for the Performing Arts, and Shanghai International Dance Center Theater, among others. She was a recipient of nominations for the China Dance Lotus Award. She has been an artist in residence at Monira Foundation, La MaMa|CultureHub, The Watermill Center, Media Art Xploration, Jacob’s Pillow, and Barnard Movement Lab at Columbia University.\n\nDongnier’s initial learning stemmed from the vast, textured nature of Inner Mongolia, as well as from her parents. She graduated from the Beijing Dance Academy, received her MFA from New York University, and studied at the Skowhegan School of Painting and Sculpture. Dongnier has served on the faculty of Beijing Dance Academy (2012-17), taught at Hunter College—CUNY (2020), and at Barnard College—Columbia University (2020, 2024). She was an assistant professor at the School for the Contemporary Arts—Simon Fraser University (2021-24).",
+      "single_image": {
+        "src": "/img/uploads/ninidongnier_portrait_bylucreziapollice.jpg",
+        "caption": "Portrait by Lucrezia Pollice"
+      },
+      "image_type": "single"
+    },
+    {
+      "number": "03",
+      "id": "03",
+      "name": "Anh Vo",
+      "title": "Anh Vo",
+      "single_image": {
+        "caption": "Portrait by Maria Baranova",
+        "src": "/img/uploads/anh_vo_portraitbymariabaranova.jpg"
+      },
+      "image_type": "single",
+      "bio": "Anh Vo is a Vietnamese choreographer and writer working primarily in New York City, with a second base in Hanoi. Their practice fleshes out the body as a vessel for apparitional forces. Their work is situated in the unlikely lineage convergences between Downtown New York experimental performance, Hanoi performance art, and Vietnamese folk ritual practices. Vo is indebted to Miguel Gutierrez's unapologetic queerness and amorphous excess, Moriah Evan's speculative commitment to the depth of interiority, Tehching Hsieh’s existential sense of time, and Ngoc Dai’s guttural sonic landscape of postwar Vietnam. Their formal training is in Performance Studies, studying with esteemed theorists and practitioners at Brown University (BA) and New York University (MA)."
     }
   ]
 }
