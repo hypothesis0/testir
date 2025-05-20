@@ -19,7 +19,7 @@ collections:
           
           # Main heading and introduction - CORRECTED PATTERNS
           - {label: "Main Heading", name: "main_heading", widget: "string", pattern: ["<h1 class=\"main-headline\">(.*?)</h1>", "$1"]}
-          - {label: "Introduction Text", name: "intro_text", widget: "text", pattern: ["<div class=\"fellowship-intro\">\s*<p>(.*?)</p>\s*</div>", "$1"]}
+          - {label: "Introduction Text", name: "intro_text", widget: "text", pattern: ["<div class=\"fellowship-intro\">\\s*<p>(.*?)</p>\\s*</div>", "$1"]}
           
           # Cohort heading - CORRECTED PATTERN
           - {label: "Cohort Heading", name: "cohort_heading", widget: "string", pattern: ["<h2 class=\"section-heading\">(.*?)</h2>", "$1"]}
@@ -28,19 +28,20 @@ collections:
           - label: "Fellows List"
             name: "fellows"
             widget: "list"
-            field: {label: "Fellow Data", name: "fellow_data", widget: "object", fields: [
-              {label: "Fellow Number", name: "number", widget: "string"},
-              {label: "Fellow Name", name: "name", widget: "string"},
-              {label: "Fellow ID", name: "id", widget: "string"},
-              {label: "Fellow Title", name: "title", widget: "string"},
-              {label: "Fellow Bio", name: "bio", widget: "markdown"},
-              {label: "Image Type", name: "image_type", widget: "select", options: [
-                {label: "Single Image", value: "single"},
-                {label: "Carousel", value: "carousel"}
-              ]},
-              {label: "Image Path", name: "image_path", widget: "string"},
-              {label: "Image Caption", name: "image_caption", widget: "string", required: false}
-            ]}
+            fields:
+              - {label: "Fellow Number", name: "number", widget: "string"}
+              - {label: "Fellow Name", name: "name", widget: "string"}
+              - {label: "Fellow ID", name: "id", widget: "string"}
+              - {label: "Fellow Title", name: "title", widget: "string"}
+              - {label: "Fellow Bio", name: "bio", widget: "markdown"}
+              - label: "Image Type"
+                name: "image_type"
+                widget: "select"
+                options:
+                  - {label: "Single Image", value: "single"}
+                  - {label: "Carousel", value: "carousel"}
+              - {label: "Image Path", name: "image_path", widget: "string"}
+              - {label: "Image Caption", name: "image_caption", widget: "string", required: false}
           
   # Shared elements management
   - name: "shared"
@@ -92,7 +93,7 @@ collections:
         label: "Footer"
         file: "shared/footer.html"
         fields:
-          - {label: "Address Text", name: "address", widget: "string", pattern: ["123 Gallery Street, New York, NY 10001", "$1"]}
+          - {label: "Address Text", name: "address", widget: "string"}
           - {label: "Background Color", name: "bg_color", widget: "string", default: "rgb(180, 180, 180)"}
           - {label: "Text Color", name: "text_color", widget: "string", default: "rgb(23, 23, 23)"}
   
