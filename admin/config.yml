@@ -1,33 +1,52 @@
-- label: "Fellows"
-  name: "fellows"
-  widget: "list"
-  fields:
-    - {label: "Fellow Number", name: "number", widget: "string"}
-    - {label: "Fellow Name", name: "name", widget: "string"}
-    - {label: "Fellow ID", name: "id", widget: "string", hint: "Unique ID (e.g., te-editions-2025)"}
-    - {label: "Fellow Title", name: "title", widget: "string"}
-    - {label: "Fellow Bio", name: "bio", widget: "markdown"}
-    - label: "Image Type"
-      name: "image_type"
-      widget: "select"
-      options:
-        - {label: "Single Image", value: "single"}
-        - {label: "Carousel", value: "carousel"}
-    
-    # 单张图片设置（当image_type = "single"时使用）
-    - label: "Single Image"
-      name: "single_image"
-      widget: "object"
-      required: false
-      fields:
-        - {label: "Image", name: "src", widget: "image"}
-        - {label: "Caption", name: "caption", widget: "string", required: false}
-    
-    # 轮播图片设置（当image_type = "carousel"时使用）
-    - label: "Carousel Images"
-      name: "carousel_images"
-      widget: "list"
-      required: false
-      fields:
-        - {label: "Image", name: "src", widget: "image"}
-        - {label: "Caption", name: "caption", widget: "string", required: false}
+backend:
+  name: git-gateway
+  branch: main  # 使用您的主分支名称（可能是main或master）
+
+media_folder: "img/uploads"  # 媒体文件将存储在此处
+public_folder: "/img/uploads"  # 媒体文件的公共URL路径
+
+collections:
+  - name: "content"
+    label: "Content"
+    files:
+      - name: "fellowship"
+        label: "Fellowship Page"
+        file: "fellowship-data.json"
+        fields:
+          - {label: "Page Title", name: "title", widget: "string"}
+          - {label: "Main Heading", name: "heading", widget: "string"}
+          - {label: "Introduction", name: "intro", widget: "text"}
+          - {label: "Cohort Title", name: "cohort_title", widget: "string"}
+          - label: "Fellows"
+            name: "fellows"
+            widget: "list"
+            fields:
+              - {label: "Fellow Number", name: "number", widget: "string"}
+              - {label: "Fellow Name", name: "name", widget: "string"}
+              - {label: "Fellow ID", name: "id", widget: "string", hint: "Unique ID (e.g., te-editions-2025)"}
+              - {label: "Fellow Title", name: "title", widget: "string"}
+              - {label: "Fellow Bio", name: "bio", widget: "markdown"}
+              - label: "Image Type"
+                name: "image_type"
+                widget: "select"
+                options:
+                  - {label: "Single Image", value: "single"}
+                  - {label: "Carousel", value: "carousel"}
+              
+              # 单张图片设置
+              - label: "Single Image"
+                name: "single_image"
+                widget: "object"
+                required: false
+                fields:
+                  - {label: "Image", name: "src", widget: "image"}
+                  - {label: "Caption", name: "caption", widget: "string", required: false}
+              
+              # 轮播图片设置
+              - label: "Carousel Images"
+                name: "carousel_images"
+                widget: "list"
+                required: false
+                fields:
+                  - {label: "Image", name: "src", widget: "image"}
+                  - {label: "Caption", name: "caption", widget: "string", required: false}
