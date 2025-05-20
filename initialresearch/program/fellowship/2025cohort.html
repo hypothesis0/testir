@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fellowship - Inaugural Cohort</title>
+     <!-- Google Font - Assistant -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+     
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Assistant', Helvetica, Arial, sans-serif;
+            line-height: 1;
+            background-color: rgb(235, 235, 235);
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Red top banner */
+        .top-banner {
+            position: relative;
+            width: 100%;
+            background-color: rgb(241, 61, 33);
+            padding: 0.5vh 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .title-container {
+            padding-left: 3vw;
+        }
+        
+        .top-banner h1 {
+            font-size: 2.5vw;
+            font-weight: 300;
+            color: rgb(23, 23, 23);
+            margin: 0;
+         
+            letter-spacing: 0em;
+            line-height: 1;
+        }
+        
+        /* Navigation */
+        .nav-top {
+            display: flex;
+            gap: 2vw;
+            padding-right: 3vw;
+            align-items: flex-end;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-top a {
+            color: rgb(43, 43, 43);
+            text-decoration: none;
+            font-size: 0.9vw;
+            transition: color 0.2s ease-in-out;
+           
+            line-height: 1;
+            display: inline-block;
+        }
+        
+        .nav-top a:hover {
+            color: #c5c4c4;
+        }
+        
+        /* Dropdown connector */
+        .dropdown-connector {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background-color: transparent;
+        }
+        
+        .nav-item:hover > a {
+            color: #ffffff;
+        }
+        
+        /* Dropdown styles - vertical alignment */
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            background-color: transparent;
+            min-width: 15vw;
+            padding: 10px 0;
+            z-index: 1000;
+            text-align: left;
+        }
+        
+        /* Show dropdown on hover */
+        .nav-item:hover .dropdown,
+        .dropdown:hover,
+        .dropdown-connector:hover + .dropdown {
+            display: block;
+        }
+        
+        .dropdown a {
+            display: block;
+            font-size: 0.8vw;
+            padding: 3px 10px;
+            margin-bottom: 5px;
+            color: rgb(43, 43, 43);
+            text-align: left;
+            background-color: #e7d82b;
+        }
+        
+        .dropdown a:hover {
+            color: #777777;
+            background-color: #e7d82b;
+        }
+        
+        /* Cohort items */
+        .cohort-items {
+            display: none;
+            padding-left: 15px;
+            margin-top: 5px;
+        }
+        
+        /* Show cohort items when hovering over fellowship */
+        .fellowship-item:hover .cohort-items {
+            display: block;
+        }
+        
+        /* Content area */
+        .content {
+            padding: 4vw 3vw 4vw 3vw;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Section title */
+        .section-heading {
+            font-size: 1.5vw;
+            font-weight: 600;
+            margin: 0 0 10vh 0;
+            line-height: 1.2;
+        }
+        
+        /* Main Headline */
+        .main-headline {
+            font-size: 3vw;
+            font-weight: 600;
+            margin: 0 0 5vh 0;
+            line-height: 1.2;
+            color: rgb(43, 43, 43);
+        }
+        
+        /* Fellowship intro */
+        .fellowship-intro {
+            width: 45%;
+            margin-bottom: 15vh;
+            margin-top: 7vh;
+            font-size: 1.2vw;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+        
+        /* Fellows table */
+        .fellows-table {
+            width: 97%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-family: Helvetica, Arial, sans-serif;
+            font-weight: 300;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 5rem;
+        }
+        
+        .fellows-table tr.fellow-row {
+            transition: background-color 0.2s ease;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .fellows-table tr.fellow-row:hover {
+            background-color: rgb(115, 115, 115);
+        }
+        
+        /* Active state for fellow row */
+        .fellows-table tr.fellow-row.active {
+            color: white;
+        }
+        
+        .fellows-table td {
+            padding: 1.5vh 1vw;
+            vertical-align: top;
+            border-bottom: 1px solid rgb(43, 43, 43);
+        }
+        
+        .fellow-number {
+            width: 10%;
+            font-size: 1vw;
+        }
+        
+        .fellow-name {
+            width: 90%;
+            font-size: 1.2vw;
+        }
+        
+        /* Dynamic rectangle container */
+        .rectangle-container {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100vh;
+            z-index: 100;
+            pointer-events: none;
+        }
+        
+        .hover-rectangle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5vh 0;
+            box-sizing: border-box;
+            color: white;
+            transition: opacity 0.3s ease;
+        }
+        
+        /* Fellow info styling */
+        .fellow-title {
+            text-align: center;
+            margin-top: 5vh;
+        }
+        
+        .fellow-title h2 {
+            font-size: 2vw;
+            margin: 0 0 0.5vh 0;
+            font-weight: normal;
+        }
+        
+        .fellow-title h3 {
+            font-size: 1.5vw;
+            margin: 0;
+            font-weight: 300;
+        }
+        
+        /* Fellow image styling */
+        .fellow-image {
+            width: 60%;
+            height: auto;
+            max-height: 50vh;
+            object-fit: contain;
+        }
+        
+        /* Fellow bio styling */
+        .fellow-bio {
+            text-align: center;
+            margin-bottom: 5vh;
+            width: 80%;
+        }
+        
+        .fellow-bio p {
+            font-size: 1.2vw;
+            margin: 0 0 0.5vh 0;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+        
+        /* Expandable content styles */
+        .expanded-row {
+            display: none;
+            background-color: rgba(200, 200, 200, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .expanded-row.active {
+            display: table-row;
+        }
+        
+        .expanded-content {
+            display: flex;
+            padding: 0;
+            overflow: hidden;
+            max-height: 0;
+            transition: all 0.5s ease;
+            background-color: white;
+            position: relative;
+        }
+        
+        .expanded-content.active {
+            padding: 30px;
+            max-height: 800px;
+        }
+        
+        .expanded-cell {
+            padding: 0 !important;
+            border-bottom: none !important;
+        }
+        
+        .expanded-left {
+            width: 60%;
+            padding-right: 30px;
+            box-sizing: border-box;
+        }
+        
+        .expanded-right {
+            width: 40%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .expanded-title {
+            font-size: 1.8vw;
+            margin: 0 0 10px 0;
+            font-weight: 500;
+        }
+        
+        .expanded-subtitle {
+            font-size: 1.2vw;
+            margin: 0 0 20px 0;
+            font-weight: 300;
+        }
+        
+        .expanded-text {
+            font-size: 1vw;
+            line-height: 1.5;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+        
+        .expanded-projects h4 {
+            font-size: 1.2vw;
+            margin: 20px 0 10px 0;
+            font-weight: 500;
+        }
+        
+        .project-title {
+            font-size: 1.1vw;
+            margin: 0 0 5px 0;
+            font-weight: 400;
+        }
+        
+        .project-description {
+            font-size: 0.9vw;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+        
+        .expanded-image {
+            max-width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(200, 200, 200, 0.5);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(150, 150, 150, 0.8);
+        }
+        
+        h2.section-heading {
+            margin-top: 3rem;   /* Controls space ABOVE each year */
+            margin-bottom: 2rem; /* Controls space BELOW each year title */
+        }
+
+        /* Colors for rectangles */
+        .rectangle-colors {
+            display: none;
+        }
+        
+        /* Media queries */
+        @media (max-width: 768px) {
+            .top-banner {
+                flex-direction: column;
+                padding: 2vh 0;
+            }
+            
+            .title-container {
+                padding-left: 0;
+                margin-bottom: 2vh;
+            }
+            
+            .top-banner h1 {
+                font-size: 6vw;
+            }
+            
+            .nav-top {
+                padding-right: 0;
+                gap: 5vw;
+                justify-content: center;
+                width: 100%;
+            }
+            
+            .nav-top a {
+                font-size: 2.5vw;
+            }
+            
+            .dropdown a {
+                font-size: 2vw;
+            }
+            
+            .section-heading {
+                font-size: 5vw;
+            }
+            
+            .main-headline {
+                font-size: 7vw;
+            }
+            
+            .fellowship-intro {
+                font-size: 3vw;
+                width: 90%;
+            }
+            
+            .fellow-number {
+                font-size: 2.5vw;
+            }
+            
+            .fellow-name {
+                font-size: 2.8vw;
+            }
+            
+            .rectangle-container {
+                position: fixed;
+                top: auto;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 50vh;
+            }
+            
+            .fellow-title h2 {
+                font-size: 4vw;
+            }
+            
+            .fellow-title h3 {
+                font-size: 3vw;
+            }
+            
+            .fellow-bio p {
+                font-size: 2.5vw;
+            }
+            
+            .expanded-content.active {
+                flex-direction: column;
+            }
+            
+            .expanded-left, .expanded-right {
+                width: 100%;
+                padding-right: 0;
+            }
+            
+            .expanded-right {
+                margin-top: 20px;
+            }
+            
+            .expanded-title {
+                font-size: 4vw;
+            }
+            
+            .expanded-subtitle {
+                font-size: 3vw;
+            }
+            
+            .expanded-text {
+                font-size: 2.5vw;
+            }
+            
+            .expanded-projects h4 {
+                font-size: 3vw;
+            }
+            
+            .project-title {
+                font-size: 2.8vw;
+            }
+            
+            .project-description {
+                font-size: 2.5vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top red banner with title and navigation -->
+    <div class="top-banner">
+        <div class="title-container">
+            <h1>initial research</h1>
+        </div>
+        <nav class="nav-top">
+            <div class="nav-item">
+                <a href="program.html">Program</a>
+                <div class="dropdown-connector"></div>
+                <div class="dropdown">
+                    <a href="../../program/upcoming.html">UPCOMING PROGRAMS</a>
+                    <a href="../../program/past.html">PAST PROGRAMS</a>
+                </div>
+            </div>
+            
+            <div class="nav-item">
+                <a href="about.html">About</a>
+                <div class="dropdown-connector"></div>
+                <div class="dropdown">
+                    <div class="fellowship-item">
+                        <a href="about/fellowship.html">Fellowship</a>
+                        <div class="cohort-items">
+                            <a href="../../about/fellowship/cohort-2023.html">COHORT 2023</a>
+                            <a href="../../about/fellowship/cohort-2024.html">COHORT 2024</a>
+                            <a href="../../about/fellowship/2025cohort.html">COHORT 2025</a>
+                        </div>
+                    </div>
+                    <a href="../../about/team.html">TEAM</a>
+                    <a href="../../about/missionandvision.html">MISSION & VISION</a>
+                    <a href="../../about/support.html">SUPPORT</a>
+                </div>
+            </div>
+            
+            <div class="nav-item">
+                <a href="contact.html">Contact</a>
+            </div>
+        </nav>
+    </div>
+    
+    <!-- Store colors in data attributes -->
+    <div class="rectangle-colors" 
+         data-colors='["rgb(51, 25, 0)", "rgb(101, 101, 50)", "#3b2b1d", "rgb(0, 51, 13)", "rgb(70, 0, 0)", "#56683a", "#3b2b1d", "rgb(39, 39, 39)", "rgb(59, 40, 40)"]'>
+    </div>
+    
+    <!-- Rectangle container for hover effect -->
+    <div class="rectangle-container">
+        <div class="hover-rectangle" id="rectangle-1">
+            <div class="fellow-title">
+                <h2>te editions</h2>
+                <h3>Michael Guo & Kechun Qin</h3>
+            </div>
+            <img src="2025/img/2.jpeg" alt="te editions" class="fellow-image" onerror="this.src='/api/placeholder/400/320'">
+            <div class="fellow-bio">
+                <p>Independent publishing and research studio exploring the intersection of art, design, and technology.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Content area with fellowship info and cohort -->
+    <div class="content">
+       <!-- Added main headline for Fellowship -->
+       <h1 class="main-headline">FELLOWSHIP</h1>
+       
+        <div class="fellowship-intro">
+            <p>Initial Research is a meeting space for creative talents, fostering a continuous exchange of experiences and ideas. At its core, the Initial Research Fellowship provides a select group of creatives with the resources to pursue a self-directed, yearlong research project. Fellows receive access to office and project space, where they develop their work through a series of gatherings, including workshops, lectures, screenings, and reading groups. Each participant will present their research internally and will organize public-facing events.</p>
+        
+        </div>
+        <h2 class="section-heading" style="margin-top: 3vh;">2025/2026 Inaugural Cohort</h2>
+        <table class="fellows-table" id="cohort-2025">
+            <tbody>
+                <!-- te editions 2025 -->
+                <tr class="fellow-row" data-rectangle="1" data-fellow-id="te-editions-2025">
+                    <td class="fellow-number">01</td>
+                    <td class="fellow-name">te editions (Michael Guo & Kechun Qin)</td>
+                </tr>
+                <tr class="expanded-row" id="te-editions-2025-row">
+                    <td colspan="2" class="expanded-cell">
+                        <div class="expanded-content" id="te-editions-2025-content">
+                            <div class="expanded-left">
+                                <h3 class="expanded-title">te editions</h3>
+                                <h4 class="expanded-subtitle">Michael Guo & Kechun Qin</h4>
+                                <div class="expanded-text">
+                                    <p>Independent publishing and research studio exploring the intersection of art, design, and technology. Their work focuses on creating experimental publications and digital experiences that challenge traditional forms of knowledge dissemination. Through their fellowship, they aim to investigate new models of collaborative publishing that connect artists, designers, and technologists across disciplines.</p>
+                                    <p>Founded in 2020, te editions has collaborated with various cultural institutions, artists, and researchers to produce publications that exist at the intersection of print and digital media. Their approach emphasizes process-based research and experimentation with new publishing formats.</p>
+                                </div>
+                                <div class="expanded-projects">
+                                    <h4>Current Research</h4>
+                                    <h5 class="project-title">Networked Archives</h5>
+                                    <p class="project-description">An investigation into how digital tools can transform archival practices and create new forms of cultural memory. By developing open-source publishing frameworks, they hope to democratize access to design tools and foster community-driven approaches to storytelling.</p>
+                                </div>
+                            </div>
+                            <div class="expanded-right">
+                                <img src="2025/img/2.jpeg" alt="te editions" class="expanded-image" onerror="this.src='/api/placeholder/500/400'">
+                            </div>
+                            <button class="close-btn">&times;</button>
+                        </div>
+                    </td>
+                </tr>
+                
+                <!-- Nini Dongnier 2025 -->
+                <tr class="fellow-row" data-rectangle="2" data-fellow-id="nini-dongnier-2025">
+                    <td class="fellow-number">02</td>
+                    <td class="fellow-name">Nini Dongnier</td>
+                </tr>
+                <tr class="expanded-row" id="nini-dongnier-2025-row">
+                    <td colspan="2" class="expanded-cell">
+                        <div class="expanded-content" id="nini-dongnier-2025-content">
+                            <div class="expanded-left">
+                                <h3 class="expanded-title">Nini Dongnier</h3>
+                                <h4 class="expanded-subtitle">Visual Artist</h4>
+                                <div class="expanded-text">
+                                    <p>Nini Dongnier is a multimedia artist whose practice explores cultural identity, displacement, and collective memory through video, installation, and performance. Her work often incorporates archival materials and personal narratives to examine the intersection of individual experiences with broader social and historical contexts.</p>
+                                    <p>Born in Shanghai and based between New York and Berlin, Dongnier's practice is informed by her experiences navigating between cultural contexts. She holds an MFA from Columbia University and has exhibited her work internationally.</p>
+                                </div>
+                                <div class="expanded-projects">
+                                    <h4>Current Research</h4>
+                                    <h5 class="project-title">Translated Echoes</h5>
+                                    <p class="project-description">An investigation into how language shapes perception and memory across cultural boundaries. By collecting oral histories from diaspora communities, she creates immersive installations that highlight the nuances lost and gained in translation, questioning how meaning transforms as it moves between languages, generations, and geographies.</p>
+                                </div>
+                            </div>
+                            <div class="expanded-right">
+                                <img src="2025/img/3.jpeg" alt="Nini Dongnier" class="expanded-image" onerror="this.src='/api/placeholder/500/400'">
+                            </div>
+                            <button class="close-btn">&times;</button>
+                        </div>
+                    </td>
+                </tr>
+                
+                <!-- Sowon Kwon 2025 -->
+                <tr class="fellow-row" data-rectangle="3" data-fellow-id="sowon-kwon-2025">
+                    <td class="fellow-number">03</td>
+                    <td class="fellow-name">Sowon Kwon</td>
+                </tr>
+                <tr class="expanded-row" id="sowon-kwon-2025-row">
+                    <td colspan="2" class="expanded-cell">
+                        <div class="expanded-content" id="sowon-kwon-2025-content">
+                            <div class="expanded-left">
+                                <h3 class="expanded-title">Sowon Kwon</h3>
+                                <h4 class="expanded-subtitle">Artist and Educator</h4>
+                                <div class="expanded-text">
+                                    <p>Sowon Kwon is an interdisciplinary artist whose work spans drawing, digital animation, video, and installation. Her practice investigates the construction of cultural identities and the politics of representation through a feminist lens, often incorporating text, historical research, and pop cultural references.</p>
+                                    <p>Kwon is an Associate Professor at Parsons School of Design and has exhibited her work at the Whitney Museum, the Queens Museum, and the Berkeley Art Museum, among others. Her writing has been published in journals such as Women & Performance and Documents.</p>
+                                </div>
+                                <div class="expanded-projects">
+                                    <h4>Current Research</h4>
+                                    <h5 class="project-title">Embodied Taxonomies</h5>
+                                    <p class="project-description">An examination of how systems of classification and categorization shape our understanding of bodies, objects, and knowledge. Through experimental animations and digital collages, she questions institutional frameworks that define cultural value and belonging, proposing alternative modes of organization that acknowledge multiplicity and contradiction.</p>
+                                </div>
+                            </div>
+                            <div class="expanded-right">
+                                <img src="2025/img/4.jpeg" alt="Sowon Kwon" class="expanded-image" onerror="this.src='/api/placeholder/500/400'">
+                            </div>
+                            <button class="close-btn">&times;</button>
+                        </div>
+                    </td>
+                </tr>
+                
+                <!-- Yu Ji & Ho King Man 2025 -->
+                <tr class="fellow-row" data-rectangle="4" data-fellow-id="yu-ji-ho-king-2025">
+                    <td class="fellow-number">04</td>
+                    <td class="fellow-name">Yu Ji & Ho King Man</td>
+                </tr>
+                <tr class="expanded-row" id="yu-ji-ho-king-2025-row">
+                    <td colspan="2" class="expanded-cell">
+                        <div class="expanded-content" id="yu-ji-ho-king-2025-content">
+                            <div class="expanded-left">
+                                <h3 class="expanded-title">Yu Ji & Ho King Man</h3>
+                                <h4 class="expanded-subtitle">Collaborative Artists</h4>
+                                <div class="expanded-text">
+                                    <p>Yu Ji and Ho King Man are a collaborative duo working at the intersection of spatial practice, sound, and performance. Their projects often respond to specific architectural contexts, creating site-responsive installations that alter viewers' perception of space through subtle interventions.</p>
+                                    <p>Based between Hong Kong and London, they have developed projects for institutions including the Tai Kwun Contemporary, Para Site, and the Institute of Contemporary Arts London. Their work has been supported by the Hong Kong Arts Development Council and the British Council.</p>
+                                </div>
+                                <div class="expanded-projects">
+                                    <h4>Current Research</h4>
+                                    <h5 class="project-title">Resonant Topographies</h5>
+                                    <p class="project-description">An exploration of how sound shapes our experience of urban environments. By mapping acoustic properties of public spaces and developing experimental recording techniques, they create soundscapes that reveal hidden dimensions of the built environment. Their work challenges conventional understandings of public space, proposing new forms of collective listening as a mode of urban engagement.</p>
+                                </div>
+                            </div>
+                            <div class="expanded-right">
+                                <img src="2025/img/5.jpeg" alt="Yu Ji & Ho King Man" class="expanded-image" onerror="this.src='/api/placeholder/500/400'">
+                            </div>
+                            <button class="close-btn">&times;</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h2 class="section-heading">2024 Inaugural Cohort</h2>
+        <table class="fellows-table" id="cohort-2024">
+            <tbody>
+                <!-- te editions 2024 -->
+                <tr class="fellow-row" data-rectangle="1" data-fellow-id="te-editions-2024">
+                    <td class="fellow-number">01</td>
+                    <td class="fellow-name">te editions (Michael Guo & Kechun Qin)</td>
+                </tr>
+                <tr class="expanded-row" id="te-editions-2024-row">
+                    <td colspan="2" class="expanded-cell">
+                        <div class="expanded-content" id="te-editions-2024-content">
+                            <div class="expanded-left">
+                                <h3 class="expanded-title">te editions</h3>
+                                <h4 class="expanded-subtitle">Michael Guo & Kechun Qin</h4>
+                                <div class="expanded-text">
+                                    <p>Independent publishing and research studio exploring the intersection of art, design, and technology. Their work focuses on creating experimental publications and digital experiences that challenge traditional forms of knowledge dissemination.</p>
+                                    <p>During their 2024 fellowship, they developed a series of experimental print and digital publications that explored new models for collaborative publishing and knowledge sharing.</p>
+                                </div>
+                                <div class="expanded-projects">
+                                    <h4>Fellowship Research</h4>
+                                    <h5 class="project-title">Archival Interfaces</h5>
+                                    <p class="project-description">A project examining how digital publishing can transform our relationship to historical materials and create new forms of engagement with archives and collections. The work resulted in an experimental digital platform and a series of printed publications that reimagined archival access.</p>
+                                </div>
+                            </div>
+                            <div class="expanded-right">
+                                <img src="2024/img/2.jpeg" alt="te editions 2024" class="expanded-image" onerror="this.src='/api/placeholder/500/400'">
+                            </div>
+                            <button class="close-btn">&times;</button>
+                        </div>
+                    </td>
+                </tr>
+                
+                <!-- Nini Dongnier 2024 -->
+                <tr class="fellow-row" data-rectangle="2" data-fellow-id="nini-dongnier-2024">
+                    <td class="fellow-number">02</td>
+                    <td class="fellow-name">Nini Dongnier</td>
+                </tr>
+                <tr class="expanded-row" id="nini-dongnier-2024-row">
+                    <td colspan="2" class="expanded-cell">
+                        <div class="expanded-content" id="nini-dongnier-2024-content">
+                            <div class="expanded-left">
+                                <h3 class="expanded-title">Nini Dongnier</h3>
+                                <h4 class="expanded-subtitle">Visual Artist</h4>
+                                <div class="expanded-text">
+                                    <p>Multimedia artist whose practice explores cultural identity, displacement, and collective memory through video, installation, and performance. Her work often incorporates archival materials and personal narratives.</p>
+                                    <p>During her 2024 fellowship, she developed a series of video installations that examined the intersections of personal and collective memory within diasporic communities.</p>
+                                </div>
+                                <div class="expanded-projects">
+                                    <h4>Fellowship Research</h4>
+                                    <h5 class="project-title">Memory Fragments</h5>
+                                    <p class="project-description">A series of video installations examining how personal and collective memories intersect in the context of migration and diaspora. The project incorporated oral histories, family photographs, and archival footage to create layered narratives about cultural transmission across generations.</p>
+                                </div>
+                            </div>
+                            <div class="expanded-right">
+                                <img src="2024/img/3.jpeg" alt="Nini Dongnier 2024" class="expanded-image" onerror="this.src='/api/placeholder/500/400'">
+                            </div><button class="close-btn">&times;</button>
+                        </div>
+                    </td>
+                </tr>
+                
+                <!-- Sowon Kwon 2024 -->
+                <tr class="fellow-row" data-rectangle="3" data-fellow-id="sowon-kwon-2024">
+                    <td class="fellow-number">03</td>
+                    <td class="fellow-name">Sowon Kwon</td>
+                </tr>
+                <tr class="expanded-row" id="sowon-kwon-2024-row">
+                    <td colspan="2" class="expanded-cell">
+                        <div class="expanded-content" id="sowon-kwon-2024-content">
+                            <div class="expanded-left">
+                                <h3 class="expanded-title">Sowon Kwon</h3>
+                                <h4 class="expanded-subtitle">Artist and Educator</h4>
+                                <div class="expanded-text">
+                                    <p>Interdisciplinary artist whose work spans drawing, digital animation, video, and installation. Her practice investigates the construction of cultural identities and the politics of representation through a feminist lens.</p>
+                                    <p>During her 2024 fellowship, she explored the relationship between digital technologies and cultural translation, creating works that examined how meaning transforms across media and contexts.</p>
+                                </div>
+                                <div class="expanded-projects">
+                                    <h4>Fellowship Research</h4>
+                                    <h5 class="project-title">Digital Translations</h5>
+                                    <p class="project-description">A project exploring how digital technologies mediate cultural exchange and translation, creating a series of animations that examine the slippages between languages, media, and cultural contexts. The work investigated how meaning is transformed through various processes of digital mediation and cultural translation.</p>
+                                </div>
+                            </div>
+                            <div class="expanded-right">
+                                <img src="2024/img/4.jpeg" alt="Sowon Kwon 2024" class="expanded-image" onerror="this.src='/api/placeholder/500/400'">
+                            </div>
+                            <button class="close-btn">&times;</button>
+                        </div>
+                    </td>
+                </tr>
+                
+                <!-- Yu Ji & Ho King Man 2024 -->
+                <tr class="fellow-row" data-rectangle="4" data-fellow-id="yu-ji-ho-king-2024">
+                    <td class="fellow-number">04</td>
+                    <td class="fellow-name">Yu Ji & Ho King Man</td>
+                </tr>
+                <tr class="expanded-row" id="yu-ji-ho-king-2024-row">
+                    <td colspan="2" class="expanded-cell">
+                        <div class="expanded-content" id="yu-ji-ho-king-2024-content">
+                            <div class="expanded-left">
+                                <h3 class="expanded-title">Yu Ji & Ho King Man</h3>
+                                <h4 class="expanded-subtitle">Collaborative Artists</h4>
+                                <div class="expanded-text">
+                                    <p>Collaborative duo working at the intersection of spatial practice, sound, and performance. Their projects often respond to specific architectural contexts, creating site-responsive installations.</p>
+                                    <p>During their 2024 fellowship, they developed a series of site-specific sound installations that explored the acoustic properties of urban environments and public spaces.</p>
+                                </div>
+                                <div class="expanded-projects">
+                                    <h4>Fellowship Research</h4>
+                                    <h5 class="project-title">Acoustic Mapping</h5>
+                                    <p class="project-description">A project that used field recordings and spatial sound installations to document and transform the acoustic properties of urban environments, culminating in a series of listening sessions and participatory performances. The work explored how sound shapes our experience of public space and urban environments.</p>
+                                </div>
+                            </div>
+                            <div class="expanded-right">
+                                <img src="2024/img/5.jpeg" alt="Yu Ji & Ho King Man 2024" class="expanded-image" onerror="this.src='/api/placeholder/500/400'">
+                            </div>
+                            <button class="close-btn">&times;</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-heading">2023 Inaugural Cohort</h2>
+        <table class="fellows-table" id="cohort-2023">
+            <tbody>
+                <!-- te editions 2023 -->
+                <tr class="fellow-row" data-rectangle="1" data-fellow-id="te-editions-2023">
+                    <td class="fellow-number">01</td>
+                    <td class="fellow-name">te editions (Michael Guo & Kechun Qin)</td>
+                </tr>
+                <tr class="expanded-row" id="te-editions-2023-row">
+                    <td colspan="2" class="expanded-cell">
+                        <div class="expanded-content" id="te-editions-2023-content">
+                            <div class="expanded-left">
+                                <h3 class="expanded-title">te editions</h3>
+                                <h4 class="expanded-subtitle">Michael Guo & Kechun Qin</h4>
+                                <div class="expanded-text">
+                                    <p>Independent publishing and research studio exploring the intersection of art, design, and technology. Their practice investigates how publishing can function as a form of artistic and cultural research.</p>
+                                    <p>As part of the inaugural fellowship cohort in 2023, they developed a research project examining alternative models for digital publishing and distribution.</p>
+                                </div>
+                                <div class="expanded-projects">
+                                    <h4>Fellowship Research</h4>
+                                    <h5 class="project-title">Digital Commons</h5>
+                                    <p class="project-description">A project exploring alternative models for distributing and accessing digital publications, resulting in an open-source platform for collaborative publishing that was presented through a series of workshops and a public exhibition. The project examined the possibilities and limitations of digital commons in the context of independent publishing.</p>
+                                </div>
+                            </div>
+                            <div class="expanded-right">
+                                <img src="2023/img/2.jpeg" alt="te editions 2023" class="expanded-image" onerror="this.src='/api/placeholder/500/400'">
+                            </div>
+                            <button class="close-btn">&times;</button>
+                        </div>
+                    </td>
+                </tr>
+                
+                <!-- Nini Dongnier 2023 -->
+                <tr class="fellow-row" data-rectangle="2" data-fellow-id="nini-dongnier-2023">
+                    <td class="fellow-number">02</td>
+                    <td class="fellow-name">Nini Dongnier</td>
+                </tr>
+                <tr class="expanded-row" id="nini-dongnier-2023-row">
+                    <td colspan="2" class="expanded-cell">
+                        <div class="expanded-content" id="nini-dongnier-2023-content">
+                            <div class="expanded-left">
+                                <h3 class="expanded-title">Nini Dongnier</h3>
+                                <h4 class="expanded-subtitle">Visual Artist</h4>
+                                <div class="expanded-text">
+                                    <p>Multimedia artist whose practice explores cultural identity, displacement, and collective memory through video, installation, and performance.</p>
+                                    <p>As part of the 2023 fellowship cohort, she developed a research project examining the relationship between landscape, memory, and cultural identity across generations.</p>
+                                </div>
+                                <div class="expanded-projects">
+                                    <h4>Fellowship Research</h4>
+                                    <h5 class="project-title">Inherited Landscapes</h5>
+                                    <p class="project-description">A project examining how cultural landscapes are remembered and reimagined across generations of diaspora communities, resulting in a multimedia installation combining video, sound, and sculptural elements. The work explored how landscapes function as repositories of cultural memory and how these memories transform across generations and geographies.</p>
+                                </div>
+                            </div>
+                            <div class="expanded-right">
+                                <img src="2023/img/3.jpeg" alt="Nini Dongnier 2023" class="expanded-image" onerror="this.src='/api/placeholder/500/400'">
+                            </div>
+                            <button class="close-btn">&times;</button>
+                        </div>
+                    </td>
+                </tr>
+                
+                <!-- Sowon Kwon 2023 -->
+                <tr class="fellow-row" data-rectangle="3" data-fellow-id="sowon-kwon-2023">
+                    <td class="fellow-number">03</td>
+                    <td class="fellow-name">Sowon Kwon</td>
+                </tr>
+                <tr class="expanded-row" id="sowon-kwon-2023-row">
+                    <td colspan="2" class="expanded-cell">
+                        <div class="expanded-content" id="sowon-kwon-2023-content">
+                            <div class="expanded-left">
+                                <h3 class="expanded-title">Sowon Kwon</h3>
+                                <h4 class="expanded-subtitle">Artist and Educator</h4>
+                                <div class="expanded-text">
+                                    <p>Interdisciplinary artist whose work spans drawing, digital animation, video, and installation. Her practice investigates the construction of cultural identities and the politics of representation.</p>
+                                    <p>During her 2023 fellowship, she explored alternative approaches to institutional archives and the politics of what is preserved and what is forgotten in official histories.</p>
+                                </div>
+                                <div class="expanded-projects">
+                                    <h4>Fellowship Research</h4>
+                                    <h5 class="project-title">Reimagining Archives</h5>
+                                    <p class="project-description">A project exploring alternative approaches to institutional archives, questioning what is preserved and what is forgotten in official histories. The project culminated in a series of digital animations and a publication examining how archives shape cultural memory and proposing more inclusive and multivocal approaches to archival practices.</p>
+                                </div>
+                            </div>
+                            <div class="expanded-right">
+                                <img src="2023/img/4.jpeg" alt="Sowon Kwon 2023" class="expanded-image" onerror="this.src='/api/placeholder/500/400'">
+                            </div>
+                            <button class="close-btn">&times;</button>
+                        </div>
+                    </td>
+                </tr>
+                
+                <!-- Yu Ji & Ho King Man 2023 -->
+                <tr class="fellow-row" data-rectangle="4" data-fellow-id="yu-ji-ho-king-2023">
+                    <td class="fellow-number">04</td>
+                    <td class="fellow-name">Yu Ji & Ho King Man</td>
+                </tr>
+                <tr class="expanded-row" id="yu-ji-ho-king-2023-row">
+                    <td colspan="2" class="expanded-cell">
+                        <div class="expanded-content" id="yu-ji-ho-king-2023-content">
+                            <div class="expanded-left">
+                                <h3 class="expanded-title">Yu Ji & Ho King Man</h3>
+                                <h4 class="expanded-subtitle">Collaborative Artists</h4>
+                                <div class="expanded-text">
+                                    <p>Collaborative duo working at the intersection of spatial practice, sound, and performance. Their projects examine how sound and architecture shape our experience of space.</p>
+                                    <p>As part of the 2023 fellowship cohort, they developed a research project investigating the relationship between sound, architecture, and public space in urban environments.</p>
+                                </div>
+                                <div class="expanded-projects">
+                                    <h4>Fellowship Research</h4>
+                                    <h5 class="project-title">Sonic Architectures</h5>
+                                    <p class="project-description">A project investigating the acoustic properties of public spaces and how sound design can transform our perception of built environments. The work was presented through a series of site-specific installations and performances throughout the city, engaging participants in new modes of listening to and experiencing urban spaces.</p>
+                                </div>
+                            </div>
+                            <div class="expanded-right">
+                                <img src="2023/img/5.jpeg" alt="Yu Ji & Ho King Man 2023" class="expanded-image" onerror="this.src='/api/placeholder/500/400'">
+                            </div>
+                            <button class="close-btn">&times;</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all fellow rows that should be clickable
+            const fellowRows = document.querySelectorAll('.fellow-row');
+            const rectangleContainer = document.querySelector('.rectangle-container');
+            const rectangle = document.getElementById('rectangle-1');
+            
+            // Get colors from data attribute
+            const colorsData = document.querySelector('.rectangle-colors').getAttribute('data-colors');
+            const colors = JSON.parse(colorsData);
+            
+            // Set different content for each fellow
+            const fellowsContent = [
+                {
+                    name: "te editions",
+                    subtitle: "Michael Guo & Kechun Qin",
+                    bio: "Independent publishing and research studio exploring the intersection of art, design, and technology."
+                },
+                {
+                    name: "Nini Dongnier",
+                    subtitle: "Visual Artist",
+                    bio: "Multimedia artist whose practice explores cultural identity, displacement, and collective memory."
+                },
+                {
+                    name: "Sowon Kwon",
+                    subtitle: "Artist and Educator",
+                    bio: "Interdisciplinary artist whose work investigates cultural identities and representation."
+                },
+                {
+                    name: "Yu Ji & Ho King Man",
+                    subtitle: "Collaborative Artists",
+                    bio: "Collaborative duo working with spatial practice, sound, and performance."
+                }
+            ];
+            
+            // Store the state of expanded rows
+            let activeExpansion = null;
+            
+            // Handle hover effects for fellow rows
+            fellowRows.forEach((row, index) => {
+                row.addEventListener('mouseenter', function() {
+                    // Only show hover effect if row isn't active
+                    if (!this.classList.contains('active')) {
+                        // Get a random color from the array
+                        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                        
+                        // Apply color to the rectangle background
+                        rectangle.style.backgroundColor = randomColor;
+                        
+                        // Update the content for each fellow
+                        const contentIndex = index % fellowsContent.length; // Use modulo to cycle through content
+                        const content = fellowsContent[contentIndex];
+                        rectangle.querySelector('.fellow-title h2').textContent = content.name;
+                        rectangle.querySelector('.fellow-title h3').textContent = content.subtitle;
+                        rectangle.querySelector('.fellow-bio p').textContent = content.bio;
+                        
+                        // Show the rectangle
+                        rectangle.style.opacity = 1;
+                    }
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    // Only hide rectangle if this row isn't active
+                    if (!this.classList.contains('active')) {
+                        rectangle.style.opacity = 0;
+                    }
+                });
+                
+                // Add click event to toggle expanded content
+                row.addEventListener('click', function(event) {
+                    const fellowId = this.getAttribute('data-fellow-id');
+                    if (!fellowId) return;
+                    
+                    // Find the expanded row and content
+                    const expandedRow = document.getElementById(`${fellowId}-row`);
+                    const expandedContent = document.getElementById(`${fellowId}-content`);
+                    
+                    if (!expandedRow || !expandedContent) return;
+                    
+                    // Check if this row is already active
+                    const isActive = this.classList.contains('active');
+                    
+                    // Remove active class from all fellow rows
+                    document.querySelectorAll('.fellow-row.active').forEach(row => {
+                        row.classList.remove('active');
+                        row.style.backgroundColor = '';
+                        row.style.color = '';
+                    });
+                    
+                    // Close all expanded contents
+                    document.querySelectorAll('.expanded-row.active').forEach(row => {
+                        row.classList.remove('active');
+                        const content = row.querySelector('.expanded-content');
+                        if (content) content.classList.remove('active');
+                    });
+                    
+                    // Hide the hover rectangle
+                    rectangle.style.opacity = 0;
+                    
+                    // If this row wasn't active before, open it
+                    if (!isActive) {
+                        // Get a random color from the array for the row background
+                        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                        
+                        // Add active class to the clicked row
+                        this.classList.add('active');
+                        
+                        // Apply the color to the fellow row
+                        this.style.backgroundColor = randomColor;
+                        this.style.color = 'white';
+                        
+                        // Show the expanded content row
+                        expandedRow.classList.add('active');
+                        expandedContent.classList.add('active');
+                        
+                        // Update active expansion
+                        activeExpansion = fellowId;
+                        
+                        // Scroll to the expanded content
+                        setTimeout(() => {
+                            scrollToExpandedContent(expandedRow);
+                        }, 50);
+                    } else {
+                        // This row was active, so we closed it
+                        activeExpansion = null;
+                    }
+                    
+                    // Prevent the event from propagating to document click handler
+                    event.stopPropagation();
+                });
+            });
+            
+            // Handle close button clicks
+            const closeButtons = document.querySelectorAll('.close-btn');
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    const expandedContent = this.closest('.expanded-content');
+                    if (!expandedContent) return;
+                    
+                    // Find the fellow row
+                    const fellowId = expandedContent.id.replace('-content', '');
+                    const fellowRow = document.querySelector(`.fellow-row[data-fellow-id="${fellowId}"]`);
+                    
+                    if (fellowRow) {
+                        fellowRow.classList.remove('active');
+                        fellowRow.style.backgroundColor = '';
+                        fellowRow.style.color = '';
+                    }
+                    
+                    // Close the expanded content
+                    expandedContent.classList.remove('active');
+                    const expandedRow = expandedContent.closest('.expanded-row');
+                    if (expandedRow) {
+                        expandedRow.classList.remove('active');
+                    }
+                    
+                    // Reset active expansion
+                    activeExpansion = null;
+                    
+                    // Prevent the event from propagating
+                    event.stopPropagation();
+                });
+            });
+            
+            // Close expanded content when clicking outside
+            document.addEventListener('click', function(event) {
+                // Check if the click was outside both a fellow row and expanded content
+                const targetRow = event.target.closest('.fellow-row');
+                const targetExpandedContent = event.target.closest('.expanded-content');
+                const closeButton = event.target.closest('.close-btn');
+                
+                if (!targetRow && !targetExpandedContent && !closeButton) {
+                    // Reset all fellow rows
+                    document.querySelectorAll('.fellow-row.active').forEach(row => {
+                        row.classList.remove('active');
+                        row.style.backgroundColor = '';
+                        row.style.color = '';
+                    });
+                    
+                    // Close all expanded contents
+                    document.querySelectorAll('.expanded-row.active').forEach(row => {
+                        row.classList.remove('active');
+                        const content = row.querySelector('.expanded-content');
+                        if (content) content.classList.remove('active');
+                    });
+                    
+                    // Reset active expansion
+                    activeExpansion = null;
+                }
+            });
+            
+            // Add keyboard navigation (Escape key to close expanded content)
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    // Reset all fellow rows
+                    document.querySelectorAll('.fellow-row.active').forEach(row => {
+                        row.classList.remove('active');
+                        row.style.backgroundColor = '';
+                        row.style.color = '';
+                    });
+                    
+                    // Close all expanded contents
+                    document.querySelectorAll('.expanded-row.active').forEach(row => {
+                        row.classList.remove('active');
+                        const content = row.querySelector('.expanded-content');
+                        if (content) content.classList.remove('active');
+                    });
+                    
+                    // Reset active expansion
+                    activeExpansion = null;
+                }
+            });
+            
+            // Smooth scrolling to expanded content when opened
+            function scrollToExpandedContent(expandedRow) {
+                if (!expandedRow.classList.contains('active')) return;
+                
+                // Calculate the position to scroll to (slightly above the expanded row for better visibility)
+                const rect = expandedRow.getBoundingClientRect();
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const targetY = rect.top + scrollTop - 100; // 100px offset from the top
+                
+                // Smooth scroll to the target position
+                window.scrollTo({
+                    top: targetY,
+                    behavior: 'smooth'
+                });
+            }
+            
+            // Add animation effects to expanded content
+            function enhanceExpandedContent() {
+                document.querySelectorAll('.expanded-content').forEach(content => {
+                    // Add transition effects
+                    content.style.transition = 'all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)';
+                });
+            }
+            
+            // Enhance touch support for mobile devices
+            function enhanceTouchSupport() {
+                // Detect if it's a touch device
+                const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+                
+                if (isTouchDevice) {
+                    // Add specific styles for touch devices
+                    document.querySelectorAll('.close-btn').forEach(btn => {
+                        btn.style.width = '40px';
+                        btn.style.height = '40px';
+                        btn.style.fontSize = '24px';
+                    });
+                }
+            }
+            
+            // Initialize enhancements
+            enhanceExpandedContent();
+            enhanceTouchSupport();
+            
+            // Handle window resize to ensure proper layout
+            window.addEventListener('resize', function() {
+                // If there's an active expansion, adjust scroll position
+                if (activeExpansion) {
+                    const expandedRow = document.getElementById(`${activeExpansion}-row`);
+                    if (expandedRow && expandedRow.classList.contains('active')) {
+                        scrollToExpandedContent(expandedRow);
+                    }
+                }
+            });
+            
+            // Handle image loading errors
+            document.querySelectorAll('.fellow-image, .expanded-image').forEach(img => {
+                img.addEventListener('error', function() {
+                    console.log('Image failed to load: ' + this.src);
+                    // The onerror attribute should already handle this, but just in case
+                    if (!this.src.includes('/api/placeholder')) {
+                        this.src = this.getAttribute('width') ? 
+                            `/api/placeholder/${this.getAttribute('width')}/${this.getAttribute('height')}` : 
+                            '/api/placeholder/500/400';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
