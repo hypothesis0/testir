@@ -2,10 +2,12 @@
   "fellows": [
     {
       "number": "01",
-      "name": "01",
+      "name": "te editions (Michael Guo & Kechun Qin)",
       "id": "01",
-      "title": "01",
-      "bio": "0﻿1",
+      "title": "te editions (Michael Guo & Kechun Qin)",
+      "bio": "<p>te editions is an independent publishing house launched in 2023 by Michael Guo and Kechun Qin. It currently operates in New York and Beijing. te explores the intersection of the arts and humanities, examining historical and contemporary social landscapes through a diversified and microscopic lens. The focus lies on how cultures encounter, collapse, and transform each other within global cultural flows. Driven by “curatorial thinking on paper” in the editorial approach, te editions aims to foster new discussions informed by a genuinely interdisciplinary perspective.</p>
+                                    <p>In 2021, te editions launched the first issue of its annual bilingual publication, te magazine. Each issue draws inspiration from current events, developing a theme that encapsulates the thinking sparked by the moment. Researchers and creators from various fields are invited to contribute their work around this central theme. te editions consistently collaborates with artists, scholars, communities, and cultural organizations to expand on existing projects and to envision new ones.     </p>
+                               
       "image": "/img/uploads/images.jpeg",
       "image_type": "single"
     }
