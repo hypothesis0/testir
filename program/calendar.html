@@ -3,287 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendar</title>
+    <title>Calendar - Initial Research</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-     
+    <!--cms-->
+    <script src="/content-loader.js"></script>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+    <!-- Import shared navigation styles and scripts -->
+    <link rel="stylesheet" href="../css/navigation.css">
+    <script src="../js/navigation.js"></script>
+    
     <style>
-        body {
-            margin: 0;
-           padding: 0;
-           font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-           line-height: 1;
-           background-color: rgb(235, 235, 235);
-           position: relative;
-           min-height: 100vh;
-           overflow-x: hidden;
-           display: flex;
-           flex-direction: column;
-           width: 100%;
-        }
-        
-        /* Top banner - updated to match demo page style */
-        .top-banner {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgb(241, 61, 33);
-            padding: 4px 0; /* Match demo page padding */
-            z-index: 10;
-            display: flex;
-            justify-content: space-between;
-            align-items: center; /* Match demo page */
-        }
-        
-        .title-container {
-            padding-left: 24px; /* Match demo page */
-            flex-shrink: 0; /* Match demo page */
-        }
-        
-        .top-banner h1 {
-            font-size: 34px; /* Match demo page */
-            font-weight: 500; /* Match demo page */
-            color: rgb(23, 23, 23);
-            margin: 0;
-            letter-spacing: 0em;
-            line-height: 1;
-            font-family: 'Space Grotesk', Helvetica, Arial, sans-serif; /* Match demo page */
-            white-space: nowrap; /* Match demo page */
-        }
-        
-        /* Navigation - updated to match demo page style */
-        .nav-top {
-            display: flex;
-            gap: 0; /* Match demo page */
-            padding-right: 48px; /* Match demo page */
-            padding-left: 32px; /* Match demo page */
-            align-items: flex-end; /* Match demo page */
-        }
-        
-        .nav-item {
-            position: relative;
-            cursor: pointer;
-            padding: 4px 12px; /* Match demo page */
-            display: flex;
-            align-items: center; /* Match demo page */
-            margin-top: -8px; /* Match demo page */
-            margin-bottom: -8px; /* Match demo page */
-            padding-top: 16px; /* Match demo page */
-            padding-bottom: 8px; /* Match demo page */
-        }
-        
-        .nav-top a {
-            color: rgb(23, 23, 23); /* Match demo page */
-            text-decoration: none;
-            font-size: 16px; /* Match demo page */
-            transition: color ease-in-out; /* Match demo page */
-            line-height: 1;
-            display: inline-block;
-            font-family: 'Space Grotesk', Helvetica, Arial, sans-serif; /* Match demo page */
-            font-weight: 300;
-        }
-        
-        .nav-top a:hover {
-            color: #f8f8f8; /* Match demo page */
-        }
-        
-        /* Active state for nav items */
-        .nav-item.active {
-            color: #ffffff;
-        }
-        .nav-item.active > a {
-            font-style: italic !important;
-            color: #ffffff;
-        }
-        
-        /* Dropdown styles - updated to match demo page */
-        .dropdown {
-            display: none;
-            position: absolute;
-            top: calc(100%);
-            left: 0;
-            background-color: rgba(159, 144, 142, 0.486);
-            padding: 0 0 0 0;
-            z-index: 1000;
-            transition: opacity ease;
-            min-width: 600px; /* Match demo page */
-            opacity: 0;
-            visibility: hidden;
-        }
-        
-        /* Special case for "program" dropdown */
-        .nav-item:first-child .dropdown {
-            width: 600px;
-        }
-        
-        .dropdown-container {
-            display: flex;
-            flex-direction: column;
-            background-color: rgb(241, 61, 33);
-            width: 100%;
-            padding: 0;
-        }
-        
-        .dropdown a {
-            display: block;
-            font-size: 16px; /* Match demo page */
-            padding: 10px 10px 10px 12px; /* Match demo page */
-            margin: 0;
-            color: rgb(23, 23, 23);
-            text-align: left;
-            text-decoration: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-weight: 300;
-            white-space: nowrap;
-        }
-        
-        .dropdown a:first-child {
-            border-top: none;
-        }
-        
-        .dropdown a:last-child {
-            border-bottom: none;
-        }
-        
-        /* Show dropdown when active */
-        .nav-item.active .dropdown {
-            opacity: 1;
-            visibility: visible;
-            display: block;
-        }
-        
-        .dropdown a:hover {
-            background-color: rgba(243, 135, 135, 0.691);
-        }
-        
-        /* Mobile hamburger menu - matching demo page */
-        .hamburger-menu {
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding-right: 12px;
-            cursor: pointer;
-        }
-        
-        .hamburger-menu span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background-color: rgb(23, 23, 23);
-            margin: 3px 0;
-            transition: 0.3s;
-        }
-        
-        /* Mobile navigation - matching demo page */
-        .mobile-nav {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            background-color: rgb(241, 61, 33);
-            display: none;
-            flex-direction: column;
-            padding: 0;
-            z-index: 1000;
-        }
-        
-        .mobile-nav-item {
-            position: relative;
-            border-bottom: 0.5px solid rgba(23, 23, 23, 0.15) !important;
-        }
-        
-        .mobile-nav-item > a {
-            color: rgb(23, 23, 23);
-            text-decoration: none;
-            padding: 1vh 3vw;
-            font-size: 16px;
-            font-weight: 300;
-            border: none !important;
-            display: block !important;
-            position: relative;
-            padding-left: 24px !important;
-            box-sizing: border-box;
-        }
-        
-        .mobile-nav-item > a:hover {
-            background-color: rgba(243, 135, 135, 0.691);
-            color: #f8f8f8;
-        }
-        
-        .mobile-nav-item.active > a {
-            font-style: italic !important;
-            color: #ffffff;
-        }
-        
-        .mobile-arrow {
-            position: absolute !important;
-            right: 24px;
-            top: 50%;
-            transform: translateY(-50%);
-            margin: 0 !important;
-            font-size: 20px;
-            transition: transform 0.3s ease;
-            width: 20px;
-            text-align: center;
-        }
-        
-        .mobile-nav-item:last-child .mobile-arrow {
-            display: none;
-        }
-        
-        .mobile-nav-item.active .mobile-arrow {
-            transform: translateY(-50%) rotate(180deg);
-        }
-        
-        .mobile-dropdown {
-            display: none;
-            background-color: rgb(241, 61, 33);
-            border-top: none !important;
-            flex-direction: column;
-        }
-        
-        .mobile-nav-item.active .mobile-dropdown {
-            display: flex;
-        }
-        
-        .mobile-dropdown a {
-            color: rgb(23, 23, 23);
-            text-decoration: none;
-            padding: 1vh 3vw 0.5vh 6vw;
-            font-size: 16px;
-            font-weight: 300;
-            border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            padding-left: 48px;
-        }
-        
-        .mobile-dropdown a:hover {
-            background-color: rgba(243, 135, 135, 0.691);
-            color: #f8f8f8;
-        }
-        
-        .mobile-nav.show {
-            display: flex !important;
-        }
-        
-        /* Content area - updated to match demo page */
-        .content {
-            padding: 120px 24px 64px 48px; /* Match demo page */
-            max-width: none; /* Remove max-width constraint like demo page */
-            margin: 0; /* Remove auto centering like demo page */
-            position: relative;
-            z-index: 2;
-            flex: 1;
-            width: 100%; /* Match demo page */
-            box-sizing: border-box; /* Match demo page */
-            padding-bottom: 80px; /* Match demo page */
-        }
-        
+       
+        /* content */
         /* Section header - updated style */
         .section-header {
             display: flex;
@@ -603,8 +337,6 @@
             border: 4px solid #ffffff; /* This will be overridden by JavaScript with random color */
         }
         
-        /* Color accent for mobile popup - REMOVED TO ELIMINATE EXTRA LINE */
-        
         .mobile-close-button {
             position: absolute;
             top: 2vh;
@@ -630,40 +362,8 @@
             background-color: rgba(255, 255, 255, 0.1); /* Subtle hover effect */
         }
         
-        /* Footer - updated to match demo page */
-    
-        
-        /* Media queries - updated for mobile */
         @media (max-width: 768px) {
-            /* Hide desktop nav, show hamburger */
-            .nav-top {
-                display: none !important;
-            }
-            
-            .hamburger-menu {
-                display: flex !important;
-            }
-            
-            .mobile-nav {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: rgb(241, 61, 33);
-                z-index: 1000;
-            }
-            
-            .top-banner h1 {
-                font-size: 28px; /* Responsive size for mobile */
-            }
-            
-            .content {
-                padding: 15vh 3vw 4vw 3vw; /* Align table left edge with title */
-                padding-left: 24px; /* Match title-container padding for alignment */
-            }
-            
+            /* Calendar-specific mobile styles */
             .section-heading {
                 font-size: 20px;
             }
@@ -822,20 +522,12 @@
             }
         }
         
+     
         /* Auto-switch to desktop when screen is larger than 768px */
         @media (min-width: 769px) {
-            .nav-top {
-                display: flex !important;
-            }
+          
             
-            .hamburger-menu {
-                display: none !important;
-            }
-            
-            .mobile-nav {
-                display: none !important;
-            }
-            
+          
             /* Make sure mobile popup is completely hidden on desktop */
             .mobile-popup-overlay {
                 display: none !important;
@@ -845,83 +537,7 @@
 </head>
 <body>
     <!-- Top red banner with title and navigation -->
-    <div class="top-banner">
-        <div class="title-container">
-            <h1 onclick="goToHomepage()" style="cursor: pointer;">initial research</h1>
-        </div>
-        <nav class="nav-top">
-            <div class="nav-item">
-                <a href="#">program</a>
-                <div class="dropdown">
-                    <div class="dropdown-container">
-                        <a href="calendar.html">calendar</a>
-                        <a href="fellowship.html">fellowship</a>
-                        <a href="communityhours.html">community hours</a>
-                        <a href="seasonaldinner.html">seasonal dinner</a>
-                        <a href="exhibition.html">exhibitions</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="nav-item">
-                <a href="#">about</a>
-                <div class="dropdown">
-                    <div class="dropdown-container">
-                        <a href="../about/mission.html">mission</a>
-                        <a href="../about/vision.html">vision</a>
-                        <a href="../about/team.html">team</a>
-                        <a href="../about/contact.html">contact</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="nav-item">
-                <a href="supportus.html">support us</a>
-            </div>
-        </nav>
-        
-        <!-- Hamburger menu for mobile -->
-        <div class="hamburger-menu" onclick="toggleMobileNav()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        
-        <!-- Mobile navigation menu -->
-        <div class="mobile-nav" id="mobileNav">
-            <div class="mobile-nav-item">
-                <a href="#" onclick="toggleMobileDropdown(event, this)">
-                    program
-                    <span class="mobile-arrow">ᵥ</span>
-                </a>
-                <div class="mobile-dropdown">
-                    <a href="calendar.html">calendar</a>
-                    <a href="fellowship.html">fellowship</a>
-                    <a href="communityhours.html">community hours</a>
-                    <a href="seasonaldinner.html">seasonal dinner</a>
-                    <a href="exhibition.html">exhibitions</a>
-                </div>
-            </div>
-            
-            <div class="mobile-nav-item">
-                <a href="#" onclick="toggleMobileDropdown(event, this)">
-                    about
-                    <span class="mobile-arrow">ᵥ</span>
-                </a>
-                <div class="mobile-dropdown">
-                    <a href="../about/mission.html">mission</a>
-                    <a href="../about/vision.html">vision</a>
-                    <a href="../about/team.html">team</a>
-                    <a href="../about/contact.html">contact</a>
-                </div>
-            </div>
-            
-            <div class="mobile-nav-item">
-                <a href="../supportus/supportus.html">support us</a>
-            </div>
-        </div>
-    </div>
-    
+   
     <!-- Store colors in data attributes -->
     <div class="rectangle-colors" 
          data-colors='["rgb(51, 25, 0)",  "#3b2b1d", "rgb(70, 0, 0)",  "#3b2b1d", "rgb(39, 39, 39)", "rgb(59, 40, 40)"]'>
@@ -1013,20 +629,8 @@
         </div>
     </div>
     
-    <!-- Footer matching demo page style -->
-    <footer style="
-    margin-top: auto;
-    width: 100%;
-    background-color: rgb(180, 180, 180);
-    padding: 10px 0;
-    text-align: center;
-    font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    font-weight: 300;
-    color: rgb(23, 23, 23);
-    z-index: 1;
-">
-    123 Gallery Street, New York, NY 10001
+   
+   
 </footer>
     
     <script>
@@ -1110,128 +714,8 @@
                 timeDisplay: "8pm to 10pm",
                 description: "A curated selection of experimental short films by international filmmakers pushing the boundaries of the medium. The program includes works that explore non-narrative structures, alternative production techniques, and expanded cinema practices. Each screening will be followed by a brief discussion led by film curator Alex Wong.",
                 rsvpLink: "https://example.com/rsvp/experimental-film"
-            },
-            { 
-                id: 4, 
-                date: new Date('2025-04-19T23:59:59.999-04:00'), 
-                title: "Poetry & Performance Workshop",
-                displayDate: "04.19.25",
-                subtitle: "workshop",
-                image: "img/upcomings/1.jpg",
-                timeDisplay: "1pm to 4pm",
-                description: "This participatory workshop led by poet and performer James Rivera explores the relationship between written text and embodied expression. Participants will develop short poetic texts and experiment with different approaches to performing them. No prior experience with poetry or performance is necessary. Limited to 15 participants.",
-                rsvpLink: "https://example.com/rsvp/poetry-workshop"
-            },
-            { 
-                id: 5, 
-                date: new Date('2025-03-29T23:59:59.999-04:00'), 
-                title: "The Girl with a Pistol",
-                displayDate: "03.29.25",
-                subtitle: "screening",
-                image: "img/upcomings/5.jpg",
-                timeDisplay: "2pm to 6pm",
-                description: "A special screening of Mario Monicelli's 1968 film 'The Girl with a Pistol' (La ragazza con la pistola), starring Monica Vitti. This dark comedy follows a Sicilian woman who travels to England to seek revenge on the man who ruined her honor. The screening will be introduced by film historian Dr. Elena Rossi, who will discuss the film's significance in Italian cinema history.",
-                rsvpLink: "https://example.com/rsvp/girl-with-pistol"
-            },
-            { 
-                id: 6, 
-                date: new Date('2025-02-23T23:59:59.999-05:00'), // Feb is EST
-                title: "Heavy Traffic 5: readings",
-                displayDate: "02.23.25",
-                subtitle: "readings",
-                image: "img/upcomings/6.jpg",
-                timeDisplay: "2pm to 6pm",
-                description: "The fifth installment of our popular reading series featuring new works by emerging writers from our community. Each reader will present original writing created over the past six months. This edition focuses particularly on experimental prose and cross-genre works. Light refreshments will be provided.",
-                rsvpLink: "https://example.com/rsvp/heavy-traffic-readings-feb"
-            },
-            { 
-                id: 7, 
-                date: new Date('2025-01-24T23:59:59.999-05:00'), // Jan is EST
-                title: "Heavy Traffic 5: readings",
-                displayDate: "01.24.25",
-                subtitle: "readings",
-                image: "img/upcomings/7.jpg",
-                timeDisplay: "6pm to 8pm",
-                description: "Join us for an evening of readings from participants in our winter writing workshop. Writers will share works-in-progress and newly completed pieces across genres including poetry, fiction, and creative non-fiction. This event celebrates the collaborative spirit of our writing community and offers insight into diverse writing practices.",
-                rsvpLink: "https://example.com/rsvp/heavy-traffic-readings-jan"
-            },
-            { 
-                id: 8, 
-                date: new Date('2025-01-23T23:59:59.999-05:00'), // Jan is EST
-                title: "Alex Zhang Hungtai & Will August Park",
-                displayDate: "01.23.25",
-                subtitle: "performance",
-                image: "img/upcomings/8.jpg",
-                timeDisplay: "7pm to 9pm",
-                description: "An evening of experimental music featuring composer and saxophonist Alex Zhang Hungtai performing alongside percussionist Will August Park. Their collaborative improvisation draws on drone, free jazz, and noise traditions to create immersive sonic landscapes. Limited seating available - early arrival recommended.",
-                rsvpLink: "https://example.com/rsvp/experimental-music"
-            },
-            { 
-                id: 9, 
-                date: new Date('2025-01-19T23:59:59.999-05:00'), // Jan is EST
-                title: "Silence",
-                displayDate: "01.19.25",
-                subtitle: "film screening",
-                image: "img/upcomings/9.jpg",
-                timeDisplay: "3pm to 5pm",
-                description: "A screening of Martin Scorsese's 2016 film 'Silence,' based on the novel by Shūsaku Endō. Set in the 17th century, the film follows two Portuguese Jesuit priests who travel to Japan to locate their missing mentor and spread Catholicism. The screening will be followed by a discussion on the film's themes of faith, doubt, and cultural encounter.",
-                rsvpLink: "https://example.com/rsvp/silence-screening"
-            },
-            { 
-                id: 10, 
-                date: new Date('2025-01-16T23:59:59.999-05:00'), // Jan is EST
-                title: "Bonzo Night 2",
-                displayDate: "01.16.25",
-                subtitle: "performance",
-                image: "img/upcomings/10.jpg",
-                timeDisplay: "8pm to 11pm",
-                description: "The second edition of our experimental performance night featuring interdisciplinary artists working at the intersection of sound, movement, and visual art. This edition includes performances by the Bonzo Collective, a group known for their absurdist approach to live art, as well as guest artists exploring similar terrain. Contains adult content.",
-                rsvpLink: "https://example.com/rsvp/bonzo-night-2"
-            },
-            { 
-                id: 11, 
-                date: new Date('2024-11-05T23:59:59.999-05:00'), // Nov is EST
-                title: "The U.S. Election",
-                displayDate: "11.05.24",
-                subtitle: "public viewing",
-                image: "img/past/1.jpg",
-                timeDisplay: "5pm to 10pm",
-                description: "A public viewing of the 2024 U.S. Presidential Election results. Join us to watch the returns in a communal setting with refreshments provided. Political scientists from the local university will be present to offer context and analysis throughout the evening.",
-                link: "https://example.com/us-election-2024" // Example link
-            },
-            { 
-                id: 12, 
-                date: new Date('2024-11-02T23:59:59.999-04:00'), // Nov 2 is still EDT
-                title: "Keller Easterling: NON_1",
-                displayDate: "11.02.24",
-                subtitle: "lecture",
-                image: "img/past/2.jpg",
-                timeDisplay: "4pm to 6pm",
-                description: "Acclaimed architect and theorist Keller Easterling presents her latest research project, NON_1, which explores alternative approaches to spatial organization and infrastructure design. Easterling is known for her work examining how spatial arrangements express and reinforce power structures in society.",
-                link: "https://example.com/keller-easterling-non1" // Example link
-            },
-            { 
-                id: 13, 
-                date: new Date('2024-10-27T23:59:59.999-04:00'), // Oct is EDT
-                title: "Heavy Traffic 5",
-                displayDate: "10.27.24",
-                subtitle: "exhibition opening",
-                image: "img/past/3.jpg",
-                timeDisplay: "6pm to 9pm",
-                description: "The opening reception for Heavy Traffic 5, a group exhibition featuring works by participants in our annual fellowship program. The exhibition showcases diverse approaches to contemporary art practice including painting, sculpture, video, and performance. Curated by our 2024 curatorial fellow, Lisa Chen.",
-                link: "https://example.com/heavy-traffic-5" // Example link
-            },
-            { 
-                id: 14, 
-                date: new Date('2024-09-29T23:59:59.999-04:00'), // Sep is EDT
-                title: "Seth Price: Before Writing",
-                displayDate: "09.29.24",
-                subtitle: "book launch",
-                image: "img/past/4.jpg",
-                timeDisplay: "7pm to 9pm",
-                description: "Join us for the launch of Seth Price's new book 'Before Writing,' which collects the artist's essays and theoretical writings from the past decade. Price will read selections from the book and discuss his approach to writing as an extension of his visual art practice. Books will be available for purchase and signing.",
-                link: "https://example.com/seth-price-before-writing" // Example link
             }
+            
         ];
         
         // Function to setup click for detailed view
