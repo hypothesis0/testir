@@ -4,7 +4,7 @@
 async function loadNavigation() {
     try {
         // Try to load navigation from CMS-generated files
-        const response = await fetch('/content/navigation/navigation-data.json');
+        const response = await fetch('../navigation/navigation-data.json');
         const navData = await response.json();
         
         // Generate and insert navigation HTML
