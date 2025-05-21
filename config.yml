@@ -1,0 +1,139 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "img/uploads"
+public_folder: "/img/uploads"
+
+collections:
+  - name: "content"
+    label: "Content"
+    files:
+      - name: "fellowship"
+        label: "Fellowship Page"
+        file: "fellowship-data.json"
+        fields:
+          - {label: "Page Title", name: "title", widget: "string", required: false}
+          - {label: "Main Heading", name: "heading", widget: "string", required: false}
+          - {label: "Introduction", name: "intro", widget: "text", required: false}
+          - {label: "Cohort Title", name: "cohort_title", widget: "string", required: false}
+          - label: "Fellows"
+            name: "fellows"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Fellow Number", name: "number", widget: "string", required: false}
+              - {label: "Fellow Name", name: "name", widget: "string", required: false}
+              - {label: "Fellow ID", name: "id", widget: "string", required: false, hint: "Unique ID (e.g., te-editions-2025)"}
+              - {label: "Fellow Title", name: "title", widget: "string", required: false}
+              - {label: "Fellow Bio", name: "bio", widget: "markdown", required: false}
+              - label: "Image Type"
+                name: "image_type"
+                widget: "select"
+                options:
+                  - {label: "Single Image", value: "single"}
+                  - {label: "Carousel", value: "carousel"}
+                default: "single"
+                required: false
+              - {label: "Image", name: "image", widget: "image", required: false, hint: "Main image or first carousel image"}
+              - {label: "Image Caption", name: "caption", widget: "string", required: false}
+              - label: "Additional Carousel Images"
+                name: "additional_images"
+                widget: "list"
+                required: false
+                hint: "Only for carousel image type - add additional images here"
+                fields:
+                  - {label: "Image", name: "src", widget: "image", required: false}
+                  - {label: "Caption", name: "caption", widget: "string", required: false}
+
+      - name: "calendar"
+        label: "Calendar Page"
+        file: "calendar-data.json"  
+        fields:
+          - {label: "Page Title", name: "title", widget: "string", required: false}
+          - label: "Events"
+            name: "events"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Event ID", name: "id", widget: "number", required: true}
+              - {label: "Event Title", name: "title", widget: "string", required: true}
+              - {label: "Subtitle/Type", name: "subtitle", widget: "string", required: true, hint: "e.g., exhibition, screening, lecture"}
+              - {label: "Event Date", name: "date", widget: "datetime", required: true, format: "YYYY-MM-DDTHH:mm:ssZ", date_format: "YYYY-MM-DD", time_format: "HH:mm"}
+              - {label: "Display Date (MM.DD.YY)", name: "displayDate", widget: "string", required: true, hint: "Format as MM.DD.YY (e.g., 05.20.25)"}
+              - {label: "Time Display", name: "timeDisplay", widget: "string", required: true, hint: "e.g., 6pm to 9pm"}
+              - {label: "Event Image", name: "image", widget: "image", required: false}
+              - {label: "Description", name: "description", widget: "text", required: true}
+              - {label: "RSVP Link", name: "rsvpLink", widget: "string", required: false}
+              - {label: "External Link (for past events)", name: "link", widget: "string", required: false}
+
+      - name: "exhibition"
+        label: "Exhibition Page"
+        file: "exhibition-data.json"
+        fields:
+          - {label: "Exhibition Title", name: "title", widget: "string", required: true}
+          - {label: "Exhibition Date Range", name: "date_range", widget: "string", required: true, hint: "e.g., April 15 - June 30, 2025"}
+          - label: "Exhibition Images"
+            name: "images"
+            widget: "list"
+            summary: "{{fields.caption}}"
+            required: false
+            fields:
+              - {label: "Image", name: "url", widget: "image", required: true}
+              - {label: "Alt Text", name: "alt", widget: "string", required: false}
+              - {label: "Caption", name: "caption", widget: "string", required: false, hint: "Short caption to display under the image"}
+          - {label: "Exhibition Description", name: "description", widget: "markdown", required: true, hint: "Main exhibition description. Use double line breaks for paragraphs."}
+          - {label: "PDF File", name: "pdf_file", widget: "file", required: false, hint: "Upload a PDF file for download"}
+          - {label: "PDF Button Text", name: "pdf_button_text", widget: "string", default: "download exhibition pdf", required: false}
+
+
+      - name: "communityhours"
+        label: "Community Hours Page"
+        file: "communityhours-data.json"
+        fields:
+          - {label: "Page Title", name: "title", widget: "string", default: "Community Hours", required: true}
+          - {label: "Hours", name: "hours", widget: "string", default: "11:00 am– 4:00 pm", required: true}
+          - {label: "Description", name: "description", widget: "markdown", required: true, hint: "Main description of community hours. Use double line breaks for paragraphs."}
+
+      - name: "seasonaldinner"
+        label: "Seasonal Dinner Page"
+        file: "seasonaldinner-data.json"
+        fields:
+          - {label: "Page Title", name: "title", widget: "string", default: "The Seasonal (shijie/时节) Dinner at Initial Research", required: true}
+          - {label: "Main Description", name: "description", widget: "markdown", required: true, hint: "Main description of the seasonal dinner. Use double line breaks for paragraphs."}
+          - label: "Additional Sections"
+            name: "additional_sections"
+            widget: "list"
+            required: false
+            summary: "{{fields.title}}"
+            fields:
+              - {label: "Section Title", name: "title", widget: "string", required: true}
+              - {label: "Section Content", name: "content", widget: "markdown", required: true, hint: "Use double line breaks for paragraphs."}   
+
+              
+  - name: "navigation"
+    label: "Navigation"
+    files:
+      - name: "main_nav"
+        label: "Main Navigation"
+        file: "navigation-data.json"
+        fields:
+          - label: "Site Title"
+            name: "site_title"
+            widget: "string"
+            required: true
+          - label: "Navigation Items"
+            name: "nav_items"
+            widget: "list"
+            fields:
+              - {label: "Menu Label", name: "label", widget: "string", required: true}
+              - {label: "Direct Link (optional)", name: "direct_link", widget: "string", required: false, hint: "Leave empty if this is a dropdown"}
+              - {label: "Visible", name: "visible", widget: "boolean", default: true}
+              - label: "Dropdown Items"
+                name: "dropdown_items"
+                widget: "list"
+                required: false
+                fields:
+                  - {label: "Item Label", name: "label", widget: "string", required: true}
+                  - {label: "Link URL", name: "link", widget: "string", required: true}
+                  - {label: "Visible", name: "visible", widget: "boolean", default: true}
