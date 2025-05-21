@@ -3,8 +3,8 @@ backend:
   branch: main
 
 # 更新媒体文件夹路径以匹配实际结构
-media_folder: "uploads/img"
-public_folder: "/uploads/img"
+media_folder: "img/uploads"
+public_folder: "img/uploads"
 
 collections:
   - name: "content"
