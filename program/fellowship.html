@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-    <!-- Netlify CMS -->
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script src="../js/fellowship-cms.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +8,8 @@
      <link rel="preconnect" href="https://fonts.googleapis.com">
      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
      <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-     
+     <script src="/content-loader.js"></script>
+     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
         body {
             margin: 0;
@@ -736,15 +734,12 @@
     </style>
 </head>
 <body>
+    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
     <!-- Top red banner with title and navigation -->
     <div class="top-banner">
         <div class="title-container">
             <h1 onclick="goToHomepage()" style="cursor: pointer;">initial research</h1>
         </div>
-        
-        <!-- 导航容器 - 将通过JavaScript加载共享导航 -->
-        <div id="navigation-container"></div>
-    </div>
         <nav class="nav-top">
             <div class="nav-item">
                 <a href="#">program</a>
@@ -1408,6 +1403,17 @@
                 });
             }
         });
+
+        if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+            if (!user) {
+                window.netlifyIdentity.on("login", () => {
+                    document.location.href = "/admin/";
+                });
+            }
+        });
+    }
+    
     </script>
 </body>
 </html>
