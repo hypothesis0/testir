@@ -1,0 +1,396 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+    line-height: 1;
+    background-color: rgb(235, 235, 235);
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Red top banner - matching demo design */
+.top-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgb(241, 61, 33);
+    padding: 4px 0; /* Match demo page padding */
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title-container {
+    padding-left: 24px;
+    flex-shrink: 0;
+}
+
+.top-banner h1 {
+    font-size: 34px;
+    font-weight: 500;
+    color: rgb(23, 23, 23);
+    margin: 0;
+    letter-spacing: 0em;
+    line-height: 1;
+    font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+/* Navigation - matching demo style */
+.nav-top {
+    display: flex;
+    gap: 0;
+    padding-right: 48px;
+    padding-left: 0px;
+    align-items: flex-end;
+}
+
+.nav-top a {
+    color: rgb(23, 23, 23);
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.2s ease-in-out;
+    line-height: 1;
+    display: inline-block;
+    font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    border-bottom: none !important;
+}
+
+.nav-top a:hover {
+    color: #f8f8f8;
+}
+
+/* Nav item positioning - block style */
+.nav-item {
+    position: relative;
+    cursor: pointer;
+    padding: 4px 12px;
+    display: flex;
+    align-items: center;
+    margin-top: -8px;
+    margin-bottom: -8px;
+    padding-top: 16px;
+    padding-bottom: 8px;
+}
+
+.nav-item.active {
+    color: #ffffff;
+}
+
+.nav-item.active > a {
+    font-style: italic !important;
+    color: #ffffff;
+}
+
+/* Horizontal Dropdown styles */
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: rgba(159, 144, 142, 0.486);
+    padding: 0;
+    z-index: 1000;
+    transition: opacity ease;
+    min-width: 600px;
+}
+
+/* Special case for "program" dropdown */
+.nav-item:first-child .dropdown {
+    width: 600px;
+}
+
+/* Dropdown container */
+.dropdown-container {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(241, 61, 33);
+    width: 100%;
+    padding: 0;
+}
+
+/* Dropdown links */
+.dropdown a {
+    display: block;
+    font-size: 16px;
+    padding: 10px 10px 10px 12px;
+    margin: 0;
+    color: rgb(23, 23, 23);
+    text-align: left;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 300;
+    white-space: nowrap;
+}
+
+.dropdown a:first-child {
+    border-top: none;
+}
+
+.dropdown a:last-child {
+    border-bottom: none;
+}
+
+/* Show dropdown when active */
+.nav-item.active .dropdown {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+.dropdown a:hover {
+   background-color: rgba(243, 135, 135, 0.691);
+}
+
+/* MOBILE HAMBURGER MENU */
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-right: 12px;
+    cursor: pointer;
+}
+
+.hamburger-menu span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: rgb(23, 23, 23);
+    margin: 3px 0;
+    transition: 0.3s;
+}
+
+/* Mobile navigation menu */
+.mobile-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: rgb(241, 61, 33);
+    display: none;
+    flex-direction: column;
+    padding: 0;
+    z-index: 1000;
+}
+
+/* Mobile nav item structure */
+.mobile-nav-item {
+    position: relative;
+    border-bottom: 0.5px solid rgba(23, 23, 23, 0.15) !important;
+}
+
+.mobile-nav-item > a {
+    color: rgb(23, 23, 23);
+    text-decoration: none;
+    padding: 1vh 3vw;
+    font-size: 16px;
+    font-weight: 300;
+    border: none !important;
+    display: block !important;
+    position: relative;
+    padding-left: 24px !important;
+    box-sizing: border-box;
+}
+
+.mobile-nav-item > a:hover {
+    background-color: rgba(243, 135, 135, 0.691);
+    color: #f8f8f8;
+}
+
+.mobile-nav-item.active > a {
+    font-style: italic !important;
+    color: #ffffff;
+}
+
+/* Mobile arrow indicator */
+.mobile-arrow {
+    position: absolute !important;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0 !important;
+    font-size: 20px;
+    transition: transform 0.3s ease;
+    width: 20px;
+    text-align: center;
+}
+
+/* Only show arrow for items with dropdowns */
+.mobile-nav-item:last-child .mobile-arrow {
+    display: none;
+}
+
+.mobile-nav-item.active .mobile-arrow {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* Mobile dropdown */
+.mobile-dropdown {
+    display: none;
+    background-color: rgb(241, 61, 33);
+    border-top: none !important;
+    flex-direction: column;
+}
+
+.mobile-nav-item.active .mobile-dropdown {
+    display: flex;
+}
+
+.mobile-dropdown a {
+    color: rgb(23, 23, 23);
+    text-decoration: none;
+    padding: 1vh 3vw 0.5vh 6vw;
+    font-size: 16px;
+    font-weight: 300;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    padding-left: 48px;
+}
+
+.mobile-dropdown a:hover {
+    background-color: rgba(243, 135, 135, 0.691);
+    color: #f8f8f8;
+}
+
+/* Make sure mobile nav shows when toggled */
+.mobile-nav.show {
+    display: flex !important;
+}
+
+/* Content area - updated for fixed header */
+.content {
+    padding: 120px 48px 100px 48px;
+    width: 50%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    flex: 1;
+}
+
+/* Loading message */
+.loading-message {
+    font-size: 16px;
+    color: #666;
+    margin: 20px 0;
+}
+
+/* Section styling */
+.section {
+    margin-bottom: 80px;
+    position: relative;
+}
+
+.section:not(:last-child) {
+    border-bottom: 1px solid rgb(43, 43, 43);
+    padding-bottom: 60px;
+}
+
+/* Section headers */
+.section h2 {
+    font-size: 43px;
+    font-weight: 400;
+    margin-bottom: 60px;
+    line-height: 1.2;
+    text-transform: none;
+    text-align: left;
+    color: rgb(23, 23, 23);
+}
+
+/* Text styling */
+.section p {
+    font-size: 17px;
+    line-height: 1.6;
+    font-weight: 300;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+/* Contact links */
+a {
+    color: rgb(43, 43, 43);
+    text-decoration: none;
+    border-bottom: 1px solid rgb(43, 43, 43);
+    padding-bottom: 0.1rem;
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    color: rgb(241, 61, 33);
+    border-color: rgb(241, 61, 33);
+}
+
+/* Footer styling */
+footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgb(180, 180, 180);
+    padding: 10px 0;
+    text-align: center;
+    font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: rgb(23, 23, 23);
+    z-index: 1000;
+    margin-top: auto;
+}
+
+/* Mobile styling */
+@media (max-width: 768px) {
+    /* Hide desktop nav, show hamburger */
+    .nav-top {
+        display: none !important;
+    }
+    
+    .hamburger-menu {
+        display: flex !important;
+    }
+    
+    /* Content adjustments for mobile - align with title */
+    .content {
+        padding-left: 24px;
+        padding-right: 24px;
+        padding-top: 105px;
+        padding-bottom: 24px;
+        width: calc(100% - 48px); /* Full width minus left and right padding */
+    }
+    
+    .top-banner h1 {
+        font-size: 28px;
+    }
+    
+    .section h2 {
+        font-size: 28px;
+    }
+    
+    .title-container {
+        padding-left: 24px;
+    }
+}
+
+/* Auto-switch to desktop when screen is larger than 768px */
+@media (min-width: 769px) {
+    .nav-top {
+        display: flex !important;
+    }
+    
+    .hamburger-menu {
+        display: none !important;
+    }
+    
+    .mobile-nav {
+        display: none !important;
+    }
+}
