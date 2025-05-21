@@ -11,6 +11,14 @@
       "bio": "te editions is an independent publishing house launched in 2023 by Michael Guo and Kechun Qin. It currently operates in New York and Beijing. te explores the intersection of the arts and humanities, examining historical and contemporary social landscapes through a diversified and microscopic lens. The focus lies on how cultures encounter, collapse, and transform each other within global cultural flows. Driven by “curatorial thinking on paper” in the editorial approach, te editions aims to foster new discussions informed by a genuinely interdisciplinary perspective.\n\nIn 2021, te editions launched the first issue of its annual bilingual publication, te magazine. Each issue draws inspiration from current events, developing a theme that encapsulates the thinking sparked by the moment. Researchers and creators from various fields are invited to contribute their work around this central theme. te editions consistently collaborates with artists, scholars, communities, and cultural organizations to expand on existing projects and to envision new ones.",
       "number": "01",
       "name": "te editions (Michael Guo & Kechun Qin)",
+      "additional_images": [
+        {
+          "src": "/uploads/img/teeditions_kechun-qin.jpg"
+        },
+        {
+          "src": "/uploads/img/teeditions_michael-guo.jpg"
+        }
+      ],
       "carousel_images": [
         {
           "src": "/img/uploads/teeditions_kechun-qin.jpg"
@@ -21,8 +29,8 @@
       ],
       "title": "te editions (Michael Guo & Kechun Qin)",
       "id": "01",
-      "image": "/img/uploads/teeditions_kechun-qin.jpg",
-      "image_type": "single"
+      "image": "",
+      "image_type": null
     },
     {
       "number": "02",
@@ -34,7 +42,8 @@
         "src": "/img/uploads/ninidongnier_portrait_bylucreziapollice.jpg",
         "caption": "Portrait by Lucrezia Pollice"
       },
-      "image_type": "single"
+      "image_type": "single",
+      "image": "/uploads/img/ninidongnier_portrait_bylucreziapollice.jpg"
     },
     {
       "number": "03",
@@ -46,7 +55,8 @@
         "src": "/img/uploads/anh_vo_portraitbymariabaranova.jpg"
       },
       "image_type": "single",
-      "bio": "Anh Vo is a Vietnamese choreographer and writer working primarily in New York City, with a second base in Hanoi. Their practice fleshes out the body as a vessel for apparitional forces. Their work is situated in the unlikely lineage convergences between Downtown New York experimental performance, Hanoi performance art, and Vietnamese folk ritual practices. Vo is indebted to Miguel Gutierrez's unapologetic queerness and amorphous excess, Moriah Evan's speculative commitment to the depth of interiority, Tehching Hsieh’s existential sense of time, and Ngoc Dai’s guttural sonic landscape of postwar Vietnam. Their formal training is in Performance Studies, studying with esteemed theorists and practitioners at Brown University (BA) and New York University (MA)."
+      "bio": "Anh Vo is a Vietnamese choreographer and writer working primarily in New York City, with a second base in Hanoi. Their practice fleshes out the body as a vessel for apparitional forces. Their work is situated in the unlikely lineage convergences between Downtown New York experimental performance, Hanoi performance art, and Vietnamese folk ritual practices. Vo is indebted to Miguel Gutierrez's unapologetic queerness and amorphous excess, Moriah Evan's speculative commitment to the depth of interiority, Tehching Hsieh’s existential sense of time, and Ngoc Dai’s guttural sonic landscape of postwar Vietnam. Their formal training is in Performance Studies, studying with esteemed theorists and practitioners at Brown University (BA) and New York University (MA).",
+      "image": "/uploads/img/anh_vo_portraitbymariabaranova.jpg"
     }
   ]
 }
