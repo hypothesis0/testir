@@ -71,22 +71,25 @@ async function loadExhibitionData() {
                 <p>April 15 - June 30, 2025</p>
             </div>
             
-            <!-- 后备内容 -->
-            <div class="error-message">
-                <p>无法加载展览数据。请稍后再试。</p>
-            </div>
-            
             <div class="hero-image-container">
+                <div class="scroll-arrow scroll-left" onclick="scrollImages('left')">←</div>
+                <div class="scroll-arrow scroll-right" onclick="scrollImages('right')">→</div>
+                
                 <div class="hero-image-scroll" id="heroImageScroll">
                     <div class="hero-image-item">
                         <img src="img/exhibition/1.png" alt="Exhibition: Embodied Memories" title="Click to enlarge" onclick="openLightbox(this)">
                         <div class="hero-image-caption">Exhibition overview: Embodied Memories</div>
                     </div>
                 </div>
+                
+                <div class="pagination-dots" id="paginationDots">
+                    <div class="pagination-dot active" onclick="scrollToImage(0)"></div>
+                </div>
             </div>
             
             <div class="text-content">
                 <p>Initial Research presents <strong>Embodied Memories: Tracing Asian Diaspora Through Material Culture</strong>, a group exhibition exploring how artists of Asian diaspora use material culture to navigate complex identities and histories.</p>
+                <p>The exhibition features works that examine cultural artifacts, family heirlooms, and everyday objects as repositories of memory, migration, and cultural transmission.</p>
             </div>`;
         
         // 初始化图片滚动
@@ -99,11 +102,11 @@ function renderExhibition(data) {
     // 获取主内容容器
     const container = document.getElementById('exhibition-content');
     
-    // 构建展览标题部分
+    // 构建HTML内容
     let html = `
         <div class="exhibition-heading">
-            <h1>${data.title}</h1>
-            <p>${data.date_range}</p>
+            <h1>${data.title || 'Exhibition'}</h1>
+            <p>${data.date_range || ''}</p>
         </div>`;
     
     // 构建图片滚动部分
@@ -115,13 +118,22 @@ function renderExhibition(data) {
             <div class="hero-image-scroll" id="heroImageScroll">`;
     
     // 添加所有图片
-    data.images.forEach((image, index) => {
-        html += `
+    if (data.images && data.images.length > 0) {
+        data.images.forEach((image, index) => {
+            html += `
                 <div class="hero-image-item">
                     <img src="${image.url}" alt="${image.alt || data.title}" title="Click to enlarge" onclick="openLightbox(this)">
                     <div class="hero-image-caption">${image.caption || ''}</div>
                 </div>`;
-    });
+        });
+    } else {
+        // 如果没有图片，添加一个占位图片
+        html += `
+            <div class="hero-image-item">
+                <img src="img/exhibition/placeholder.jpg" alt="Placeholder Image" title="No image available">
+                <div class="hero-image-caption">No images available</div>
+            </div>`;
+    }
     
     html += `
             </div>
@@ -130,23 +142,30 @@ function renderExhibition(data) {
             <div class="pagination-dots" id="paginationDots">`;
     
     // 添加与图片数量相同的点
-    data.images.forEach((_, index) => {
-        html += `<div class="pagination-dot ${index === 0 ? 'active' : ''}" onclick="scrollToImage(${index})"></div>`;
-    });
+    const imageCount = data.images ? data.images.length : 1;
+    for (let i = 0; i < imageCount; i++) {
+        html += `<div class="pagination-dot ${i === 0 ? 'active' : ''}" onclick="scrollToImage(${i})"></div>`;
+    }
     
     html += `
             </div>
         </div>`;
     
-    // 添加文本内容
+    // 添加文本内容 - 在图片之后，按照CSS结构
     html += `
         <div class="text-content">`;
     
     // 将description分割成段落
-    const paragraphs = data.description.split('\n\n');
-    paragraphs.forEach(paragraph => {
-        html += `<p>${paragraph}</p>`;
-    });
+    if (data.description) {
+        const paragraphs = data.description.split('\n\n');
+        paragraphs.forEach(paragraph => {
+            // 处理markdown中的粗体标记 (**text**)
+            const formattedParagraph = paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            html += `<p>${formattedParagraph}</p>`;
+        });
+    } else {
+        html += `<p>No description available</p>`;
+    }
     
     html += `
         </div>`;
@@ -155,7 +174,7 @@ function renderExhibition(data) {
     if (data.pdf_file) {
         html += `
         <div class="action-buttons">
-            <a href="${data.pdf_file}" class="download-button">${data.pdf_button_text || 'download exhibition pdf'}</a>
+            <a href="${data.pdf_file}" class="download-button" target="_blank">${data.pdf_button_text || 'download exhibition pdf'}</a>
         </div>`;
     }
     
@@ -192,23 +211,7 @@ function updatePaginationDots() {
     });
 }
 
-function scrollImages(direction) {
-    const scrollContainer = document.getElementById('heroImageScroll');
-    if (!scrollContainer) return;
-    
-    const items = scrollContainer.querySelectorAll('.hero-image-item');
-    const currentIndex = getCurrentImageIndex();
-    
-    let targetIndex;
-    if (direction === 'left') {
-        targetIndex = Math.max(0, currentIndex - 1);
-    } else {
-        targetIndex = Math.min(items.length - 1, currentIndex + 1);
-    }
-    
-    scrollToImage(targetIndex);
-}
-
+// 获取当前图片索引
 function getCurrentImageIndex() {
     const scrollContainer = document.getElementById('heroImageScroll');
     if (!scrollContainer) return 0;
@@ -233,6 +236,25 @@ function getCurrentImageIndex() {
     return closestIndex;
 }
 
+// 滚动到指定图片
+function scrollImages(direction) {
+    const scrollContainer = document.getElementById('heroImageScroll');
+    if (!scrollContainer) return;
+    
+    const items = scrollContainer.querySelectorAll('.hero-image-item');
+    const currentIndex = getCurrentImageIndex();
+    
+    let targetIndex;
+    if (direction === 'left') {
+        targetIndex = Math.max(0, currentIndex - 1);
+    } else {
+        targetIndex = Math.min(items.length - 1, currentIndex + 1);
+    }
+    
+    scrollToImage(targetIndex);
+}
+
+// 滚动到指定索引的图片
 function scrollToImage(index) {
     const scrollContainer = document.getElementById('heroImageScroll');
     if (!scrollContainer) return;
@@ -254,15 +276,20 @@ function openLightbox(img) {
     var lightbox = document.getElementById('lightbox');
     var lightboxImg = document.getElementById('lightbox-img');
     
-    lightboxImg.src = img.src;
-    lightbox.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
+    if (lightbox && lightboxImg) {
+        lightboxImg.src = img.src;
+        lightbox.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
 }
 
+// 关闭灯箱
 function closeLightbox() {
     var lightbox = document.getElementById('lightbox');
-    lightbox.style.display = 'none';
-    document.body.style.overflow = '';
+    if (lightbox) {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = '';
+    }
 }
 
 // 添加键盘支持
@@ -299,6 +326,12 @@ window.addEventListener('resize', function() {
 
 // DOM准备就绪时初始化
 document.addEventListener('DOMContentLoaded', function() {
+    // 确保移动菜单按钮有正确的点击事件
+    const hamburger = document.querySelector('.hamburger-menu');
+    if (hamburger) {
+        hamburger.addEventListener('click', toggleMobileNav);
+    }
+    
     // 桌面下拉菜单切换功能
     const navItems = document.querySelectorAll('.nav-item');
     
@@ -335,13 +368,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    
-   // 点击外部时关闭下拉菜单
+    // 点击外部时关闭下拉菜单
     document.addEventListener('click', function(e) {
         const isNavClick = e.target.closest('.nav-item');
         const isMobileNavClick = e.target.closest('.mobile-nav');
+        const isHamburgerClick = e.target.closest('.hamburger-menu');
         
-        if (!isNavClick && !isMobileNavClick) {
+        if (!isNavClick && !isMobileNavClick && !isHamburgerClick) {
             navItems.forEach(item => {
                 item.classList.remove('active');
             });
