@@ -4,20 +4,27 @@ function goToHomepage() {
 }
 
 // 移动导航功能
+// Mobile navigation functions
 function toggleMobileNav() {
     const mobileNav = document.getElementById('mobileNav');
     
-    if (mobileNav && (mobileNav.style.display === 'flex' || mobileNav.classList.contains('show'))) {
-        mobileNav.style.display = 'none';
-        mobileNav.classList.remove('show');
-        // 关闭所有移动下拉菜单
-        const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-        allMobileNavItems.forEach(item => {
-            item.classList.remove('active');
-        });
-    } else if (mobileNav) {
-        mobileNav.style.display = 'flex';
-        mobileNav.classList.add('show');
+    if (mobileNav) {
+        console.log("Toggle mobile menu", mobileNav.style.display, mobileNav.classList.contains('show'));
+        
+        if (mobileNav.style.display === 'flex' || mobileNav.classList.contains('show')) {
+            mobileNav.style.display = 'none';
+            mobileNav.classList.remove('show');
+            // Close all mobile dropdowns when closing nav
+            const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
+            allMobileNavItems.forEach(item => {
+                item.classList.remove('active');
+            });
+        } else {
+            mobileNav.style.display = 'flex';
+            mobileNav.classList.add('show');
+        }
+    } else {
+        console.error("Mobile nav element not found!");
     }
 }
 
