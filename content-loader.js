@@ -72,15 +72,22 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       
       // 更新介绍文本
-      if (data.intro) {
-        const introElement = document.querySelector('.fellowship-intro p');
-        if (introElement) {
-          console.log("Updating intro text");
-          introElement.textContent = data.intro;
-        } else {
-          console.error("Intro element not found! Selector: .fellowship-intro p");
-        }
-      }
+     if (data.intro) {
+  const introElement = document.querySelector('.fellowship-intro');
+  if (introElement) {
+    console.log("Updating intro text with formatted content");
+    
+    // 如果intro内容已经包含HTML标签，直接使用
+    if (data.intro.includes('<p>') || data.intro.includes('<br>')) {
+      introElement.innerHTML = data.intro;
+    } else {
+      // 否则将markdown格式转换为HTML
+      introElement.innerHTML = `<p>${data.intro.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</p>`;
+    }
+  } else {
+    console.error("Intro element not found! Selector: .fellowship-intro");
+  }
+}
       
       // 更新队列标题
       if (data.cohort_title) {
