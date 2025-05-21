@@ -1,104 +1,129 @@
-// 主页面导航
-function goToHomepage() {
-    window.location.href = '../index.html';
-}
-
-// 移动导航功能
-function toggleMobileNav() {
-    const mobileNav = document.getElementById('mobileNav');
-    
-    if (mobileNav && (mobileNav.style.display === 'flex' || mobileNav.classList.contains('show'))) {
-        mobileNav.style.display = 'none';
-        mobileNav.classList.remove('show');
-        // 关闭所有移动下拉菜单
-        const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-        allMobileNavItems.forEach(item => {
-            item.classList.remove('active');
-        });
-    } else if (mobileNav) {
-        mobileNav.style.display = 'flex';
-        mobileNav.classList.add('show');
-    }
-}
-
-// 移动下拉菜单切换
-function toggleMobileDropdown(event, element) {
-    event.preventDefault();
-    const navItem = element.parentElement;
-    
-    // 检查此导航项是否有下拉菜单
-    const dropdown = navItem.querySelector('.mobile-dropdown');
-    if (!dropdown) {
-        // 如果没有下拉菜单，则是常规链接
-        return;
-    }
-    
-    // 关闭所有其他移动下拉菜单
-    const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-    allMobileNavItems.forEach(item => {
-        if (item !== navItem) {
-            item.classList.remove('active');
-        }
-    });
-    
-    // 切换当前下拉菜单
-    navItem.classList.toggle('active');
-}
-
 // 从JSON加载展览数据
 async function loadExhibitionData() {
     try {
-        console.log('正在尝试加载展览数据');
-        const response = await fetch('/exhibition-data.json');
+        console.log('Attempting to load exhibition data');
         
-        if (!response.ok) {
-            throw new Error(`无法获取展览数据: ${response.status} ${response.statusText}`);
+        // Try multiple possible paths for the JSON file (for local development and production)
+        let response;
+        let foundPath = '';
+        
+        // Try different possible paths
+        const possiblePaths = [
+            './exhibition-data.json',
+            '../exhibition-data.json',
+            '/exhibition-data.json',
+            'exhibition-data.json'
+        ];
+        
+        // Try each path until one works
+        for (const path of possiblePaths) {
+            try {
+                console.log(`Trying path: ${path}`);
+                const tempResponse = await fetch(path);
+                if (tempResponse.ok) {
+                    response = tempResponse;
+                    foundPath = path;
+                    console.log(`Found working path: ${path}`);
+                    break;
+                }
+            } catch (err) {
+                console.log(`Failed with path ${path}: ${err.message}`);
+            }
+        }
+        
+        // If we didn't find a working path, fall back to hardcoded data
+        if (!response || !response.ok) {
+            console.log('Could not load exhibition-data.json, using hardcoded data');
+            renderStaticExhibition();
+            return;
         }
         
         const data = await response.json();
-        console.log('成功加载展览数据:', data);
+        console.log('Successfully loaded exhibition data:', data);
         
         // 渲染展览内容
         renderExhibition(data);
         
     } catch (error) {
-        console.error('加载展览数据时出错:', error);
-        
-        // 如果加载失败，显示错误消息并使用后备内容
-        document.getElementById('exhibition-content').innerHTML = `
-            <div class="exhibition-heading">
-                <h1>Embodied Memories</h1>
-                <p>April 15 - June 30, 2025</p>
-            </div>
-            
-            <div class="hero-image-container">
-                <div class="scroll-arrow scroll-left" onclick="scrollImages('left')">←</div>
-                <div class="scroll-arrow scroll-right" onclick="scrollImages('right')">→</div>
-                
-                <div class="hero-image-scroll" id="heroImageScroll">
-                    <div class="hero-image-item">
-                        <img src="../img/exhibition/placeholder.jpg" alt="Exhibition: Embodied Memories" title="Click to enlarge" onclick="openLightbox(this)">
-                        <div class="hero-image-caption">Exhibition overview: Embodied Memories</div>
-                    </div>
-                </div>
-                
-                <div class="pagination-dots" id="paginationDots">
-                    <div class="pagination-dot active" onclick="scrollToImage(0)"></div>
-                </div>
-            </div>
-            
-            <div class="text-content">
-                <p>Initial Research presents <strong>Embodied Memories: Tracing Asian Diaspora Through Material Culture</strong>, a group exhibition exploring how artists of Asian diaspora use material culture to navigate complex identities and histories.</p>
-                <p>The exhibition features works that examine cultural artifacts, family heirlooms, and everyday objects as repositories of memory, migration, and cultural transmission.</p>
-            </div>`;
-        
-        // 初始化图片滚动
-        initScrollIndicators();
+        console.error('Error loading exhibition data:', error);
+        // Fall back to hardcoded data if there's an error
+        renderStaticExhibition();
     }
+}
+
+// 渲染静态展览内容（作为后备方案）
+function renderStaticExhibition() {
+    document.getElementById('exhibition-content').innerHTML = `
+        <div class="exhibition-heading">
+            <h1>Embodied Memories</h1>
+            <p>April 15 - June 30, 2025</p>
+        </div>
+        
+        <div class="hero-image-container">
+            <div class="scroll-arrow scroll-left" onclick="scrollImages('left')">←</div>
+            <div class="scroll-arrow scroll-right" onclick="scrollImages('right')">→</div>
+            
+            <div class="hero-image-scroll" id="heroImageScroll">
+                <div class="hero-image-item">
+                    <img src="img/exhibition/1.png" alt="Exhibition: Embodied Memories" title="Click to enlarge" onclick="openLightbox(this)">
+                    <div class="hero-image-caption">Exhibition overview: Embodied Memories</div>
+                </div>
+                
+                <div class="hero-image-item">
+                    <img src="img/exhibition/2.jpg" alt="Sowon Kwon, 'Inherited Patterns'" title="Click to enlarge" onclick="openLightbox(this)">
+                    <div class="hero-image-caption">Sowon Kwon, "Inherited Patterns" (2024)</div>
+                </div>
+                
+                <div class="hero-image-item">
+                    <img src="img/exhibition/3.jpg" alt="Nini Dongnier, 'Ancestral Objects'" title="Click to enlarge" onclick="openLightbox(this)">
+                    <div class="hero-image-caption">Nini Dongnier, "Ancestral Objects" (2024)</div>
+                </div>
+                
+                <div class="hero-image-item">
+                    <img src="img/exhibition/4.jpg" alt="Yu Ji & Ho King Man, 'Intergenerational Dialogue'" title="Click to enlarge" onclick="openLightbox(this)">
+                    <div class="hero-image-caption">Yu Ji & Ho King Man, "Intergenerational Dialogue" (2023)</div>
+                </div>
+                
+                <div class="hero-image-item">
+                    <img src="img/exhibition/5.jpg" alt="Patty Chang, 'Memory Objects'" title="Click to enlarge" onclick="openLightbox(this)">
+                    <div class="hero-image-caption">Patty Chang, "Memory Objects" (2023)</div>
+                </div>
+            </div>
+            
+            <!-- Pagination dots for mobile -->
+            <div class="pagination-dots" id="paginationDots">
+                <div class="pagination-dot active" onclick="scrollToImage(0)"></div>
+                <div class="pagination-dot" onclick="scrollToImage(1)"></div>
+                <div class="pagination-dot" onclick="scrollToImage(2)"></div>
+                <div class="pagination-dot" onclick="scrollToImage(3)"></div>
+                <div class="pagination-dot" onclick="scrollToImage(4)"></div>
+            </div>
+        </div>
+        
+        <!-- Text content -->
+        <div class="text-content">
+            <p>Initial Research presents <strong>Embodied Memories: Tracing Asian Diaspora Through Material Culture</strong>, a group exhibition exploring how artists of Asian diaspora use material culture to navigate complex identities and histories. The exhibition features works that examine cultural artifacts, family heirlooms, and everyday objects as repositories of memory, migration, and cultural transmission.</p>
+            
+            <p>Through diverse media including sculpture, photography, video, and installation, participating artists investigate how material objects become vessels for intergenerational knowledge, cultural preservation, and identity formation in diaspora communities.</p>
+            
+            <p>The exhibition considers how material objects become charged with cultural meaning and personal history, especially in the context of migration and diaspora. By working with and through objects—whether family heirlooms, cultural artifacts, or everyday items—the artists highlight how material culture serves as a tangible link to ancestral homelands, cultural heritage, and familial histories.</p>
+        </div>
+        
+        <!-- Download PDF button -->
+        <div class="action-buttons">
+            <a href="#" class="download-button">download exhibition pdf</a>
+        </div>
+    `;
+    
+    // Initialize scroll indicators and pagination for the static content
+    initScrollIndicators();
+    updatePaginationDots();
 }
 
 // 渲染展览内容
 function renderExhibition(data) {
+    console.log("Rendering exhibition with data:", data);
+    
     // 获取主内容容器
     const container = document.getElementById('exhibition-content');
     
@@ -119,7 +144,9 @@ function renderExhibition(data) {
     
     // 添加所有图片
     if (data.images && data.images.length > 0) {
+        console.log(`Found ${data.images.length} images to display`);
         data.images.forEach((image, index) => {
+            console.log(`Processing image ${index + 1}:`, image);
             html += `
                 <div class="hero-image-item">
                     <img src="${image.url}" alt="${image.alt || data.title}" title="Click to enlarge" onclick="openLightbox(this)">
@@ -127,10 +154,11 @@ function renderExhibition(data) {
                 </div>`;
         });
     } else {
+        console.log("No images found in data, using placeholder");
         // 如果没有图片，添加一个占位图片
         html += `
             <div class="hero-image-item">
-                <img src="../img/exhibition/placeholder.jpg" alt="Placeholder Image" title="No image available">
+                <img src="img/exhibition/placeholder.jpg" alt="Placeholder Image" title="No image available">
                 <div class="hero-image-caption">No images available</div>
             </div>`;
     }
@@ -171,12 +199,21 @@ function renderExhibition(data) {
         </div>`;
     
     // 添加下载按钮（如果有）
+    console.log("PDF file info:", data.pdf_file);
+    
+    // Always add the button container
+    html += `<div class="action-buttons">`;
+    
     if (data.pdf_file) {
-        html += `
-        <div class="action-buttons">
-            <a href="${data.pdf_file}" class="download-button" target="_blank">${data.pdf_button_text || 'download exhibition pdf'}</a>
-        </div>`;
+        console.log("Adding PDF download button with file:", data.pdf_file);
+        html += `<a href="${data.pdf_file}" class="download-button" target="_blank">${data.pdf_button_text || 'download exhibition pdf'}</a>`;
+    } else {
+        // If you want to show a disabled button or a fallback
+        console.log("No PDF file found, adding placeholder button");
+        html += `<a href="#" class="download-button disabled" onclick="event.preventDefault();">${data.pdf_button_text || 'download exhibition pdf'}</a>`;
     }
+    
+    html += `</div>`;
     
     // 设置HTML内容
     container.innerHTML = html;
@@ -339,100 +376,10 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// 自动屏幕大小调整处理
-window.addEventListener('resize', function() {
-    const mobileNav = document.getElementById('mobileNav');
-    
-    if (mobileNav) {
-        const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-        
-        // 如果调整为桌面宽度，关闭移动导航
-        if (window.innerWidth > 768) {
-            mobileNav.style.display = 'none';
-            mobileNav.classList.remove('show');
-            allMobileNavItems.forEach(item => {
-                item.classList.remove('active');
-            });
-        }
-    }
-    
-    // 调整大小时更新分页点
-    updatePaginationDots();
-});
-
 // DOM准备就绪时初始化
 document.addEventListener('DOMContentLoaded', function() {
-    // 确保移动菜单按钮有正确的点击事件
-    const hamburger = document.querySelector('.hamburger-menu');
-    if (hamburger) {
-        hamburger.addEventListener('click', toggleMobileNav);
-    }
-    
-    // 桌面下拉菜单切换功能
-    const navItems = document.querySelectorAll('.nav-item');
-    
-    navItems.forEach(item => {
-        const link = item.querySelector('a');
-        const dropdown = item.querySelector('.dropdown');
-        
-        if (link && dropdown) {
-            // 处理有下拉菜单的导航项的切换
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // 关闭所有其他下拉菜单
-                navItems.forEach(otherItem => {
-                    if (otherItem !== item) {
-                        otherItem.classList.remove('active');
-                    }
-                });
-                
-                // 切换当前下拉菜单
-                item.classList.toggle('active');
-            });
-        } else if (link) {
-            // 处理没有下拉菜单的直接导航
-            link.addEventListener('click', function(e) {
-                // 不阻止默认行为
-                // href 将处理导航
-                
-                // 点击直接链接时关闭所有下拉菜单
-                navItems.forEach(otherItem => {
-                    otherItem.classList.remove('active');
-                });
-            });
-        }
-    });
-    
-    // 点击外部时关闭下拉菜单
-    document.addEventListener('click', function(e) {
-        const isNavClick = e.target.closest('.nav-item');
-        const isMobileNavClick = e.target.closest('.mobile-nav');
-        const isHamburgerClick = e.target.closest('.hamburger-menu');
-        
-        if (!isNavClick && !isMobileNavClick && !isHamburgerClick) {
-            navItems.forEach(item => {
-                item.classList.remove('active');
-            });
-        }
-    });
+    console.log("DOM content loaded, initializing exhibition page");
     
     // 从JSON文件加载展览数据
     loadExhibitionData();
-    
-    // 点击外部时关闭移动导航
-    document.addEventListener('click', function(e) {
-        const mobileNav = document.getElementById('mobileNav');
-        const hamburger = document.querySelector('.hamburger-menu');
-        
-        if (mobileNav && hamburger && !hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
-            mobileNav.style.display = 'none';
-            mobileNav.classList.remove('show');
-            // 点击外部时关闭所有移动下拉菜单
-            const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-            allMobileNavItems.forEach(item => {
-                item.classList.remove('active');
-            });
-        }
-    });
 });
