@@ -1,34 +1,34 @@
 {
-  "title": "Embodied Memories",
-  "date_range": "April 15 - June 30, 2025",
-  "images": [
-    {
-      "url": "img/exhibition/1.png",
-      "alt": "Exhibition: Embodied Memories",
-      "caption": "Exhibition overview: Embodied Memories"
-    },
-    {
-      "url": "img/exhibition/2.jpg",
-      "alt": "Sowon Kwon, 'Inherited Patterns'",
-      "caption": "Sowon Kwon, \"Inherited Patterns\" (2024)"
-    },
-    {
-      "url": "img/exhibition/3.jpg",
-      "alt": "Nini Dongnier, 'Ancestral Objects'",
-      "caption": "Nini Dongnier, \"Ancestral Objects\" (2024)"
-    },
-    {
-      "url": "img/exhibition/4.jpg",
-      "alt": "Yu Ji & Ho King Man, 'Intergenerational Dialogue'",
-      "caption": "Yu Ji & Ho King Man, \"Intergenerational Dialogue\" (2023)"
-    },
-    {
-      "url": "img/exhibition/5.jpg",
-      "alt": "Patty Chang, 'Memory Objects'",
-      "caption": "Patty Chang, \"Memory Objects\" (2023)"
-    }
-  ],
-  "description": "Initial Research presents **Embodied Memories: Tracing Asian Diaspora Through Material Culture**, a group exhibition exploring how artists of Asian diaspora use material culture to navigate complex identities and histories. The exhibition features works that examine cultural artifacts, family heirlooms, and everyday objects as repositories of memory, migration, and cultural transmission.\n\nThrough diverse media including sculpture, photography, video, and installation, participating artists investigate how material objects become vessels for intergenerational knowledge, cultural preservation, and identity formation in diaspora communities.\n\nThe exhibition considers how material objects become charged with cultural meaning and personal history, especially in the context of migration and diaspora. By working with and through objects—whether family heirlooms, cultural artifacts, or everyday items—the artists highlight how material culture serves as a tangible link to ancestral homelands, cultural heritage, and familial histories.",
-  "pdf_file": "/assets/pdf/exhibition-embodied-memories.pdf",
-  "pdf_button_text": "download exhibition pdf"
-}
+    "title": "Embodied Memories",
+    "date_range": "April 15 - June 30, 2025",
+    "description": "Initial Research presents **Embodied Memories: Tracing Asian Diaspora Through Material Culture**, a group exhibition exploring how artists of Asian diaspora use material culture to navigate complex identities and histories. The exhibition features works that examine cultural artifacts, family heirlooms, and everyday objects as repositories of memory, migration, and cultural transmission.\n\nThrough diverse media including sculpture, photography, video, and installation, participating artists investigate how material objects become vessels for intergenerational knowledge, cultural preservation, and identity formation in diaspora communities.\n\nThe exhibition considers how material objects become charged with cultural meaning and personal history, especially in the context of migration and diaspora. By working with and through objects—whether family heirlooms, cultural artifacts, or everyday items—the artists highlight how material culture serves as a tangible link to ancestral homelands, cultural heritage, and familial histories.",
+    "images": [
+      {
+        "url": "img/exhibition/1.png",
+        "alt": "Exhibition: Embodied Memories",
+        "caption": "Exhibition overview: Embodied Memories"
+      },
+      {
+        "url": "img/exhibition/2.jpg",
+        "alt": "Sowon Kwon, 'Inherited Patterns'",
+        "caption": "Sowon Kwon, \"Inherited Patterns\" (2024)"
+      },
+      {
+        "url": "img/exhibition/3.jpg",
+        "alt": "Nini Dongnier, 'Ancestral Objects'",
+        "caption": "Nini Dongnier, \"Ancestral Objects\" (2024)"
+      },
+      {
+        "url": "img/exhibition/4.jpg",
+        "alt": "Yu Ji & Ho King Man, 'Intergenerational Dialogue'",
+        "caption": "Yu Ji & Ho King Man, \"Intergenerational Dialogue\" (2023)"
+      },
+      {
+        "url": "img/exhibition/5.jpg",
+        "alt": "Patty Chang, 'Memory Objects'",
+        "caption": "Patty Chang, \"Memory Objects\" (2023)"
+      }
+    ],
+    "pdf_file": "/assets/pdf/exhibition-embodied-memories.pdf",
+    "pdf_button_text": "download exhibition pdf"
+  }
