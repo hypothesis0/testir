@@ -67,26 +67,31 @@ collections:
               - {label: "RSVP Link", name: "rsvpLink", widget: "string", required: false}
               - {label: "External Link (for past events)", name: "link", widget: "string", required: false}
 
-      - name: "exhibition"
-        label: "Exhibition Page"
-        file: "exhibition-data.json"
-        fields:
-          - {label: "Exhibition Title", name: "title", widget: "string", required: true}
-          - {label: "Exhibition Date Range", name: "date_range", widget: "string", required: true, hint: "e.g., April 15 - June 30, 2025"}
-          - label: "Exhibition Images"
-            name: "images"
-            widget: "list"
-            required: true
-            fields:
-              - {label: "Image", name: "url", widget: "image", required: true}
-              - {label: "Alt Text", name: "alt", widget: "string", required: false}
-              - {label: "Caption", name: "caption", widget: "string", required: false}
-              - {label: "Exhibition Description", name: "description", widget: "markdown", required: true, hint: "Use double line breaks for paragraphs"}
-              - {label: "Exhibition PDF", name: "pdf_file", widget: "file", required: false, hint: "Upload exhibition PDF document", media_folder: "/assets/pdf"}
-              - {label: "PDF Button Text", name: "pdf_button_text", widget: "string", default: "download exhibition pdf", required: false}
-        
+     - name: "exhibition"
+       label: "Exhibition Page"
+       file: "exhibition-data.json"
+       fields:
+   
+           - {label: "Exhibition Title", name: "title", widget: "string", required: true}
+           - {label: "Exhibition Date Range", name: "date_range", widget: "string", required: true, hint: "e.g., April 15 - June 30, 2025"}
+           - label: "Exhibition Images"
+              name: "images"
+              widget: "list"
+              summary: "{{fields.caption}}"
+              required: false
+              fields:
+                - {label: "Image", name: "url", widget: "image", required: true}
+                - {label: "Alt Text", name: "alt", widget: "string", required: false}
+                - {label: "Caption", name: "caption", widget: "string", required: false, hint: "Short caption to display under the image"}
+    
+    # 展览描述 - 作为单独的字段，放在图片之后
+                - {label: "Exhibition Description", name: "description", widget: "markdown", required: true, hint: "Main exhibition description. Use double line breaks for paragraphs."}
+    
+    # PDF下载选项
+                - {label: "PDF File", name: "pdf_file", widget: "file", required: false, media_folder: "/assets/pdf", public_folder: "/assets/pdf", hint: "Upload a PDF file for download"}
+                - {label: "PDF Button Text", name: "pdf_button_text", widget: "string", default: "download exhibition pdf", required: false}
 
-      
+
       - name: "communityhours"
         label: "Community Hours Page"
         file: "communityhours-data.json"
@@ -94,15 +99,8 @@ collections:
           - {label: "Page Title", name: "title", widget: "string", default: "Community Hours", required: true}
           - {label: "Hours", name: "hours", widget: "string", default: "11:00 am– 4:00 pm", required: true}
           - {label: "Description", name: "description", widget: "markdown", required: true, hint: "Main description of community hours. Use double line breaks for paragraphs."}
-          - label: "Additional Sections"
-            name: "additional_sections"
-            widget: "list"
-            required: false
-            fields:
-              - {label: "Section Title", name: "title", widget: "string", required: true}
-              - {label: "Section Hours", name: "hours", widget: "string", required: false, hint: "Optional hours for this section"}
-              - {label: "Section Content", name: "content", widget: "markdown", required: true, hint: "Use double line breaks for paragraphs"}
-              
+         
+
   - name: "navigation"
     label: "Navigation"
     files:
