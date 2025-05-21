@@ -34,8 +34,7 @@ function correctImagePath(path) {
   
   console.log("Correcting path:", path);
   
-  // 修正1: img/uploads/ → uploads/img/
-  let correctedPath = path.replace('img/uploads/', 'uploads/img/');
+ 
   
   // 修正2: 如果路径以uploads开头但没有前导斜杠
   if (correctedPath.startsWith('uploads/') && !correctedPath.startsWith('/uploads/')) {
