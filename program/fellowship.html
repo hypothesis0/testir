@@ -12,6 +12,7 @@
     <!-- Netlify CMS -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="../js/fellowship-cms.js"></script>
+    <script src="../js/content-loader.js"></script>
      
     <style>
         body {
@@ -885,7 +886,10 @@
             <h1 onclick="goToHomepage()" style="cursor: pointer;">initial research</h1>
         </div>
         
-        <!-- Updated navigation container -->
+        <!-- Navigation container - Will be loaded via shared navigation -->
+        <div id="navigation-container"></div>
+        
+        <!-- Backup direct navigation in case shared navigation fails to load -->
         <nav class="nav-top">
             <div class="nav-item">
                 <a href="#">program</a>
@@ -1128,7 +1132,20 @@
             window.location.href = '../index.html';
         }
         
-        // Mobile navigation functions - matching exhibition page
+        
+        // Load shared navigation
+        fetch('/shared/navigation.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('navigation-container').innerHTML = data;
+            // Re-initialize navigation event listeners after loading
+            initNavigationEvents();
+        })
+        .catch(error => {
+            console.error('Error loading navigation:', error);
+            // Show backup navigation if shared navigation fails to load
+            document.querySelector('.nav-top').style.display = 'flex';
+        });
         function toggleMobileNav() {
             const mobileNav = document.getElementById('mobileNav');
             
@@ -1186,29 +1203,14 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Desktop dropdown toggle functionality
-            const navItems = document.querySelectorAll('.nav-item');
-            
-            navItems.forEach(item => {
-                const link = item.querySelector('a');
-                const dropdown = item.querySelector('.dropdown');
-                
-                if (dropdown) {
-                    link.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        
-                        // Close all other dropdowns
-                        navItems.forEach(otherItem => {
-                            if (otherItem !== item) {
-                                otherItem.classList.remove('active');
-                            }
-                        });
-                        
-                        // Toggle current dropdown
-                        item.classList.toggle('active');
-                    });
-                }
-            });
+            // Initialize navigation event listeners
+            initNavigationEvents();
+
+            // Check if shared navigation is loaded
+            if (document.getElementById('navigation-container').children.length === 0) {
+                // Show backup navigation if shared navigation is not loaded
+                document.querySelector('.nav-top').style.display = 'flex';
+            }
             
             // Close dropdowns when clicking outside
             document.addEventListener('click', function(e) {
