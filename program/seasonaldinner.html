@@ -11,13 +11,144 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Netlify CMS Integration -->
+    <script src="/content-loader.js"></script>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+
+       <!-- Import navigation and exhibition styles -->
+       <link rel="stylesheet" href="../css/navigation.css">
+       
     
-    <!-- Import shared navigation styles and scripts -->
-    <link rel="stylesheet" href="../css/navigation.css">
-    <link rel="stylesheet" href="../css/seasonaldinner.css">
-    <script src="../js/navigation.js"></script>
-    <script src="../js/seasonaldinner.js"></script>
+   <style>
+       body {
+           margin: 0;
+           padding: 0;
+           font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+           line-height: 1;
+           background-color: rgb(235, 235, 235);
+           position: relative;
+           min-height: 100vh;
+           overflow-x: hidden;
+           display: flex;
+           flex-direction: column;
+           width: 100%;
+       }
+        
+       
+        
+        /* Content area - updated for fixed header */
+        .content {
+            padding: 120px 48px 100px 48px;
+            width: 50%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        /* Loading message */
+        .loading-message {
+            font-size: 16px;
+            color: #666;
+            margin: 20px 0;
+        }
+
+        /* Section styling */
+        .section {
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .section:not(:last-child) {
+            border-bottom: 1px solid rgb(43, 43, 43);
+            padding-bottom: 60px;
+        }
+
+        /* Section headers */
+        .section h2 {
+            font-size: 43px;
+            font-weight: 400;
+            margin-bottom: 60px;
+            line-height: 1.2;
+            text-transform: none;
+            text-align: left;
+            color: rgb(23, 23, 23);
+        }
+
+        /* Text styling */
+        .section p {
+            font-size: 17px;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-bottom: 24px;
+            width: 100%;
+        }
+
+        /* Contact links */
+       
+        a:hover {
+            color: rgb(241, 61, 33);
+            border-color: rgb(241, 61, 33);
+        }
+
+        /* Footer styling */
+        footer {
+            position: relative;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgb(180, 180, 180);
+            padding: 10px 0;
+            text-align: center;
+            font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 300;
+            color: rgb(23, 23, 23);
+            z-index: 1000;
+            margin-top: auto;
+        }
+
+        /* Mobile styling */
+        @media (max-width: 768px) {
+         
+            
+            /* Content adjustments for mobile - align with title */
+            .content {
+                padding-left: 24px;
+                padding-right: 24px;
+                padding-top: 105px;
+                padding-bottom: 24px;
+                width: calc(100%); /* Full width minus left and right padding */
+            }
+            
+            .top-banner h1 {
+                font-size: 28px;
+            }
+            
+            .section h2 {
+                font-size: 28px;
+            }
+            
+            .title-container {
+                padding-left: 24px;
+            }
+        }
+        
+        /* Auto-switch to desktop when screen is larger than 768px */
+        @media (min-width: 769px) {
+            .nav-top {
+                display: flex !important;
+            }
+            
+            .hamburger-menu {
+                display: none !important;
+            }
+            
+            .mobile-nav {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Top red banner with title and navigation -->
@@ -43,16 +174,15 @@
                 <a href="#">about</a>
                 <div class="dropdown">
                     <div class="dropdown-container">
-                        <a href="../about/mission.html">mission</a>
-                        <a href="../about/vision.html">vision</a>
-                        <a href="../about/team.html">team</a>
-                        <a href="../about/contact.html">contact</a>
+                        <a href="about.html">mission & vision</a>
+                        <a href="about.html">team</a>
+                        <a href="about.html">contact</a>
                     </div>
                 </div>
             </div>
             
             <div class="nav-item">
-                <a href="../supportus/supportus.html">support us</a>
+                <a href="supportus.html">support us</a>
             </div>
         </nav>
         
@@ -85,15 +215,14 @@
                     <span class="mobile-arrow">ᵥ</span>
                 </a>
                 <div class="mobile-dropdown">
-                    <a href="../about/mission.html">mission</a>
-                    <a href="../about/vision.html">vision</a>
-                    <a href="../about/team.html">team</a>
-                    <a href="../about/contact.html">contact</a>
+                    <a href="about.html">mission & vision</a>
+                    <a href="about.html">team</a>
+                    <a href="about.html">contact</a>
                 </div>
             </div>
             
             <div class="mobile-nav-item">
-                <a href="../supportus/supportus.html">support us</a>
+                <a href="supportus.html">support us</a>
             </div>
         </div>
     </div>
@@ -104,13 +233,247 @@
         <div class="loading-message">Loading seasonal dinner data...</div>
     </div>
 
-    <!-- Footer -->
     <footer>
         123 Gallery Street, New York, NY 10001
     </footer>
 
-    <!-- Netlify Identity Widget handling -->
     <script>
+        // Homepage navigation function
+        function goToHomepage() {
+            window.location.href = '../index.html';
+        }
+
+        // Mobile navigation functions
+        function toggleMobileNav() {
+            const mobileNav = document.getElementById('mobileNav');
+            
+            if (mobileNav.style.display === 'flex' || mobileNav.classList.contains('show')) {
+                mobileNav.style.display = 'none';
+                mobileNav.classList.remove('show');
+                // Close all mobile dropdowns when closing nav
+                const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
+                allMobileNavItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+            } else {
+                mobileNav.style.display = 'flex';
+                mobileNav.classList.add('show');
+            }
+        }
+        
+        // Mobile dropdown toggle
+        function toggleMobileDropdown(event, element) {
+            event.preventDefault();
+            const navItem = element.parentElement;
+            
+            // Check if this nav item has a dropdown
+            const dropdown = navItem.querySelector('.mobile-dropdown');
+            if (!dropdown) {
+                // If no dropdown, it's a regular link - handle navigation here if needed
+                return;
+            }
+            
+            // Close all other mobile dropdowns
+            const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
+            allMobileNavItems.forEach(item => {
+                if (item !== navItem) {
+                    item.classList.remove('active');
+                }
+            });
+            
+            // Toggle current dropdown
+            navItem.classList.toggle('active');
+        }
+
+        // Auto-handle screen resize
+        window.addEventListener('resize', function() {
+            const mobileNav = document.getElementById('mobileNav');
+            const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
+            
+            // If resizing to desktop width, close mobile nav
+            if (window.innerWidth > 768) {
+                mobileNav.style.display = 'none';
+                mobileNav.classList.remove('show');
+                allMobileNavItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+            }
+        });
+
+        // Load seasonal dinner data from JSON
+        async function loadSeasonalDinnerData() {
+            try {
+                console.log('Attempting to load seasonal dinner data');
+                
+                // Try multiple possible paths for the JSON file
+                let response;
+                let foundPath = '';
+                
+                // Try different possible paths
+                const possiblePaths = [
+                    '/seasonaldinner-data.json',
+                    './seasonaldinner-data.json',
+                    '../seasonaldinner-data.json',
+                    'seasonaldinner-data.json',
+                    '/seasonal-dinner.json',
+                    './seasonal-dinner.json',
+                    '../seasonal-dinner.json',
+                    'seasonal-dinner.json'
+                ];
+                
+                // Try each path until one works
+                for (const path of possiblePaths) {
+                    try {
+                        console.log(`Trying path: ${path}`);
+                        const tempResponse = await fetch(path);
+                        if (tempResponse.ok) {
+                            response = tempResponse;
+                            foundPath = path;
+                            console.log(`Found working path: ${path}`);
+                            break;
+                        }
+                    } catch (err) {
+                        console.log(`Failed with path ${path}: ${err.message}`);
+                    }
+                }
+                
+                // If we didn't find a working path
+                if (!response || !response.ok) {
+                    throw new Error('Could not find seasonal dinner data file in any of the tried paths');
+                }
+                
+                const data = await response.json();
+                console.log('Successfully loaded seasonal dinner data:', data);
+                
+                // Render seasonal dinner content
+                renderSeasonalDinner(data);
+                
+            } catch (error) {
+                console.error('Error loading seasonal dinner data:', error);
+                
+                // Fallback content if loading fails
+                document.getElementById('seasonal-dinner-content').innerHTML = `
+                    <div class="section">
+                        <h2>The Seasonal (shijie/时节) Dinner at Initial Research</h2>
+                        <p>
+                            Join us for The Seasonal (shijie/时节) Dinner at Initial Research, a community gathering marking the beginning of each new season.
+                        </p>
+                    </div>`;
+            }
+        }
+
+        // Render seasonal dinner content
+        function renderSeasonalDinner(data) {
+            console.log("Rendering seasonal dinner with data:", data);
+            
+            // Get the container element
+            const container = document.getElementById('seasonal-dinner-content');
+            
+            if (!container) {
+                console.error("Container element 'seasonal-dinner-content' not found!");
+                return;
+            }
+            
+            // Build HTML content
+            let html = '';
+            
+            // Add main section
+            html += `
+                <div class="section">
+                    <h2>${data.title || 'Seasonal Dinner'}</h2>`;
+            
+            // Split description into paragraphs
+            const paragraphs = data.description ? data.description.split('\n\n') : [];
+            
+            paragraphs.forEach(paragraph => {
+                // Process markdown bold format (**text**)
+                const formattedParagraph = paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                html += `<p>${formattedParagraph}</p>`;
+            });
+            
+            html += `</div>`;
+            
+            // Add additional sections (if any)
+            if (data.additional_sections && data.additional_sections.length > 0) {
+                data.additional_sections.forEach(section => {
+                    html += `
+                    <div class="section">
+                        <h2>${section.title || ''}</h2>`;
+                    
+                    // Split section.content into paragraphs
+                    const sectionParagraphs = section.content ? section.content.split('\n\n') : [];
+                    sectionParagraphs.forEach(paragraph => {
+                        // Process markdown bold format (**text**)
+                        const formattedParagraph = paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                        html += `<p>${formattedParagraph}</p>`;
+                    });
+                    
+                    html += `</div>`;
+                });
+            }
+            
+            // Set the HTML content
+            container.innerHTML = html;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Desktop dropdown toggle functionality
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            navItems.forEach(item => {
+                const link = item.querySelector('a');
+                const dropdown = item.querySelector('.dropdown');
+                
+                if (dropdown) {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Close all other dropdowns
+                        navItems.forEach(otherItem => {
+                            if (otherItem !== item) {
+                                otherItem.classList.remove('active');
+                            }
+                        });
+                        
+                        // Toggle current dropdown
+                        item.classList.toggle('active');
+                    });
+                }
+            });
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                const isNavClick = e.target.closest('.nav-item');
+                const isMobileNavClick = e.target.closest('.mobile-nav');
+                
+                if (!isNavClick && !isMobileNavClick) {
+                    navItems.forEach(item => {
+                        item.classList.remove('active');
+                    });
+                }
+            });
+
+            // Load seasonal dinner data
+            loadSeasonalDinnerData();
+        });
+        
+        // Close mobile nav when clicking outside
+        document.addEventListener('click', function(e) {
+            const mobileNav = document.getElementById('mobileNav');
+            const hamburger = document.querySelector('.hamburger-menu');
+            
+            if (!hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
+                mobileNav.style.display = 'none';
+                mobileNav.classList.remove('show');
+                // Close all mobile dropdowns when clicking outside
+                const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
+                allMobileNavItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+            }
+        });
+
+        // Netlify Identity Widget handling
         if (window.netlifyIdentity) {
             window.netlifyIdentity.on("init", user => {
                 if (!user) {
