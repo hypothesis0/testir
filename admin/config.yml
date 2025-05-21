@@ -74,10 +74,10 @@ collections:
           - {label: "Exhibition Title", name: "title", widget: "string", required: true}
           - {label: "Exhibition Date Range", name: "date_range", widget: "string", required: true, hint: "e.g., April 15 - June 30, 2025"}
           - label: "Exhibition Images"
-                 name: "images"
-                 widget: "list"
-                 required: true
-                 fields:
+            name: "images"
+            widget: "list"
+            required: true
+            fields:
               - {label: "Image", name: "url", widget: "image", required: true}
               - {label: "Alt Text", name: "alt", widget: "string", required: false}
               - {label: "Caption", name: "caption", widget: "string", required: false}
