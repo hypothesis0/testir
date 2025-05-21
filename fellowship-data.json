@@ -33,38 +33,41 @@
       "image_type": null
     },
     {
-      "number": "02",
-      "id": "02",
-      "name": "Nini Dongnier",
-      "title": "Nini Dongnier",
-      "bio": "Hailing from Inner Mongolia and based in New York, choreographer and artist NiNi Dongnier works in choreographic performance, moving image, and painting. She delves deeply into questions about form, faith, constancy, migration, and the experience of life through explorations of movement, visual art, garment, and the use of tech intervention where necessary. Her work in dialogue with multiple nourishments—from her nomadic roots, classical training in a wide range of traditional to contemporary dance, to art history and Mahāyāna Buddhism. “My desire is to record intuitive truths through the sensual body and its material extensions.”\n\nDongnier’s work has been performed and exhibited at The Watermill Center, New York Live Arts, Movement Research, Mana Contemporary, G Museum, Aranya Art Center, Shanghai Ming Contemporary Art Museum, National Centre for the Performing Arts, and Shanghai International Dance Center Theater, among others. She was a recipient of nominations for the China Dance Lotus Award. She has been an artist in residence at Monira Foundation, La MaMa|CultureHub, The Watermill Center, Media Art Xploration, Jacob’s Pillow, and Barnard Movement Lab at Columbia University.\n\nDongnier’s initial learning stemmed from the vast, textured nature of Inner Mongolia, as well as from her parents. She graduated from the Beijing Dance Academy, received her MFA from New York University, and studied at the Skowhegan School of Painting and Sculpture. Dongnier has served on the faculty of Beijing Dance Academy (2012-17), taught at Hunter College—CUNY (2020), and at Barnard College—Columbia University (2020, 2024). She was an assistant professor at the School for the Contemporary Arts—Simon Fraser University (2021-24).",
       "single_image": {
         "src": "/img/uploads/ninidongnier_portrait_bylucreziapollice.jpg",
         "caption": "Portrait by Lucrezia Pollice"
       },
-      "image_type": "single",
-      "image": "/uploads/img/ninidongnier_portrait_bylucreziapollice.jpg"
+      "caption": "Portrait by Lucrezia Pollice",
+      "bio": "<p>Hailing from Inner Mongolia and based in New York, choreographer and artist NiNi Dongnier works in choreographic performance, moving image, and painting. She delves deeply into questions about form, faith, constancy, migration, and the experience of life through explorations of movement, visual art, garment, and the use of tech intervention where necessary. Her work in dialogue with multiple nourishments—from her nomadic roots, classical training in a wide range of traditional to contemporary dance, to art history and Mahāyāna Buddhism. “My desire is to record intuitive truths through the sensual body and its material extensions.”</p>\n\n<p>Dongnier’s work has been performed and exhibited at The Watermill Center, New York Live Arts, Movement Research, Mana Contemporary, G Museum, Aranya Art Center, Shanghai Ming Contemporary Art Museum, National Centre for the Performing Arts, and Shanghai International Dance Center Theater, among others. She was a recipient of nominations for the China Dance Lotus Award. She has been an artist in residence at Monira Foundation, La MaMa|CultureHub, The Watermill Center, Media Art Xploration, Jacob’s Pillow, and Barnard Movement Lab at Columbia University.</p>\n\n<p>Dongnier’s initial learning stemmed from the vast, textured nature of Inner Mongolia, as well as from her parents. She graduated from the Beijing Dance Academy, received her MFA from New York University, and studied at the Skowhegan School of Painting and Sculpture. Dongnier has served on the faculty of Beijing Dance Academy (2012-17), taught at Hunter College—CUNY (2020), and at Barnard College—Columbia University (2020, 2024). She was an assistant professor at the School for the Contemporary Arts—Simon Fraser University (2021-24).</p>",
+      "number": "02",
+      "name": "Nini Dongnier",
+      "title": "Nini Dongnier",
+      "id": "02",
+      "image": "/uploads/img/ninidongnier_portrait_bylucreziapollice.jpg",
+      "image_type": "single"
     },
     {
-      "number": "03",
-      "id": "03",
-      "name": "Anh Vo",
-      "title": "Anh Vo",
       "single_image": {
         "caption": "Portrait by Maria Baranova",
         "src": "/img/uploads/anh_vo_portraitbymariabaranova.jpg"
       },
-      "image_type": "single",
+      "caption": "Portrait by Maria Baranova",
       "bio": "Anh Vo is a Vietnamese choreographer and writer working primarily in New York City, with a second base in Hanoi. Their practice fleshes out the body as a vessel for apparitional forces. Their work is situated in the unlikely lineage convergences between Downtown New York experimental performance, Hanoi performance art, and Vietnamese folk ritual practices. Vo is indebted to Miguel Gutierrez's unapologetic queerness and amorphous excess, Moriah Evan's speculative commitment to the depth of interiority, Tehching Hsieh’s existential sense of time, and Ngoc Dai’s guttural sonic landscape of postwar Vietnam. Their formal training is in Performance Studies, studying with esteemed theorists and practitioners at Brown University (BA) and New York University (MA).",
-      "image": "/uploads/img/anh_vo_portraitbymariabaranova.jpg"
+      "number": "03",
+      "name": "Anh Vo",
+      "title": "Anh Vo",
+      "id": "03",
+      "image": "/uploads/img/anh_vo_portraitbymariabaranova.jpg",
+      "image_type": "single"
     },
     {
       "image_type": "single",
-      "number": "1",
-      "name": "1",
-      "id": "1",
-      "title": "1",
-      "bio": "1"
+      "number": "04",
+      "name": "Yu Ji & Ho King Man",
+      "id": "04",
+      "title": "Yu Ji & Ho King Man",
+      "bio": "<p>Yu Ji is known for the diversity of her practice, working primarily in sculpture and installation, as well as performance and video. Her long-term interest has been in transforming ongoing investigations into specific spaces that become charged with geographical and historical narratives. Reflecting on and moderating the fragile presence of the human body in relation to objects found in their everyday environments, her performances often coincide with exhibitions of sculptural works, which turn the space of artistic presentation into a site for the production of labor.</p>\n\n<p>Yu Ji's Institutional exhibitions include those at the Centro Pecci, Prato, Italy (2024), ICA Institute of Contemporary Art, NYU, Shanghai (2023), OCMA Orange County Museum of Art, Costa Mesa (2023), New Museum in New York (2021), West Bund Museum + Pompidou in Shanghai (2021), Chisenhale Gallery in London (2021), Tensta Konsthall in Stockholm (2018), Rock Bund Art Museum in Shanghai (2017). From 2008 till 2021, she co-founded AM Art Space — an artist-led space in Shanghai, promoting experimentation and exchanges between artists, curators and the public.</p>\n\n<p>BHKM is a conceptual publishing house. Between private and public, they often addressing issues of belonging and authorship, loneliness and otherness. Recent exhibitions include projects at 人人人人, Harmony Community Foundation, Guangzhou (2024); PP3, Columbus Park (Chinatown), New York (2023); Bungee Space, New York (2023); Motto Berlin (2023).</p>",
+      "caption": "Portrait by Amiko Li, 2025"
     }
   ]
 }
