@@ -16,7 +16,7 @@ collections:
         fields:
           - {label: "Page Title", name: "title", widget: "string", required: false}
           - {label: "Main Heading", name: "heading", widget: "string", required: false}
-          - {label: "Introduction", name: "intro", widget: "markdown", required: false}
+          - {label: "Introduction", name: "intro", widget: "text", required: false}
           - {label: "Cohort Title", name: "cohort_title", widget: "string", required: false}
           - label: "Fellows"
             name: "fellows"
@@ -50,57 +50,42 @@ collections:
                 fields:
                   - {label: "Image", name: "src", widget: "image", required: false}
                   - {label: "Caption", name: "caption", widget: "string", required: false}
-  
-  # 共享元素管理
-  - name: "shared"
-    label: "Shared Elements"
-    files:
-      # 导航菜单管理
-      - name: "navigation"
-        label: "Navigation Menu"
-        file: "shared/navigation.html"
-        fields:
-          - label: "Desktop Navigation"
-            name: "desktop_nav"
-            widget: "object"
-            fields:
-              - label: "Main Menu Items"
-                name: "main_items"
-                widget: "list"
-                fields:
-                  - {label: "Menu Text", name: "text", widget: "string"}
-                  - {label: "Link", name: "url", widget: "string"}
-                  - label: "Submenu Items"
-                    name: "submenu"
-                    widget: "list"
-                    required: false
-                    fields:
-                      - {label: "Menu Text", name: "text", widget: "string"}
-                      - {label: "Link", name: "url", widget: "string"}
+
+                  - label: "Site Title"
+            name: "site_title"
+            widget: "string"
+            required: true
           
-          - label: "Mobile Navigation"
-            name: "mobile_nav"
-            widget: "object"
-            fields:
-              - label: "Main Menu Items"
-                name: "main_items"
-                widget: "list"
-                fields:
-                  - {label: "Menu Text", name: "text", widget: "string"}
-                  - {label: "Link", name: "url", widget: "string"}
-                  - label: "Submenu Items"
-                    name: "submenu"
-                    widget: "list"
-                    required: false
-                    fields:
-                      - {label: "Menu Text", name: "text", widget: "string"}
-                      - {label: "Link", name: "url", widget: "string"}
-      
-      # 页脚管理
-      - name: "footer"
-        label: "Footer"
-        file: "shared/footer.html"
+          
+          - name: "navigation"
+    label: "Navigation"
+    files:
+      - name: "main_nav"
+        label: "Main Navigation"
+        file: "navigation-data.json"
         fields:
-          - {label: "Address Text", name: "address_text", widget: "string"}
-          - {label: "Background Color", name: "bg_color", widget: "string", default: "rgb(180, 180, 180)"}
-          - {label: "Text Color", name: "text_color", widget: "string", default: "rgb(23, 23, 23)"}
+          - label: "Site Title"
+            name: "site_title"
+            widget: "string"
+            required: true
+          
+          - label: "Navigation Items"
+            name: "nav_items"
+            widget: "list"
+            fields:
+          - label: "Navigation Items"
+            name: "nav_items"
+            widget: "list"
+            fields:
+              - {label: "Menu Label", name: "label", widget: "string", required: true}
+              - {label: "Direct Link (optional)", name: "direct_link", widget: "string", required: false, hint: "Leave empty if this is a dropdown"}
+              - {label: "Visible", name: "visible", widget: "boolean", default: true}
+              
+              - label: "Dropdown Items"
+                name: "dropdown_items"
+                widget: "list"
+                required: false
+                fields:
+                  - {label: "Item Label", name: "label", widget: "string", required: true}
+                  - {label: "Link URL", name: "link", widget: "string", required: true, pattern: ["^/[^\\s]+", "Must start with /"]}
+                  - {label: "Visible", name: "visible", widget: "boolean", default: true}
