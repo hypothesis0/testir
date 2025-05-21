@@ -2,9 +2,8 @@ backend:
   name: git-gateway
   branch: main
 
-# 更新媒体文件夹路径以匹配实际结构
 media_folder: "img/uploads"
-public_folder: "img/uploads"
+public_folder: "/img/uploads"
 
 collections:
   - name: "content"
@@ -36,12 +35,8 @@ collections:
                   - {label: "Carousel", value: "carousel"}
                 default: "single"
                 required: false
-              
-              # 图片上传字段 - 所有可选
               - {label: "Image", name: "image", widget: "image", required: false, hint: "Main image or first carousel image"}
               - {label: "Image Caption", name: "caption", widget: "string", required: false}
-              
-              # 额外的轮播图片 - 可选
               - label: "Additional Carousel Images"
                 name: "additional_images"
                 widget: "list"
@@ -51,29 +46,29 @@ collections:
                   - {label: "Image", name: "src", widget: "image", required: false}
                   - {label: "Caption", name: "caption", widget: "string", required: false}
 
-                  - label: "Site Title"
+  - name: "navigation"
+    label: "Navigation"
+    files:
+      - name: "main_nav"
+        label: "Main Navigation"
+        file: "navigation-data.json"
+        fields:
+          - label: "Site Title"
             name: "site_title"
             widget: "string"
             required: true
-          
-          
-           - name: "navigation"
-    label: "Navigation"
-    label_singular: "Navigation Item"
-    folder: "content/navigation"  # 改为使用文件夹集合
-    create: true  # 允许创建新导航项
-    slug: "{{slug}}"
-    identifier_field: "label"
-    fields:
-      - {label: "Menu Label", name: "label", widget: "string", required: true}
-      - {label: "Direct Link", name: "direct_link", widget: "string", required: false, hint: "用于没有下拉菜单的链接"}
-      - {label: "Visible", name: "visible", widget: "boolean", default: true}
-      
-      - label: "Dropdown Items"
-        name: "dropdown_items"
-        widget: "list"
-        required: false
-        fields:
-          - {label: "Item Label", name: "label", widget: "string", required: true}
-          - {label: "Link URL", name: "link", widget: "string", required: true, pattern: ["^\\/[^\\s]+", "必须以斜杠开头"]}
-          - {label: "Visible", name: "visible", widget: "boolean", default: true}
+          - label: "Navigation Items"
+            name: "nav_items"
+            widget: "list"
+            fields:
+              - {label: "Menu Label", name: "label", widget: "string", required: true}
+              - {label: "Direct Link (optional)", name: "direct_link", widget: "string", required: false, hint: "Leave empty if this is a dropdown"}
+              - {label: "Visible", name: "visible", widget: "boolean", default: true}
+              - label: "Dropdown Items"
+                name: "dropdown_items"
+                widget: "list"
+                required: false
+                fields:
+                  - {label: "Item Label", name: "label", widget: "string", required: true}
+                  - {label: "Link URL", name: "link", widget: "string", required: true}
+                  - {label: "Visible", name: "visible", widget: "boolean", default: true}
