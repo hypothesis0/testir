@@ -1,0 +1,516 @@
+/* content */
+/* Section header - updated style */
+.section-header {
+    display: flex;
+    align-items: center;
+    margin: 40px 0 40px 0; /* Match demo page spacing */
+}
+
+.section-heading {
+    font-size: 43px; /* Match demo page */
+    font-weight: 400; /* Match demo page */
+    margin: 0;
+    line-height: 1.2;
+    text-transform: uppercase;
+    display: none; /* Hide the heading since we're using tabs */
+}
+
+/* Tab container */
+.tab-container {
+    display: flex;
+    gap: 2vw;
+}
+
+.tab {
+    font-size: 24px; /* Reduced from 43px to match section headings */
+    font-weight: 400; /* Match demo page weight */
+    cursor: pointer;
+    transition: color 0.3s ease;
+    line-height: 1.2;
+    position: relative;
+}
+
+.tab.active {
+    color: rgb(115, 114, 114);
+}
+
+.tab.inactive {
+    color: rgb(29, 29, 29);
+}
+
+.tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5vh;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: rgb(115, 114, 114);
+}
+
+/* Programs table - updated styling */
+.programs-table {
+    width: 97%;
+    border-collapse: collapse;
+    font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    position: relative;
+    z-index: 2;
+}
+
+.programs-table tr {
+    transition: background-color 0.2s ease;
+    position: relative;
+}
+
+.programs-table tr:hover {
+    background-color: rgb(115, 115, 115);
+    cursor: pointer;
+}
+
+.programs-table td {
+    padding: 15px 16px; /* Match demo page */
+    vertical-align: top;
+    border-bottom: 1px solid rgb(43, 43, 43);
+}
+
+.date-column {
+    width: 15%;
+    font-size: 16px; /* Match demo page */
+}
+
+.title-column {
+    width: 85%;
+    font-size: 18px; /* Match demo page */
+}
+
+/* No events message */
+.no-events {
+    font-size: 18px; /* Match demo page */
+    margin: 3vh 0;
+    font-style: italic;
+    color: rgb(100, 100, 100);
+}
+
+/* Dynamic rectangle container */
+.rectangle-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100vh;
+    z-index: 100;
+    pointer-events: none;
+    overflow-y: auto;
+}
+
+.hover-rectangle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch; /* Changed from center to stretch for proper alignment */
+    padding: 5vh 20% 5vh 20%; /* Restored original padding */
+    box-sizing: border-box;
+    color: white;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.event-detail-view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(43, 43, 43);
+    padding: 5vh 20% 5vh 20%; /* 20% padding on each side = 60% content width */
+    box-sizing: border-box;
+    color: white;
+    display: none;
+    flex-direction: column;
+    overflow-y: auto;
+    pointer-events: auto;
+    align-items: stretch; /* Changed from center to stretch for proper alignment */
+}
+
+/* Close button */
+.close-button {
+    position: absolute;
+    top: 2vh;
+    right: 2vw;
+    font-size: 1.5vw;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1002;
+}
+
+/* Event title styling */
+.event-title {
+    text-align: center;
+    margin-top: 6vh;
+    margin-bottom: 3vh;
+    width: 100%; /* Ensure full width within centered container */
+}
+
+.event-title h2 {
+    font-size: 30px;
+    margin: 0 0 0.5vh 0;
+    font-weight: 500;
+}
+
+.event-title h3 {
+    font-size: 1.5vw;
+    margin: 0;
+    font-weight: 200;
+}
+
+/* Event image styling */
+.event-image {
+    width: 100%;
+    /* height: auto; */
+    max-height: 60vh;
+    object-fit: contain;
+    margin-bottom: 3vh;
+}
+
+/* Event date styling - UPDATED FOR LEFT ALIGNMENT WITH FLEX LAYOUT */
+.event-date {
+    display: flex; /* Use flexbox for inline layout */
+    justify-content: space-between; /* Time on left, RSVP on right */
+    align-items: flex-end; /* Align items to bottom baseline */
+    margin-bottom: 3vh;
+    width: 100%;
+}
+
+.event-date p {
+    font-size: 1.2vw;
+    margin: 0 0 0.5vh 0;
+    font-weight: 300;
+}
+
+/* Time container for grouping date and time */
+.time-container {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+/* NEW: Hover state event date - moved to bottom with same design */
+.hover-rectangle .event-date {
+    order: 10;
+    margin-top: auto;
+    margin-bottom: 2vh;
+    display: block;
+    text-align: center;
+    width: 100%;
+    font-size: 30px;
+}
+
+.hover-rectangle .event-image {
+    position: absolute;
+    width: 60%;
+    top: 235px;
+    left: 50%;                    /* Move to center */
+    transform: translateX(-50%);  /* Offset by half its width */
+    max-height: 60vh;
+    object-fit: contain;
+    margin-bottom: 3vh;
+}
+
+.hover-rectangle .event-date .time-container {
+    display: block;
+    text-align: center;
+}
+.hover-rectangle .event-date .time-container p {
+    text-align: center;
+    margin: 0 0 0.5vh 0;
+    display: block;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+/* Event description */
+.event-description {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    margin-bottom: 4vh;
+    width: 100%; /* Use full width within centered container */
+    line-height: 1.6;
+}
+
+.event-description p {
+    font-size: 15px;
+    margin: 0 0 1vh 0;
+}
+
+/* RSVP button - UPDATED FOR INLINE LAYOUT WITH TIME */
+.rsvp-button {
+    width: auto; /* Natural width for inline layout */
+    max-width: 300px; 
+    padding: 1vh 2vw;
+    background-color: transparent; 
+    color: white;
+    border: 1px solid white; 
+    font-size: 1.2vw;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    transition: all 0.3s ease;
+    border-radius: 0;
+    margin-bottom: 0; /* Remove bottom margin since it's inline */
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    flex-shrink: 0; /* Prevent button from shrinking */
+}
+
+.rsvp-button:hover {
+    background-color: white; /* White background on hover */
+    color: rgb(43, 43, 43); /* Dark text on hover to match desktop background */
+}
+
+/* Colors for rectangles */
+.rectangle-colors {
+    display: none;
+}
+.hover-rectangle .rsvp-button {
+    display: none; /* Hide RSVP button during hover */
+}
+
+/* Mobile popup overlay - UPDATED WITH OUTLINE */
+.mobile-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent overlay */
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 5vh;
+    box-sizing: border-box;
+}
+
+.mobile-popup-content {
+    width: 90%;
+    max-width: 500px;
+    max-height: 85vh;
+    background-color: #8B7355; /* Brown background */
+    border-radius: 0; /* No rounded corners */
+    overflow-y: auto;
+    position: relative;
+    padding: 3vh 4vw;
+    box-sizing: border-box;
+    display: block;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    color: white; /* White text on brown background */
+    border: 4px solid #ffffff; /* This will be overridden by JavaScript with random color */
+}
+
+.mobile-close-button {
+    position: absolute;
+    top: 2vh;
+    right: 3vw;
+    background: none;
+    border: none;
+    color: white; /* White color for brown background */
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 2001;
+    padding: 5px;
+    line-height: 1;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    font-weight: 300;
+}
+
+.mobile-close-button:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Subtle hover effect */
+}
+
+@media (max-width: 768px) {
+    /* Calendar-specific mobile styles */
+    .section-heading {
+        font-size: 20px;
+    }
+    
+    .tab {
+        font-size: 20px; /* Reduced for mobile */
+    }
+    
+    .tab-container {
+        gap: 5vw;
+    }
+    
+    .date-column {
+        font-size: 16px;
+    }
+    
+    .title-column {
+        font-size: 16px;
+    }
+    
+    .no-events {
+        font-size: 16px;
+    }
+    
+    /* Hide desktop rectangle container on mobile */
+    .rectangle-container {
+        display: none !important;
+    }
+    
+    /* Mobile popup styles - RESPONSIVE UPDATES */
+    .mobile-popup-overlay {
+        padding: 3vh;
+    }
+    
+    .mobile-popup-content {
+        width: 90%;
+        max-width: 450px;
+        padding: 2.5vh 3.5vw;
+        border-radius: 0;
+        background-color: #1f0f07; /* Brown background */
+        color: white; /* White text */
+        border: 4px solid #ffffff; /* This will be overridden by JavaScript with random color */
+    }
+    
+    .mobile-popup-content .event-title {
+        text-align: center;
+        margin-top: 0.5vh;
+        margin-bottom: 2vh;
+        border-bottom: none; /* Remove separator line */
+        padding-bottom: 1.5vh;
+    }
+    
+    .mobile-popup-content .event-title h2 {
+        font-size: 5.5vw;
+        margin: 0 0 0.5vh 0;
+        font-weight: 400;
+        line-height: 1.2;
+        color: white; /* White color */
+        text-transform: none; /* Remove uppercase */
+        letter-spacing: 0.02em;
+    }
+    
+    .mobile-popup-content .event-title h3 {
+        font-size: 4vw;
+        margin: 0;
+        font-weight: 300;
+        line-height: 1.2;
+        color: rgba(255, 255, 255, 0.8); /* Slightly dimmed white for subtitle */
+        font-style: italic;
+    }
+    
+    .mobile-popup-content .event-image {
+        width: 100%;
+        height: auto;
+        max-height: 25vh;
+        object-fit: contain;
+        margin-bottom: 2vh;
+        display: block;
+        border-radius: 0;
+        border: none; /* Remove border around image */
+    }
+    
+    .mobile-popup-content .event-date {
+        text-align: center;
+        margin-bottom: 2vh;
+        padding: 1vh 0;
+        background-color: transparent; /* Remove background */
+        display: block; /* Ensure block layout for mobile */
+    }
+    
+    .mobile-popup-content .event-date p {
+        font-size: 3.5vw;
+        margin: 0 0 0.3vh 0;
+        font-weight: 400;
+        line-height: 1.3;
+        color: white; /* White color */
+        display: block; /* Each paragraph on its own line */
+    }
+    
+    .mobile-popup-content .event-description {
+        text-align: left;
+        margin-bottom: 2vh;
+        line-height: 1.7;
+        padding: 1vh 0;
+    }
+    
+    .mobile-popup-content .event-description p {
+        font-size: 3vw;
+        line-height: 1.7;
+        margin: 0;
+        color: white; /* White color */
+        font-weight: 300;
+    }
+    
+    .mobile-popup-content .rsvp-button {
+        font-size: 3.5vw;
+        padding: 2vh 4vw;
+        width: 100%;
+        background-color: transparent; /* Transparent background */
+        color: white;
+        border: 1px solid white; /* White border */
+        cursor: pointer;
+        font-family: 'Space Grotesk', sans-serif;
+        transition: all 0.3s ease;
+        border-radius: 0;
+        margin-top: 2vh;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-left: auto; /* Center the button */
+        margin-right: auto; /* Center the button */
+        display: block; /* Ensure block display for centering */
+    }
+    
+    .mobile-popup-content .rsvp-button:hover {
+        background-color: white; /* White background on hover */
+        color: #2b1a06; /* Brown text on hover */
+    }
+    
+    .mobile-close-button {
+        font-size: 4vw;
+        top: 1.5vh;
+        right: 3vw;
+        padding: 0.5vh 1vh;
+        position: absolute !important;
+        border-radius: 0;
+        background: none;
+        width: auto;
+        height: auto;
+        color: white; /* White color for brown background */
+        font-weight: 300;
+    }
+    
+    .mobile-close-button:hover {
+        background-color: rgba(255, 255, 255, 0.1); /* Subtle hover effect */
+    }
+}
+
+
+/* Auto-switch to desktop when screen is larger than 768px */
+@media (min-width: 769px) {
+  
+    
+  
+    /* Make sure mobile popup is completely hidden on desktop */
+    .mobile-popup-overlay {
+        display: none !important;
+    }
+}
