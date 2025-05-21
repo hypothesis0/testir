@@ -1,32 +1,7 @@
-// content-loader.js - 完整版本，修复轮播图和段落格式问题
+// content-loader.js - 完整版本，包含路径修正
 
 // 添加调试日志
 console.log("Content loader script starting...");
-
-// 深度检查对象的辅助函数
-function inspectObject(obj, prefix = '') {
-  if (!obj) {
-    console.log(prefix + 'Object is null or undefined');
-    return;
-  }
-  
-  if (typeof obj !== 'object') {
-    console.log(prefix + `Not an object, but ${typeof obj}: ${obj}`);
-    return;
-  }
-  
-  Object.keys(obj).forEach(key => {
-    const value = obj[key];
-    if (value === null) {
-      console.log(prefix + `${key}: null`);
-    } else if (typeof value === 'object') {
-      console.log(prefix + `${key}: [Object]`);
-      inspectObject(value, prefix + '  ');
-    } else {
-      console.log(prefix + `${key}: ${value}`);
-    }
-  });
-}
 
 // 路径修正函数 - 处理所有可能的路径问题
 function correctImagePath(path) {
@@ -35,7 +10,7 @@ function correctImagePath(path) {
   console.log("Correcting path:", path);
   
   // 修正1: img/uploads/ → uploads/img/
-  let correctedPath = path.replace('img/uploads/', 'uploads/img/');
+  let correctedPath = path.replace('img/uploads/', 'img/uploads/');
   
   // 修正2: 如果路径以uploads开头但没有前导斜杠
   if (correctedPath.startsWith('uploads/') && !correctedPath.startsWith('/uploads/')) {
@@ -52,6 +27,16 @@ function correctImagePath(path) {
   
   console.log("Corrected to:", correctedPath);
   return correctedPath;
+}
+
+// 检查图片路径是否存在的函数（用于调试）
+function checkImageExists(url) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = url;
+  });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -86,21 +71,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
       
-      // 更新介绍文本 - 保留HTML格式
+      // 更新介绍文本
       if (data.intro) {
-        const introElement = document.querySelector('.fellowship-intro');
+        const introElement = document.querySelector('.fellowship-intro p');
         if (introElement) {
-          console.log("Updating intro text with formatted content");
-          
-          // 如果intro内容已经包含HTML标签，直接使用
-          if (data.intro.includes('<p>') || data.intro.includes('<br>')) {
-            introElement.innerHTML = data.intro;
-          } else {
-            // 否则将markdown格式转换为HTML
-            introElement.innerHTML = `<p>${data.intro.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</p>`;
-          }
+          console.log("Updating intro text");
+          introElement.textContent = data.intro;
         } else {
-          console.error("Intro element not found! Selector: .fellowship-intro");
+          console.error("Intro element not found! Selector: .fellowship-intro p");
         }
       }
       
@@ -131,17 +109,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // 创建图片内容
             let imageContent = '';
             
-            // 详细检查轮播图数据
-            console.log("Inspecting fellow data:");
-            console.log("Image type:", fellow.image_type);
-            console.log("Main image:", fellow.image);
-            console.log("Additional images:");
-            if (fellow.additional_images) {
-              inspectObject(fellow.additional_images);
-            } else {
-              console.log("  No additional images found");
-            }
-            
             // 获取并修正图片路径
             let imagePath = correctImagePath(fellow.image);
             
@@ -154,64 +121,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 let carouselDots = '';
                 
                 // 创建所有轮播图片的数组
-                const allImages = [];
+                const allImages = [
+                  {src: imagePath, caption: fellow.caption || ''}
+                ];
                 
-                // 添加主图片（如果存在）
-                if (fellow.image) {
-                  let mainImagePath = correctImagePath(fellow.image);
-                  console.log("Main carousel image path:", mainImagePath);
-                  allImages.push({
-                    src: mainImagePath,
-                    caption: fellow.caption || ''
-                  });
-                }
-                
-                // 添加额外的轮播图片（如果存在）
+                // 添加额外的轮播图片 (如果有)
                 if (fellow.additional_images && fellow.additional_images.length > 0) {
-                  console.log("Found additional images:", fellow.additional_images.length);
-                  
-                  fellow.additional_images.forEach((img, idx) => {
-                    console.log(`Processing additional image ${idx+1}:`, img);
-                    
+                  console.log("Adding additional images:", fellow.additional_images.length);
+                  fellow.additional_images.forEach(img => {
                     if (img && img.src) {
-                      // 修正额外图片路径
+                      // 修正额外图片的路径
                       let extraImagePath = correctImagePath(img.src);
-                      console.log(`Corrected path for additional image ${idx+1}:`, extraImagePath);
-                      
                       allImages.push({
                         src: extraImagePath,
                         caption: img.caption || ''
                       });
-                    } else {
-                      console.warn(`Additional image ${idx+1} missing src property:`, img);
                     }
                   });
                 }
                 
-                // 如果没有图片，添加占位符
-                if (allImages.length === 0) {
-                  console.log("No carousel images found, adding placeholder");
-                  allImages.push({
-                    src: '/uploads/placeholder.jpg',
-                    caption: 'Image not provided'
-                  });
-                }
-                
-                console.log("Total carousel images:", allImages.length);
-                
                 // 为每个图片创建轮播幻灯片
                 allImages.forEach((image, idx) => {
-                  console.log(`Creating slide ${idx+1}:`, image.src);
-                  
-                  // 添加onerror处理并显示加载指示器
+                  console.log(`Creating slide ${idx+1} with image:`, image.src);
                   carouselSlides += `
                     <div class="carousel-slide ${idx === 0 ? 'active' : ''}">
-                      <img 
-                        src="${image.src}" 
-                        alt="${fellow.name || ''} slide ${idx+1}" 
-                        class="expanded-image"
-                        onerror="this.onerror=null; this.src='/uploads/placeholder.jpg'; console.error('Failed to load carousel image:', '${image.src}')"
-                      >
+                      <img src="${image.src}" alt="${fellow.name || ''}" class="expanded-image" onerror="this.onerror=null; console.error('Failed to load image:', this.src);">
                       <div class="photo-credit">${image.caption || ''}</div>
                     </div>
                   `;
@@ -221,20 +155,15 @@ document.addEventListener('DOMContentLoaded', function() {
                   `;
                 });
                 
-                // 仅当有多张图片时显示轮播点
-                const dotsHtml = allImages.length > 1 ? `
-                  <div class="carousel-dots">
-                    ${carouselDots}
-                  </div>
-                ` : '';
-                
                 // 组装完整的轮播图HTML
                 imageContent = `
                   <div class="image-carousel" data-carousel="${fellow.id || `fellow-${index}`}">
                     <div class="carousel-container">
                       ${carouselSlides}
                     </div>
-                    ${dotsHtml}
+                    <div class="carousel-dots">
+                      ${carouselDots}
+                    </div>
                   </div>
                 `;
               } else {
@@ -242,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log("Creating single image display for", fellow.name);
                 imageContent = `
                   <div class="single-image-container">
-                    <img src="${imagePath}" alt="${fellow.name || ''}" class="expanded-image" onerror="this.onerror=null; this.src='/uploads/placeholder.jpg'; console.error('Failed to load image:', this.src);">
+                    <img src="${imagePath}" alt="${fellow.name || ''}" class="expanded-image" onerror="this.onerror=null; console.error('Failed to load image:', this.src);">
                     <div class="photo-credit">${fellow.caption || ''}</div>
                   </div>
                 `;
@@ -292,9 +221,12 @@ document.addEventListener('DOMContentLoaded', function() {
           console.log("Setting up interactive features");
           setupExpandableRows();
           
-          // 初始化轮播
-          console.log("Initializing carousels");
-          initCarousels();
+          if (typeof initCarousels === 'function') {
+            console.log("Initializing carousels");
+            initCarousels();
+          } else {
+            console.warn("initCarousels function not found, may need to implement");
+          }
         } else {
           console.error("Fellows table not found! Selector: #cohort-2025 tbody");
         }
@@ -350,7 +282,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // 暂停所有轮播
-        pauseAllCarousels();
+        if (typeof pauseAllCarousels === 'function') {
+          pauseAllCarousels();
+        }
         
         // 如果此行之前未激活，打开它
         if (!isActive) {
@@ -368,9 +302,11 @@ document.addEventListener('DOMContentLoaded', function() {
           setTimeout(() => {
             // 重新初始化轮播
             const newCarousels = expandedContent.querySelectorAll('.image-carousel');
-            newCarousels.forEach(carousel => {
-              initSpecificCarousel(carousel);
-            });
+            if (typeof initSpecificCarousel === 'function') {
+              newCarousels.forEach(carousel => {
+                initSpecificCarousel(carousel);
+              });
+            }
             
             // 滚动到展开内容
             const rect = expandedRow.getBoundingClientRect();
@@ -418,7 +354,9 @@ document.addEventListener('DOMContentLoaded', function() {
         activeExpansion = null;
         
         // 暂停所有轮播
-        pauseAllCarousels();
+        if (typeof pauseAllCarousels === 'function') {
+          pauseAllCarousels();
+        }
         
         // 防止事件传播
         event.stopPropagation();
@@ -449,7 +387,9 @@ document.addEventListener('DOMContentLoaded', function() {
         activeExpansion = null;
         
         // 暂停所有轮播
-        pauseAllCarousels();
+        if (typeof pauseAllCarousels === 'function') {
+          pauseAllCarousels();
+        }
       }
     });
     
@@ -472,121 +412,34 @@ document.addEventListener('DOMContentLoaded', function() {
         activeExpansion = null;
         
         // 暂停所有轮播
-        pauseAllCarousels();
+        if (typeof pauseAllCarousels === 'function') {
+          pauseAllCarousels();
+        }
       }
     });
   }
+  
+  // 如果页面上没有定义这些轮播函数，提供基本实现
+  if (typeof goToSlide !== 'function') {
+    window.goToSlide = function(carouselId, slideIndex) {
+      console.log(`Navigating to slide ${slideIndex} in carousel ${carouselId}`);
+      const carousel = document.querySelector(`.image-carousel[data-carousel="${carouselId}"]`);
+      if (!carousel) return;
+      
+      const slides = carousel.querySelectorAll('.carousel-slide');
+      const dots = carousel.querySelectorAll('.carousel-dot');
+      
+      if (slideIndex >= 0 && slideIndex < slides.length) {
+        // 更新幻灯片
+        slides.forEach((slide, idx) => {
+          slide.classList.toggle('active', idx === slideIndex);
+        });
+        
+        // 更新点
+        dots.forEach((dot, idx) => {
+          dot.classList.toggle('active', idx === slideIndex);
+        });
+      }
+    };
+  }
 });
-
-// 轮播图功能实现
-function initCarousels() {
-  console.log("Initializing all carousels");
-  const carouselElements = document.querySelectorAll('.image-carousel');
-  carouselElements.forEach(carousel => {
-    initSpecificCarousel(carousel);
-  });
-}
-
-function initSpecificCarousel(carouselElement) {
-  const carouselId = carouselElement.dataset.carousel;
-  if (!carouselId) {
-    console.warn("Carousel missing data-carousel attribute");
-    return;
-  }
-  
-  console.log("Initializing carousel:", carouselId);
-  
-  const slides = carouselElement.querySelectorAll('.carousel-slide');
-  if (slides.length <= 1) {
-    console.log("Carousel has only one slide, skipping initialization");
-    return; // 单张图片不需要初始化
-  }
-  
-  // 存储轮播状态
-  if (!window.carousels) window.carousels = new Map();
-  
-  window.carousels.set(carouselId, {
-    currentSlide: 0,
-    totalSlides: slides.length,
-    element: carouselElement
-  });
-  
-  console.log("Carousel initialized with", slides.length, "slides");
-  
-  // 开始自动轮播
-  startAutoSwipe(carouselId);
-}
-
-function updateCarousel(carouselId) {
-  if (!window.carousels) return;
-  
-  const carousel = window.carousels.get(carouselId);
-  if (!carousel) return;
-  
-  const slides = carousel.element.querySelectorAll('.carousel-slide');
-  const dots = carousel.element.querySelectorAll('.carousel-dot');
-  
-  // 更新幻灯片
-  slides.forEach((slide, index) => {
-    slide.classList.toggle('active', index === carousel.currentSlide);
-  });
-  
-  // 更新点
-  dots.forEach((dot, index) => {
-    dot.classList.toggle('active', index === carousel.currentSlide);
-  });
-}
-
-function startAutoSwipe(carouselId) {
-  if (!window.carousels) return;
-  
-  const carousel = window.carousels.get(carouselId);
-  if (!carousel || carousel.totalSlides <= 1) return;
-  
-  // 清除现有定时器
-  pauseAutoSwipe(carouselId);
-  
-  // 如果不存在定时器映射，创建一个
-  if (!window.carouselIntervals) window.carouselIntervals = new Map();
-  
-  // 设置新定时器（每4秒切换一次幻灯片）
-  const interval = setInterval(() => {
-    carousel.currentSlide = (carousel.currentSlide + 1) % carousel.totalSlides;
-    updateCarousel(carouselId);
-  }, 4000);
-  
-  window.carouselIntervals.set(carouselId, interval);
-}
-
-function pauseAutoSwipe(carouselId) {
-  if (!window.carouselIntervals) return;
-  
-  const interval = window.carouselIntervals.get(carouselId);
-  if (interval) {
-    clearInterval(interval);
-    window.carouselIntervals.delete(carouselId);
-  }
-}
-
-function pauseAllCarousels() {
-  if (!window.carouselIntervals) return;
-  
-  window.carouselIntervals.forEach((interval, carouselId) => {
-    clearInterval(interval);
-  });
-  window.carouselIntervals.clear();
-}
-
-function goToSlide(carouselId, slideIndex) {
-  if (!window.carousels) return;
-  
-  const carousel = window.carousels.get(carouselId);
-  if (!carousel) return;
-  
-  carousel.currentSlide = slideIndex;
-  updateCarousel(carouselId);
-  
-  // 重新开始自动轮播
-  pauseAutoSwipe(carouselId);
-  startAutoSwipe(carouselId);
-}
