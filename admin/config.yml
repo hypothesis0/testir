@@ -46,6 +46,27 @@ collections:
                   - {label: "Image", name: "src", widget: "image", required: false}
                   - {label: "Caption", name: "caption", widget: "string", required: false}
 
+      - name: "calendar"
+        label: "Calendar Page"
+        file: "calendar-data.json"  
+        fields:
+          - {label: "Page Title", name: "title", widget: "string", required: false}
+          - label: "Events"
+            name: "events"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Event ID", name: "id", widget: "number", required: true}
+              - {label: "Event Title", name: "title", widget: "string", required: true}
+              - {label: "Subtitle/Type", name: "subtitle", widget: "string", required: true, hint: "e.g., exhibition, screening, lecture"}
+              - {label: "Event Date", name: "date", widget: "datetime", required: true, format: "YYYY-MM-DDTHH:mm:ssZ", date_format: "YYYY-MM-DD", time_format: "HH:mm"}
+              - {label: "Display Date (MM.DD.YY)", name: "displayDate", widget: "string", required: true, hint: "Format as MM.DD.YY (e.g., 05.20.25)"}
+              - {label: "Time Display", name: "timeDisplay", widget: "string", required: true, hint: "e.g., 6pm to 9pm"}
+              - {label: "Event Image", name: "image", widget: "image", required: false}
+              - {label: "Description", name: "description", widget: "text", required: true}
+              - {label: "RSVP Link", name: "rsvpLink", widget: "string", required: false}
+              - {label: "External Link (for past events)", name: "link", widget: "string", required: false}
+
   - name: "navigation"
     label: "Navigation"
     files:
