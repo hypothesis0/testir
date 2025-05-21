@@ -13,9 +13,6 @@
       "name": "te editions (Michael Guo & Kechun Qin)",
       "additional_images": [
         {
-          "src": "img/uploads/teeditions_kechun_qin.jpg"
-        },
-        {
           "src": "img/uploads/teeditions_michael_guo.jpg"
         }
       ],
@@ -30,7 +27,7 @@
       "title": "te editions (Michael Guo & Kechun Qin)",
       "id": "01",
       "image": "img/uploads/teeditions_kechun_qin.jpg",
-      "image_type": "single"
+      "image_type": "carousel"
     },
     {
       "single_image": {
