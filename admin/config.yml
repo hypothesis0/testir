@@ -84,11 +84,8 @@ collections:
               - {label: "Exhibition Description", name: "description", widget: "markdown", required: true, hint: "Use double line breaks for paragraphs"}
               - {label: "Exhibition PDF", name: "pdf_file", widget: "file", required: false, hint: "Upload exhibition PDF document", media_folder: "/assets/pdf"}
               - {label: "PDF Button Text", name: "pdf_button_text", widget: "string", default: "download exhibition pdf", required: false}
-        collections:
-  - name: "content"
-    label: "Content"
-    files:
-      # 其他文件配置...
+        
+
       
       - name: "communityhours"
         label: "Community Hours Page"
