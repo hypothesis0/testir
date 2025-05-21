@@ -77,7 +77,7 @@ async function loadExhibitionData() {
                 
                 <div class="hero-image-scroll" id="heroImageScroll">
                     <div class="hero-image-item">
-                        <img src="img/exhibition/1.png" alt="Exhibition: Embodied Memories" title="Click to enlarge" onclick="openLightbox(this)">
+                        <img src="../img/exhibition/placeholder.jpg" alt="Exhibition: Embodied Memories" title="Click to enlarge" onclick="openLightbox(this)">
                         <div class="hero-image-caption">Exhibition overview: Embodied Memories</div>
                     </div>
                 </div>
@@ -130,7 +130,7 @@ function renderExhibition(data) {
         // 如果没有图片，添加一个占位图片
         html += `
             <div class="hero-image-item">
-                <img src="img/exhibition/placeholder.jpg" alt="Placeholder Image" title="No image available">
+                <img src="../img/exhibition/placeholder.jpg" alt="Placeholder Image" title="No image available">
                 <div class="hero-image-caption">No images available</div>
             </div>`;
     }
@@ -183,7 +183,9 @@ function renderExhibition(data) {
     
     // 初始化滚动功能
     initScrollIndicators();
-    updatePaginationDots();
+    
+    // Add touch swipe support for mobile
+    addTouchSwipeSupport();
 }
 
 // 初始化滚动指示器
@@ -195,6 +197,40 @@ function initScrollIndicators() {
             updatePaginationDots();
         });
     }
+}
+
+// Add touch swipe support for the image scroll
+function addTouchSwipeSupport() {
+    const scrollContainer = document.getElementById('heroImageScroll');
+    if (!scrollContainer) return;
+    
+    let startX, startY, isDragging = false;
+    
+    scrollContainer.addEventListener('touchstart', function(e) {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isDragging = true;
+    }, { passive: true });
+    
+    scrollContainer.addEventListener('touchmove', function(e) {
+        if (!isDragging) return;
+        
+        const touchX = e.touches[0].clientX;
+        const touchY = e.touches[0].clientY;
+        
+        // Check if the user is scrolling horizontally
+        const deltaX = startX - touchX;
+        const deltaY = startY - touchY;
+        
+        // If scrolling more horizontally than vertically, prevent the default page scroll
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+    
+    scrollContainer.addEventListener('touchend', function(e) {
+        isDragging = false;
+    }, { passive: true });
 }
 
 // 根据当前图片更新分页点
