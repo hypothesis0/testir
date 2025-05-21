@@ -1,19 +1,25 @@
-// navigation.js - Complete version for your project
+// navigation.js - Full version with CMS integration
 
 // Main navigation loader
 async function loadNavigation() {
     try {
-        // Try to load navigation from CMS-generated files
-        const response = await fetch('../navigation-data.json);
+        // Try to load navigation from CMS
+        const response = await fetch('/navigation-data.json');
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch navigation data');
+        }
+        
         const navData = await response.json();
+        console.log('Loaded navigation data from CMS:', navData);
         
         // Generate and insert navigation HTML
         document.body.insertAdjacentHTML('afterbegin', generateNavigationHTML(navData));
         
-        // Insert the footer
+        // Insert footer (unchanged from original)
         insertFooter();
         
-        // Set up navigation event listeners
+        // Setup event listeners
         setupNavigationEvents();
         
     } catch (error) {
@@ -29,7 +35,7 @@ function generateNavigationHTML(navData) {
     let mobileNavItems = '';
     
     (navData.nav_items || []).forEach((item, index) => {
-        if (item.visible === false) return;
+        if (!item.visible) return;
         
         const itemId = `nav-item-${index}`;
         
@@ -52,21 +58,27 @@ function generateNavigationHTML(navData) {
             let mobileDropdownLinks = '';
             
             item.dropdown_items.forEach((dropItem, dropIndex) => {
-                if (dropItem.visible === false) return;
+                if (!dropItem.visible) return;
                 
                 dropdownLinks += `
-                    <a href="${dropItem.link}">${dropItem.label}</a>
+                    <a href="${dropItem.link}" class="dropdown-link" 
+                       data-item-id="${itemId}-${dropIndex}">
+                        ${dropItem.label}
+                    </a>
                 `;
                 
                 mobileDropdownLinks += `
-                    <a href="${dropItem.link}">${dropItem.label}</a>
+                    <a href="${dropItem.link}" class="mobile-dropdown-link"
+                       data-item-id="${itemId}-${dropIndex}">
+                        ${dropItem.label}
+                    </a>
                 `;
             });
             
             if (dropdownLinks) {
                 desktopNavItems += `
-                    <div class="nav-item">
-                        <a href="#">${item.label}</a>
+                    <div class="nav-item" data-item-id="${itemId}">
+                        <a href="#" class="dropdown-toggle">${item.label}</a>
                         <div class="dropdown">
                             <div class="dropdown-container">
                                 ${dropdownLinks}
@@ -76,8 +88,8 @@ function generateNavigationHTML(navData) {
                 `;
                 
                 mobileNavItems += `
-                    <div class="mobile-nav-item">
-                        <a href="#" onclick="toggleMobileDropdown(event, this)">
+                    <div class="mobile-nav-item" data-item-id="${itemId}">
+                        <a href="#" class="mobile-dropdown-toggle" onclick="toggleMobileDropdown(event, this)">
                             ${item.label}
                             <span class="mobile-arrow">ᵥ</span>
                         </a>
@@ -93,7 +105,7 @@ function generateNavigationHTML(navData) {
     return `
         <div class="top-banner">
             <div class="title-container">
-                <h1 onclick="goToHomepage()" style="cursor: pointer;">initial research</h1>
+                <h1 onclick="goToHomepage()" style="cursor: pointer;">${navData.site_title || 'initial research'}</h1>
             </div>
             <nav class="nav-top">
                 ${desktopNavItems}
@@ -114,7 +126,7 @@ function generateNavigationHTML(navData) {
     `;
 }
 
-// Insert footer (unchanged from your original)
+// Insert footer (unchanged from original)
 function insertFooter() {
     const footer = `
         <footer style="
@@ -208,7 +220,7 @@ function loadDefaultNavigation() {
                 </div>
                 
                 <div class="mobile-nav-item">
-                    <a href="supportus.html">support us</a>
+                    <a href="../supportus/supportus.html">support us</a>
                 </div>
             </div>
         </div>
@@ -217,8 +229,9 @@ function loadDefaultNavigation() {
     setupNavigationEvents();
 }
 
-// Navigation event setup (unchanged from your original)
+// Navigation event setup
 function setupNavigationEvents() {
+    // Desktop dropdown functionality
     const navItems = document.querySelectorAll('.nav-item');
     
     navItems.forEach(item => {
@@ -239,17 +252,15 @@ function setupNavigationEvents() {
             }
             
             // Click behavior for both desktop and mobile
-            const toggle = item.querySelector('a:first-child');
+            const toggle = item.querySelector('.dropdown-toggle');
             if (toggle) {
                 toggle.addEventListener('click', (e) => {
-                    if (window.innerWidth <= 768) {
-                        e.preventDefault();
-                        document.querySelectorAll('.nav-item').forEach(i => {
-                            if (i !== item) i.classList.remove('active');
-                        });
-                        item.classList.toggle('active');
-                        e.stopPropagation();
-                    }
+                    e.preventDefault();
+                    document.querySelectorAll('.nav-item').forEach(i => {
+                        if (i !== item) i.classList.remove('active');
+                    });
+                    item.classList.toggle('active');
+                    e.stopPropagation();
                 });
             }
         }
@@ -265,36 +276,63 @@ function setupNavigationEvents() {
             });
         }
     });
-}
-
-// Mobile navigation functions (unchanged from your original)
-window.toggleMobileNav = function() {
-    const mobileNav = document.getElementById('mobileNav');
-    if (mobileNav.style.display === 'flex' || mobileNav.classList.contains('show')) {
-        mobileNav.style.display = 'none';
-        mobileNav.classList.remove('show');
+    
+    // Mobile navigation toggle
+    window.toggleMobileNav = function() {
+        const mobileNav = document.getElementById('mobileNav');
+        if (mobileNav.style.display === 'flex' || mobileNav.classList.contains('show')) {
+            mobileNav.style.display = 'none';
+            mobileNav.classList.remove('show');
+            document.querySelectorAll('.mobile-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+        } else {
+            mobileNav.style.display = 'flex';
+            mobileNav.classList.add('show');
+        }
+    };
+    
+    // Mobile dropdown toggle
+    window.toggleMobileDropdown = function(e, element) {
+        e.preventDefault();
+        const navItem = element.parentElement;
+        const dropdown = navItem.querySelector('.mobile-dropdown');
+        
+        if (!dropdown) return;
+        
         document.querySelectorAll('.mobile-nav-item').forEach(item => {
-            item.classList.remove('active');
+            if (item !== navItem) item.classList.remove('active');
         });
-    } else {
-        mobileNav.style.display = 'flex';
-        mobileNav.classList.add('show');
-    }
-};
-
-window.toggleMobileDropdown = function(e, element) {
-    e.preventDefault();
-    const navItem = element.parentElement;
-    const dropdown = navItem.querySelector('.mobile-dropdown');
+        
+        navItem.classList.toggle('active');
+    };
     
-    if (!dropdown) return;
-    
-    document.querySelectorAll('.mobile-nav-item').forEach(item => {
-        if (item !== navItem) item.classList.remove('active');
+    // Close mobile nav when clicking outside
+    document.addEventListener('click', (e) => {
+        const mobileNav = document.getElementById('mobileNav');
+        const hamburger = document.querySelector('.hamburger-menu');
+        
+        if (!hamburger?.contains(e.target) && !mobileNav?.contains(e.target)) {
+            mobileNav.style.display = 'none';
+            mobileNav.classList.remove('show');
+            document.querySelectorAll('.mobile-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+        }
     });
     
-    navItem.classList.toggle('active');
-};
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        const mobileNav = document.getElementById('mobileNav');
+        if (window.innerWidth > 768) {
+            mobileNav.style.display = 'none';
+            mobileNav.classList.remove('show');
+            document.querySelectorAll('.mobile-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+        }
+    });
+}
 
 // Homepage navigation
 window.goToHomepage = function() {
