@@ -1,114 +1,102 @@
-// content-loader.js - Fixed version for fellowship page
+// content-loader.js - 完整版本，修复轮播图和段落格式问题
 
-// Debugging helper
-const DEBUG = true;
-function log(message, obj = null) {
-  if (DEBUG) {
-    if (obj) {
-      console.log(message, obj);
-    } else {
-      console.log(message);
-    }
-  }
-}
+// 添加调试日志
+console.log("Content loader script starting...");
 
-// Helper function to deeply inspect objects
+// 深度检查对象的辅助函数
 function inspectObject(obj, prefix = '') {
   if (!obj) {
-    log(prefix + 'Object is null or undefined');
+    console.log(prefix + 'Object is null or undefined');
     return;
   }
   
   if (typeof obj !== 'object') {
-    log(prefix + `Not an object, but ${typeof obj}: ${obj}`);
+    console.log(prefix + `Not an object, but ${typeof obj}: ${obj}`);
     return;
   }
   
   Object.keys(obj).forEach(key => {
     const value = obj[key];
     if (value === null) {
-      log(prefix + `${key}: null`);
+      console.log(prefix + `${key}: null`);
     } else if (typeof value === 'object') {
-      log(prefix + `${key}: [Object]`);
+      console.log(prefix + `${key}: [Object]`);
       inspectObject(value, prefix + '  ');
     } else {
-      log(prefix + `${key}: ${value}`);
+      console.log(prefix + `${key}: ${value}`);
     }
   });
 }
 
-// Path correction function - handles all potential path issues
+// 路径修正函数 - 处理所有可能的路径问题
 function correctImagePath(path) {
   if (!path) return '';
   
-  log("Original path:", path);
+  console.log("Correcting path:", path);
   
-  // If path is an object with src property (from JSON structure)
-  if (typeof path === 'object' && path.src) {
-    path = path.src;
+  // 修正1: img/uploads/ → uploads/img/
+  let correctedPath = path.replace('img/uploads/', 'uploads/img/');
+  
+  // 修正2: 如果路径以uploads开头但没有前导斜杠
+  if (correctedPath.startsWith('uploads/') && !correctedPath.startsWith('/uploads/')) {
+    correctedPath = '/' + correctedPath;
   }
   
-  // Remove any double slashes
-  let correctedPath = path.replace(/\/\//g, '/');
-  
-  // Ensure path starts with a slash
+  // 修正3: 确保所有路径以斜杠开头
   if (!correctedPath.startsWith('/')) {
     correctedPath = '/' + correctedPath;
   }
   
-  // Fix common path patterns
-  correctedPath = correctedPath
-    .replace('/img/uploads/', '/uploads/img/')
-    .replace('/uploads/uploads/', '/uploads/');
+  // 修正4: 修复可能的双斜杠问题
+  correctedPath = correctedPath.replace('//', '/');
   
-  log("Corrected path:", correctedPath);
+  console.log("Corrected to:", correctedPath);
   return correctedPath;
 }
 
-// Initialize the page when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-  log("DOM loaded, fetching fellowship data...");
+  console.log("DOM loaded, fetching data...");
   
-  // Fetch the JSON data
+  // 获取JSON数据
   fetch('/fellowship-data.json')
     .then(response => {
-      log("Fetch response status:", response.status);
+      console.log("Fetch response status:", response.status);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       return response.json();
     })
     .then(data => {
-      log("Fellowship data loaded successfully:", data);
+      console.log("Data loaded successfully:", data);
       
-      // Update page title if provided
+      // 更新页面标题
       if (data.title) {
-        log("Updating page title to:", data.title);
+        console.log("Updating page title to:", data.title);
         document.title = data.title;
       }
       
-      // Update main heading
+      // 更新主标题
       if (data.heading) {
         const headingElement = document.querySelector('.main-headline');
         if (headingElement) {
-          log("Updating main heading to:", data.heading);
+          console.log("Updating main heading to:", data.heading);
           headingElement.textContent = data.heading;
         } else {
           console.error("Main heading element not found! Selector: .main-headline");
         }
       }
       
-      // Update introduction text - preserving HTML format
+      // 更新介绍文本 - 保留HTML格式
       if (data.intro) {
         const introElement = document.querySelector('.fellowship-intro');
         if (introElement) {
-          log("Updating intro text with formatted content");
+          console.log("Updating intro text with formatted content");
           
-          // If intro already contains HTML tags, use it directly
+          // 如果intro内容已经包含HTML标签，直接使用
           if (data.intro.includes('<p>') || data.intro.includes('<br>')) {
             introElement.innerHTML = data.intro;
           } else {
-            // Otherwise convert markdown-style text to HTML
+            // 否则将markdown格式转换为HTML
             introElement.innerHTML = `<p>${data.intro.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</p>`;
           }
         } else {
@@ -116,159 +104,170 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
       
-      // Update cohort title
+      // 更新队列标题
       if (data.cohort_title) {
         const cohortHeading = document.querySelector('.section-heading');
         if (cohortHeading) {
-          log("Updating cohort title to:", data.cohort_title);
+          console.log("Updating cohort title to:", data.cohort_title);
           cohortHeading.textContent = data.cohort_title;
         } else {
           console.error("Cohort heading element not found! Selector: .section-heading");
         }
       }
       
-      // Update fellows list
+      // 更新研究员列表
       if (data.fellows && data.fellows.length > 0) {
-        log("Found fellows data:", data.fellows.length, "fellows");
+        console.log("Found fellows data:", data.fellows.length, "fellows");
         const fellowsTable = document.querySelector('#cohort-2025 tbody');
         if (fellowsTable) {
-          log("Found fellows table, clearing existing content");
-          
-          // Clear existing fellows
+          console.log("Found fellows table, clearing existing content");
+          // 清除现有研究员
           fellowsTable.innerHTML = '';
           
-          // Add each fellow
+          // 添加每个研究员
           data.fellows.forEach((fellow, index) => {
-            log(`Processing fellow ${index+1}:`, fellow.name);
+            console.log(`Processing fellow ${index+1}:`, fellow.name);
             
-            // Skip empty fellows (sometimes CMS adds empty entries)
-            if (!fellow.name || fellow.name === '1') {
-              log("Skipping empty fellow entry");
-              return;
-            }
-            
-            // Prepare the fellow ID
-            const fellowId = fellow.id || `fellow-${index+1}`;
-            
-            // Create image content section
+            // 创建图片内容
             let imageContent = '';
             
-            // Get image path from various possible fields in the JSON
-            let imagePath = '';
-            if (fellow.image) {
-              imagePath = correctImagePath(fellow.image);
-            } else if (fellow.single_image && fellow.single_image.src) {
-              imagePath = correctImagePath(fellow.single_image.src);
+            // 详细检查轮播图数据
+            console.log("Inspecting fellow data:");
+            console.log("Image type:", fellow.image_type);
+            console.log("Main image:", fellow.image);
+            console.log("Additional images:");
+            if (fellow.additional_images) {
+              inspectObject(fellow.additional_images);
+            } else {
+              console.log("  No additional images found");
             }
             
-            let imageCaption = fellow.caption || 
-                              (fellow.single_image ? fellow.single_image.caption : '') || 
-                              '';
+            // 获取并修正图片路径
+            let imagePath = correctImagePath(fellow.image);
             
-            // Check if this should be a carousel or single image
-            const isCarousel = fellow.image_type === 'carousel' || 
-                              (fellow.additional_images && fellow.additional_images.length > 0) ||
-                              (fellow.carousel_images && fellow.carousel_images.length > 0);
-            
-            if (isCarousel) {
-              log("Creating carousel for", fellow.name);
-              
-              // Create an array of all carousel images
-              const allImages = [];
-              
-              // Add main image if it exists
-              if (imagePath) {
-                allImages.push({
-                  src: imagePath,
-                  caption: imageCaption
-                });
-              }
-              
-              // Add additional images from either field
-              const additionalImages = fellow.additional_images || fellow.carousel_images || [];
-              if (additionalImages.length > 0) {
-                log("Found additional images:", additionalImages.length);
+            if (imagePath) {
+              // 检查图片类型
+              if (fellow.image_type === 'carousel') {
+                console.log("Creating carousel for", fellow.name);
+                // 创建轮播图
+                let carouselSlides = '';
+                let carouselDots = '';
                 
-                additionalImages.forEach((img, idx) => {
-                  if (img && (img.src || typeof img === 'string')) {
-                    const src = typeof img === 'string' ? img : img.src;
-                    const caption = img.caption || '';
+                // 创建所有轮播图片的数组
+                const allImages = [];
+                
+                // 添加主图片（如果存在）
+                if (fellow.image) {
+                  let mainImagePath = correctImagePath(fellow.image);
+                  console.log("Main carousel image path:", mainImagePath);
+                  allImages.push({
+                    src: mainImagePath,
+                    caption: fellow.caption || ''
+                  });
+                }
+                
+                // 添加额外的轮播图片（如果存在）
+                if (fellow.additional_images && fellow.additional_images.length > 0) {
+                  console.log("Found additional images:", fellow.additional_images.length);
+                  
+                  fellow.additional_images.forEach((img, idx) => {
+                    console.log(`Processing additional image ${idx+1}:`, img);
                     
-                    allImages.push({
-                      src: correctImagePath(src),
-                      caption: caption
-                    });
-                  }
-                });
-              }
-              
-              // Make sure we have at least one image
-              if (allImages.length === 0) {
-                log("No carousel images found, adding placeholder");
-                allImages.push({
-                  src: '/uploads/placeholder.jpg',
-                  caption: 'Image not provided'
-                });
-              }
-              
-              // Create carousel slides and dots
-              let carouselSlides = '';
-              let carouselDots = '';
-              
-              allImages.forEach((image, idx) => {
-                carouselSlides += `
-                  <div class="carousel-slide ${idx === 0 ? 'active' : ''}">
-                    <img 
-                      src="${image.src}" 
-                      alt="${fellow.name || ''} slide ${idx+1}" 
-                      class="expanded-image"
-                      onerror="this.onerror=null; this.src='/uploads/placeholder.jpg'; console.error('Failed to load carousel image:', '${image.src}')"
-                    >
-                    <div class="photo-credit">${image.caption || ''}</div>
-                  </div>
-                `;
+                    if (img && img.src) {
+                      // 修正额外图片路径
+                      let extraImagePath = correctImagePath(img.src);
+                      console.log(`Corrected path for additional image ${idx+1}:`, extraImagePath);
+                      
+                      allImages.push({
+                        src: extraImagePath,
+                        caption: img.caption || ''
+                      });
+                    } else {
+                      console.warn(`Additional image ${idx+1} missing src property:`, img);
+                    }
+                  });
+                }
                 
-                carouselDots += `
-                  <div class="carousel-dot ${idx === 0 ? 'active' : ''}" onclick="goToSlide('${fellowId}', ${idx})"></div>
-                `;
-              });
-              
-              // Only show dots if multiple images
-              const dotsHtml = allImages.length > 1 ? `
-                <div class="carousel-dots">
-                  ${carouselDots}
-                </div>
-              ` : '';
-              
-              // Assemble complete carousel HTML
-              imageContent = `
-                <div class="image-carousel" data-carousel="${fellowId}">
-                  <div class="carousel-container">
-                    ${carouselSlides}
+                // 如果没有图片，添加占位符
+                if (allImages.length === 0) {
+                  console.log("No carousel images found, adding placeholder");
+                  allImages.push({
+                    src: '/uploads/placeholder.jpg',
+                    caption: 'Image not provided'
+                  });
+                }
+                
+                console.log("Total carousel images:", allImages.length);
+                
+                // 为每个图片创建轮播幻灯片
+                allImages.forEach((image, idx) => {
+                  console.log(`Creating slide ${idx+1}:`, image.src);
+                  
+                  // 添加onerror处理并显示加载指示器
+                  carouselSlides += `
+                    <div class="carousel-slide ${idx === 0 ? 'active' : ''}">
+                      <img 
+                        src="${image.src}" 
+                        alt="${fellow.name || ''} slide ${idx+1}" 
+                        class="expanded-image"
+                        onerror="this.onerror=null; this.src='/uploads/placeholder.jpg'; console.error('Failed to load carousel image:', '${image.src}')"
+                      >
+                      <div class="photo-credit">${image.caption || ''}</div>
+                    </div>
+                  `;
+                  
+                  carouselDots += `
+                    <div class="carousel-dot ${idx === 0 ? 'active' : ''}" onclick="goToSlide('${fellow.id || `fellow-${index}`}', ${idx})"></div>
+                  `;
+                });
+                
+                // 仅当有多张图片时显示轮播点
+                const dotsHtml = allImages.length > 1 ? `
+                  <div class="carousel-dots">
+                    ${carouselDots}
                   </div>
-                  ${dotsHtml}
-                </div>
-              `;
+                ` : '';
+                
+                // 组装完整的轮播图HTML
+                imageContent = `
+                  <div class="image-carousel" data-carousel="${fellow.id || `fellow-${index}`}">
+                    <div class="carousel-container">
+                      ${carouselSlides}
+                    </div>
+                    ${dotsHtml}
+                  </div>
+                `;
+              } else {
+                // 单张图片
+                console.log("Creating single image display for", fellow.name);
+                imageContent = `
+                  <div class="single-image-container">
+                    <img src="${imagePath}" alt="${fellow.name || ''}" class="expanded-image" onerror="this.onerror=null; this.src='/uploads/placeholder.jpg'; console.error('Failed to load image:', this.src);">
+                    <div class="photo-credit">${fellow.caption || ''}</div>
+                  </div>
+                `;
+              }
             } else {
-              // Single image
-              log("Creating single image display for", fellow.name);
+              // 没有图片
+              console.log("No image for", fellow.name);
               imageContent = `
                 <div class="single-image-container">
-                  <img src="${imagePath}" alt="${fellow.name || ''}" class="expanded-image" onerror="this.onerror=null; this.src='/uploads/placeholder.jpg'; console.error('Failed to load image:', this.src);">
-                  <div class="photo-credit">${imageCaption}</div>
+                  <div style="text-align: center; padding: 40px; background: #f5f5f5; color: #888;">
+                    <p>Image not provided</p>
+                  </div>
                 </div>
               `;
             }
             
-            // Create fellow HTML with all the content
+            // 创建研究员HTML
             const fellowHTML = `
-              <tr class="fellow-row" data-fellow-id="${fellowId}">
-                <td class="fellow-number">${fellow.number || (index + 1).toString().padStart(2, '0')}</td>
+              <tr class="fellow-row" data-fellow-id="${fellow.id || `fellow-${index}`}">
+                <td class="fellow-number">${fellow.number || ''}</td>
                 <td class="fellow-name">${fellow.name || ''}</td>
               </tr>
-              <tr class="expanded-row" id="${fellowId}-row">
+              <tr class="expanded-row" id="${fellow.id || `fellow-${index}`}-row">
                 <td colspan="2" class="expanded-cell">
-                  <div class="expanded-content" id="${fellowId}-content">
+                  <div class="expanded-content" id="${fellow.id || `fellow-${index}`}-content">
                     <div class="expanded-left">
                       <h3 class="expanded-title">${fellow.title || fellow.name || ''}</h3>
                       <div class="expanded-text">
@@ -284,112 +283,273 @@ document.addEventListener('DOMContentLoaded', function() {
               </tr>
             `;
             
-            // Add to table
+            // 添加到表格
             fellowsTable.innerHTML += fellowHTML;
-            log(`Added fellow ${fellow.name} to table`);
+            console.log(`Added fellow ${fellow.name} to table`);
           });
           
-          // Initialize interactive features
-          log("Setting up interactive features");
+          // 重新初始化交互功能
+          console.log("Setting up interactive features");
           setupExpandableRows();
+          
+          // 初始化轮播
+          console.log("Initializing carousels");
           initCarousels();
         } else {
           console.error("Fellows table not found! Selector: #cohort-2025 tbody");
         }
       } else {
-        console.error("No fellows data found in the JSON");
+        console.warn("No fellows data found in the JSON");
       }
     })
     .catch(error => {
-      console.error('Error loading or processing fellowship data:', error);
+      console.error('Error loading or processing content data:', error);
+    });
+  
+  // 重新实现setupExpandableRows函数，以防原页面中没有
+  function setupExpandableRows() {
+    console.log("Setting up expandable rows");
+    const fellowRows = document.querySelectorAll('.fellow-row');
+    let activeExpansion = null;
+    
+    fellowRows.forEach((row) => {
+      row.addEventListener('click', function(event) {
+        // 不要在点击轮播点或图片时展开
+        if (event.target.closest('.carousel-dot') || event.target.closest('.image-carousel')) {
+          return;
+        }
+        
+        const fellowId = this.getAttribute('data-fellow-id');
+        if (!fellowId) return;
+        
+        console.log('Clicking fellow row:', fellowId);
+        
+        // 找到展开行和内容
+        const expandedRow = document.getElementById(`${fellowId}-row`);
+        const expandedContent = document.getElementById(`${fellowId}-content`);
+        
+        if (!expandedRow || !expandedContent) {
+          console.error('Could not find expanded elements for:', fellowId);
+          return;
+        }
+        
+        // 检查此行是否已经激活
+        const isActive = this.classList.contains('active');
+        console.log('Is currently active:', isActive);
+        
+        // 移除所有研究员行的激活类
+        document.querySelectorAll('.fellow-row.active').forEach(row => {
+          row.classList.remove('active');
+        });
+        
+        // 关闭所有展开内容
+        document.querySelectorAll('.expanded-row.active').forEach(row => {
+          row.classList.remove('active');
+          const content = row.querySelector('.expanded-content');
+          if (content) content.classList.remove('active');
+        });
+        
+        // 暂停所有轮播
+        pauseAllCarousels();
+        
+        // 如果此行之前未激活，打开它
+        if (!isActive) {
+          // 添加激活类到点击的行
+          this.classList.add('active');
+          
+          // 显示展开内容行
+          expandedRow.classList.add('active');
+          expandedContent.classList.add('active');
+          
+          // 更新激活的展开
+          activeExpansion = fellowId;
+          
+          // 为新打开的研究员初始化轮播并滚动
+          setTimeout(() => {
+            // 重新初始化轮播
+            const newCarousels = expandedContent.querySelectorAll('.image-carousel');
+            newCarousels.forEach(carousel => {
+              initSpecificCarousel(carousel);
+            });
+            
+            // 滚动到展开内容
+            const rect = expandedRow.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const targetY = rect.top + scrollTop - 100; // 100px顶部偏移
+            
+            window.scrollTo({
+              top: targetY,
+              behavior: 'smooth'
+            });
+          }, 100);
+        } else {
+          // 此行已激活，关闭它
+          activeExpansion = null;
+        }
+        
+        // 防止事件传播到文档点击处理器
+        event.stopPropagation();
+      });
+    });
+    
+    // 处理关闭按钮点击
+    const closeButtons = document.querySelectorAll('.close-btn');
+    closeButtons.forEach(button => {
+      button.addEventListener('click', function(event) {
+        const expandedContent = this.closest('.expanded-content');
+        if (!expandedContent) return;
+        
+        // 找到研究员行
+        const fellowId = expandedContent.id.replace('-content', '');
+        const fellowRow = document.querySelector(`.fellow-row[data-fellow-id="${fellowId}"]`);
+        
+        if (fellowRow) {
+          fellowRow.classList.remove('active');
+        }
+        
+        // 关闭展开内容
+        expandedContent.classList.remove('active');
+        const expandedRow = expandedContent.closest('.expanded-row');
+        if (expandedRow) {
+          expandedRow.classList.remove('active');
+        }
+        
+        // 重置激活展开
+        activeExpansion = null;
+        
+        // 暂停所有轮播
+        pauseAllCarousels();
+        
+        // 防止事件传播
+        event.stopPropagation();
+      });
+    });
+    
+    // 点击外部关闭展开内容
+    document.addEventListener('click', function(event) {
+      // 检查点击是否在研究员行和展开内容之外
+      const targetRow = event.target.closest('.fellow-row');
+      const targetExpandedContent = event.target.closest('.expanded-content');
+      const closeButton = event.target.closest('.close-btn');
       
-      // Show error message on the page
-      const fellowsTable = document.querySelector('#cohort-2025 tbody');
-      if (fellowsTable) {
-        fellowsTable.innerHTML += `
-          <tr>
-            <td colspan="2" style="text-align: center; padding: 20px; color: #f33;">
-              <p>Error loading fellowship data. Please try refreshing the page.</p>
-              <p>Technical details: ${error.message}</p>
-            </td>
-          </tr>
-        `;
+      if (!targetRow && !targetExpandedContent && !closeButton) {
+        // 重置所有研究员行
+        document.querySelectorAll('.fellow-row.active').forEach(row => {
+          row.classList.remove('active');
+        });
+        
+        // 关闭所有展开内容
+        document.querySelectorAll('.expanded-row.active').forEach(row => {
+          row.classList.remove('active');
+          const content = row.querySelector('.expanded-content');
+          if (content) content.classList.remove('active');
+        });
+        
+        // 重置激活展开
+        activeExpansion = null;
+        
+        // 暂停所有轮播
+        pauseAllCarousels();
       }
     });
+    
+    // 添加键盘导航（Escape键关闭展开内容）
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        // 重置所有研究员行
+        document.querySelectorAll('.fellow-row.active').forEach(row => {
+          row.classList.remove('active');
+        });
+        
+        // 关闭所有展开内容
+        document.querySelectorAll('.expanded-row.active').forEach(row => {
+          row.classList.remove('active');
+          const content = row.querySelector('.expanded-content');
+          if (content) content.classList.remove('active');
+        });
+        
+        // 重置激活展开
+        activeExpansion = null;
+        
+        // 暂停所有轮播
+        pauseAllCarousels();
+      }
+    });
+  }
 });
 
-// ===== CAROUSEL FUNCTIONS =====
-
-// Global variables for carousels
-window.carousels = new Map();
-window.carouselIntervals = new Map();
-
-// Initialize all carousels
+// 轮播图功能实现
 function initCarousels() {
-  log("Initializing all carousels");
+  console.log("Initializing all carousels");
   const carouselElements = document.querySelectorAll('.image-carousel');
   carouselElements.forEach(carousel => {
     initSpecificCarousel(carousel);
   });
 }
 
-// Initialize a specific carousel
 function initSpecificCarousel(carouselElement) {
   const carouselId = carouselElement.dataset.carousel;
   if (!carouselId) {
-    log("Carousel missing data-carousel attribute");
+    console.warn("Carousel missing data-carousel attribute");
     return;
   }
   
-  log("Initializing carousel:", carouselId);
+  console.log("Initializing carousel:", carouselId);
   
   const slides = carouselElement.querySelectorAll('.carousel-slide');
   if (slides.length <= 1) {
-    log("Carousel has only one slide, skipping initialization");
-    return; // Don't initialize for single images
+    console.log("Carousel has only one slide, skipping initialization");
+    return; // 单张图片不需要初始化
   }
   
-  // Store carousel state
+  // 存储轮播状态
+  if (!window.carousels) window.carousels = new Map();
+  
   window.carousels.set(carouselId, {
     currentSlide: 0,
     totalSlides: slides.length,
     element: carouselElement
   });
   
-  log("Carousel initialized with", slides.length, "slides");
+  console.log("Carousel initialized with", slides.length, "slides");
   
-  // Start auto-swipe
+  // 开始自动轮播
   startAutoSwipe(carouselId);
 }
 
-// Update carousel display
 function updateCarousel(carouselId) {
+  if (!window.carousels) return;
+  
   const carousel = window.carousels.get(carouselId);
   if (!carousel) return;
   
   const slides = carousel.element.querySelectorAll('.carousel-slide');
   const dots = carousel.element.querySelectorAll('.carousel-dot');
   
-  // Update slides
+  // 更新幻灯片
   slides.forEach((slide, index) => {
     slide.classList.toggle('active', index === carousel.currentSlide);
   });
   
-  // Update dots
+  // 更新点
   dots.forEach((dot, index) => {
     dot.classList.toggle('active', index === carousel.currentSlide);
   });
 }
 
-// Start auto-swipe for a carousel
 function startAutoSwipe(carouselId) {
+  if (!window.carousels) return;
+  
   const carousel = window.carousels.get(carouselId);
   if (!carousel || carousel.totalSlides <= 1) return;
   
-  // Clear existing interval
+  // 清除现有定时器
   pauseAutoSwipe(carouselId);
   
-  // Set new interval (change slide every 4 seconds)
+  // 如果不存在定时器映射，创建一个
+  if (!window.carouselIntervals) window.carouselIntervals = new Map();
+  
+  // 设置新定时器（每4秒切换一次幻灯片）
   const interval = setInterval(() => {
     carousel.currentSlide = (carousel.currentSlide + 1) % carousel.totalSlides;
     updateCarousel(carouselId);
@@ -398,8 +558,9 @@ function startAutoSwipe(carouselId) {
   window.carouselIntervals.set(carouselId, interval);
 }
 
-// Pause auto-swipe for a carousel
 function pauseAutoSwipe(carouselId) {
+  if (!window.carouselIntervals) return;
+  
   const interval = window.carouselIntervals.get(carouselId);
   if (interval) {
     clearInterval(interval);
@@ -407,300 +568,25 @@ function pauseAutoSwipe(carouselId) {
   }
 }
 
-// Pause all carousels
 function pauseAllCarousels() {
+  if (!window.carouselIntervals) return;
+  
   window.carouselIntervals.forEach((interval, carouselId) => {
     clearInterval(interval);
   });
   window.carouselIntervals.clear();
 }
 
-// Global function for carousel navigation (used by onclick handlers)
-window.goToSlide = function(carouselId, slideIndex) {
+function goToSlide(carouselId, slideIndex) {
+  if (!window.carousels) return;
+  
   const carousel = window.carousels.get(carouselId);
   if (!carousel) return;
   
   carousel.currentSlide = slideIndex;
   updateCarousel(carouselId);
   
-  // Restart auto-swipe after manual navigation
+  // 重新开始自动轮播
   pauseAutoSwipe(carouselId);
   startAutoSwipe(carouselId);
-};
-
-// ===== EXPANDABLE ROWS FUNCTIONS =====
-
-// Setup expandable rows functionality
-function setupExpandableRows() {
-  log("Setting up expandable rows");
-  const fellowRows = document.querySelectorAll('.fellow-row');
-  let activeExpansion = null;
-  
-  fellowRows.forEach((row) => {
-    row.addEventListener('click', function(event) {
-      // Don't expand if clicking on carousel dots or images
-      if (event.target.closest('.carousel-dot') || event.target.closest('.image-carousel')) {
-        return;
-      }
-      
-      const fellowId = this.getAttribute('data-fellow-id');
-      if (!fellowId) return;
-      
-      log('Clicking fellow row:', fellowId);
-      
-      // Find the expanded row and content
-      const expandedRow = document.getElementById(`${fellowId}-row`);
-      const expandedContent = document.getElementById(`${fellowId}-content`);
-      
-      if (!expandedRow || !expandedContent) {
-        console.error('Could not find expanded elements for:', fellowId);
-        return;
-      }
-      
-      // Check if this row is already active
-      const isActive = this.classList.contains('active');
-      log('Is currently active:', isActive);
-      
-      // Remove active class from all fellow rows
-      document.querySelectorAll('.fellow-row.active').forEach(row => {
-        row.classList.remove('active');
-      });
-      
-      // Close all expanded contents
-      document.querySelectorAll('.expanded-row.active').forEach(row => {
-        row.classList.remove('active');
-        const content = row.querySelector('.expanded-content');
-        if (content) content.classList.remove('active');
-      });
-      
-      // Pause all carousels
-      pauseAllCarousels();
-      
-      // If this row wasn't active before, open it
-      if (!isActive) {
-        // Add active class to the clicked row
-        this.classList.add('active');
-        
-        // Show the expanded content row
-        expandedRow.classList.add('active');
-        expandedContent.classList.add('active');
-        
-        // Update active expansion
-        activeExpansion = fellowId;
-        
-        // Initialize carousels for the newly opened fellow and scroll
-        setTimeout(() => {
-          // Re-initialize carousels for the newly expanded content
-          const newCarousels = expandedContent.querySelectorAll('.image-carousel');
-          newCarousels.forEach(carousel => {
-            initSpecificCarousel(carousel);
-          });
-          
-          // Scroll to expanded content
-          scrollToExpandedContent(expandedRow);
-        }, 100);
-      } else {
-        // This row was active, so we closed it
-        activeExpansion = null;
-      }
-      
-      // Prevent the event from propagating to document click handler
-      event.stopPropagation();
-    });
-  });
-  
-  // Handle close button clicks
-  const closeButtons = document.querySelectorAll('.close-btn');
-  closeButtons.forEach(button => {
-    button.addEventListener('click', function(event) {
-      const expandedContent = this.closest('.expanded-content');
-      if (!expandedContent) return;
-      
-      // Find the fellow row
-      const fellowId = expandedContent.id.replace('-content', '');
-      const fellowRow = document.querySelector(`.fellow-row[data-fellow-id="${fellowId}"]`);
-      
-      if (fellowRow) {
-        fellowRow.classList.remove('active');
-      }
-      
-      // Close the expanded content
-      expandedContent.classList.remove('active');
-      const expandedRow = expandedContent.closest('.expanded-row');
-      if (expandedRow) {
-        expandedRow.classList.remove('active');
-      }
-      
-      // Reset active expansion
-      activeExpansion = null;
-      
-      // Pause all carousels
-      pauseAllCarousels();
-      
-      // Prevent the event from propagating
-      event.stopPropagation();
-    });
-  });
-  
-  // Document click handler to close expanded content when clicking outside
-  document.addEventListener('click', function(event) {
-    // Check if the click was outside both fellow rows and expanded content
-    const targetRow = event.target.closest('.fellow-row');
-    const targetExpandedContent = event.target.closest('.expanded-content');
-    const closeButton = event.target.closest('.close-btn');
-    
-    if (!targetRow && !targetExpandedContent && !closeButton) {
-      // Reset all fellow rows
-      document.querySelectorAll('.fellow-row.active').forEach(row => {
-        row.classList.remove('active');
-      });
-      
-      // Close all expanded contents
-      document.querySelectorAll('.expanded-row.active').forEach(row => {
-        row.classList.remove('active');
-        const content = row.querySelector('.expanded-content');
-        if (content) content.classList.remove('active');
-      });
-      
-      // Reset active expansion and pause carousels
-      activeExpansion = null;
-      pauseAllCarousels();
-    }
-  });
-  
-  // Keyboard handler for Escape key
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-      // Reset all fellow rows
-      document.querySelectorAll('.fellow-row.active').forEach(row => {
-        row.classList.remove('active');
-      });
-      
-      // Close all expanded contents
-      document.querySelectorAll('.expanded-row.active').forEach(row => {
-        row.classList.remove('active');
-        const content = row.querySelector('.expanded-content');
-        if (content) content.classList.remove('active');
-      });
-      
-      // Reset active expansion and pause carousels
-      activeExpansion = null;
-      pauseAllCarousels();
-    }
-  });
 }
-
-// Scroll to expanded content
-function scrollToExpandedContent(expandedRow) {
-  if (!expandedRow.classList.contains('active')) return;
-  
-  // Calculate position to scroll to (slightly above the expanded row)
-  const rect = expandedRow.getBoundingClientRect();
-  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  const targetY = rect.top + scrollTop - 100; // 100px offset from top
-  
-  // Smooth scroll to the target position
-  window.scrollTo({
-    top: targetY,
-    behavior: 'smooth'
-  });
-}
-
-// ==== NAVIGATION FUNCTIONS ====
-
-// Initialize navigation event listeners
-function initNavigationEvents() {
-  log("Initializing navigation event listeners");
-  
-  // Desktop navigation
-  const navItems = document.querySelectorAll('.nav-item');
-  navItems.forEach(item => {
-    item.addEventListener('click', function(event) {
-      // Find the link
-      const link = this.querySelector('a');
-      if (link && link.getAttribute('href') !== '#') {
-        // If this is a real link (not dropdown toggle), don't prevent default
-        return;
-      }
-      
-      // Toggle active state for dropdown
-      event.preventDefault();
-      
-      // Close all other dropdowns
-      navItems.forEach(navItem => {
-        if (navItem !== this) {
-          navItem.classList.remove('active');
-        }
-      });
-      
-      // Toggle current dropdown
-      this.classList.toggle('active');
-    });
-  });
-}
-
-// Make sure we have this global function defined
-window.toggleMobileNav = function() {
-  const mobileNav = document.getElementById('mobileNav');
-  
-  if (mobileNav.style.display === 'flex' || mobileNav.classList.contains('show')) {
-    mobileNav.style.display = 'none';
-    mobileNav.classList.remove('show');
-    // Close all mobile dropdowns when closing nav
-    const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-    allMobileNavItems.forEach(item => {
-      item.classList.remove('active');
-    });
-  } else {
-    mobileNav.style.display = 'flex';
-    mobileNav.classList.add('show');
-  }
-};
-
-// And this one
-window.toggleMobileDropdown = function(event, element) {
-  event.preventDefault();
-  const navItem = element.parentElement;
-  
-  // Check if this nav item has a dropdown
-  const dropdown = navItem.querySelector('.mobile-dropdown');
-  if (!dropdown) {
-    // If no dropdown, it's a regular link - handle navigation here if needed
-    return;
-  }
-  
-  // Close all other mobile dropdowns
-  const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-  allMobileNavItems.forEach(item => {
-    if (item !== navItem) {
-      item.classList.remove('active');
-    }
-  });
-  
-  // Toggle current dropdown
-  navItem.classList.toggle('active');
-};
-
-// Initialize navigation on load
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-  initNavigationEvents();
-} else {
-  document.addEventListener('DOMContentLoaded', initNavigationEvents);
-}
-
-// Handle window resize for responsive adjustments
-window.addEventListener('resize', function() {
-  const mobileNav = document.getElementById('mobileNav');
-  if (!mobileNav) return;
-  
-  // Close mobile nav on desktop width
-  if (window.innerWidth > 768) {
-    mobileNav.style.display = 'none';
-    mobileNav.classList.remove('show');
-    
-    const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-    allMobileNavItems.forEach(item => {
-      item.classList.remove('active');
-    });
-  }
-});
