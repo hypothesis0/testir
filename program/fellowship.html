@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+    <!-- Netlify CMS -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script src="../js/fellowship-cms.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fellowship - Inaugural Cohort</title>
-    <!-- Google Font - Space Grotesk -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Netlify CMS -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script src="../js/fellowship-cms.js"></script>
+     <!-- Google Font - Space Grotesk -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
      
     <style>
         body {
@@ -100,12 +99,10 @@
         .nav-item.active {
             color: #ffffff;
         }
-        
         .nav-item.active > a {
-            font-style: italic !important;
-            color: #ffffff;
-        }
-        
+  font-style: italic !important;
+  color: #ffffff;
+}
         /* Horizontal Dropdown styles - Click-based with text alignment */
         .dropdown {
             display: none;
@@ -210,12 +207,14 @@
             flex-direction: column;
             padding: 0;
             z-index: 1000;
+            
         }
         
         /* Mobile nav item structure - uniform height */
         .mobile-nav-item {
             position: relative;
             border-bottom: 0.5px solid rgba(23, 23, 23, 0.15) !important;
+            
         }
         
         .mobile-nav-item > a {
@@ -235,19 +234,13 @@
             background-color: rgba(243, 135, 135, 0.691);
             color:#f8f8f8;
         }
-        
         .mobile-nav-item.active > a {
-            font-style: italic !important;
-            color: #ffffff;
+         font-style: italic !important;
+        color: #ffffff;
         }
         
         /* Mobile arrow indicator */
         .mobile-arrow {
-            position: absolute !important;
-            right: 24px;
-            top: 50%;
-            transform: translateY(-50%);
-            margin: 0 !important;
             font-size: 20px;
             transition: transform 0.3s ease;
             width: 20px;
@@ -260,8 +253,7 @@
         }
         
         .mobile-nav-item.active .mobile-arrow {
-            transform: rotate(180deg) translateY(-50%);
-            top: 50%;
+            transform: rotate(180deg);
         }
         
         /* Mobile dropdown */
@@ -286,12 +278,12 @@
             box-sizing: border-box;
             display: flex;
             align-items: center;
-            padding-left: 48px;
+            padding-left:48px;
         }
         
         .mobile-dropdown a:hover {
             background-color: rgba(243, 135, 135, 0.691);
-            color: #f8f8f8;
+            color:#f8f8f8;
         }
         
         /* Make sure it shows when toggled */
@@ -306,10 +298,12 @@
             margin: 0; /* Remove auto centering */
             position: relative;
             z-index: 2;
-            flex: 1;
+            flex:1;
             width: 100%; /* Explicitly set to 100% */
             box-sizing: border-box; /* Include padding in width calculation */
-            padding-bottom: 80px; /* Prevents footer from overlapping content */
+            .content {
+  padding-bottom: 80px; /* Prevents footer from overlapping content */
+}
         }
         
         /* Intro container */
@@ -587,39 +581,15 @@
             object-fit: contain;
         }
         
-        /* Netlify CMS Admin Button */
-        .netlify-admin-button {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            background-color: rgb(241, 61, 33);
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 14px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            display: none;
-        }
-        
-        .netlify-admin-button.visible {
-            display: block;
-        }
-        
         /* Mobile styling */
         @media (max-width: 768px) {
             /* Hide desktop nav, show hamburger */
             .nav-top {
                 display: none !important;
             }
-            
             .top-banner h1 {
                 font-size: 28px;
             }
-            
             .hamburger-menu {
                 display: flex !important;
             }
@@ -635,32 +605,33 @@
                 background-color: rgb(241, 61, 33);
                 z-index: 1000;
             }
-            
             .mobile-nav-item > a {
-                padding-left: 24px !important; /* Match title */
-                display: block !important; /* Remove flex */
-                position: relative;
-            }
-            
-            .mobile-arrow {
-                position: absolute !important;
-                right: 24px;
-                top: 50%;
-                transform: translateY(-50%);
-                margin: 0 !important;
-            }
+               
+        padding-left: 24px !important; /* Match title */
+        display: block !important; /* Remove flex */
+        position: relative;
+        
+    }
+    .mobile-arrow {
+    position: absolute !important;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0 !important;
+  }
 
-            /* Equal border treatment */
-            .mobile-nav-item {
-                border-bottom: 0.5px solid rgba(23, 23, 23, 0.15) !important;
-            }
-            
-            .mobile-nav-item > a {
-                border: none !important;
-            }
-            
+  /* 4. Equal border treatment */
+  .mobile-nav-item {
+    border-bottom: 0.5px solid rgba(23, 23, 23, 0.15) !important;
+  }
+  .mobile-nav-item > a {
+    border: none !important;
+  }
+  
+       
             .content {
-                padding: 90px 24px 30px 24px; 
+                padding: 15vh 3vw 4vw 3vw; 
+                padding-left:24px;
             } 
             
             .section-heading {
@@ -673,12 +644,12 @@
             
             .intro-container {
                 flex-direction: column;
-                margin-bottom: 60px;
+                margin-bottom: 8vh;
             }
             
             .intro-left, .intro-right {
                 width: 100%;
-                margin-bottom: 30px;
+                margin-bottom: 4vh;
             }
             
             .fellowship-intro {
@@ -695,7 +666,7 @@
             
             .expanded-content.active {
                 flex-direction: column;
-                max-height: none;
+                max-height: none ;
             }
             
             .expanded-left, .expanded-right {
@@ -722,35 +693,27 @@
             }
             
             .expanded-title {
-                font-size: 22px;
+                font-size: 24px;
             }
             
             .expanded-subtitle {
-                font-size: 16px;
+                font-size: 18px;
             }
             
             .expanded-text {
-                font-size: 15px;
-            }
-            
-            .expanded-projects h4 {
                 font-size: 16px;
             }
             
+            .expanded-projects h4 {
+                font-size: 18px;
+            }
+            
             .project-title {
-                font-size: 15px;
+                font-size: 16px;
             }
             
             .project-description {
                 font-size: 14px;
-            }
-            
-            /* Netlify admin button mobile adjustments */
-            .netlify-admin-button {
-                right: 10px;
-                bottom: 10px;
-                padding: 8px 12px;
-                font-size: 12px;
             }
         }
         
@@ -767,6 +730,8 @@
             .mobile-nav {
                 display: none !important;
             }
+
+          
         }
     </style>
 </head>
