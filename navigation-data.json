@@ -1,67 +1,67 @@
 {
-    "site_title": "initial research",
-    "nav_items": [
-      {
-        "label": "program",
-        "visible": true,
-        "dropdown_items": [
-          {
-            "label": "calendar",
-            "link": "/calendar.html",
-            "visible": true
-          },
-          {
-            "label": "fellowship",
-            "link": "/fellowship.html",
-            "visible": true
-          },
-          {
-            "label": "community hours",
-            "link": "/communityhours.html",
-            "visible": true
-          },
-          {
-            "label": "seasonal dinner",
-            "link": "/seasonaldinner.html",
-            "visible": true
-          },
-          {
-            "label": "exhibitions",
-            "link": "/exhibition.html",
-            "visible": true
-          }
-        ]
-      },
-      {
-        "label": "about",
-        "visible": true,
-        "dropdown_items": [
-          {
-            "label": "mission",
-            "link": "/about/mission.html",
-            "visible": true
-          },
-          {
-            "label": "vision",
-            "link": "/about/vision.html",
-            "visible": true
-          },
-          {
-            "label": "team",
-            "link": "/about/team.html",
-            "visible": true
-          },
-          {
-            "label": "contact",
-            "link": "/about/contact.html",
-            "visible": true
-          }
-        ]
-      },
-      {
-        "label": "support us",
-        "direct_link": "/supportus.html",
-        "visible": true
-      }
-    ]
-  }
+  "site_title": "initial research",
+  "nav_items": [
+    {
+      "label": "program",
+      "visible": true,
+      "dropdown_items": [
+        {
+          "label": "calendar",
+          "link": "/calendar.html",
+          "visible": true
+        },
+        {
+          "label": "fellowship",
+          "link": "/fellowship.html",
+          "visible": true
+        },
+        {
+          "label": "community hours",
+          "link": "/communityhours.html",
+          "visible": true
+        },
+        {
+          "label": "seasonal dinner",
+          "link": "/seasonaldinner.html",
+          "visible": true
+        },
+        {
+          "label": "exhibitions",
+          "link": "/exhibition.html",
+          "visible": false
+        }
+      ]
+    },
+    {
+      "label": "about",
+      "visible": true,
+      "dropdown_items": [
+        {
+          "label": "mission",
+          "link": "/about/mission.html",
+          "visible": true
+        },
+        {
+          "label": "vision",
+          "link": "/about/vision.html",
+          "visible": true
+        },
+        {
+          "label": "team",
+          "link": "/about/team.html",
+          "visible": true
+        },
+        {
+          "label": "contact",
+          "link": "/about/contact.html",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "label": "support us",
+      "direct_link": "/supportus.html",
+      "visible": true
+    }
+  ]
+}
