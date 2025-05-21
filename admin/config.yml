@@ -84,7 +84,28 @@ collections:
               - {label: "Exhibition Description", name: "description", widget: "markdown", required: true, hint: "Use double line breaks for paragraphs"}
               - {label: "Exhibition PDF", name: "pdf_file", widget: "file", required: false, hint: "Upload exhibition PDF document", media_folder: "/assets/pdf"}
               - {label: "PDF Button Text", name: "pdf_button_text", widget: "string", default: "download exhibition pdf", required: false}
-
+        collections:
+  - name: "content"
+    label: "Content"
+    files:
+      # 其他文件配置...
+      
+      - name: "communityhours"
+        label: "Community Hours Page"
+        file: "communityhours-data.json"
+        fields:
+          - {label: "Page Title", name: "title", widget: "string", default: "Community Hours", required: true}
+          - {label: "Hours", name: "hours", widget: "string", default: "11:00 am– 4:00 pm", required: true}
+          - {label: "Description", name: "description", widget: "markdown", required: true, hint: "Main description of community hours. Use double line breaks for paragraphs."}
+          - label: "Additional Sections"
+            name: "additional_sections"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Section Title", name: "title", widget: "string", required: true}
+              - {label: "Section Hours", name: "hours", widget: "string", required: false, hint: "Optional hours for this section"}
+              - {label: "Section Content", name: "content", widget: "markdown", required: true, hint: "Use double line breaks for paragraphs"}
+              
   - name: "navigation"
     label: "Navigation"
     files:
