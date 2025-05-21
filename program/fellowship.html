@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+    <!-- Netlify CMS -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script src="../js/fellowship-cms.js"></script>
+<script src="/content-loader.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -738,6 +742,10 @@
         <div class="title-container">
             <h1 onclick="goToHomepage()" style="cursor: pointer;">initial research</h1>
         </div>
+        
+        <!-- 导航容器 - 将通过JavaScript加载共享导航 -->
+        <div id="navigation-container"></div>
+    </div>
         <nav class="nav-top">
             <div class="nav-item">
                 <a href="#">program</a>
@@ -980,6 +988,16 @@
 </footer>
     
     <script>
+        
+        fetch('/shared/navigation.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('navigation-container').innerHTML = data;
+        })
+        .catch(error => {
+            console.error('Error loading navigation:', error);
+        });
+
           function goToHomepage() {
             window.location.href = '../index.html';
         }
