@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+    <!-- Netlify CMS -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script src="../js/fellowship-cms.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fellowship - Inaugural Cohort</title>
-    <!-- Google Font - Space Grotesk -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Netlify CMS -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script src="../js/fellowship-cms.js"></script>
-    <script src="../js/content-loader.js"></script>
+     <!-- Google Font - Space Grotesk -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
      
     <style>
         body {
@@ -101,12 +99,10 @@
         .nav-item.active {
             color: #ffffff;
         }
-        
         .nav-item.active > a {
-            font-style: italic !important;
-            color: #ffffff;
-        }
-        
+  font-style: italic !important;
+  color: #ffffff;
+}
         /* Horizontal Dropdown styles - Click-based with text alignment */
         .dropdown {
             display: none;
@@ -211,12 +207,14 @@
             flex-direction: column;
             padding: 0;
             z-index: 1000;
+            
         }
         
         /* Mobile nav item structure - uniform height */
         .mobile-nav-item {
             position: relative;
             border-bottom: 0.5px solid rgba(23, 23, 23, 0.15) !important;
+            
         }
         
         .mobile-nav-item > a {
@@ -236,19 +234,13 @@
             background-color: rgba(243, 135, 135, 0.691);
             color:#f8f8f8;
         }
-        
         .mobile-nav-item.active > a {
-            font-style: italic !important;
-            color: #ffffff;
+         font-style: italic !important;
+        color: #ffffff;
         }
         
-        /* Mobile arrow indicator - FIXED POSITIONING */
+        /* Mobile arrow indicator */
         .mobile-arrow {
-            position: absolute !important;
-            right: 24px;
-            top: 50%;
-            transform: translateY(-50%);
-            margin: 0 !important;
             font-size: 20px;
             transition: transform 0.3s ease;
             width: 20px;
@@ -261,8 +253,7 @@
         }
         
         .mobile-nav-item.active .mobile-arrow {
-            transform: rotate(180deg) translateY(-50%);
-            top: 50%;
+            transform: rotate(180deg);
         }
         
         /* Mobile dropdown */
@@ -287,12 +278,12 @@
             box-sizing: border-box;
             display: flex;
             align-items: center;
-            padding-left: 48px;
+            padding-left:48px;
         }
         
         .mobile-dropdown a:hover {
             background-color: rgba(243, 135, 135, 0.691);
-            color: #f8f8f8;
+            color:#f8f8f8;
         }
         
         /* Make sure it shows when toggled */
@@ -307,10 +298,12 @@
             margin: 0; /* Remove auto centering */
             position: relative;
             z-index: 2;
-            flex: 1;
+            flex:1;
             width: 100%; /* Explicitly set to 100% */
             box-sizing: border-box; /* Include padding in width calculation */
-            padding-bottom: 80px; /* Prevents footer from overlapping content */
+            .content {
+  padding-bottom: 80px; /* Prevents footer from overlapping content */
+}
         }
         
         /* Intro container */
@@ -588,55 +581,15 @@
             object-fit: contain;
         }
         
-        /* CMS Admin Panel Styles */
-        .admin-panel {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            background-color: rgb(241, 61, 33);
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            display: none;
-        }
-        
-        .admin-panel.visible {
-            display: block;
-        }
-        
-        .admin-panel h3 {
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-size: 18px;
-        }
-        
-        .admin-panel button {
-            background-color: #fff;
-            border: none;
-            padding: 8px 12px;
-            margin: 5px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 14px;
-        }
-        
-        .admin-panel button:hover {
-            background-color: #eee;
-        }
-        
         /* Mobile styling */
         @media (max-width: 768px) {
             /* Hide desktop nav, show hamburger */
             .nav-top {
                 display: none !important;
             }
-            
             .top-banner h1 {
                 font-size: 28px;
             }
-            
             .hamburger-menu {
                 display: flex !important;
             }
@@ -652,32 +605,33 @@
                 background-color: rgb(241, 61, 33);
                 z-index: 1000;
             }
-            
             .mobile-nav-item > a {
-                padding-left: 24px !important; /* Match title */
-                display: block !important; /* Remove flex */
-                position: relative;
-            }
-            
-            .mobile-arrow {
-                position: absolute !important;
-                right: 24px;
-                top: 50%;
-                transform: translateY(-50%);
-                margin: 0 !important;
-            }
+               
+        padding-left: 24px !important; /* Match title */
+        display: block !important; /* Remove flex */
+        position: relative;
+        
+    }
+    .mobile-arrow {
+    position: absolute !important;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0 !important;
+  }
 
-            /* Equal border treatment */
-            .mobile-nav-item {
-                border-bottom: 0.5px solid rgba(23, 23, 23, 0.15) !important;
-            }
-            
-            .mobile-nav-item > a {
-                border: none !important;
-            }
-            
+  /* 4. Equal border treatment */
+  .mobile-nav-item {
+    border-bottom: 0.5px solid rgba(23, 23, 23, 0.15) !important;
+  }
+  .mobile-nav-item > a {
+    border: none !important;
+  }
+  
+       
             .content {
-                padding: 90px 24px 30px 24px; 
+                padding: 15vh 3vw 4vw 3vw; 
+                padding-left:24px;
             } 
             
             .section-heading {
@@ -690,12 +644,12 @@
             
             .intro-container {
                 flex-direction: column;
-                margin-bottom: 60px;
+                margin-bottom: 8vh;
             }
             
             .intro-left, .intro-right {
                 width: 100%;
-                margin-bottom: 30px;
+                margin-bottom: 4vh;
             }
             
             .fellowship-intro {
@@ -712,7 +666,7 @@
             
             .expanded-content.active {
                 flex-direction: column;
-                max-height: none;
+                max-height: none ;
             }
             
             .expanded-left, .expanded-right {
@@ -739,39 +693,27 @@
             }
             
             .expanded-title {
-                font-size: 22px;
+                font-size: 24px;
             }
             
             .expanded-subtitle {
-                font-size: 16px;
+                font-size: 18px;
             }
             
             .expanded-text {
-                font-size: 15px;
-            }
-            
-            .expanded-projects h4 {
                 font-size: 16px;
             }
             
+            .expanded-projects h4 {
+                font-size: 18px;
+            }
+            
             .project-title {
-                font-size: 15px;
+                font-size: 16px;
             }
             
             .project-description {
                 font-size: 14px;
-            }
-            
-            /* Admin panel mobile adjustments */
-            .admin-panel {
-                right: 10px;
-                bottom: 10px;
-                padding: 10px;
-            }
-            
-            .admin-panel button {
-                padding: 6px 10px;
-                font-size: 12px;
             }
         }
         
@@ -788,94 +730,8 @@
             .mobile-nav {
                 display: none !important;
             }
-        }
-        
-        /* Modal for CMS editing */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal.visible {
-            display: flex;
-        }
-        
-        .modal-content {
-            background-color: #fff;
-            width: 80%;
-            max-width: 700px;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 30px;
-            border-radius: 5px;
-            position: relative;
-        }
-        
-        .modal-close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 24px;
-            cursor: pointer;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-        
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 8px;
-            font-family: 'Space Grotesk', sans-serif;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-        }
-        
-        .form-group textarea {
-            min-height: 100px;
-        }
-        
-        .form-actions {
-            margin-top: 20px;
-            text-align: right;
-        }
-        
-        .form-actions button {
-            padding: 8px 15px;
-            margin-left: 10px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        
-        .save-btn {
-            background-color: rgb(241, 61, 33);
-            color: white;
-        }
-        
-        .cancel-btn {
-            background-color: #ccc;
-        }
-        
-        .delete-btn {
-            background-color: #ff3b30;
-            color: white;
+
+          
         }
     </style>
 </head>
@@ -886,10 +742,9 @@
             <h1 onclick="goToHomepage()" style="cursor: pointer;">initial research</h1>
         </div>
         
-        <!-- Navigation container - Will be loaded via shared navigation -->
+        <!-- 导航容器 - 将通过JavaScript加载共享导航 -->
         <div id="navigation-container"></div>
-        
-        <!-- Backup direct navigation in case shared navigation fails to load -->
+    </div>
         <nav class="nav-top">
             <div class="nav-item">
                 <a href="#">program</a>
@@ -909,9 +764,9 @@
                 <div class="dropdown">
                     <div class="dropdown-container">
                         <a href="../about/mission.html">mission</a>
-                        <a href="../about/vision.html">vision</a>
-                        <a href="../about/team.html">team</a>
-                        <a href="../about/contact.html">contact</a>
+                    <a href="../about/vision.html">vision</a>
+                    <a href="../about/team.html">team</a>
+                    <a href="../about/contact.html">contact</a>
                     </div>
                 </div>
             </div>
@@ -990,7 +845,7 @@
                                 <h3 class="expanded-title">te editions</h3>
                                 
                                 <div class="expanded-text">
-                                    <p>te editions is an independent publishing house launched in 2023 by Michael Guo and Kechun Qin. It currently operates in New York and Beijing. te explores the intersection of the arts and humanities, examining historical and contemporary social landscapes through a diversified and microscopic lens. The focus lies on how cultures encounter, collapse, and transform each other within global cultural flows. Driven by "curatorial thinking on paper" in the editorial approach, te editions aims to foster new discussions informed by a genuinely interdisciplinary perspective.</p>
+                                    <p>te editions is an independent publishing house launched in 2023 by Michael Guo and Kechun Qin. It currently operates in New York and Beijing. te explores the intersection of the arts and humanities, examining historical and contemporary social landscapes through a diversified and microscopic lens. The focus lies on how cultures encounter, collapse, and transform each other within global cultural flows. Driven by “curatorial thinking on paper” in the editorial approach, te editions aims to foster new discussions informed by a genuinely interdisciplinary perspective.</p>
                                     <p>In 2021, te editions launched the first issue of its annual bilingual publication, te magazine. Each issue draws inspiration from current events, developing a theme that encapsulates the thinking sparked by the moment. Researchers and creators from various fields are invited to contribute their work around this central theme. te editions consistently collaborates with artists, scholars, communities, and cultural organizations to expand on existing projects and to envision new ones.
                                     </p>
                                 </div>
@@ -1031,10 +886,10 @@
                                 <h3 class="expanded-title">Nini Dongnier</h3>
                                 
                                 <div class="expanded-text">
-                                    <p>Hailing from Inner Mongolia and based in New York, choreographer and artist NiNi Dongnier works in choreographic performance, moving image, and painting. She delves deeply into questions about form, faith, constancy, migration, and the experience of life through explorations of movement, visual art, garment, and the use of tech intervention where necessary. Her work in dialogue with multiple nourishments—from her nomadic roots, classical training in a wide range of traditional to contemporary dance, to art history and Mahāyāna Buddhism. "My desire is to record intuitive truths through the sensual body and its material extensions."
+                                    <p>Hailing from Inner Mongolia and based in New York, choreographer and artist NiNi Dongnier works in choreographic performance, moving image, and painting. She delves deeply into questions about form, faith, constancy, migration, and the experience of life through explorations of movement, visual art, garment, and the use of tech intervention where necessary. Her work in dialogue with multiple nourishments—from her nomadic roots, classical training in a wide range of traditional to contemporary dance, to art history and Mahāyāna Buddhism. “My desire is to record intuitive truths through the sensual body and its material extensions.”
                                     </p>
-                                    <p>Dongnier's work has been performed and exhibited at The Watermill Center, New York Live Arts, Movement Research, Mana Contemporary, G Museum, Aranya Art Center, Shanghai Ming Contemporary Art Museum, National Centre for the Performing Arts, and Shanghai International Dance Center Theater, among others. She was a recipient of nominations for the China Dance Lotus Award. She has been an artist in residence at Monira Foundation, La MaMa|CultureHub, The Watermill Center, Media Art Xploration, Jacob's Pillow, and Barnard Movement Lab at Columbia University.</p>
-                              <p>Dongnier's initial learning stemmed from the vast, textured nature of Inner Mongolia, as well as from her parents. She graduated from the Beijing Dance Academy, received her MFA from New York University, and studied at the Skowhegan School of Painting and Sculpture. Dongnier has served on the faculty of Beijing Dance Academy (2012-17), taught at Hunter College—CUNY (2020), and at Barnard College—Columbia University (2020, 2024). She was an assistant professor at the School for the Contemporary Arts—Simon Fraser University (2021-24).</p>
+                                    <p>Dongnier’s work has been performed and exhibited at The Watermill Center, New York Live Arts, Movement Research, Mana Contemporary, G Museum, Aranya Art Center, Shanghai Ming Contemporary Art Museum, National Centre for the Performing Arts, and Shanghai International Dance Center Theater, among others. She was a recipient of nominations for the China Dance Lotus Award. She has been an artist in residence at Monira Foundation, La MaMa|CultureHub, The Watermill Center, Media Art Xploration, Jacob’s Pillow, and Barnard Movement Lab at Columbia University.</p>
+                              <p>Dongnier’s initial learning stemmed from the vast, textured nature of Inner Mongolia, as well as from her parents. She graduated from the Beijing Dance Academy, received her MFA from New York University, and studied at the Skowhegan School of Painting and Sculpture. Dongnier has served on the faculty of Beijing Dance Academy (2012-17), taught at Hunter College—CUNY (2020), and at Barnard College—Columbia University (2020, 2024). She was an assistant professor at the School for the Contemporary Arts—Simon Fraser University (2021-24).</p>
                                 </div>
                                
                             </div>
@@ -1061,18 +916,20 @@
                                 <h3 class="expanded-title">Anh Vo</h3>
                                 
                                 <div class="expanded-text">
-                                    <p>Anh Vo is a Vietnamese choreographer and writer working primarily in New York City, with a second base in Hanoi. Their practice fleshes out the body as a vessel for apparitional forces. Their work is situated in the unlikely lineage convergences between Downtown New York experimental performance, Hanoi performance art, and Vietnamese folk ritual practices. Vo is indebted to Miguel Gutierrez's unapologetic queerness and amorphous excess, Moriah Evan's speculative commitment to the depth of interiority, Tehching Hsieh's existential sense of time, and Ngoc Dai's guttural sonic landscape of postwar Vietnam. Their formal training is in Performance Studies, studying with esteemed theorists and practitioners at Brown University (BA) and New York University (MA). </p>
+                                    <p>Anh Vo is a Vietnamese choreographer and writer working primarily in New York City, with a second base in Hanoi. Their practice fleshes out the body as a vessel for apparitional forces. Their work is situated in the unlikely lineage convergences between Downtown New York experimental performance, Hanoi performance art, and Vietnamese folk ritual practices. Vo is indebted to Miguel Gutierrez's unapologetic queerness and amorphous excess, Moriah Evan's speculative commitment to the depth of interiority, Tehching Hsieh’s existential sense of time, and Ngoc Dai’s guttural sonic landscape of postwar Vietnam. Their formal training is in Performance Studies, studying with esteemed theorists and practitioners at Brown University (BA) and New York University (MA). </p>
                                   
                                 </div>
                               
                             </div>
                             <div class="expanded-right">
                                
-                                <div class="single-image-container">
+                                        <div class="single-image-container">
                                     <img src="img/fellowship/2025&2026cohort/Anh_Vo_PortraitbyMariaBaranova.jpg" alt="Anh Vo" class="expanded-image">
                                     <div class="photo-credit">Portrait by Maria Baranova</div>
                                 </div>
                                         
+                                    
+                                </div>
                             </div>
                             <button class="close-btn">&times;</button>
                         </div>
@@ -1113,6 +970,7 @@
         </table>
     </div>
     <footer style="
+    
     bottom: 0;
     left: 0;
     width: 100%;
@@ -1123,29 +981,126 @@
     font-size: 16px;
     font-weight: 300;
     color: rgb(23, 23, 23);
-    z-index: 2000;">
+    z-index: 2000;
+">
     123 Gallery Street, New York, NY 10001
 </footer>
     
     <script>
-        function goToHomepage() {
-            window.location.href = '../index.html';
-        }
-        
-        
-        // Load shared navigation
         fetch('/shared/navigation.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('navigation-container').innerHTML = data;
-            // Re-initialize navigation event listeners after loading
-            initNavigationEvents();
         })
         .catch(error => {
             console.error('Error loading navigation:', error);
-            // Show backup navigation if shared navigation fails to load
-            document.querySelector('.nav-top').style.display = 'flex';
         });
+          function goToHomepage() {
+            window.location.href = '../index.html';
+        }
+        // Carousel management
+        const carousels = new Map();
+        let carouselIntervals = new Map();
+        
+        // Initialize all carousels
+        function initCarousels() {
+            const carouselElements = document.querySelectorAll('.image-carousel');
+            carouselElements.forEach(carousel => {
+                initSpecificCarousel(carousel);
+            });
+        }
+        
+        // Initialize a specific carousel
+        function initSpecificCarousel(carouselElement) {
+            const carouselId = carouselElement.dataset.carousel;
+            if (!carouselId) return;
+            
+            const slides = carouselElement.querySelectorAll('.carousel-slide');
+            const dots = carouselElement.querySelectorAll('.carousel-dot');
+            
+            if (slides.length <= 1) return; // Don't initialize carousel for single images
+            
+            // Initialize carousel state
+            carousels.set(carouselId, {
+                currentSlide: 0,
+                totalSlides: slides.length,
+                element: carouselElement
+            });
+            
+            // Show first slide
+            updateCarousel(carouselId);
+            
+            // Start auto-swipe
+            startAutoSwipe(carouselId);
+        }
+        
+        // Update carousel display
+        function updateCarousel(carouselId) {
+            const carousel = carousels.get(carouselId);
+            if (!carousel) return;
+            
+            const slides = carousel.element.querySelectorAll('.carousel-slide');
+            const dots = carousel.element.querySelectorAll('.carousel-dot');
+            
+            // Update slides
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === carousel.currentSlide);
+            });
+            
+            // Update dots
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === carousel.currentSlide);
+            });
+        }
+        
+        // Start auto-swipe for a carousel
+        function startAutoSwipe(carouselId) {
+            const carousel = carousels.get(carouselId);
+            if (!carousel || carousel.totalSlides <= 1) return;
+            
+            // Clear existing interval
+            pauseAutoSwipe(carouselId);
+            
+            // Set new interval (change slide every 4 seconds)
+            const interval = setInterval(() => {
+                carousel.currentSlide = (carousel.currentSlide + 1) % carousel.totalSlides;
+                updateCarousel(carouselId);
+            }, 4000);
+            
+            carouselIntervals.set(carouselId, interval);
+        }
+        
+        // Pause auto-swipe for a carousel
+        function pauseAutoSwipe(carouselId) {
+            const interval = carouselIntervals.get(carouselId);
+            if (interval) {
+                clearInterval(interval);
+                carouselIntervals.delete(carouselId);
+            }
+        }
+        
+        // Pause all carousels
+        function pauseAllCarousels() {
+            carouselIntervals.forEach((interval, carouselId) => {
+                clearInterval(interval);
+            });
+            carouselIntervals.clear();
+        }
+        
+        // Global function for carousel navigation (needed for onclick handlers)
+        function goToSlide(carouselId, slideIndex) {
+            const carousel = carousels.get(carouselId);
+            if (!carousel) return;
+            
+            carousel.currentSlide = slideIndex;
+            updateCarousel(carouselId);
+            
+            // Restart auto-swipe after manual navigation
+            pauseAutoSwipe(carouselId);
+            startAutoSwipe(carouselId);
+        }
+
+        // Mobile navigation functions - matching exhibition page
         function toggleMobileNav() {
             const mobileNav = document.getElementById('mobileNav');
             
@@ -1203,14 +1158,29 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize navigation event listeners
-            initNavigationEvents();
-
-            // Check if shared navigation is loaded
-            if (document.getElementById('navigation-container').children.length === 0) {
-                // Show backup navigation if shared navigation is not loaded
-                document.querySelector('.nav-top').style.display = 'flex';
-            }
+            // Desktop dropdown toggle functionality
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            navItems.forEach(item => {
+                const link = item.querySelector('a');
+                const dropdown = item.querySelector('.dropdown');
+                
+                if (dropdown) {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Close all other dropdowns
+                        navItems.forEach(otherItem => {
+                            if (otherItem !== item) {
+                                otherItem.classList.remove('active');
+                            }
+                        });
+                        
+                        // Toggle current dropdown
+                        item.classList.toggle('active');
+                    });
+                }
+            });
             
             // Close dropdowns when clicking outside
             document.addEventListener('click', function(e) {
@@ -1430,108 +1400,6 @@
                 });
             });
         });
-
-        // Carousel management
-        const carousels = new Map();
-        let carouselIntervals = new Map();
-        
-        // Initialize all carousels
-        function initCarousels() {
-            const carouselElements = document.querySelectorAll('.image-carousel');
-            carouselElements.forEach(carousel => {
-                initSpecificCarousel(carousel);
-            });
-        }
-        
-        // Initialize a specific carousel
-        function initSpecificCarousel(carouselElement) {
-            const carouselId = carouselElement.dataset.carousel;
-            if (!carouselId) return;
-            
-            const slides = carouselElement.querySelectorAll('.carousel-slide');
-            const dots = carouselElement.querySelectorAll('.carousel-dot');
-            
-            if (slides.length <= 1) return; // Don't initialize carousel for single images
-            
-            // Initialize carousel state
-            carousels.set(carouselId, {
-                currentSlide: 0,
-                totalSlides: slides.length,
-                element: carouselElement
-            });
-            
-            // Show first slide
-            updateCarousel(carouselId);
-            
-            // Start auto-swipe
-            startAutoSwipe(carouselId);
-        }
-        
-        // Update carousel display
-        function updateCarousel(carouselId) {
-            const carousel = carousels.get(carouselId);
-            if (!carousel) return;
-            
-            const slides = carousel.element.querySelectorAll('.carousel-slide');
-            const dots = carousel.element.querySelectorAll('.carousel-dot');
-            
-            // Update slides
-            slides.forEach((slide, index) => {
-                slide.classList.toggle('active', index === carousel.currentSlide);
-            });
-            
-            // Update dots
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === carousel.currentSlide);
-            });
-        }
-        
-        // Start auto-swipe for a carousel
-        function startAutoSwipe(carouselId) {
-            const carousel = carousels.get(carouselId);
-            if (!carousel || carousel.totalSlides <= 1) return;
-            
-            // Clear existing interval
-            pauseAutoSwipe(carouselId);
-            
-            // Set new interval (change slide every 4 seconds)
-            const interval = setInterval(() => {
-                carousel.currentSlide = (carousel.currentSlide + 1) % carousel.totalSlides;
-                updateCarousel(carouselId);
-            }, 4000);
-            
-            carouselIntervals.set(carouselId, interval);
-        }
-        
-        // Pause auto-swipe for a carousel
-        function pauseAutoSwipe(carouselId) {
-            const interval = carouselIntervals.get(carouselId);
-            if (interval) {
-                clearInterval(interval);
-                carouselIntervals.delete(carouselId);
-            }
-        }
-        
-        // Pause all carousels
-        function pauseAllCarousels() {
-            carouselIntervals.forEach((interval, carouselId) => {
-                clearInterval(interval);
-            });
-            carouselIntervals.clear();
-        }
-        
-        // Global function for carousel navigation (needed for onclick handlers)
-        function goToSlide(carouselId, slideIndex) {
-            const carousel = carousels.get(carouselId);
-            if (!carousel) return;
-            
-            carousel.currentSlide = slideIndex;
-            updateCarousel(carouselId);
-            
-            // Restart auto-swipe after manual navigation
-            pauseAutoSwipe(carouselId);
-            startAutoSwipe(carouselId);
-        }
         
         // Close mobile nav when clicking outside
         document.addEventListener('click', function(e) {
@@ -1548,3 +1416,6 @@
                 });
             }
         });
+    </script>
+</body>
+</html>
