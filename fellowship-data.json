@@ -13,10 +13,10 @@
       "name": "te editions (Michael Guo & Kechun Qin)",
       "additional_images": [
         {
-          "src": "img/uploads/teeditions_kechun-qin.jpg"
+          "src": "img/uploads/teeditions_kechun_qin.jpg"
         },
         {
-          "src": "img/uploads/teeditions_michael-guo.jpg"
+          "src": "img/uploads/teeditions_michael_guo.jpg"
         }
       ],
       "carousel_images": [
@@ -30,7 +30,7 @@
       "title": "te editions (Michael Guo & Kechun Qin)",
       "id": "01",
       "image": "",
-      "image_type": "carousel"
+      "image_type": null
     },
     {
       "single_image": {
@@ -43,7 +43,7 @@
       "name": "Nini Dongnier",
       "title": "Nini Dongnier",
       "id": "02",
-      "image": "img/uploads/ninidongnier_portrait_bylucreziapollice.jpg",
+      "image": "/uploads/img/ninidongnier_portrait_bylucreziapollice.jpg",
       "image_type": "single"
     },
     {
