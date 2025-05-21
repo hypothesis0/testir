@@ -3,27 +3,30 @@
 // Main navigation loader
 async function loadNavigation() {
     try {
-        // Try to load navigation from CMS
+        console.log('Attempting to load navigation from:', '/navigation-data.json');
         const response = await fetch('/navigation-data.json');
         
+        console.log('Response status:', response.status, response.statusText);
+        
         if (!response.ok) {
-            throw new Error('Failed to fetch navigation data');
+            throw new Error(`Failed to fetch navigation data: ${response.status} ${response.statusText}`);
         }
         
         const navData = await response.json();
-        console.log('Loaded navigation data from CMS:', navData);
+        console.log('Successfully loaded navigation data:', navData);
         
         // Generate and insert navigation HTML
         document.body.insertAdjacentHTML('afterbegin', generateNavigationHTML(navData));
         
-        // Insert footer (unchanged from original)
+        // Insert footer
         insertFooter();
         
         // Setup event listeners
         setupNavigationEvents();
         
     } catch (error) {
-        console.error('Error loading CMS navigation, falling back to default:', error);
+        console.error('Error during navigation loading:', error.message);
+        console.log('Falling back to default navigation');
         loadDefaultNavigation();
     }
 }
