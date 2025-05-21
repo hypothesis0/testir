@@ -17,10 +17,112 @@
     
     <!-- Import shared navigation styles and scripts -->
     <link rel="stylesheet" href="../css/navigation.css">
-    <script src="../js/navigation.js"></script>
     
-    <!-- Import community hours specific styles -->
-    <link rel="stylesheet" href="../css/communityhours.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+            line-height: 1;
+            background-color: rgb(235, 235, 235);
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        
+        /* Content area - updated for fixed header */
+        .content {
+            padding: 120px 48px 100px 48px;
+            width: 50%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        /* Section styling */
+        .section {
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .section:not(:last-child) {
+            border-bottom: 1px solid rgb(43, 43, 43);
+            padding-bottom: 60px;
+        }
+
+        /* Section headers */
+        .section h2 {
+            font-size: 43px;
+            font-weight: 400;
+            margin-bottom: 60px;
+            line-height: 1.2;
+            text-transform: none;
+            text-align: left;
+            color: rgb(23, 23, 23);
+        }
+
+        /* Text styling */
+        .section p {
+            font-size: 17px;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-bottom: 24px;
+            width: 100%;
+        }
+
+        /* Hours emphasis */
+        .hours {
+            font-size: 17px;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        a:hover {
+            color: rgb(241, 61, 33);
+            border-color: rgb(241, 61, 33);
+        }
+
+        /* Footer styling */
+        footer {
+            position: relative;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgb(180, 180, 180);
+            padding: 10px 0;
+            text-align: center;
+            font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 300;
+            color: rgb(23, 23, 23);
+            z-index: 1000;
+            margin-top: auto;
+        }
+
+        /* Mobile styling */
+        @media (max-width: 768px) {
+            /* Content adjustments for mobile - align with title */
+            .content {
+                padding-left: 24px;
+                padding-right: 24px;
+                padding-top: 105px;
+                padding-bottom: 24px;
+                width: calc(100% - 48px); /* Full width minus left and right padding */
+            }
+            
+            .section h2 {
+                font-size: 28px;
+            }
+            
+            .title-container {
+                padding-left: 24px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Top banner with title and navigation -->
@@ -60,7 +162,7 @@
         </nav>
         
         <!-- Hamburger menu for mobile -->
-        <div class="hamburger-menu" onclick="toggleMobileNav()">
+        <div class="hamburger-menu">
             <span></span>
             <span></span>
             <span></span>
@@ -101,16 +203,141 @@
         </div>
     </div>
     
-    <!-- Content area - Will be filled with CMS data -->
+    <!-- Content area -->
     <div class="content" id="community-hours-content">
-        <!-- Content will be loaded from communityhours-data.json -->
-        <div class="loading-message">Loading community hours data...</div>
+        <div class="section">
+            <h2>Community Hours</h2>
+            <p class="hours">11:00 am– 4:00 pm</p>
+            <p>
+                Join us on Wednesdays and Thursdays, from 11:00am-4:00pm, during our regular community hours at IR. The space is open for work, meetings, and intimate weekday programs. WiFi, a growing book collection, and tea are all provided. No RSVP required, stop by and say hi!
+            </p>
+        </div>
     </div>
     
-
- 
+    <!-- Footer -->
+    <footer>
+        124 Gallery Street, New York, NY 10001
+    </footer>
     
-    <!-- Import community hours script -->
-    <script src="../js/communityhours.js"></script>
+    <script>
+        // Homepage navigation
+        function goToHomepage() {
+            window.location.href = '../index.html';
+        }
+        
+        // Mobile navigation functions
+        function toggleMobileNav() {
+            const mobileNav = document.getElementById('mobileNav');
+            console.log("Toggle mobile nav", mobileNav);
+            
+            if (mobileNav.style.display === 'flex' || mobileNav.classList.contains('show')) {
+                mobileNav.style.display = 'none';
+                mobileNav.classList.remove('show');
+                // Close all mobile dropdowns when closing nav
+                const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
+                allMobileNavItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+            } else {
+                mobileNav.style.display = 'flex';
+                mobileNav.classList.add('show');
+            }
+        }
+        
+        // Mobile dropdown toggle
+        function toggleMobileDropdown(event, element) {
+            event.preventDefault();
+            const navItem = element.parentElement;
+            
+            // Check if this nav item has a dropdown
+            const dropdown = navItem.querySelector('.mobile-dropdown');
+            if (!dropdown) {
+                // If no dropdown, it's a regular link
+                return;
+            }
+            
+            // Close all other mobile dropdowns
+            const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
+            allMobileNavItems.forEach(item => {
+                if (item !== navItem) {
+                    item.classList.remove('active');
+                }
+            });
+            
+            // Toggle current dropdown
+            navItem.classList.toggle('active');
+        }
+        
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hamburger menu click event
+            const hamburger = document.querySelector('.hamburger-menu');
+            hamburger.addEventListener('click', toggleMobileNav);
+            
+            // Desktop dropdown toggle functionality
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            navItems.forEach(item => {
+                const link = item.querySelector('a');
+                const dropdown = item.querySelector('.dropdown');
+                
+                if (dropdown) {
+                    // Handle dropdown toggle for nav items with dropdowns
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Close all other dropdowns
+                        navItems.forEach(otherItem => {
+                            if (otherItem !== item) {
+                                otherItem.classList.remove('active');
+                            }
+                        });
+                        
+                        // Toggle current dropdown
+                        item.classList.toggle('active');
+                    });
+                } else {
+                    // Handle direct navigation for items without dropdowns
+                    link.addEventListener('click', function(e) {
+                        // Don't prevent default for direct navigation
+                        // The href will handle the navigation
+                        
+                        // Close all dropdowns when clicking on direct links
+                        navItems.forEach(otherItem => {
+                            otherItem.classList.remove('active');
+                        });
+                    });
+                }
+            });
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                const isNavClick = e.target.closest('.nav-item');
+                const isMobileNavClick = e.target.closest('.mobile-nav');
+                
+                if (!isNavClick && !isMobileNavClick) {
+                    navItems.forEach(item => {
+                        item.classList.remove('active');
+                    });
+                }
+            });
+            
+            // Close mobile nav when clicking outside
+            document.addEventListener('click', function(e) {
+                const mobileNav = document.getElementById('mobileNav');
+                const hamburger = document.querySelector('.hamburger-menu');
+                
+                if (mobileNav && hamburger && !hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
+                    mobileNav.style.display = 'none';
+                    mobileNav.classList.remove('show');
+                    // Close all mobile dropdowns when clicking outside
+                    const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
+                    allMobileNavItems.forEach(item => {
+                        item.classList.remove('active');
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
