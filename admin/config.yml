@@ -51,7 +51,7 @@ collections:
     files:
       - name: "main_nav"
         label: "Main Navigation"
-        file: "../navigation/navigation-data.json"
+        file: "navigation-data.json"
         fields:
           - label: "Site Title"
             name: "site_title"
