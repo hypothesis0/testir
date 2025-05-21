@@ -1,0 +1,106 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+    line-height: 1;
+    background-color: rgb(235, 235, 235);
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Content area - updated for fixed header */
+.content {
+    padding: 120px 48px 100px 48px;
+    width: 50%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    flex: 1;
+}
+
+/* Loading message */
+.loading-message {
+    font-size: 16px;
+    color: #666;
+    margin: 20px 0;
+}
+
+/* Section styling */
+.section {
+    margin-bottom: 80px;
+    position: relative;
+}
+
+.section:not(:last-child) {
+    border-bottom: 1px solid rgb(43, 43, 43);
+    padding-bottom: 60px;
+}
+
+/* Section headers */
+.section h2 {
+    font-size: 43px;
+    font-weight: 400;
+    margin-bottom: 60px;
+    line-height: 1.2;
+    text-transform: none;
+    text-align: left;
+    color: rgb(23, 23, 23);
+}
+
+/* Text styling */
+.section p {
+    font-size: 17px;
+    line-height: 1.6;
+    font-weight: 300;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+/* Hours emphasis */
+.hours {
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 24px;
+}
+
+a:hover {
+    color: rgb(241, 61, 33);
+    border-color: rgb(241, 61, 33);
+}
+
+/* Footer styling */
+footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgb(180, 180, 180);
+    padding: 10px 0;
+    text-align: center;
+    font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: rgb(23, 23, 23);
+    z-index: 1000;
+    margin-top: auto;
+}
+
+/* Mobile styling */
+@media (max-width: 768px) {
+    /* Content adjustments for mobile - align with title */
+    .content {
+        padding-left: 24px;
+        padding-right: 24px;
+        padding-top: 105px;
+        padding-bottom: 24px;
+        width: calc(100% - 48px); /* Full width minus left and right padding */
+    }
+    
+    .section h2 {
+        font-size: 28px;
+    }
+}
