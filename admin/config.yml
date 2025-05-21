@@ -67,6 +67,24 @@ collections:
               - {label: "RSVP Link", name: "rsvpLink", widget: "string", required: false}
               - {label: "External Link (for past events)", name: "link", widget: "string", required: false}
 
+      - name: "exhibition"
+  label: "Exhibition Page"
+  file: "exhibition-data.json"
+  fields:
+    - {label: "Exhibition Title", name: "title", widget: "string", required: true}
+    - {label: "Exhibition Date Range", name: "date_range", widget: "string", required: true, hint: "e.g., April 15 - June 30, 2025"}
+    - label: "Exhibition Images"
+      name: "images"
+      widget: "list"
+      required: true
+      fields:
+        - {label: "Image", name: "url", widget: "image", required: true}
+        - {label: "Alt Text", name: "alt", widget: "string", required: false}
+        - {label: "Caption", name: "caption", widget: "string", required: false}
+    - {label: "Exhibition Description", name: "description", widget: "markdown", required: true, hint: "Use double line breaks for paragraphs"}
+    - {label: "Exhibition PDF", name: "pdf_file", widget: "file", required: false, hint: "Upload exhibition PDF document", media_folder: "/assets/pdf"}
+    - {label: "PDF Button Text", name: "pdf_button_text", widget: "string", default: "download exhibition pdf", required: false}
+    
   - name: "navigation"
     label: "Navigation"
     files:
