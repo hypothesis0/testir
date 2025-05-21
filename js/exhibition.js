@@ -152,10 +152,10 @@ function renderExhibition(data) {
         </div>`;
     
     // 添加下载按钮（如果有）
-    if (data.pdf_url) {
+    if (data.pdf_file) {
         html += `
         <div class="action-buttons">
-            <a href="${data.pdf_url}" class="download-button">download exhibition pdf</a>
+            <a href="${data.pdf_file}" class="download-button">${data.pdf_button_text || 'download exhibition pdf'}</a>
         </div>`;
     }
     
