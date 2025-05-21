@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Netlify CMS -->
+    <!-- Netlify CMS Identity Widget -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
      
@@ -964,6 +964,7 @@
     
     <!-- Content area with fellowship info and cohort -->
     <div class="content">
+        <!-- All content in this div will be dynamically populated by content-loader.js -->
         <div class="intro-container">
             <div class="intro-left">
                 <h1 class="main-headline">Fellowship</h1>
@@ -977,7 +978,9 @@
         <h2 class="section-heading">2025/2026 Inaugural Cohort</h2>
         <table class="fellows-table" id="cohort-2025">
             <tbody>
-                <!-- te editions 2025 -->
+                <!-- Fellows data will be dynamically loaded from fellowship-data.json -->
+                <!-- Default content will be replaced by content-loader.js -->
+                <!-- The structure is maintained for SEO and initial loading -->
                 <tr class="fellow-row" data-fellow-id="te-editions-2025">
                     <td class="fellow-number">01</td>
                     <td class="fellow-name">te editions (Michael Guo & Kechun Qin)</td>
@@ -987,121 +990,15 @@
                         <div class="expanded-content" id="te-editions-2025-content">
                             <div class="expanded-left">
                                 <h3 class="expanded-title">te editions</h3>
-                                
                                 <div class="expanded-text">
-                                    <p>te editions is an independent publishing house launched in 2023 by Michael Guo and Kechun Qin. It currently operates in New York and Beijing. te explores the intersection of the arts and humanities, examining historical and contemporary social landscapes through a diversified and microscopic lens. The focus lies on how cultures encounter, collapse, and transform each other within global cultural flows. Driven by "curatorial thinking on paper" in the editorial approach, te editions aims to foster new discussions informed by a genuinely interdisciplinary perspective.</p>
-                                    <p>In 2021, te editions launched the first issue of its annual bilingual publication, te magazine. Each issue draws inspiration from current events, developing a theme that encapsulates the thinking sparked by the moment. Researchers and creators from various fields are invited to contribute their work around this central theme. te editions consistently collaborates with artists, scholars, communities, and cultural organizations to expand on existing projects and to envision new ones.
-                                    </p>
+                                    <p>Loading content...</p>
                                 </div>
-                                
                             </div>
                             <div class="expanded-right">
-                                <div class="image-carousel" data-carousel="te-editions-2025">
-                                    <div class="carousel-container">
-                                        <div class="carousel-slide active">
-                                            <img src="img/fellowship/2025&2026cohort/teeditions_Kechun Qin.jpg" alt="Kechun Qin" class="expanded-image">
-                                            <div class="photo-credit"></div>
-                                        </div>
-                                        <div class="carousel-slide">
-                                            <img src="img/fellowship/2025&2026cohort/teeditions_Michael Guo.jpg" alt="Michael Guo" class="expanded-image">
-                                            <div class="photo-credit"></div>
-                                        </div>
+                                <div class="single-image-container">
+                                    <div style="text-align: center; padding: 40px; background: #f5f5f5; color: #888;">
+                                        <p>Loading image...</p>
                                     </div>
-                                    <div class="carousel-dots">
-                                        <div class="carousel-dot active" onclick="goToSlide('te-editions-2025', 0)"></div>
-                                        <div class="carousel-dot" onclick="goToSlide('te-editions-2025', 1)"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="close-btn">&times;</button>
-                        </div>
-                    </td>
-                </tr>
-                
-                <!-- Nini Dongnier 2025 -->
-                <tr class="fellow-row" data-fellow-id="nini-dongnier-2025">
-                    <td class="fellow-number">02</td>
-                    <td class="fellow-name">Nini Dongnier</td>
-                </tr>
-                <tr class="expanded-row" id="nini-dongnier-2025-row">
-                    <td colspan="2" class="expanded-cell">
-                        <div class="expanded-content" id="nini-dongnier-2025-content">
-                            <div class="expanded-left">
-                                <h3 class="expanded-title">Nini Dongnier</h3>
-                                
-                                <div class="expanded-text">
-                                    <p>Hailing from Inner Mongolia and based in New York, choreographer and artist NiNi Dongnier works in choreographic performance, moving image, and painting. She delves deeply into questions about form, faith, constancy, migration, and the experience of life through explorations of movement, visual art, garment, and the use of tech intervention where necessary. Her work in dialogue with multiple nourishments—from her nomadic roots, classical training in a wide range of traditional to contemporary dance, to art history and Mahāyāna Buddhism. "My desire is to record intuitive truths through the sensual body and its material extensions."
-                                    </p>
-                                    <p>Dongnier's work has been performed and exhibited at The Watermill Center, New York Live Arts, Movement Research, Mana Contemporary, G Museum, Aranya Art Center, Shanghai Ming Contemporary Art Museum, National Centre for the Performing Arts, and Shanghai International Dance Center Theater, among others. She was a recipient of nominations for the China Dance Lotus Award. She has been an artist in residence at Monira Foundation, La MaMa|CultureHub, The Watermill Center, Media Art Xploration, Jacob's Pillow, and Barnard Movement Lab at Columbia University.</p>
-                              <p>Dongnier's initial learning stemmed from the vast, textured nature of Inner Mongolia, as well as from her parents. She graduated from the Beijing Dance Academy, received her MFA from New York University, and studied at the Skowhegan School of Painting and Sculpture. Dongnier has served on the faculty of Beijing Dance Academy (2012-17), taught at Hunter College—CUNY (2020), and at Barnard College—Columbia University (2020, 2024). She was an assistant professor at the School for the Contemporary Arts—Simon Fraser University (2021-24).</p>
-                                </div>
-                               
-                            </div>
-                            <div class="expanded-right">
-                                <div class="single-image-container">
-                                    <img src="img/fellowship/2025&2026cohort/NiNiDongnier_Portrait_byLucreziaPollice.JPG" alt="Nini Dongnier" class="expanded-image">
-                                    <div class="photo-credit">Portrait by Lucrezia Pollice</div>
-                                </div>
-                            </div>
-                            <button class="close-btn">&times;</button>
-                        </div>
-                    </td>
-                </tr>
-                
-                <!-- Sowon Kwon 2025 -->
-                <tr class="fellow-row" data-fellow-id="anh-vo-2025">
-                    <td class="fellow-number">03</td>
-                    <td class="fellow-name">Anh Vo</td>
-                </tr>
-                <tr class="expanded-row" id="anh-vo-2025-row">
-                    <td colspan="2" class="expanded-cell">
-                        <div class="expanded-content" id="anh-vo-2025-content">
-                            <div class="expanded-left">
-                                <h3 class="expanded-title">Anh Vo</h3>
-                                
-                                <div class="expanded-text">
-                                    <p>Anh Vo is a Vietnamese choreographer and writer working primarily in New York City, with a second base in Hanoi. Their practice fleshes out the body as a vessel for apparitional forces. Their work is situated in the unlikely lineage convergences between Downtown New York experimental performance, Hanoi performance art, and Vietnamese folk ritual practices. Vo is indebted to Miguel Gutierrez's unapologetic queerness and amorphous excess, Moriah Evan's speculative commitment to the depth of interiority, Tehching Hsieh's existential sense of time, and Ngoc Dai's guttural sonic landscape of postwar Vietnam. Their formal training is in Performance Studies, studying with esteemed theorists and practitioners at Brown University (BA) and New York University (MA). </p>
-                                  
-                                </div>
-                              
-                            </div>
-                            <div class="expanded-right">
-                               
-                                <div class="single-image-container">
-                                    <img src="img/fellowship/2025&2026cohort/Anh_Vo_PortraitbyMariaBaranova.jpg" alt="Anh Vo" class="expanded-image">
-                                    <div class="photo-credit">Portrait by Maria Baranova</div>
-                                </div>
-                                        
-                            </div>
-                            <button class="close-btn">&times;</button>
-                        </div>
-                    </td>
-                </tr>
-                
-                <!-- Yu Ji & Ho King Man 2025 -->
-                <tr class="fellow-row" data-fellow-id="yu-ji-ho-king-2025">
-                    <td class="fellow-number">04</td>
-                    <td class="fellow-name">Yu Ji & Ho King Man</td>
-                </tr>
-                <tr class="expanded-row" id="yu-ji-ho-king-2025-row">
-                    <td colspan="2" class="expanded-cell">
-                        <div class="expanded-content" id="yu-ji-ho-king-2025-content">
-                            <div class="expanded-left">
-                                <h3 class="expanded-title">Yu Ji & Ho King Man</h3>
-                               
-                                <div class="expanded-text">
-                                    <p>Yu Ji is known for the diversity of her practice, working primarily in sculpture and installation, as well as performance and video. Her long-term interest has been in transforming ongoing investigations into specific spaces that become charged with geographical and historical narratives. Reflecting on and moderating the fragile presence of the human body in relation to objects found in their everyday environments, her performances often coincide with exhibitions of sculptural works, which turn the space of artistic presentation into a site for the production of labor. 
-                                    </p>
-                                    <p>Yu Ji's Institutional exhibitions include those at the Centro Pecci, Prato, Italy (2024), ICA Institute of Contemporary Art, NYU, Shanghai (2023), OCMA Orange County Museum of Art, Costa Mesa (2023), New Museum in New York (2021), West Bund Museum + Pompidou in Shanghai (2021), Chisenhale Gallery in London (2021), Tensta Konsthall in Stockholm (2018), Rock Bund Art Museum in Shanghai (2017). From 2008 till 2021, she co-founded AM Art Space — an artist-led space in Shanghai, promoting experimentation and exchanges between artists, curators and the public.
-                                    </p>
-                                    <p>BHKM is a conceptual publishing house. Between private and public, they often addressing issues of belonging and authorship, loneliness and otherness. Recent exhibitions include projects at 人人人人, Harmony Community Foundation, Guangzhou (2024); PP3, Columbus Park (Chinatown), New York (2023); Bungee Space, New York (2023); Motto Berlin (2023).</p>
-                                </div>
-                              
-                            </div>
-                            <div class="expanded-right">
-                                <div class="single-image-container">
-                                    <img src="img/fellowship/2025&2026cohort/YUJIANDBHKM.jpg" alt="Yu Ji & Ho King Man" class="expanded-image">
-                                    <div class="photo-credit">Portrait by Amiko Li, 2025</div>
                                 </div>
                             </div>
                             <button class="close-btn">&times;</button>
@@ -1111,20 +1008,14 @@
             </tbody>
         </table>
     </div>
-    <footer style="
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgb(180, 180, 180);
-    padding: 10px 0;
-    text-align: center;
-    font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    font-weight: 300;
-    color: rgb(23, 23, 23);
-    z-index: 2000;">
-    123 Gallery Street, New York, NY 10001
-</footer>
+    
+    <!-- Load shared footer element -->
+    <div id="footer-container"></div>
+    
+    <!-- Default footer in case shared footer fails to load -->
+    <footer id="default-footer" style="display: none; bottom: 0; left: 0; width: 100%; background-color: rgb(180, 180, 180); padding: 10px 0; text-align: center; font-family: 'Space Grotesk', Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 300; color: rgb(23, 23, 23); z-index: 2000;">
+        123 Gallery Street, New York, NY 10001
+    </footer>
     
     <!-- Add Netlify CMS admin script at the end -->
     <script>
