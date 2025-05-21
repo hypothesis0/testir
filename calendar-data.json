@@ -2,37 +2,38 @@
   "title": "Calendar - Initial Research",
   "events": [
     {
-      "id": 1,
-      "title": "Summer Exhibition Opening",
-      "subtitle": "exhibition",
       "date": "2025-05-20T23:59:59-04:00",
       "displayDate": "05.20.25",
       "timeDisplay": "6pm to 9pm",
+      "rsvpLink": "https://example.com/rsvp/summer-exhibition",
+      "subtitle": "exhibition",
+      "title": "Summer Exhibition Opening",
+      "link": "https://www.google.com/search?q=hi&sca_esv=48fef9f8933ccfd8&udm=2&biw=1391&bih=797&ei=VycuaKHuIvKk5NoPxKLNkAk&ved=0ahUKEwjh9b_-o7WNAxVyElkFHURRE5IQ4dUDCBE&uact=5&oq=hi&gs_lp=EgNpbWciAmhpMgUQABiABDIFEAAYgAQyBRAAGIAEMgUQABiABDIFEAAYgAQyBRAAGIAEMgUQABiABDIFEAAYgAQyBRAAGIAEMgUQABiABEiXA1AAWFFwAHgAkAEAmAE3oAFsqgEBMrgBA8gBAPgBAZgCAqACdJgDAJIHATKgB_IDsgcBMrgHdMIHBTAuMS4xyAcG&sclient=img",
+      "id": 1,
       "image": "img/upcomings/1.jpg",
-      "description": "Join us for the opening reception of our Summer Exhibition featuring works by emerging artists exploring themes of ecology, community, and speculative futures. The exhibition brings together paintings, sculptures, video installations, and interactive works that envision alternative ways of being in relation to our environment and each other. Refreshments will be served.",
-      "rsvpLink": "https://example.com/rsvp/summer-exhibition"
+      "description": "Join us for the opening reception of our Summer Exhibition featuring works by emerging artists exploring themes of ecology, community, and speculative futures. The exhibition brings together paintings, sculptures, video installations, and interactive works that envision alternative ways of being in relation to our environment and each other. Refreshments will be served."
     },
     {
-      "id": 2,
-      "title": "Artist Talk: Maria Garcia",
-      "subtitle": "lecture",
       "date": "2025-05-25T23:59:59-04:00",
       "displayDate": "05.25.25",
       "timeDisplay": "7pm to 8:30pm",
+      "rsvpLink": "https://example.com/rsvp/maria-garcia-talk",
+      "subtitle": "lecture",
+      "title": "Artist Talk: Maria Garcia",
+      "id": 2,
       "image": "img/upcomings/2.jpg",
-      "description": "Acclaimed artist Maria Garcia discusses her recent work examining the intersection of digital technology and traditional craft practices. Garcia will present her methodology and research process, followed by a Q&A session. This talk is presented in collaboration with the Digital Arts Foundation and is part of our ongoing series on contemporary art practices.",
-      "rsvpLink": "https://example.com/rsvp/maria-garcia-talk"
+      "description": "Acclaimed artist Maria Garcia discusses her recent work examining the intersection of digital technology and traditional craft practices. Garcia will present her methodology and research process, followed by a Q&A session. This talk is presented in collaboration with the Digital Arts Foundation and is part of our ongoing series on contemporary art practices."
     },
     {
-      "id": 3,
-      "title": "Experimental Film Night",
-      "subtitle": "screening",
       "date": "2025-07-22T23:59:59-04:00",
       "displayDate": "07.22.25",
       "timeDisplay": "8pm to 10pm",
+      "rsvpLink": "https://example.com/rsvp/experimental-film",
+      "subtitle": "screening",
+      "title": "Experimental Film Night",
+      "id": 3,
       "image": "img/upcomings/1.jpg",
-      "description": "A curated selection of experimental short films by international filmmakers pushing the boundaries of the medium. The program includes works that explore non-narrative structures, alternative production techniques, and expanded cinema practices. Each screening will be followed by a brief discussion led by film curator Alex Wong.",
-      "rsvpLink": "https://example.com/rsvp/experimental-film"
+      "description": "A curated selection of experimental short films by international filmmakers pushing the boundaries of the medium. The program includes works that explore non-narrative structures, alternative production techniques, and expanded cinema practices. Each screening will be followed by a brief discussion led by film curator Alex Wong."
     }
   ]
 }
