@@ -3,8 +3,8 @@ backend:
   branch: main
 
 # 更新媒体文件夹路径以匹配实际结构
-media_folder: "uploads/img"
-public_folder: "/uploads/img"
+media_folder: "img/uploads"
+public_folder: "img/uploads"
 
 collections:
   - name: "content"
@@ -16,7 +16,7 @@ collections:
         fields:
           - {label: "Page Title", name: "title", widget: "string", required: false}
           - {label: "Main Heading", name: "heading", widget: "string", required: false}
-          - {label: "Introduction", name: "intro", widget: "text", required: false}
+          - {label: "Introduction", name: "intro", widget: "markdown", required: false}
           - {label: "Cohort Title", name: "cohort_title", widget: "string", required: false}
           - label: "Fellows"
             name: "fellows"
@@ -50,3 +50,57 @@ collections:
                 fields:
                   - {label: "Image", name: "src", widget: "image", required: false}
                   - {label: "Caption", name: "caption", widget: "string", required: false}
+  
+  # 共享元素管理
+  - name: "shared"
+    label: "Shared Elements"
+    files:
+      # 导航菜单管理
+      - name: "navigation"
+        label: "Navigation Menu"
+        file: "shared/navigation.html"
+        fields:
+          - label: "Desktop Navigation"
+            name: "desktop_nav"
+            widget: "object"
+            fields:
+              - label: "Main Menu Items"
+                name: "main_items"
+                widget: "list"
+                fields:
+                  - {label: "Menu Text", name: "text", widget: "string"}
+                  - {label: "Link", name: "url", widget: "string"}
+                  - label: "Submenu Items"
+                    name: "submenu"
+                    widget: "list"
+                    required: false
+                    fields:
+                      - {label: "Menu Text", name: "text", widget: "string"}
+                      - {label: "Link", name: "url", widget: "string"}
+          
+          - label: "Mobile Navigation"
+            name: "mobile_nav"
+            widget: "object"
+            fields:
+              - label: "Main Menu Items"
+                name: "main_items"
+                widget: "list"
+                fields:
+                  - {label: "Menu Text", name: "text", widget: "string"}
+                  - {label: "Link", name: "url", widget: "string"}
+                  - label: "Submenu Items"
+                    name: "submenu"
+                    widget: "list"
+                    required: false
+                    fields:
+                      - {label: "Menu Text", name: "text", widget: "string"}
+                      - {label: "Link", name: "url", widget: "string"}
+      
+      # 页脚管理
+      - name: "footer"
+        label: "Footer"
+        file: "shared/footer.html"
+        fields:
+          - {label: "Address Text", name: "address_text", widget: "string"}
+          - {label: "Background Color", name: "bg_color", widget: "string", default: "rgb(180, 180, 180)"}
+          - {label: "Text Color", name: "text_color", widget: "string", default: "rgb(23, 23, 23)"}
