@@ -1,39 +1,35 @@
-// navigation.js - Full version with CMS integration
+// navigation.js - 修复版本，解决页面访问问题
 
-// Main navigation loader
+// 主导航加载器
 async function loadNavigation() {
     try {
-        console.log('Attempting to load navigation from:', '/navigation-data.json');
+        // 尝试从CMS加载导航数据
         const response = await fetch('/navigation-data.json');
         
-        console.log('Response status:', response.status, response.statusText);
-        
         if (!response.ok) {
-            throw new Error(`Failed to fetch navigation data: ${response.status} ${response.statusText}`);
+            throw new Error('Failed to fetch navigation data');
         }
         
         const navData = await response.json();
-        console.log('Successfully loaded navigation data:', navData);
+        console.log('从CMS加载导航数据:', navData);
         
-        // Generate and insert navigation HTML
+        // 生成并插入导航HTML
         document.body.insertAdjacentHTML('afterbegin', generateNavigationHTML(navData));
         
-        // Insert footer
+        // 插入页脚
         insertFooter();
         
-        // Setup event listeners
+        // 设置事件监听器
         setupNavigationEvents();
         
     } catch (error) {
-        console.error('Error during navigation loading:', error.message);
-        console.log('Falling back to default navigation');
+        console.error('CMS导航加载失败，使用默认导航:', error);
         loadDefaultNavigation();
     }
 }
 
-// Generate HTML from CMS data
+// 从CMS数据生成HTML
 function generateNavigationHTML(navData) {
-    // Generate desktop and mobile nav items
     let desktopNavItems = '';
     let mobileNavItems = '';
     
@@ -43,20 +39,20 @@ function generateNavigationHTML(navData) {
         const itemId = `nav-item-${index}`;
         
         if (item.direct_link) {
-            // Simple link item (no dropdown)
+            // 简单链接项（无下拉菜单）
             desktopNavItems += `
                 <div class="nav-item">
-                    <a href="${item.direct_link}">${item.label}</a>
+                    <a href="${item.direct_link}" onclick="navigateToPage('${item.direct_link}', event)">${item.label}</a>
                 </div>
             `;
             
             mobileNavItems += `
                 <div class="mobile-nav-item">
-                    <a href="${item.direct_link}">${item.label}</a>
+                    <a href="${item.direct_link}" onclick="navigateToPage('${item.direct_link}', event)">${item.label}</a>
                 </div>
             `;
         } else if (item.dropdown_items && item.dropdown_items.length > 0) {
-            // Dropdown menu item
+            // 下拉菜单项
             let dropdownLinks = '';
             let mobileDropdownLinks = '';
             
@@ -65,14 +61,16 @@ function generateNavigationHTML(navData) {
                 
                 dropdownLinks += `
                     <a href="${dropItem.link}" class="dropdown-link" 
-                       data-item-id="${itemId}-${dropIndex}">
+                       data-item-id="${itemId}-${dropIndex}"
+                       onclick="navigateToPage('${dropItem.link}', event)">
                         ${dropItem.label}
                     </a>
                 `;
                 
                 mobileDropdownLinks += `
                     <a href="${dropItem.link}" class="mobile-dropdown-link"
-                       data-item-id="${itemId}-${dropIndex}">
+                       data-item-id="${itemId}-${dropIndex}"
+                       onclick="navigateToPage('${dropItem.link}', event)">
                         ${dropItem.label}
                     </a>
                 `;
@@ -114,14 +112,14 @@ function generateNavigationHTML(navData) {
                 ${desktopNavItems}
             </nav>
             
-            <!-- Hamburger menu for mobile -->
+            <!-- 移动端汉堡菜单 -->
             <div class="hamburger-menu" onclick="toggleMobileNav()">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
             
-            <!-- Mobile navigation menu -->
+            <!-- 移动端导航菜单 -->
             <div class="mobile-nav" id="mobileNav">
                 ${mobileNavItems}
             </div>
@@ -129,7 +127,94 @@ function generateNavigationHTML(navData) {
     `;
 }
 
-// Insert footer (unchanged from original)
+// 智能页面导航函数
+window.navigateToPage = function(url, event) {
+    if (event) {
+        event.preventDefault();
+    }
+    
+    // 如果URL为空或只是#，不执行导航
+    if (!url || url === '#') {
+        return false;
+    }
+    
+    console.log('正在导航到:', url);
+    
+    // 检查URL是否存在（简单检查）
+    checkAndNavigate(url);
+};
+
+// 检查页面是否存在并导航
+async function checkAndNavigate(url) {
+    try {
+        // 对于相对路径，先尝试直接导航
+        if (!url.startsWith('http')) {
+            // 构建完整URL用于检查
+            const baseUrl = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
+            const fullUrl = new URL(url, baseUrl + '/').href;
+            
+            // 尝试fetch检查页面是否存在
+            const response = await fetch(fullUrl, { method: 'HEAD' });
+            
+            if (response.ok) {
+                window.location.href = url;
+            } else {
+                console.warn(`页面不存在: ${url}`);
+                showPageNotFoundMessage(url);
+            }
+        } else {
+            // 外部链接直接导航
+            window.location.href = url;
+        }
+    } catch (error) {
+        console.error('导航检查失败:', error);
+        // 如果检查失败，仍然尝试导航（可能是CORS问题）
+        window.location.href = url;
+    }
+}
+
+// 显示页面未找到消息
+function showPageNotFoundMessage(url) {
+    const message = document.createElement('div');
+    message.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        border: 2px solid #ff6b6b;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10000;
+        text-align: center;
+        font-family: 'Space Grotesk', Arial, sans-serif;
+    `;
+    
+    message.innerHTML = `
+        <h3 style="color: #ff6b6b; margin: 0 0 10px 0;">页面未找到</h3>
+        <p style="margin: 0 0 15px 0;">无法访问: ${url}</p>
+        <button onclick="this.parentElement.remove()" style="
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        ">关闭</button>
+    `;
+    
+    document.body.appendChild(message);
+    
+    // 3秒后自动移除消息
+    setTimeout(() => {
+        if (message.parentElement) {
+            message.remove();
+        }
+    }, 3000);
+}
+
+// 插入页脚（保持不变）
 function insertFooter() {
     const footer = `
         <footer style="
@@ -150,7 +235,7 @@ function insertFooter() {
     document.body.insertAdjacentHTML('beforeend', footer);
 }
 
-// Fallback to default navigation if CMS fails
+// 如果CMS加载失败，使用默认导航
 function loadDefaultNavigation() {
     const defaultNav = `
         <div class="top-banner">
@@ -159,32 +244,32 @@ function loadDefaultNavigation() {
             </div>
             <nav class="nav-top">
                 <div class="nav-item">
-                    <a href="#">program</a>
+                    <a href="#" class="dropdown-toggle">program</a>
                     <div class="dropdown">
                         <div class="dropdown-container">
-                            <a href="calendar.html">calendar</a>
-                            <a href="fellowship.html">fellowship</a>
-                            <a href="communityhours.html">community hours</a>
-                            <a href="seasonaldinner.html">seasonal dinner</a>
-                            <a href="exhibition.html">exhibitions</a>
+                            <a href="calendar.html" onclick="navigateToPage('calendar.html', event)">calendar</a>
+                            <a href="fellowship.html" onclick="navigateToPage('fellowship.html', event)">fellowship</a>
+                            <a href="communityhours.html" onclick="navigateToPage('communityhours.html', event)">community hours</a>
+                            <a href="seasonaldinner.html" onclick="navigateToPage('seasonaldinner.html', event)">seasonal dinner</a>
+                            <a href="exhibition.html" onclick="navigateToPage('exhibition.html', event)">exhibitions</a>
                         </div>
                     </div>
                 </div>
                 
                 <div class="nav-item">
-                    <a href="#">about</a>
+                    <a href="#" class="dropdown-toggle">about</a>
                     <div class="dropdown">
                         <div class="dropdown-container">
-                            <a href="../about/mission.html">mission</a>
-                            <a href="../about/vision.html">vision</a>
-                            <a href="../about/team.html">team</a>
-                            <a href="../about/contact.html">contact</a>
+                            <a href="../about/mission.html" onclick="navigateToPage('../about/mission.html', event)">mission</a>
+                            <a href="../about/vision.html" onclick="navigateToPage('../about/vision.html', event)">vision</a>
+                            <a href="../about/team.html" onclick="navigateToPage('../about/team.html', event)">team</a>
+                            <a href="../about/contact.html" onclick="navigateToPage('../about/contact.html', event)">contact</a>
                         </div>
                     </div>
                 </div>
                 
                 <div class="nav-item">
-                    <a href="supportus.html">support us</a>
+                    <a href="supportus.html" onclick="navigateToPage('supportus.html', event)">support us</a>
                 </div>
             </nav>
             
@@ -196,34 +281,34 @@ function loadDefaultNavigation() {
             
             <div class="mobile-nav" id="mobileNav">
                 <div class="mobile-nav-item">
-                    <a href="#" onclick="toggleMobileDropdown(event, this)">
+                    <a href="#" class="mobile-dropdown-toggle" onclick="toggleMobileDropdown(event, this)">
                         program
                         <span class="mobile-arrow">ᵥ</span>
                     </a>
                     <div class="mobile-dropdown">
-                        <a href="calendar.html">calendar</a>
-                        <a href="fellowship.html">fellowship</a>
-                        <a href="communityhours.html">community hours</a>
-                        <a href="seasonaldinner.html">seasonal dinner</a>
-                        <a href="exhibition.html">exhibitions</a>
+                        <a href="calendar.html" onclick="navigateToPage('calendar.html', event)">calendar</a>
+                        <a href="fellowship.html" onclick="navigateToPage('fellowship.html', event)">fellowship</a>
+                        <a href="communityhours.html" onclick="navigateToPage('communityhours.html', event)">community hours</a>
+                        <a href="seasonaldinner.html" onclick="navigateToPage('seasonaldinner.html', event)">seasonal dinner</a>
+                        <a href="exhibition.html" onclick="navigateToPage('exhibition.html', event)">exhibitions</a>
                     </div>
                 </div>
                 
                 <div class="mobile-nav-item">
-                    <a href="#" onclick="toggleMobileDropdown(event, this)">
+                    <a href="#" class="mobile-dropdown-toggle" onclick="toggleMobileDropdown(event, this)">
                         about
                         <span class="mobile-arrow">ᵥ</span>
                     </a>
                     <div class="mobile-dropdown">
-                        <a href="../about/mission.html">mission</a>
-                        <a href="../about/vision.html">vision</a>
-                        <a href="../about/team.html">team</a>
-                        <a href="../about/contact.html">contact</a>
+                        <a href="../about/mission.html" onclick="navigateToPage('../about/mission.html', event)">mission</a>
+                        <a href="../about/vision.html" onclick="navigateToPage('../about/vision.html', event)">vision</a>
+                        <a href="../about/team.html" onclick="navigateToPage('../about/team.html', event)">team</a>
+                        <a href="../about/contact.html" onclick="navigateToPage('../about/contact.html', event)">contact</a>
                     </div>
                 </div>
                 
                 <div class="mobile-nav-item">
-                    <a href="../supportus/supportus.html">support us</a>
+                    <a href="../supportus/supportus.html" onclick="navigateToPage('../supportus/supportus.html', event)">support us</a>
                 </div>
             </div>
         </div>
@@ -232,15 +317,14 @@ function loadDefaultNavigation() {
     setupNavigationEvents();
 }
 
-// Navigation event setup
+// 导航事件设置
 function setupNavigationEvents() {
-    // Desktop dropdown functionality
     const navItems = document.querySelectorAll('.nav-item');
     
     navItems.forEach(item => {
         const dropdown = item.querySelector('.dropdown');
         if (dropdown) {
-            // Desktop hover behavior
+            // 桌面端悬停行为
             if (window.innerWidth > 768) {
                 item.addEventListener('mouseenter', () => {
                     document.querySelectorAll('.nav-item').forEach(i => {
@@ -254,7 +338,7 @@ function setupNavigationEvents() {
                 });
             }
             
-            // Click behavior for both desktop and mobile
+            // 点击行为（桌面端和移动端）
             const toggle = item.querySelector('.dropdown-toggle');
             if (toggle) {
                 toggle.addEventListener('click', (e) => {
@@ -269,7 +353,7 @@ function setupNavigationEvents() {
         }
     });
     
-    // Close dropdowns when clicking outside
+    // 点击外部时关闭下拉菜单
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.nav-item') && 
             !e.target.closest('.mobile-nav') && 
@@ -280,7 +364,7 @@ function setupNavigationEvents() {
         }
     });
     
-    // Mobile navigation toggle
+    // 移动端导航切换
     window.toggleMobileNav = function() {
         const mobileNav = document.getElementById('mobileNav');
         if (mobileNav.style.display === 'flex' || mobileNav.classList.contains('show')) {
@@ -295,7 +379,7 @@ function setupNavigationEvents() {
         }
     };
     
-    // Mobile dropdown toggle
+    // 移动端下拉菜单切换
     window.toggleMobileDropdown = function(e, element) {
         e.preventDefault();
         const navItem = element.parentElement;
@@ -310,7 +394,7 @@ function setupNavigationEvents() {
         navItem.classList.toggle('active');
     };
     
-    // Close mobile nav when clicking outside
+    // 点击外部时关闭移动端导航
     document.addEventListener('click', (e) => {
         const mobileNav = document.getElementById('mobileNav');
         const hamburger = document.querySelector('.hamburger-menu');
@@ -324,7 +408,7 @@ function setupNavigationEvents() {
         }
     });
     
-    // Handle window resize
+    // 处理窗口大小变化
     window.addEventListener('resize', () => {
         const mobileNav = document.getElementById('mobileNav');
         if (window.innerWidth > 768) {
@@ -337,10 +421,31 @@ function setupNavigationEvents() {
     });
 }
 
-// Homepage navigation
+// 首页导航 - 改进版本
 window.goToHomepage = function() {
-    window.location.href = '../index.html';
+    // 尝试多种可能的首页路径
+    const possiblePaths = [
+        '../index.html',
+        '../../index.html',
+        '/index.html',
+        '/'
+    ];
+    
+    // 根据当前路径智能选择
+    const currentPath = window.location.pathname;
+    const pathSegments = currentPath.split('/').filter(segment => segment);
+    
+    if (pathSegments.length <= 1) {
+        // 已在根目录或一级目录
+        navigateToPage('index.html');
+    } else if (pathSegments.length === 2) {
+        // 在二级目录
+        navigateToPage('../index.html');
+    } else {
+        // 在更深的目录
+        navigateToPage('../../index.html');
+    }
 };
 
-// Initialize when DOM is loaded
+// DOM加载完成时初始化
 document.addEventListener('DOMContentLoaded', loadNavigation);
