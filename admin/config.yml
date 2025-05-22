@@ -9,6 +9,15 @@ collections:
   - name: "content"
     label: "Content"
     files:
+      # ADD HOMEPAGE SECTION
+      - name: "homepage"
+        label: "Homepage"
+        file: "homepage-data.json"
+        fields:
+          - {label: "Page Title", name: "page_title", widget: "string", default: "Initial Research", required: true, hint: "Title that appears in browser tab"}
+          - {label: "Hero Image", name: "hero_image", widget: "image", required: true, hint: "Main background image for homepage"}
+          - {label: "Hero Image Alt Text", name: "hero_alt_text", widget: "string", default: "Initial Research", required: true, hint: "Alternative text for screen readers"}
+
       - name: "fellowship"
         label: "Fellowship Page"
         file: "fellowship-data.json"
@@ -101,7 +110,6 @@ collections:
           - {label: "Page Title", name: "title", widget: "string", default: "The Seasonal (shijie/时节) Dinner at Initial Research", required: true}
           - {label: "Main Description", name: "description", widget: "markdown", required: true, hint: "Main description of the seasonal dinner. Use double line breaks for paragraphs."}
 
-      # ADD THIS NEW SECTION FOR MISSION PAGE
       - name: "mission"
         label: "Mission & About Page"
         file: "mission-data.json"
