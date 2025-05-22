@@ -137,38 +137,37 @@ collections:
               - {label: "Email Address", name: "email", widget: "string", required: true}
               - {label: "Address", name: "address", widget: "string", required: true}
 
-      # 新增：展览管理页面 - 客户可以管理所有展览和展览列表
+      # NEW: Exhibitions Manager - Client can manage all exhibitions
       - name: "exhibitions_manager"
-        label: "📋 展览管理"
+        label: "Exhibitions Manager"
         file: "exhibitions-manager.json"
         fields:
-          - {label: "展览页面标题", name: "page_title", widget: "string", default: "Exhibitions", required: true}
-          - {label: "页面介绍", name: "page_intro", widget: "text", required: false, hint: "在展览列表上方显示的介绍文字"}
-          - label: "所有展览"
+          - {label: "Exhibitions Page Title", name: "page_title", widget: "string", default: "Exhibitions", required: true}
+          - label: "All Exhibitions"
             name: "exhibitions"
             widget: "list"
             required: false
-            hint: "点击'Add 所有展览'来创建新的展览页面"
+            hint: "Click 'Add All Exhibitions' to create new exhibition pages"
             summary: "{{fields.title}} ({{fields.date_range}})"
             fields:
-              - {label: "✨ 展览标题", name: "title", widget: "string", required: true}
-              - {label: "📅 展期", name: "date_range", widget: "string", required: true, hint: "例如：April 15 - June 30, 2025"}
-              - {label: "🔗 页面链接ID", name: "slug", widget: "string", required: true, hint: "用于网址的英文ID，例如：embodied-memories-2025（只能包含字母、数字和短横线）"}
-              - {label: "📝 是否在展览列表中显示", name: "show_in_list", widget: "boolean", default: true, hint: "取消勾选可以隐藏此展览"}
-              - {label: "📊 显示顺序", name: "order", widget: "number", default: 1, hint: "数字越小越靠前显示"}
-              - label: "🖼️ 展览图片"
+              - {label: "Exhibition Title", name: "title", widget: "string", required: true}
+              - {label: "Exhibition Date Range", name: "date_range", widget: "string", required: true, hint: "e.g., April 15 - June 30, 2025"}
+              - {label: "URL Slug", name: "slug", widget: "string", required: true, hint: "URL friendly name (e.g., embodied-memories-2025). Only use letters, numbers and hyphens"}
+              - {label: "Show in Exhibition List", name: "show_in_list", widget: "boolean", default: true, hint: "Uncheck to hide this exhibition from public view"}
+              - {label: "Display Order", name: "order", widget: "number", default: 1, hint: "Lower numbers appear first. The first exhibition becomes the main exhibition page"}
+              - label: "Exhibition Images"
                 name: "images"
                 widget: "list"
                 summary: "{{fields.caption}}"
                 required: false
-                hint: "添加展览的所有图片"
+                hint: "Add all images for this exhibition"
                 fields:
-                  - {label: "图片", name: "url", widget: "image", required: true}
-                  - {label: "图片说明", name: "alt", widget: "string", required: false, hint: "为视障用户提供的图片描述"}
-                  - {label: "图片标题", name: "caption", widget: "string", required: false, hint: "显示在图片下方的标题"}
-              - {label: "📄 展览详细介绍", name: "description", widget: "markdown", required: true, hint: "展览的完整介绍，支持加粗(**文字**)和段落"}
-              - {label: "📎 PDF文件", name: "pdf_file", widget: "file", required: false, hint: "上传展览相关的PDF文件"}
-              - {label: "📎 PDF按钮文字", name: "pdf_button_text", widget: "string", default: "download exhibition pdf", required: false}
+                  - {label: "Image", name: "url", widget: "image", required: true}
+                  - {label: "Alt Text", name: "alt", widget: "string", required: false, hint: "Image description for screen readers"}
+                  - {label: "Image Caption", name: "caption", widget: "string", required: false, hint: "Caption displayed below the image"}
+              - {label: "Exhibition Description", name: "description", widget: "markdown", required: true, hint: "Full exhibition description. Use **text** for bold and double line breaks for paragraphs"}
+              - {label: "PDF File", name: "pdf_file", widget: "file", required: false, hint: "Upload exhibition related PDF file"}
+              - {label: "PDF Button Text", name: "pdf_button_text", widget: "string", default: "download exhibition pdf", required: false}
           
   - name: "navigation"
     label: "Navigation"
