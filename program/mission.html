@@ -13,32 +13,18 @@
     <!-- Netlify CMS Integration -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     
+    <!-- Import navigation styles and scripts -->
     <link rel="stylesheet" href="../css/navigation.css">
     <script src="../js/navigation.js"></script>
 
    <style>
-       body {
-           margin: 0;
-           padding: 0;
-           font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-           line-height: 1;
-           background-color: rgb(235, 235, 235);
-           position: relative;
-           min-height: 100vh;
-           overflow-x: hidden;
-           flex-direction: column;
-           width: 100%;
-       }
-        
-       
-        /* Content area - updated for fixed header */
+        /* Content area styling */
         .content {
             padding: 120px 48px 100px 48px;
-    /* max-width: 1000px; */
-    margin: 0 auto;
-    position: relative;
-    z-index: 2;
-    width: 50%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            width: 50%;
         }
 
         /* Loading message */
@@ -99,28 +85,7 @@
             margin-bottom: 0;
         }
 
-        /* Vision list */
-        .vision-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .vision-list li {
-            font-size: 17px;
-            font-weight: 300;
-            margin-bottom: 16px;
-            padding-left: 24px;
-            position: relative;
-        }
-
-        .vision-list li::before {
-            content: "—";
-            position: absolute;
-            left: 0;
-        }
-
-        /* Contact links */
+        /* Contact links - scoped to content area */
         .content a {
             color: rgb(43, 43, 43);
             text-decoration: none;
@@ -134,75 +99,24 @@
             border-color: rgb(241, 61, 33);
         }
 
-        /* Footer styling */
-        footer {
-            position: relative;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgb(180, 180, 180);
-            padding: 10px 0;
-            text-align: center;
-            font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-            font-size: 16px;
-            font-weight: 300;
-            color: rgb(23, 23, 23);
-            z-index: 1000;
-        }
-
         /* Mobile styling */
         @media (max-width: 768px) {
-            /* Hide desktop nav, show hamburger */
-            .nav-top {
-                display: none !important;
-            }
-            
-            .hamburger-menu {
-                display: flex !important;
-            }
-            
-            /* Content adjustments for mobile - align with title */
             .content {
                 padding-left: 24px;
-        padding-right: 24px;
-        padding-top: 105px;
-        padding-bottom: 24px;
-        width: calc(100% - 48px);
-                
-            }
-            
-            .top-banner h1 {
-                font-size: 28px;
+                padding-right: 24px;
+                padding-top: 105px;
+                padding-bottom: 24px;
+                width: calc(100% - 48px);
             }
             
             .section h2 {
                 font-size: 28px;
             }
-            
-            .title-container {
-                padding-left: 24px;
-            }
-        }
-        
-        /* Auto-switch to desktop when screen is larger than 768px */
-        @media (min-width: 769px) {
-            .nav-top {
-                display: flex !important;
-            }
-            
-            .hamburger-menu {
-                display: none !important;
-            }
-            
-            .mobile-nav {
-                display: none !important;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Top red banner with title and navigation -->
-   
+    <!-- Navigation will be loaded by navigation.js -->
     
     <!-- Content area -->
     <div class="content" id="mission-content">
@@ -210,14 +124,9 @@
         <div class="loading-message">Loading mission data...</div>
     </div>
 
-  
+    <!-- Footer will be loaded by navigation.js -->
 
     <script>
-        // Homepage navigation function
-        function goToHomepage() {
-            window.location.href = '../index.html';
-        }
-
         // Load mission data from JSON
         async function loadMissionData() {
             try {
@@ -316,22 +225,7 @@
 
             // Auto-scroll to Mission section after content loads
             setTimeout(() => {
-                const missionSection = document.getElementById('mission');
-                if (missionSection) {
-                    // Calculate the position to center the Mission section
-                    const headerHeight = document.querySelector('.top-banner').offsetHeight;
-                    const missionPosition = missionSection.offsetTop - headerHeight;
-                    const windowHeight = window.innerHeight;
-                    const sectionHeight = missionSection.offsetHeight;
-                    
-                    // Center the mission section in the viewport
-                    const scrollPosition = missionPosition - (windowHeight - sectionHeight) / 2;
-                    
-                    window.scrollTo({
-                        top: scrollPosition,
-                        behavior: 'smooth'
-                    });
-                }
+                scrollToMission();
             }, 100);
         }
 
@@ -433,137 +327,36 @@
             
             // Auto-scroll to Mission section after content loads
             setTimeout(() => {
-                const missionSection = document.getElementById('mission');
-                if (missionSection) {
-                    // Calculate the position to center the Mission section
-                    const headerHeight = document.querySelector('.top-banner').offsetHeight;
-                    const missionPosition = missionSection.offsetTop - headerHeight;
-                    const windowHeight = window.innerHeight;
-                    const sectionHeight = missionSection.offsetHeight;
-                    
-                    // Center the mission section in the viewport
-                    const scrollPosition = missionPosition - (windowHeight - sectionHeight) / 2;
-                    
-                    window.scrollTo({
-                        top: scrollPosition,
-                        behavior: 'smooth'
-                    });
-                }
+                scrollToMission();
             }, 100);
         }
 
-        // Mobile navigation functions
-        function toggleMobileNav() {
-            const mobileNav = document.getElementById('mobileNav');
-            
-            if (mobileNav.style.display === 'flex' || mobileNav.classList.contains('show')) {
-                mobileNav.style.display = 'none';
-                mobileNav.classList.remove('show');
-                // Close all mobile dropdowns when closing nav
-                const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-                allMobileNavItems.forEach(item => {
-                    item.classList.remove('active');
-                });
-            } else {
-                mobileNav.style.display = 'flex';
-                mobileNav.classList.add('show');
-            }
-        }
-        
-        // Mobile dropdown toggle
-        function toggleMobileDropdown(event, element) {
-            event.preventDefault();
-            const navItem = element.parentElement;
-            
-            // Check if this nav item has a dropdown
-            const dropdown = navItem.querySelector('.mobile-dropdown');
-            if (!dropdown) {
-                // If no dropdown, it's a regular link - handle navigation here if needed
-                return;
-            }
-            
-            // Close all other mobile dropdowns
-            const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-            allMobileNavItems.forEach(item => {
-                if (item !== navItem) {
-                    item.classList.remove('active');
-                }
-            });
-            
-            // Toggle current dropdown
-            navItem.classList.toggle('active');
-        }
-
-        // Auto-handle screen resize
-        window.addEventListener('resize', function() {
-            const mobileNav = document.getElementById('mobileNav');
-            const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-            
-            // If resizing to desktop width, close mobile nav
-            if (window.innerWidth > 768) {
-                mobileNav.style.display = 'none';
-                mobileNav.classList.remove('show');
-                allMobileNavItems.forEach(item => {
-                    item.classList.remove('active');
+        // Auto-scroll to Mission section
+        function scrollToMission() {
+            const missionSection = document.getElementById('mission');
+            if (missionSection) {
+                // Calculate the position to center the Mission section
+                const headerHeight = document.querySelector('.top-banner') ? document.querySelector('.top-banner').offsetHeight : 80;
+                const missionPosition = missionSection.offsetTop - headerHeight;
+                const windowHeight = window.innerHeight;
+                const sectionHeight = missionSection.offsetHeight;
+                
+                // Center the mission section in the viewport
+                const scrollPosition = missionPosition - (windowHeight - sectionHeight) / 2;
+                
+                window.scrollTo({
+                    top: Math.max(0, scrollPosition),
+                    behavior: 'smooth'
                 });
             }
-        });
+        }
 
+        // Initialize when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
-            // Load mission data
-            loadMissionData();
-
-            // Desktop dropdown toggle functionality
-            const navItems = document.querySelectorAll('.nav-item');
-            
-            navItems.forEach(item => {
-                const link = item.querySelector('a');
-                const dropdown = item.querySelector('.dropdown');
-                
-                if (dropdown) {
-                    link.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        
-                        // Close all other dropdowns
-                        navItems.forEach(otherItem => {
-                            if (otherItem !== item) {
-                                otherItem.classList.remove('active');
-                            }
-                        });
-                        
-                        // Toggle current dropdown
-                        item.classList.toggle('active');
-                    });
-                }
-            });
-            
-            // Close dropdowns when clicking outside
-            document.addEventListener('click', function(e) {
-                const isNavClick = e.target.closest('.nav-item');
-                const isMobileNavClick = e.target.closest('.mobile-nav');
-                
-                if (!isNavClick && !isMobileNavClick) {
-                    navItems.forEach(item => {
-                        item.classList.remove('active');
-                    });
-                }
-            });
-        });
-        
-        // Close mobile nav when clicking outside
-        document.addEventListener('click', function(e) {
-            const mobileNav = document.getElementById('mobileNav');
-            const hamburger = document.querySelector('.hamburger-menu');
-            
-            if (!hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
-                mobileNav.style.display = 'none';
-                mobileNav.classList.remove('show');
-                // Close all mobile dropdowns when clicking outside
-                const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-                allMobileNavItems.forEach(item => {
-                    item.classList.remove('active');
-                });
-            }
+            // Wait a bit for navigation.js to load, then load mission data
+            setTimeout(() => {
+                loadMissionData();
+            }, 200);
         });
 
         // Netlify Identity Widget handling
