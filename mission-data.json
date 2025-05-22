@@ -1,6 +1,6 @@
 {
   "mission": {
-    "title": "Mission",
+    "title": "Mission1",
     "content": "We are a nonprofit arts organization based in New York City. Founded by Asian female curators, we committed to supporting early-stage artistic research and fostering cross-cultural exchange through fellowships and thematic public programs.\n\nOur core initiative is a fellowship program that supports five groups of individuals engaged in contemporary cultural discourses and practices. This program provides a dedicated space for artists to develop research for new projects, emphasizing the significance of the initial stages of artistic inquiry. We recognize the importance of early conceptual development as a foundation for broader creative and intellectual endeavors and aim to nurture this critical phase through our fellowship.\n\nIn addition to the fellowship, we offer a shared workspace open to art professionals and cultural practitioners during weekly community hours. We also partner with like-minded individuals and institutions to host exhibitions, workshops and events that encourage dialogue and collaboration within a broader creative network. Through these initiatives, we strive to create a dynamic environment that encourages experimentation, research, and meaningful artistic exchange."
   },
   "vision": {
@@ -14,9 +14,18 @@
   "people": {
     "title": "People",
     "team": [
-      {"name": "Christina Chang", "role": "Founder"},
-      {"name": "Yuan Fuca", "role": "Founding Artistic Director"},
-      {"name": "Xiang Huidi", "role": "Program Coordinator"}
+      {
+        "name": "Christina Chang",
+        "role": "Founder"
+      },
+      {
+        "name": "Yuan Fuca",
+        "role": "Founding Artistic Director"
+      },
+      {
+        "name": "Xiang Huidi",
+        "role": "Program Coordinator"
+      }
     ]
   },
   "contact": {
