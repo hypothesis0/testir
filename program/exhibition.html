@@ -15,85 +15,14 @@
     <!-- Import navigation and exhibition styles -->
     <link rel="stylesheet" href="../css/navigation.css">
     <link rel="stylesheet" href="../css/exhibition.css">
+    
+    <!-- Import scripts -->
+    <script src="../js/navigation.js"></script>
+    <script src="../js/exhibition.js"></script>
 </head>
 <body>
     <!-- Top banner with title and navigation -->
-    <div class="top-banner">
-        <div class="title-container">
-            <h1 onclick="goToHomepage()" style="cursor: pointer;">initial research</h1>
-        </div>
-        <nav class="nav-top">
-            <div class="nav-item">
-                <a href="#">program</a>
-                <div class="dropdown">
-                    <div class="dropdown-container">
-                        <a href="calendar.html">calendar</a>
-                        <a href="fellowship.html">fellowship</a>
-                        <a href="communityhours.html">community hours</a>
-                        <a href="seasonaldinner.html">seasonal dinner</a>
-                        <a href="exhibition.html">exhibitions</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="nav-item">
-                <a href="#">about</a>
-                <div class="dropdown">
-                    <div class="dropdown-container">
-                        <a href="../about/mission.html">mission</a>
-                        <a href="../about/vision.html">vision</a>
-                        <a href="../about/team.html">team</a>
-                        <a href="../about/contact.html">contact</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="nav-item">
-                <a href="../supportus/supportus.html">support us</a>
-            </div>
-        </nav>
-        
-        <!-- Hamburger menu for mobile -->
-        <div class="hamburger-menu" onclick="toggleMobileNav()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        
-        <!-- Mobile navigation menu -->
-        <div class="mobile-nav" id="mobileNav">
-            <div class="mobile-nav-item">
-                <a href="#" onclick="toggleMobileDropdown(event, this)">
-                    program
-                    <span class="mobile-arrow">ᵥ</span>
-                </a>
-                <div class="mobile-dropdown">
-                    <a href="calendar.html">calendar</a>
-                    <a href="fellowship.html">fellowship</a>
-                    <a href="communityhours.html">community hours</a>
-                    <a href="seasonaldinner.html">seasonal dinner</a>
-                    <a href="exhibition.html">exhibitions</a>
-                </div>
-            </div>
-            
-            <div class="mobile-nav-item">
-                <a href="#" onclick="toggleMobileDropdown(event, this)">
-                    about
-                    <span class="mobile-arrow">ᵥ</span>
-                </a>
-                <div class="mobile-dropdown">
-                    <a href="../about/mission.html">mission</a>
-                    <a href="../about/vision.html">vision</a>
-                    <a href="../about/team.html">team</a>
-                    <a href="../about/contact.html">contact</a>
-                </div>
-            </div>
-            
-            <div class="mobile-nav-item">
-                <a href="../supportus/supportus.html">support us</a>
-            </div>
-        </div>
-    </div>
+   
     
     <!-- Exhibition content -->
     <div class="content">
@@ -109,8 +38,8 @@
         </div>
     </div>
     
+    <!-- Footer -->
 
-  
     
     <!-- Lightbox for enlarged images -->
     <div class="lightbox" id="lightbox" onclick="closeLightbox()">
@@ -118,9 +47,6 @@
         <img src="" alt="Enlarged image" id="lightbox-img" onclick="event.stopPropagation()">
     </div>
     
-    <!-- Import scripts -->
-    <script src="../js/navigation.js"></script>
-    <script src="../js/exhibition.js"></script>
     
     <!-- Netlify CMS Authentication Script -->
     <script>
