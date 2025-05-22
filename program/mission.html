@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Initial Research - Mission</title>
+    
+    <!-- Google Font - Space Grotesk -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Netlify CMS Integration -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    
+    <link rel="stylesheet" href="../css/navigation.css">
+    <script src="../js/navigation.js"></script>
+
+   <style>
+       body {
+           margin: 0;
+           padding: 0;
+           font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+           line-height: 1;
+           background-color: rgb(235, 235, 235);
+           position: relative;
+           min-height: 100vh;
+           overflow-x: hidden;
+           flex-direction: column;
+           width: 100%;
+       }
+        
+       
+        /* Content area - updated for fixed header */
+        .content {
+            padding: 120px 48px 100px 48px;
+    /* max-width: 1000px; */
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    width: 50%;
+        }
+
+        /* Loading message */
+        .loading-message {
+            font-size: 16px;
+            color: #666;
+            margin: 20px 0;
+        }
+
+        /* Section styling */
+        .section {
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .section:not(:last-child) {
+            border-bottom: 1px solid rgb(43, 43, 43);
+            padding-bottom: 60px;
+        }
+
+        /* Section headers */
+        .section h2 {
+            font-size: 43px;
+            font-weight: 400;
+            margin-bottom: 60px;
+            line-height: 1.2;
+            text-transform: none;
+            text-align: left;
+            color: rgb(23, 23, 23);
+        }
+
+        /* Text styling */
+        .section p {
+            font-size: 17px;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-bottom: 24px;
+            width: 100%;
+        }
+
+        /* People section */
+        .people-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .people-list li {
+            font-size: 17px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(43, 43, 43, 0.2);
+            padding-bottom: 16px;
+        }
+
+        .people-list li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        /* Vision list */
+        .vision-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .vision-list li {
+            font-size: 17px;
+            font-weight: 300;
+            margin-bottom: 16px;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .vision-list li::before {
+            content: "—";
+            position: absolute;
+            left: 0;
+        }
+
+        /* Contact links */
+        .content a {
+            color: rgb(43, 43, 43);
+            text-decoration: none;
+            border-bottom: 1px solid rgb(43, 43, 43);
+            padding-bottom: 0.1rem;
+            transition: all 0.2s ease;
+        }
+
+        .content a:hover {
+            color: rgb(241, 61, 33);
+            border-color: rgb(241, 61, 33);
+        }
+
+        /* Footer styling */
+        footer {
+            position: relative;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgb(180, 180, 180);
+            padding: 10px 0;
+            text-align: center;
+            font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 300;
+            color: rgb(23, 23, 23);
+            z-index: 1000;
+        }
+
+        /* Mobile styling */
+        @media (max-width: 768px) {
+            /* Hide desktop nav, show hamburger */
+            .nav-top {
+                display: none !important;
+            }
+            
+            .hamburger-menu {
+                display: flex !important;
+            }
+            
+            /* Content adjustments for mobile - align with title */
+            .content {
+                padding-left: 24px;
+        padding-right: 24px;
+        padding-top: 105px;
+        padding-bottom: 24px;
+        width: calc(100% - 48px);
+                
+            }
+            
+            .top-banner h1 {
+                font-size: 28px;
+            }
+            
+            .section h2 {
+                font-size: 28px;
+            }
+            
+            .title-container {
+                padding-left: 24px;
+            }
+        }
+        
+        /* Auto-switch to desktop when screen is larger than 768px */
+        @media (min-width: 769px) {
+            .nav-top {
+                display: flex !important;
+            }
+            
+            .hamburger-menu {
+                display: none !important;
+            }
+            
+            .mobile-nav {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top red banner with title and navigation -->
+   
+    
+    <!-- Content area -->
+    <div class="content" id="mission-content">
+        <!-- Content will be loaded from the JSON file -->
+        <div class="loading-message">Loading mission data...</div>
+    </div>
+
+  
+
+    <script>
+        // Homepage navigation function
+        function goToHomepage() {
+            window.location.href = '../index.html';
+        }
+
+        // Load mission data from JSON
+        async function loadMissionData() {
+            try {
+                console.log('Attempting to load mission data');
+                
+                // Try multiple possible paths for the JSON file
+                let response;
+                let foundPath = '';
+                
+                // Try different possible paths
+                const possiblePaths = [
+                    '/mission-data.json',
+                    './mission-data.json',
+                    '../mission-data.json',
+                    'mission-data.json',
+                    '/about-data.json',
+                    './about-data.json',
+                    '../about-data.json',
+                    'about-data.json'
+                ];
+                
+                // Try each path until one works
+                for (const path of possiblePaths) {
+                    try {
+                        console.log(`Trying path: ${path}`);
+                        const tempResponse = await fetch(path);
+                        if (tempResponse.ok) {
+                            response = tempResponse;
+                            foundPath = path;
+                            console.log(`Found working path: ${path}`);
+                            break;
+                        }
+                    } catch (err) {
+                        console.log(`Failed with path ${path}: ${err.message}`);
+                    }
+                }
+                
+                // If we didn't find a working path
+                if (!response || !response.ok) {
+                    throw new Error('Could not find mission data file in any of the tried paths');
+                }
+                
+                const data = await response.json();
+                console.log('Successfully loaded mission data:', data);
+                
+                // Render mission content
+                renderMission(data);
+                
+            } catch (error) {
+                console.error('Error loading mission data:', error);
+                
+                // Fallback content if loading fails
+                renderStaticMission();
+            }
+        }
+
+        // Render static mission content (fallback)
+        function renderStaticMission() {
+            document.getElementById('mission-content').innerHTML = `
+                <div class="section" id="mission">
+                    <h2>Mission</h2>
+                    <p>
+                        We are a nonprofit arts organization based in New York City. Founded by Asian female curators, we committed to supporting early-stage artistic research and fostering cross-cultural exchange through fellowships and thematic public programs.
+                    </p>
+                    <p>
+                        Our core initiative is a fellowship program that supports five groups of individuals engaged in contemporary cultural discourses and practices. This program provides a dedicated space for artists to develop research for new projects, emphasizing the significance of the initial stages of artistic inquiry. We recognize the importance of early conceptual development as a foundation for broader creative and intellectual endeavors and aim to nurture this critical phase through our fellowship.
+                    </p>
+                    <p>
+                        In addition to the fellowship, we offer a shared workspace open to art professionals and cultural practitioners during weekly community hours. We also partner with like-minded individuals and institutions to host exhibitions, workshops and events that encourage dialogue and collaboration within a broader creative network. Through these initiatives, we strive to create a dynamic environment that encourages experimentation, research, and meaningful artistic exchange.
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h2>Vision</h2>
+                    <p>To provide a supportive space for nurturing artistic ideas and experiments.</p>
+                    <p>To cultivate a vibrant hub where meaningful cultural dialogues flourish.</p>
+                    <p>To build dynamic communities where creatives connect and grow across borders.</p>
+                </div>
+
+                <div class="section">
+                    <h2>People</h2>
+                    <ul class="people-list">
+                        <li>Christina Chang - Founder</li>
+                        <li>Yuan Fuca - Founding Artistic Director</li>
+                        <li>Xiang Huidi - Program Coordinator</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <h2>Contact</h2>
+                    <p>Initial Research</p>
+                    <p>Email: <a href="mailto:info@initialresearch.org">info@initialresearch.org</a></p>
+                    <p>Address: New York City, NY</p>
+                </div>
+            `;
+
+            // Auto-scroll to Mission section after content loads
+            setTimeout(() => {
+                const missionSection = document.getElementById('mission');
+                if (missionSection) {
+                    // Calculate the position to center the Mission section
+                    const headerHeight = document.querySelector('.top-banner').offsetHeight;
+                    const missionPosition = missionSection.offsetTop - headerHeight;
+                    const windowHeight = window.innerHeight;
+                    const sectionHeight = missionSection.offsetHeight;
+                    
+                    // Center the mission section in the viewport
+                    const scrollPosition = missionPosition - (windowHeight - sectionHeight) / 2;
+                    
+                    window.scrollTo({
+                        top: scrollPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }, 100);
+        }
+
+        // Render mission content from CMS data
+        function renderMission(data) {
+            console.log("Rendering mission with data:", data);
+            
+            // Get the container element
+            const container = document.getElementById('mission-content');
+            
+            if (!container) {
+                console.error("Container element 'mission-content' not found!");
+                return;
+            }
+            
+            // Build HTML content
+            let html = '';
+            
+            // Mission section
+            if (data.mission) {
+                html += `
+                    <div class="section" id="mission">
+                        <h2>${data.mission.title || 'Mission'}</h2>`;
+                
+                // Split mission description into paragraphs
+                const missionParagraphs = data.mission.content ? data.mission.content.split('\n\n') : [];
+                missionParagraphs.forEach(paragraph => {
+                    // Process markdown bold format (**text**)
+                    const formattedParagraph = paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    html += `<p>${formattedParagraph}</p>`;
+                });
+                
+                html += `</div>`;
+            }
+            
+            // Vision section
+            if (data.vision) {
+                html += `
+                    <div class="section">
+                        <h2>${data.vision.title || 'Vision'}</h2>`;
+                
+                if (data.vision.items && data.vision.items.length > 0) {
+                    data.vision.items.forEach(item => {
+                        html += `<p>${item}</p>`;
+                    });
+                } else if (data.vision.content) {
+                    // Split vision content into paragraphs
+                    const visionParagraphs = data.vision.content.split('\n\n');
+                    visionParagraphs.forEach(paragraph => {
+                        const formattedParagraph = paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                        html += `<p>${formattedParagraph}</p>`;
+                    });
+                }
+                
+                html += `</div>`;
+            }
+            
+            // People section
+            if (data.people) {
+                html += `
+                    <div class="section">
+                        <h2>${data.people.title || 'People'}</h2>
+                        <ul class="people-list">`;
+                
+                if (data.people.team && data.people.team.length > 0) {
+                    data.people.team.forEach(person => {
+                        html += `<li>${person.name}${person.role ? ' - ' + person.role : ''}</li>`;
+                    });
+                } else if (data.people.list && data.people.list.length > 0) {
+                    data.people.list.forEach(person => {
+                        html += `<li>${person}</li>`;
+                    });
+                }
+                
+                html += `</ul></div>`;
+            }
+            
+            // Contact section
+            if (data.contact) {
+                html += `
+                    <div class="section">
+                        <h2>${data.contact.title || 'Contact'}</h2>`;
+                
+                if (data.contact.organization) {
+                    html += `<p>${data.contact.organization}</p>`;
+                }
+                if (data.contact.email) {
+                    html += `<p>Email: <a href="mailto:${data.contact.email}">${data.contact.email}</a></p>`;
+                }
+                if (data.contact.address) {
+                    html += `<p>Address: ${data.contact.address}</p>`;
+                }
+                
+                html += `</div>`;
+            }
+            
+            // Set the HTML content
+            container.innerHTML = html;
+            
+            // Auto-scroll to Mission section after content loads
+            setTimeout(() => {
+                const missionSection = document.getElementById('mission');
+                if (missionSection) {
+                    // Calculate the position to center the Mission section
+                    const headerHeight = document.querySelector('.top-banner').offsetHeight;
+                    const missionPosition = missionSection.offsetTop - headerHeight;
+                    const windowHeight = window.innerHeight;
+                    const sectionHeight = missionSection.offsetHeight;
+                    
+                    // Center the mission section in the viewport
+                    const scrollPosition = missionPosition - (windowHeight - sectionHeight) / 2;
+                    
+                    window.scrollTo({
+                        top: scrollPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }, 100);
+        }
+
+        // Mobile navigation functions
+        function toggleMobileNav() {
+            const mobileNav = document.getElementById('mobileNav');
+            
+            if (mobileNav.style.display === 'flex' || mobileNav.classList.contains('show')) {
+                mobileNav.style.display = 'none';
+                mobileNav.classList.remove('show');
+                // Close all mobile dropdowns when closing nav
+                const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
+                allMobileNavItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+            } else {
+                mobileNav.style.display = 'flex';
+                mobileNav.classList.add('show');
+            }
+        }
+        
+        // Mobile dropdown toggle
+        function toggleMobileDropdown(event, element) {
+            event.preventDefault();
+            const navItem = element.parentElement;
+            
+            // Check if this nav item has a dropdown
+            const dropdown = navItem.querySelector('.mobile-dropdown');
+            if (!dropdown) {
+                // If no dropdown, it's a regular link - handle navigation here if needed
+                return;
+            }
+            
+            // Close all other mobile dropdowns
+            const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
+            allMobileNavItems.forEach(item => {
+                if (item !== navItem) {
+                    item.classList.remove('active');
+                }
+            });
+            
+            // Toggle current dropdown
+            navItem.classList.toggle('active');
+        }
+
+        // Auto-handle screen resize
+        window.addEventListener('resize', function() {
+            const mobileNav = document.getElementById('mobileNav');
+            const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
+            
+            // If resizing to desktop width, close mobile nav
+            if (window.innerWidth > 768) {
+                mobileNav.style.display = 'none';
+                mobileNav.classList.remove('show');
+                allMobileNavItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load mission data
+            loadMissionData();
+
+            // Desktop dropdown toggle functionality
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            navItems.forEach(item => {
+                const link = item.querySelector('a');
+                const dropdown = item.querySelector('.dropdown');
+                
+                if (dropdown) {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Close all other dropdowns
+                        navItems.forEach(otherItem => {
+                            if (otherItem !== item) {
+                                otherItem.classList.remove('active');
+                            }
+                        });
+                        
+                        // Toggle current dropdown
+                        item.classList.toggle('active');
+                    });
+                }
+            });
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                const isNavClick = e.target.closest('.nav-item');
+                const isMobileNavClick = e.target.closest('.mobile-nav');
+                
+                if (!isNavClick && !isMobileNavClick) {
+                    navItems.forEach(item => {
+                        item.classList.remove('active');
+                    });
+                }
+            });
+        });
+        
+        // Close mobile nav when clicking outside
+        document.addEventListener('click', function(e) {
+            const mobileNav = document.getElementById('mobileNav');
+            const hamburger = document.querySelector('.hamburger-menu');
+            
+            if (!hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
+                mobileNav.style.display = 'none';
+                mobileNav.classList.remove('show');
+                // Close all mobile dropdowns when clicking outside
+                const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
+                allMobileNavItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+            }
+        });
+
+        // Netlify Identity Widget handling
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.href = "/admin/";
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>
