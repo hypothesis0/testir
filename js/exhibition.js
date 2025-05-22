@@ -1,14 +1,45 @@
-// 获取URL参数中的展览ID
+// 获取URL中的展览ID - 支持query参数和hash
 function getExhibitionIdFromUrl() {
+    // 首先尝试从URL参数获取 (?id=xxx)
     const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('id');
+    const queryId = urlParams.get('id');
+    
+    // 然后尝试从hash获取 (#exhibition-name)
+    const hash = window.location.hash.substring(1); // 移除#号
+    
+    // 优先使用query参数，如果没有则使用hash
+    return queryId || hash || null;
+}
+
+// 监听hash变化，当用户在archive页面点击不同展览时
+window.addEventListener('hashchange', function() {
+    console.log('Hash changed, reloading exhibition');
+    loadExhibitionData();
+});
+
+// 在archive页面中使用的函数
+function navigateToExhibition(slug, fromArchive = false) {
+    if (fromArchive) {
+        // 从archive页面来的，使用hash URL
+        window.location.hash = slug;
+        // 如果在同一页面，手动触发加载
+        if (window.location.pathname.includes('exhibition.html')) {
+            loadExhibitionData();
+        } else {
+            // 如果在其他页面，跳转到exhibition页面
+            window.location.href = `exhibition.html#${slug}`;
+        }
+    } else {
+        // 从列表页面来的，使用query参数
+        window.location.href = `exhibition.html?id=${slug}`;
+    }
 }
 
 async function loadExhibitionData() {
     try {
         console.log('Attempting to load exhibition data');
         
-        // 获取URL中的展览ID
+        // 获取URL中的展览ID（支持query和hash）
         const exhibitionId = getExhibitionIdFromUrl();
         
         console.log(`Exhibition ID from URL: ${exhibitionId}`);
@@ -73,27 +104,115 @@ async function loadExhibitionData() {
         
         console.log('Found exhibition:', exhibition);
         
-        // 渲染"未找到展览"页面
-function renderNotFound(exhibitionId) {
-    document.getElementById('exhibition-content').innerHTML = `
-        <div class="exhibition-heading">
-            <h1>Exhibition Not Found</h1>
-            <p>The exhibition "${exhibitionId}" was not found</p>
-        </div>
-        
-        <div class="text-content">
-            <p>The requested exhibition could not be found. Please <a href="exhibitionlist.html">return to exhibitions list</a> to view available exhibitions.</p>
-        </div>
-    `;
-}
-
-// 渲染展览内容
+        // 渲染展览内容
         renderExhibition(exhibition);
         
     } catch (error) {
         console.error('Error loading exhibition data:', error);
         renderStaticExhibition();
     }
+}
+
+// 其余函数保持不变...
+function renderExhibition(data) {
+    console.log("Rendering exhibition with data:", data);
+    
+    // 更新页面标题和URL
+    if (data.title) {
+        document.title = `Initial Research - ${data.title}`;
+        
+        // 更新URL但不刷新页面
+        const newUrl = `${window.location.pathname}#${data.slug}`;
+        window.history.replaceState({}, '', newUrl);
+    }
+    
+    // 获取主内容容器
+    const container = document.getElementById('exhibition-content');
+    
+    // 构建HTML内容 - 和之前一样
+    let html = `
+        <div class="exhibition-heading">
+            <h1>${data.title || 'Exhibition'}</h1>
+            <p>${data.date_range || ''}</p>
+        </div>`;
+    
+    // 构建图片滚动部分
+    html += `
+        <div class="hero-image-container">
+            <div class="scroll-arrow scroll-left" onclick="scrollImages('left')">←</div>
+            <div class="scroll-arrow scroll-right" onclick="scrollImages('right')">→</div>
+            
+            <div class="hero-image-scroll" id="heroImageScroll">`;
+    
+    // 添加所有图片
+    if (data.images && data.images.length > 0) {
+        console.log(`Found ${data.images.length} images to display`);
+        data.images.forEach((image, index) => {
+            console.log(`Processing image ${index + 1}:`, image);
+            html += `
+                <div class="hero-image-item">
+                    <img src="${image.url}" alt="${image.alt || data.title}" title="Click to enlarge" onclick="openLightbox(this)">
+                    <div class="hero-image-caption">${image.caption || ''}</div>
+                </div>`;
+        });
+    } else {
+        console.log("No images found in data, using placeholder");
+        html += `
+            <div class="hero-image-item">
+                <img src="img/exhibition/placeholder.jpg" alt="No image available" title="No image available">
+                <div class="hero-image-caption">No images available</div>
+            </div>`;
+    }
+    
+    html += `
+            </div>
+            
+            <!-- 分页点 -->
+            <div class="pagination-dots" id="paginationDots">`;
+    
+    // 添加与图片数量相同的点
+    const imageCount = data.images ? data.images.length : 1;
+    for (let i = 0; i < imageCount; i++) {
+        html += `<div class="pagination-dot ${i === 0 ? 'active' : ''}" onclick="scrollToImage(${i})"></div>`;
+    }
+    
+    html += `
+            </div>
+        </div>`;
+    
+    // 添加文本内容
+    html += `
+        <div class="text-content">`;
+    
+    if (data.description) {
+        const paragraphs = data.description.split('\n\n');
+        paragraphs.forEach(paragraph => {
+            const formattedParagraph = paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            html += `<p>${formattedParagraph}</p>`;
+        });
+    } else {
+        html += `<p>No description available</p>`;
+    }
+    
+    html += `</div>`;
+    
+    // 添加下载按钮
+    html += `<div class="action-buttons">`;
+    
+    if (data.pdf_file) {
+        html += `<a href="${data.pdf_file}" class="download-button" target="_blank">${data.pdf_button_text || 'download exhibition pdf'}</a>`;
+    } else {
+        html += `<a href="#" class="download-button disabled" onclick="event.preventDefault();">${data.pdf_button_text || 'download exhibition pdf'}</a>`;
+    }
+    
+    html += `</div>`;
+    
+    // 设置HTML内容
+    container.innerHTML = html;
+    
+    // 初始化滚动功能
+    initScrollIndicators();
+    addTouchSwipeSupport();
 }
 
 // 渲染静态展览内容（作为后备方案）
@@ -179,271 +298,22 @@ function renderNoExhibition() {
     `;
 }
 
-// 渲染展览内容
-function renderExhibition(data) {
-    console.log("Rendering exhibition with data:", data);
-    
-    // 更新页面标题
-    if (data.title) {
-        document.title = `Initial Research - ${data.title}`;
-    }
-    
-    // 获取主内容容器
-    const container = document.getElementById('exhibition-content');
-    
-    // 构建HTML内容
-    let html = `
+// 渲染"未找到展览"页面
+function renderNotFound(exhibitionId) {
+    document.getElementById('exhibition-content').innerHTML = `
         <div class="exhibition-heading">
-            <h1>${data.title || 'Exhibition'}</h1>
-            <p>${data.date_range || ''}</p>
-        </div>`;
-    
-    // 构建图片滚动部分
-    html += `
-        <div class="hero-image-container">
-            <div class="scroll-arrow scroll-left" onclick="scrollImages('left')">←</div>
-            <div class="scroll-arrow scroll-right" onclick="scrollImages('right')">→</div>
-            
-            <div class="hero-image-scroll" id="heroImageScroll">`;
-    
-    // 添加所有图片
-    if (data.images && data.images.length > 0) {
-        console.log(`Found ${data.images.length} images to display`);
-        data.images.forEach((image, index) => {
-            console.log(`Processing image ${index + 1}:`, image);
-            html += `
-                <div class="hero-image-item">
-                    <img src="${image.url}" alt="${image.alt || data.title}" title="Click to enlarge" onclick="openLightbox(this)">
-                    <div class="hero-image-caption">${image.caption || ''}</div>
-                </div>`;
-        });
-    } else {
-        console.log("No images found in data, using placeholder");
-        // 如果没有图片，添加一个占位图片
-        html += `
-            <div class="hero-image-item">
-                <img src="img/exhibition/placeholder.jpg" alt="No image available" title="No image available">
-                <div class="hero-image-caption">No images available</div>
-            </div>`;
-    }
-    
-    html += `
-            </div>
-            
-            <!-- 分页点 -->
-            <div class="pagination-dots" id="paginationDots">`;
-    
-    // 添加与图片数量相同的点
-    const imageCount = data.images ? data.images.length : 1;
-    for (let i = 0; i < imageCount; i++) {
-        html += `<div class="pagination-dot ${i === 0 ? 'active' : ''}" onclick="scrollToImage(${i})"></div>`;
-    }
-    
-    html += `
-            </div>
-        </div>`;
-    
-    // 添加文本内容 - 在图片之后，按照CSS结构
-    html += `
-        <div class="text-content">`;
-    
-    // 将description分割成段落
-    if (data.description) {
-        const paragraphs = data.description.split('\n\n');
-        paragraphs.forEach(paragraph => {
-            // 处理markdown中的粗体标记 (**text**)
-            const formattedParagraph = paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            html += `<p>${formattedParagraph}</p>`;
-        });
-    } else {
-        html += `<p>No description available</p>`;
-    }
-    
-    html += `
-        </div>`;
-    
-    // 添加下载按钮（如果有）
-    console.log("PDF file info:", data.pdf_file);
-    
-    // Always add the button container
-    html += `<div class="action-buttons">`;
-    
-    if (data.pdf_file) {
-        console.log("Adding PDF download button with file:", data.pdf_file);
-        html += `<a href="${data.pdf_file}" class="download-button" target="_blank">${data.pdf_button_text || 'download exhibition pdf'}</a>`;
-    } else {
-        // If you want to show a disabled button or a fallback
-        console.log("No PDF file found, adding placeholder button");
-        html += `<a href="#" class="download-button disabled" onclick="event.preventDefault();">${data.pdf_button_text || 'download exhibition pdf'}</a>`;
-    }
-    
-    html += `</div>`;
-    
-    // 设置HTML内容
-    container.innerHTML = html;
-    
-    // 初始化滚动功能
-    initScrollIndicators();
-    
-    // Add touch swipe support for mobile
-    addTouchSwipeSupport();
-}
-
-// 初始化滚动指示器
-function initScrollIndicators() {
-    const scrollContainer = document.getElementById('heroImageScroll');
-    if (scrollContainer) {
-        scrollContainer.addEventListener('scroll', function() {
-            // 滚动时更新分页点
-            updatePaginationDots();
-        });
-    }
-}
-
-// Add touch swipe support for the image scroll
-function addTouchSwipeSupport() {
-    const scrollContainer = document.getElementById('heroImageScroll');
-    if (!scrollContainer) return;
-    
-    let startX, startY, isDragging = false;
-    
-    scrollContainer.addEventListener('touchstart', function(e) {
-        startX = e.touches[0].clientX;
-        startY = e.touches[0].clientY;
-        isDragging = true;
-    }, { passive: true });
-    
-    scrollContainer.addEventListener('touchmove', function(e) {
-        if (!isDragging) return;
+            <h1>Exhibition Not Found</h1>
+            <p>The exhibition "${exhibitionId}" was not found</p>
+        </div>
         
-        const touchX = e.touches[0].clientX;
-        const touchY = e.touches[0].clientY;
-        
-        // Check if the user is scrolling horizontally
-        const deltaX = startX - touchX;
-        const deltaY = startY - touchY;
-        
-        // If scrolling more horizontally than vertically, prevent the default page scroll
-        if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            e.preventDefault();
-        }
-    }, { passive: false });
-    
-    scrollContainer.addEventListener('touchend', function(e) {
-        isDragging = false;
-    }, { passive: true });
+        <div class="text-content">
+            <p>The requested exhibition could not be found. Please <a href="exhibitionlist.html">return to exhibitions list</a> to view available exhibitions.</p>
+        </div>
+    `;
 }
-
-// 根据当前图片更新分页点
-function updatePaginationDots() {
-    const dots = document.querySelectorAll('.pagination-dot');
-    const currentIndex = getCurrentImageIndex();
-    
-    dots.forEach((dot, index) => {
-        if (index === currentIndex) {
-            dot.classList.add('active');
-        } else {
-            dot.classList.remove('active');
-        }
-    });
-}
-
-// 获取当前图片索引
-function getCurrentImageIndex() {
-    const scrollContainer = document.getElementById('heroImageScroll');
-    if (!scrollContainer) return 0;
-    
-    const items = scrollContainer.querySelectorAll('.hero-image-item');
-    const scrollPosition = scrollContainer.scrollLeft;
-    
-    let closestIndex = 0;
-    let closestDistance = Infinity;
-    
-    items.forEach((item, index) => {
-        const itemCenter = item.offsetLeft + (item.offsetWidth / 2);
-        const containerCenter = scrollPosition + (scrollContainer.offsetWidth / 2);
-        const distance = Math.abs(itemCenter - containerCenter);
-        
-        if (distance < closestDistance) {
-            closestDistance = distance;
-            closestIndex = index;
-        }
-    });
-    
-    return closestIndex;
-}
-
-// 滚动到指定图片
-function scrollImages(direction) {
-    const scrollContainer = document.getElementById('heroImageScroll');
-    if (!scrollContainer) return;
-    
-    const items = scrollContainer.querySelectorAll('.hero-image-item');
-    const currentIndex = getCurrentImageIndex();
-    
-    let targetIndex;
-    if (direction === 'left') {
-        targetIndex = Math.max(0, currentIndex - 1);
-    } else {
-        targetIndex = Math.min(items.length - 1, currentIndex + 1);
-    }
-    
-    scrollToImage(targetIndex);
-}
-
-// 滚动到指定索引的图片
-function scrollToImage(index) {
-    const scrollContainer = document.getElementById('heroImageScroll');
-    if (!scrollContainer) return;
-    
-    const items = scrollContainer.querySelectorAll('.hero-image-item');
-    
-    if (items[index]) {
-        const targetItem = items[index];
-        const targetPosition = targetItem.offsetLeft - ((scrollContainer.offsetWidth - targetItem.offsetWidth) / 2);
-        scrollContainer.scrollTo({ left: targetPosition, behavior: 'smooth' });
-        
-        // 立即更新分页点
-        updatePaginationDots();
-    }
-}
-
-// 灯箱功能
-function openLightbox(img) {
-    var lightbox = document.getElementById('lightbox');
-    var lightboxImg = document.getElementById('lightbox-img');
-    
-    if (lightbox && lightboxImg) {
-        lightboxImg.src = img.src;
-        lightbox.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-    }
-}
-
-// 关闭灯箱
-function closeLightbox() {
-    var lightbox = document.getElementById('lightbox');
-    if (lightbox) {
-        lightbox.style.display = 'none';
-        document.body.style.overflow = '';
-    }
-}
-
-// 添加键盘支持
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeLightbox();
-    } else if (e.key === 'ArrowLeft') {
-        scrollImages('left');
-    } else if (e.key === 'ArrowRight') {
-        scrollImages('right');
-    }
-});
 
 // DOM准备就绪时初始化
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM content loaded, initializing exhibition page");
-    
-    // 从管理数据中加载展览数据
     loadExhibitionData();
 });
