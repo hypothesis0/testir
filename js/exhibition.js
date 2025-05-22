@@ -1,28 +1,33 @@
-// 从JSON加载展览数据
+// 获取URL参数中的展览ID
+function getExhibitionIdFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('id');
+}
+
 async function loadExhibitionData() {
     try {
         console.log('Attempting to load exhibition data');
         
-        // Try multiple possible paths for the JSON file (for local development and production)
-        let response;
-        let foundPath = '';
+        // 获取URL中的展览ID
+        const exhibitionId = getExhibitionIdFromUrl();
         
-        // Try different possible paths
+        console.log(`Exhibition ID from URL: ${exhibitionId}`);
+        
+        // 加载展览管理数据
+        let response;
         const possiblePaths = [
-            './exhibition-data.json',
-            '../exhibition-data.json',
-            '/exhibition-data.json',
-            'exhibition-data.json'
+            './exhibitions-manager.json',
+            '../exhibitions-manager.json',
+            '/exhibitions-manager.json',
+            'exhibitions-manager.json'
         ];
         
-        // Try each path until one works
         for (const path of possiblePaths) {
             try {
                 console.log(`Trying path: ${path}`);
                 const tempResponse = await fetch(path);
                 if (tempResponse.ok) {
                     response = tempResponse;
-                    foundPath = path;
                     console.log(`Found working path: ${path}`);
                     break;
                 }
@@ -31,22 +36,62 @@ async function loadExhibitionData() {
             }
         }
         
-        // If we didn't find a working path, fall back to hardcoded data
         if (!response || !response.ok) {
-            console.log('Could not load exhibition-data.json, using hardcoded data');
+            console.log('Could not load exhibitions manager data, using static content');
             renderStaticExhibition();
             return;
         }
         
-        const data = await response.json();
-        console.log('Successfully loaded exhibition data:', data);
+        const managerData = await response.json();
+        console.log('Successfully loaded manager data:', managerData);
         
-        // 渲染展览内容
-        renderExhibition(data);
+        const exhibitions = managerData.exhibitions || [];
+        let exhibition;
+        
+        if (exhibitionId) {
+            // 如果URL中有指定展览ID，查找该展览
+            exhibition = exhibitions.find(ex => ex.slug === exhibitionId);
+            if (!exhibition) {
+                console.log(`Exhibition ${exhibitionId} not found`);
+                renderNotFound(exhibitionId);
+                return;
+            }
+        } else {
+            // 如果没有指定ID，显示第一个可见的展览（按order排序）
+            const visibleExhibitions = exhibitions
+                .filter(ex => ex.show_in_list !== false)
+                .sort((a, b) => (a.order || 999) - (b.order || 999));
+            
+            exhibition = visibleExhibitions[0];
+            
+            if (!exhibition) {
+                console.log('No exhibitions available');
+                renderNoExhibition();
+                return;
+            }
+        }
+        
+        console.log('Found exhibition:', exhibition);
+        
+        // 渲染"未找到展览"页面
+function renderNotFound(exhibitionId) {
+    document.getElementById('exhibition-content').innerHTML = `
+        <div class="exhibition-heading">
+            <h1>Exhibition Not Found</h1>
+            <p>The exhibition "${exhibitionId}" was not found</p>
+        </div>
+        
+        <div class="text-content">
+            <p>The requested exhibition could not be found. Please <a href="exhibitionlist.html">return to exhibitions list</a> to view available exhibitions.</p>
+        </div>
+    `;
+}
+
+// 渲染展览内容
+        renderExhibition(exhibition);
         
     } catch (error) {
         console.error('Error loading exhibition data:', error);
-        // Fall back to hardcoded data if there's an error
         renderStaticExhibition();
     }
 }
@@ -120,9 +165,28 @@ function renderStaticExhibition() {
     updatePaginationDots();
 }
 
+// 渲染"无展览"页面
+function renderNoExhibition() {
+    document.getElementById('exhibition-content').innerHTML = `
+        <div class="exhibition-heading">
+            <h1>No Current Exhibition</h1>
+            <p>Check back soon for upcoming exhibitions</p>
+        </div>
+        
+        <div class="text-content">
+            <p>There are currently no exhibitions available. Please check back later or <a href="exhibitionlist.html">view all exhibitions</a>.</p>
+        </div>
+    `;
+}
+
 // 渲染展览内容
 function renderExhibition(data) {
     console.log("Rendering exhibition with data:", data);
+    
+    // 更新页面标题
+    if (data.title) {
+        document.title = `Initial Research - ${data.title}`;
+    }
     
     // 获取主内容容器
     const container = document.getElementById('exhibition-content');
@@ -158,7 +222,7 @@ function renderExhibition(data) {
         // 如果没有图片，添加一个占位图片
         html += `
             <div class="hero-image-item">
-                <img src="img/exhibition/placeholder.jpg" alt="Placeholder Image" title="No image available">
+                <img src="img/exhibition/placeholder.jpg" alt="No image available" title="No image available">
                 <div class="hero-image-caption">No images available</div>
             </div>`;
     }
@@ -380,6 +444,6 @@ document.addEventListener('keydown', function(e) {
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM content loaded, initializing exhibition page");
     
-    // 从JSON文件加载展览数据
+    // 从管理数据中加载展览数据
     loadExhibitionData();
 });
