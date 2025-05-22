@@ -479,18 +479,11 @@ footer {
 
 /* Auto-switch to desktop when screen is larger than 768px */
 @media (min-width: 769px) {
-    .nav-top {
-        display: flex !important;
-    }
+   
     
-    .hamburger-menu {
-        display: none !important;
-    }
     
-    .mobile-nav {
-        display: none !important;
-    }
     
+   
     /* Reset content layout for desktop */
     .sidebar {
         display: block !important;
@@ -520,4 +513,5 @@ footer {
     .scroll-arrow {
         display: flex !important;
     }
+    
 }
