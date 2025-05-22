@@ -11,13 +11,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Netlify CMS Integration -->
-    <script src="/content-loader.js"></script>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
-       <!-- Import navigation and exhibition styles -->
-       <link rel="stylesheet" href="../css/navigation.css">
-       <script src="../js/navigation.js"></script>
+    <!-- Import navigation and exhibition styles -->
+    <link rel="stylesheet" href="../css/navigation.css">
+    <script src="../js/navigation.js"></script>
     
    <style>
        body {
@@ -33,8 +31,6 @@
            flex-direction: column;
            width: 100%;
        }
-        
-       
         
         /* Content area - updated for fixed header */
         .content {
@@ -85,33 +81,13 @@
         }
 
         /* Contact links */
-       
         a:hover {
             color: rgb(241, 61, 33);
             border-color: rgb(241, 61, 33);
         }
 
-        /* Footer styling */
-        footer {
-            position: relative;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgb(180, 180, 180);
-            padding: 10px 0;
-            text-align: center;
-            font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-            font-size: 16px;
-            font-weight: 300;
-            color: rgb(23, 23, 23);
-            z-index: 1000;
-            margin-top: auto;
-        }
-
         /* Mobile styling */
         @media (max-width: 768px) {
-         
-            
             /* Content adjustments for mobile - align with title */
             .content {
                 padding-left: 24px;
@@ -133,99 +109,10 @@
                 padding-left: 24px;
             }
         }
-        
-        /* Auto-switch to desktop when screen is larger than 768px */
-        @media (min-width: 769px) {
-            .nav-top {
-                display: flex !important;
-            }
-            
-            .hamburger-menu {
-                display: none !important;
-            }
-            
-            .mobile-nav {
-                display: none !important;
-            }
-        }
     </style>
 </head>
 <body>
-    <!-- Top red banner with title and navigation -->
-    <div class="top-banner">
-        <div class="title-container">
-            <h1 onclick="goToHomepage()" style="cursor: pointer;">initial research</h1>
-        </div>
-        <nav class="nav-top">
-            <div class="nav-item">
-                <a href="#">program</a>
-                <div class="dropdown">
-                    <div class="dropdown-container">
-                        <a href="calendar.html">calendar</a>
-                        <a href="fellowship.html">fellowship</a>
-                        <a href="communityhours.html">community hours</a>
-                        <a href="seasonaldinner.html">seasonal dinner</a>
-                        <a href="exhibition.html">exhibitions</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="nav-item">
-                <a href="#">about</a>
-                <div class="dropdown">
-                    <div class="dropdown-container">
-                        <a href="about.html">mission & vision</a>
-                        <a href="about.html">team</a>
-                        <a href="about.html">contact</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="nav-item">
-                <a href="supportus.html">support us</a>
-            </div>
-        </nav>
-        
-        <!-- Hamburger menu for mobile -->
-        <div class="hamburger-menu" onclick="toggleMobileNav()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        
-        <!-- Mobile navigation menu -->
-        <div class="mobile-nav" id="mobileNav">
-            <div class="mobile-nav-item">
-                <a href="#" onclick="toggleMobileDropdown(event, this)">
-                    program
-                    <span class="mobile-arrow">ᵥ</span>
-                </a>
-                <div class="mobile-dropdown">
-                    <a href="calendar.html">calendar</a>
-                    <a href="fellowship.html">fellowship</a>
-                    <a href="communityhours.html">community hours</a>
-                    <a href="seasonaldinner.html">seasonal dinner</a>
-                    <a href="exhibition.html">exhibitions</a>
-                </div>
-            </div>
-            
-            <div class="mobile-nav-item">
-                <a href="#" onclick="toggleMobileDropdown(event, this)">
-                    about
-                    <span class="mobile-arrow">ᵥ</span>
-                </a>
-                <div class="mobile-dropdown">
-                    <a href="about.html">mission & vision</a>
-                    <a href="about.html">team</a>
-                    <a href="about.html">contact</a>
-                </div>
-            </div>
-            
-            <div class="mobile-nav-item">
-                <a href="supportus.html">support us</a>
-            </div>
-        </div>
-    </div>
+    <!-- Navigation will be loaded by navigation.js -->
     
     <!-- Content area -->
     <div class="content" id="seasonal-dinner-content">
@@ -233,71 +120,9 @@
         <div class="loading-message">Loading seasonal dinner data...</div>
     </div>
 
-    
+    <!-- Footer will be loaded by navigation.js -->
 
     <script>
-        // Homepage navigation function
-        function goToHomepage() {
-            window.location.href = '../index.html';
-        }
-
-        // Mobile navigation functions
-        function toggleMobileNav() {
-            const mobileNav = document.getElementById('mobileNav');
-            
-            if (mobileNav.style.display === 'flex' || mobileNav.classList.contains('show')) {
-                mobileNav.style.display = 'none';
-                mobileNav.classList.remove('show');
-                // Close all mobile dropdowns when closing nav
-                const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-                allMobileNavItems.forEach(item => {
-                    item.classList.remove('active');
-                });
-            } else {
-                mobileNav.style.display = 'flex';
-                mobileNav.classList.add('show');
-            }
-        }
-        
-        // Mobile dropdown toggle
-        function toggleMobileDropdown(event, element) {
-            event.preventDefault();
-            const navItem = element.parentElement;
-            
-            // Check if this nav item has a dropdown
-            const dropdown = navItem.querySelector('.mobile-dropdown');
-            if (!dropdown) {
-                // If no dropdown, it's a regular link - handle navigation here if needed
-                return;
-            }
-            
-            // Close all other mobile dropdowns
-            const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-            allMobileNavItems.forEach(item => {
-                if (item !== navItem) {
-                    item.classList.remove('active');
-                }
-            });
-            
-            // Toggle current dropdown
-            navItem.classList.toggle('active');
-        }
-
-        // Auto-handle screen resize
-        window.addEventListener('resize', function() {
-            const mobileNav = document.getElementById('mobileNav');
-            const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-            
-            // If resizing to desktop width, close mobile nav
-            if (window.innerWidth > 768) {
-                mobileNav.style.display = 'none';
-                mobileNav.classList.remove('show');
-                allMobileNavItems.forEach(item => {
-                    item.classList.remove('active');
-                });
-            }
-        });
-
         // Load seasonal dinner data from JSON
         async function loadSeasonalDinnerData() {
             try {
@@ -414,61 +239,12 @@
             container.innerHTML = html;
         }
 
+        // Initialize when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
-            // Desktop dropdown toggle functionality
-            const navItems = document.querySelectorAll('.nav-item');
-            
-            navItems.forEach(item => {
-                const link = item.querySelector('a');
-                const dropdown = item.querySelector('.dropdown');
-                
-                if (dropdown) {
-                    link.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        
-                        // Close all other dropdowns
-                        navItems.forEach(otherItem => {
-                            if (otherItem !== item) {
-                                otherItem.classList.remove('active');
-                            }
-                        });
-                        
-                        // Toggle current dropdown
-                        item.classList.toggle('active');
-                    });
-                }
-            });
-            
-            // Close dropdowns when clicking outside
-            document.addEventListener('click', function(e) {
-                const isNavClick = e.target.closest('.nav-item');
-                const isMobileNavClick = e.target.closest('.mobile-nav');
-                
-                if (!isNavClick && !isMobileNavClick) {
-                    navItems.forEach(item => {
-                        item.classList.remove('active');
-                    });
-                }
-            });
-
-            // Load seasonal dinner data
-            loadSeasonalDinnerData();
-        });
-        
-        // Close mobile nav when clicking outside
-        document.addEventListener('click', function(e) {
-            const mobileNav = document.getElementById('mobileNav');
-            const hamburger = document.querySelector('.hamburger-menu');
-            
-            if (!hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
-                mobileNav.style.display = 'none';
-                mobileNav.classList.remove('show');
-                // Close all mobile dropdowns when clicking outside
-                const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-                allMobileNavItems.forEach(item => {
-                    item.classList.remove('active');
-                });
-            }
+            // Wait a bit for navigation.js to load, then load seasonal dinner data
+            setTimeout(() => {
+                loadSeasonalDinnerData();
+            }, 100);
         });
 
         // Netlify Identity Widget handling
