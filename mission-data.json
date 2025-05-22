@@ -1,0 +1,28 @@
+{
+  "mission": {
+    "title": "Mission",
+    "content": "We are a nonprofit arts organization..."
+  },
+  "vision": {
+    "title": "Vision", 
+    "items": [
+      "To provide a supportive space for nurturing artistic ideas...",
+      "To cultivate a vibrant hub where meaningful cultural dialogues...",
+      "To build dynamic communities where creatives connect..."
+    ]
+  },
+  "people": {
+    "title": "People",
+    "team": [
+      {"name": "Christina Chang", "role": "Founder"},
+      {"name": "Yuan Fuca", "role": "Founding Artistic Director"},
+      {"name": "Xiang Huidi", "role": "Program Coordinator"}
+    ]
+  },
+  "contact": {
+    "title": "Contact",
+    "organization": "Initial Research",
+    "email": "info@initialresearch.org",
+    "address": "New York City, NY"
+  }
+}
