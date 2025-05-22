@@ -86,7 +86,7 @@ collections:
           - {label: "PDF File", name: "pdf_file", widget: "file", required: false, hint: "Upload a PDF file for download"}
           - {label: "PDF Button Text", name: "pdf_button_text", widget: "string", default: "download exhibition pdf", required: false}
 
-          
+
       - name: "communityhours"
         label: "Community Hours Page"
         file: "communityhours-data.json"
@@ -94,7 +94,14 @@ collections:
           - {label: "Page Title", name: "title", widget: "string", default: "Community Hours", required: true}
           - {label: "Hours", name: "hours", widget: "string", default: "11:00 am– 4:00 pm", required: true}
           - {label: "Description", name: "description", widget: "markdown", required: true, hint: "Main description of community hours. Use double line breaks for paragraphs."}
-         
+
+      - name: "seasonaldinner"
+        label: "Seasonal Dinner Page"
+        file: "seasonaldinner-data.json"
+        fields:
+          - {label: "Page Title", name: "title", widget: "string", default: "The Seasonal (shijie/时节) Dinner at Initial Research", required: true}
+          - {label: "Main Description", name: "description", widget: "markdown", required: true, hint: "Main description of the seasonal dinner. Use double line breaks for paragraphs."}
+          
   - name: "navigation"
     label: "Navigation"
     files:
