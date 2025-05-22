@@ -3,291 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Initial Research - People</title>
+    <title>Initial Research - Team</title>
     
     <!-- Google Font - Space Grotesk -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Netlify CMS Integration -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    
+    <!-- Import navigation styles and scripts -->
+    <link rel="stylesheet" href="../css/navigation.css">
+    <script src="../js/navigation.js"></script>
+
    <style>
-       body {
-           margin: 0;
-           padding: 0;
-           font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-           line-height: 1;
-           background-color: rgb(235, 235, 235);
-           position: relative;
-           min-height: 100vh;
-           overflow-x: hidden;
-           flex-direction: column;
-           width: 100%;
-       }
-        
-        /* Red top banner - matching demo design */
-        .top-banner {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgb(241, 61, 33);
-            padding: 4px 0; /* Match demo page padding */
-            z-index: 10;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .title-container {
-            padding-left: 24px;
-            flex-shrink: 0;
-        }
-        
-        .top-banner h1 {
-            font-size: 34px;
-            font-weight: 500;
-            color: rgb(23, 23, 23);
-            margin: 0;
-            letter-spacing: 0em;
-            line-height: 1;
-            font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-            white-space: nowrap;
-        }
-        
-        /* Navigation - matching demo style */
-        .nav-top {
-            display: flex;
-            gap: 0;
-            padding-right: 48px;
-            padding-left: 0px;
-            align-items: flex-end;
-        }
-        
-        .nav-top a {
-            color: rgb(23, 23, 23);
-            text-decoration: none;
-            font-size: 16px;
-            transition: color 0.2s ease-in-out;
-            line-height: 1;
-            display: inline-block;
-            font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-            font-weight: 300;
-            border-bottom: none !important;
-        }
-        
-        .nav-top a:hover {
-            color: #f8f8f8;
-        }
-        
-        /* Nav item positioning - block style */
-        .nav-item {
-            position: relative;
-            cursor: pointer;
-            padding: 4px 12px;
-            display: flex;
-            align-items: center;
-            margin-top: -8px;
-            margin-bottom: -8px;
-            padding-top: 16px;
-            padding-bottom: 8px;
-        }
-        
-        .nav-item.active {
-            color: #ffffff;
-        }
-        
-        .nav-item.active > a {
-            font-style: italic !important;
-            color: #ffffff;
-        }
-        
-        /* Horizontal Dropdown styles */
-        .dropdown {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: rgba(159, 144, 142, 0.486);
-            padding: 0;
-            z-index: 1000;
-            transition: opacity ease;
-            min-width: 600px;
-        }
-        
-        /* Special case for "program" dropdown */
-        .nav-item:first-child .dropdown {
-            width: 600px;
-        }
-        
-        /* Dropdown container */
-        .dropdown-container {
-            display: flex;
-            flex-direction: column;
-            background-color: rgb(241, 61, 33);
-            width: 100%;
-            padding: 0;
-        }
-        
-        /* Dropdown links */
-        .dropdown a {
-            display: block;
-            font-size: 16px;
-            padding: 10px 10px 10px 12px;
-            margin: 0;
-            color: rgb(23, 23, 23);
-            text-align: left;
-            text-decoration: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-weight: 300;
-            white-space: nowrap;
-        }
-        
-        .dropdown a:first-child {
-            border-top: none;
-        }
-        
-        .dropdown a:last-child {
-            border-bottom: none;
-        }
-        
-        /* Show dropdown when active */
-        .nav-item.active .dropdown {
-            display: block;
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .dropdown a:hover {
-           background-color: rgba(243, 135, 135, 0.691);
-        }
-        
-        /* MOBILE HAMBURGER MENU */
-        .hamburger-menu {
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding-right: 12px;
-            cursor: pointer;
-        }
-        
-        .hamburger-menu span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background-color: rgb(23, 23, 23);
-            margin: 3px 0;
-            transition: 0.3s;
-        }
-        
-        /* Mobile navigation menu */
-        .mobile-nav {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            background-color: rgb(241, 61, 33);
-            display: none;
-            flex-direction: column;
-            padding: 0;
-            z-index: 1000;
-        }
-        
-        /* Mobile nav item structure */
-        .mobile-nav-item {
-            
-            position: relative;
-            border-bottom: 0.5px solid rgba(23, 23, 23, 0.15) !important;
-        }
-        
-        .mobile-nav-item > a {
-            color: rgb(23, 23, 23);
-            text-decoration: none;
-            padding: 1vh 3vw;
-            font-size: 16px;
-            font-weight: 300;
-            border: none !important;
-            display: block !important;
-            position: relative;
-            padding-left: 24px !important;
-            box-sizing: border-box;
-        }
-        
-        .mobile-nav-item > a:hover {
-            background-color: rgba(243, 135, 135, 0.691);
-            color: #f8f8f8;
-        }
-        
-        .mobile-nav-item.active > a {
-            font-style: italic !important;
-            color: #ffffff;
-        }
-        
-        /* Mobile arrow indicator */
-        .mobile-arrow {
-            position: absolute !important;
-            right: 24px;
-            top: 50%;
-            transform: translateY(-50%);
-            margin: 0 !important;
-            font-size: 20px;
-            transition: transform 0.3s ease;
-            width: 20px;
-            text-align: center;
-        }
-        
-        /* Only show arrow for items with dropdowns */
-        .mobile-nav-item:last-child .mobile-arrow {
-            display: none;
-        }
-        
-        .mobile-nav-item.active .mobile-arrow {
-            transform: rotate(180deg);
-        }
-        
-        /* Mobile dropdown */
-        .mobile-dropdown {
-            display: none;
-            background-color: rgb(241, 61, 33);
-            border-top: none !important;
-            flex-direction: column;
-        }
-        
-        .mobile-nav-item.active .mobile-dropdown {
-            display: flex;
-        }
-        
-        .mobile-dropdown a {
-            color: rgb(23, 23, 23);
-            text-decoration: none;
-            padding: 1vh 3vw 0.5vh 6vw;
-            font-size: 16px;
-            font-weight: 300;
-            border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            padding-left: 48px;
-        }
-        
-        .mobile-dropdown a:hover {
-            background-color: rgba(243, 135, 135, 0.691);
-            color: #f8f8f8;
-        }
-        
-        /* Make sure mobile nav shows when toggled */
-        .mobile-nav.show {
-            display: flex !important;
-        }
-        
-        /* Content area - updated for fixed header */
+        /* Content area styling */
         .content {
             padding: 120px 48px 100px 48px;
-    /* max-width: 1000px; */
-    margin: 0 auto;
-    position: relative;
-    z-index: 2;
-    width: 50%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            width: 50%;
+        }
+
+        /* Loading message */
+        .loading-message {
+            font-size: 16px;
+            color: #666;
+            margin: 20px 0;
         }
 
         /* Section styling */
@@ -341,29 +85,8 @@
             margin-bottom: 0;
         }
 
-        /* Vision list */
-        .vision-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .vision-list li {
-            font-size: 17px;
-            font-weight: 300;
-            margin-bottom: 16px;
-            padding-left: 24px;
-            position: relative;
-        }
-
-        .vision-list li::before {
-            content: "—";
-            position: absolute;
-            left: 0;
-        }
-
-        /* Contact links */
-        a {
+        /* Contact links - scoped to content area */
+        .content a {
             color: rgb(43, 43, 43);
             text-decoration: none;
             border-bottom: 1px solid rgb(43, 43, 43);
@@ -371,337 +94,277 @@
             transition: all 0.2s ease;
         }
 
-        a:hover {
+        .content a:hover {
             color: rgb(241, 61, 33);
             border-color: rgb(241, 61, 33);
         }
 
-        /* Footer styling */
-        footer {
-            position: relative;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgb(180, 180, 180);
-            padding: 10px 0;
-            text-align: center;
-            font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-            font-size: 16px;
-            font-weight: 300;
-            color: rgb(23, 23, 23);
-            z-index: 1000;
-        }
-
         /* Mobile styling */
         @media (max-width: 768px) {
-            /* Hide desktop nav, show hamburger */
-            .nav-top {
-                display: none !important;
-            }
-            
-            .hamburger-menu {
-                display: flex !important;
-            }
-            
-            /* Content adjustments for mobile - align with title */
             .content {
                 padding-left: 24px;
-        padding-right: 24px;
-        padding-top: 105px;
-        padding-bottom: 24px;
-        width: calc(100% - 48px);
-                
-            }
-            
-            .top-banner h1 {
-                font-size: 28px;
+                padding-right: 24px;
+                padding-top: 105px;
+                padding-bottom: 24px;
+                width: calc(100% - 48px);
             }
             
             .section h2 {
                 font-size: 28px;
             }
-            
-            .title-container {
-                padding-left: 24px;
-            }
-        }
-        
-        /* Auto-switch to desktop when screen is larger than 768px */
-        @media (min-width: 769px) {
-            .nav-top {
-                display: flex !important;
-            }
-            
-            .hamburger-menu {
-                display: none !important;
-            }
-            
-            .mobile-nav {
-                display: none !important;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Top red banner with title and navigation -->
-    <div class="top-banner">
-        <div class="title-container">
-            <h1 onclick="goToHomepage()" style="cursor: pointer;">initial research</h1>
-        </div>
-        <nav class="nav-top">
-            <div class="nav-item">
-                <a href="#">program</a>
-                <div class="dropdown">
-                    <div class="dropdown-container">
-                        <a href="../program/calendar.html">calendar</a>
-                        <a href="../program/fellowship.html">fellowship</a>
-                        <a href="../program/communityhours.html">community hours</a>
-                        <a href="../program/seasonaldinner.html">seasonal dinner</a>
-                        <a href="../program/exhibition.html">exhibitions</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="nav-item">
-                <a href="#">about</a>
-                <div class="dropdown">
-                    <div class="dropdown-container">
-                        <a href="mission.html">mission</a>
-                        <a href="vision.html">vision</a>
-                        <a href="team.html">team</a>
-                        <a href="contact.html">contact</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="nav-item">
-                <a href="../supportus/supportus.html">support us</a>
-            </div>
-        </nav>
-        
-        <!-- Hamburger menu for mobile -->
-        <div class="hamburger-menu" onclick="toggleMobileNav()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        
-        <!-- Mobile navigation menu -->
-        <div class="mobile-nav" id="mobileNav">
-            <div class="mobile-nav-item">
-                <a href="#" onclick="toggleMobileDropdown(event, this)">
-                    program
-                    <span class="mobile-arrow">ᵥ</span>
-                </a>
-                <div class="mobile-dropdown">
-                    <a href="../program/calendar.html">calendar</a>
-                    <a href="../program/fellowship.html">fellowship</a>
-                    <a href="../program/communityhours.html">community hours</a>
-                    <a href="../program/seasonaldinner.html">seasonal dinner</a>
-                    <a href="../program/exhibition.html">exhibitions</a>
-                </div>
-            </div>
-            
-            <div class="mobile-nav-item">
-                <a href="#" onclick="toggleMobileDropdown(event, this)">
-                    about
-                    <span class="mobile-arrow">ᵥ</span>
-                </a>
-                <div class="mobile-dropdown">
-                    <a href="mission.html">mission</a>
-                    <a href="vision.html">vision</a>
-                    <a href="team.html">team</a>
-                    <a href="contact.html">contact</a>
-                </div>
-            </div>
-            
-            <div class="mobile-nav-item">
-                <a href="../supportus/supportus.html">support us</a>
-            </div>
-        </div>
-    </div>
+    <!-- Navigation will be loaded by navigation.js -->
     
     <!-- Content area -->
-    <div class="content">
-        <div class="section">
-            <h2>Mission</h2>
-            <p>
-                We are a nonprofit arts organization based in New York City. Founded by Asian female curators, we committed to supporting early-stage artistic research and fostering cross-cultural exchange through fellowships and thematic public programs.
-            </p>
-            <p>
-                Our core initiative is a fellowship program that supports five groups of individuals engaged in contemporary cultural discourses and practices. This program provides a dedicated space for artists to develop research for new projects, emphasizing the significance of the initial stages of artistic inquiry. We recognize the importance of early conceptual development as a foundation for broader creative and intellectual endeavors and aim to nurture this critical phase through our fellowship.
-            </p>
-            <p>
-                In addition to the fellowship, we offer a shared workspace open to art professionals and cultural practitioners during weekly community hours. We also partner with like-minded individuals and institutions to host exhibitions, workshops and events that encourage dialogue and collaboration within a broader creative network. Through these initiatives, we strive to create a dynamic environment that encourages experimentation, research, and meaningful artistic exchange.
-            </p>
-        </div>
-
-        <div class="section">
-            <h2>Vision</h2>
-           
-                <p>To provide a supportive space for nurturing artistic ideas and experiments.</p>
-                <p>To cultivate a vibrant hub where meaningful cultural dialogues flourish.</p>
-                <p>To build dynamic communities where creatives connect and grow across borders.</p>
-          
-        </div>
-
-        <div class="section" id="people">
-            <h2>Team</h2>
-            <ul class="people-list">
-                <li>Christina Chang - Founder</li>
-                <li>Yuan Fuca - Founding Artistic Director</li>
-                <li>Xiang Huidi - Program Coordinator</li>
-            </ul>
-        </div>
-        
-        <div class="section">
-            <h2>Contact</h2>
-            <p>Initial Research</p>
-            <p>Email: <a href="mailto:info@initialresearch.org">info@initialresearch.org</a></p>
-            <p>Address: New York City, NY</p>
-        </div>
+    <div class="content" id="team-content">
+        <!-- Content will be loaded from the JSON file -->
+        <div class="loading-message">Loading team data...</div>
     </div>
 
-    <footer>
-        123 Gallery Street, New York, NY 10001
-    </footer>
+    <!-- Footer will be loaded by navigation.js -->
 
     <script>
-        // Homepage navigation function
-        function goToHomepage() {
-            window.location.href = '../index.html';
+        // Load team data from mission-data.json (same file as mission page)
+        async function loadTeamData() {
+            try {
+                console.log('Attempting to load team data from mission-data.json');
+                
+                // Try multiple possible paths for the JSON file
+                let response;
+                let foundPath = '';
+                
+                // Try different possible paths for mission-data.json
+                const possiblePaths = [
+                    '/mission-data.json',
+                    './mission-data.json',
+                    '../mission-data.json',
+                    'mission-data.json'
+                ];
+                
+                // Try each path until one works
+                for (const path of possiblePaths) {
+                    try {
+                        console.log(`Trying path: ${path}`);
+                        const tempResponse = await fetch(path);
+                        if (tempResponse.ok) {
+                            response = tempResponse;
+                            foundPath = path;
+                            console.log(`Found working path: ${path}`);
+                            break;
+                        }
+                    } catch (err) {
+                        console.log(`Failed with path ${path}: ${err.message}`);
+                    }
+                }
+                
+                // If we didn't find a working path
+                if (!response || !response.ok) {
+                    throw new Error('Could not find mission-data.json file in any of the tried paths');
+                }
+                
+                const data = await response.json();
+                console.log('Successfully loaded team data:', data);
+                
+                // Render team content
+                renderTeam(data);
+                
+            } catch (error) {
+                console.error('Error loading team data:', error);
+                
+                // Fallback content if loading fails
+                renderStaticTeam();
+            }
         }
 
-        // Auto-scroll to People section on page load
-        window.addEventListener('load', function() {
-            const peopleSection = document.getElementById('people');
-            if (peopleSection) {
-                // Calculate the position to center the People section
-                const headerHeight = document.querySelector('.top-banner').offsetHeight;
-                const peoplePosition = peopleSection.offsetTop - headerHeight;
-                const windowHeight = window.innerHeight;
-                const sectionHeight = peopleSection.offsetHeight;
-                
-                // Center the people section in the viewport
-                const scrollPosition = peoplePosition - (windowHeight - sectionHeight) / 2;
-                
-                window.scrollTo({
-                    top: scrollPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
+        // Render static team content (fallback) - ALL SECTIONS
+        function renderStaticTeam() {
+            document.getElementById('team-content').innerHTML = `
+                <div class="section">
+                    <h2>Mission</h2>
+                    <p>
+                        We are a nonprofit arts organization based in New York City. Founded by Asian female curators, we committed to supporting early-stage artistic research and fostering cross-cultural exchange through fellowships and thematic public programs.
+                    </p>
+                    <p>
+                        Our core initiative is a fellowship program that supports five groups of individuals engaged in contemporary cultural discourses and practices. This program provides a dedicated space for artists to develop research for new projects, emphasizing the significance of the initial stages of artistic inquiry. We recognize the importance of early conceptual development as a foundation for broader creative and intellectual endeavors and aim to nurture this critical phase through our fellowship.
+                    </p>
+                    <p>
+                        In addition to the fellowship, we offer a shared workspace open to art professionals and cultural practitioners during weekly community hours. We also partner with like-minded individuals and institutions to host exhibitions, workshops and events that encourage dialogue and collaboration within a broader creative network. Through these initiatives, we strive to create a dynamic environment that encourages experimentation, research, and meaningful artistic exchange.
+                    </p>
+                </div>
 
-        // Mobile navigation functions
-        function toggleMobileNav() {
-            const mobileNav = document.getElementById('mobileNav');
-            
-            if (mobileNav.style.display === 'flex' || mobileNav.classList.contains('show')) {
-                mobileNav.style.display = 'none';
-                mobileNav.classList.remove('show');
-                // Close all mobile dropdowns when closing nav
-                const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-                allMobileNavItems.forEach(item => {
-                    item.classList.remove('active');
-                });
-            } else {
-                mobileNav.style.display = 'flex';
-                mobileNav.classList.add('show');
-            }
+                <div class="section">
+                    <h2>Vision</h2>
+                    <p>To provide a supportive space for nurturing artistic ideas and experiments.</p>
+                    <p>To cultivate a vibrant hub where meaningful cultural dialogues flourish.</p>
+                    <p>To build dynamic communities where creatives connect and grow across borders.</p>
+                </div>
+
+                <div class="section" id="team">
+                    <h2>Team</h2>
+                    <ul class="people-list">
+                        <li>Christina Chang - Founder</li>
+                        <li>Yuan Fuca - Founding Artistic Director</li>
+                        <li>Xiang Huidi - Program Coordinator</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <h2>Contact</h2>
+                    <p>Initial Research</p>
+                    <p>Email: <a href="mailto:info@initialresearch.org">info@initialresearch.org</a></p>
+                    <p>Address: New York City, NY</p>
+                </div>
+            `;
+
+            // Auto-scroll to Team section after content loads
+            setTimeout(() => {
+                scrollToTeam();
+            }, 100);
         }
-        
-        // Mobile dropdown toggle
-        function toggleMobileDropdown(event, element) {
-            event.preventDefault();
-            const navItem = element.parentElement;
+
+        // Render team content from CMS data (all sections like mission page, but focus on team)
+        function renderTeam(data) {
+            console.log("Rendering team with data:", data);
             
-            // Check if this nav item has a dropdown
-            const dropdown = navItem.querySelector('.mobile-dropdown');
-            if (!dropdown) {
-                // If no dropdown, it's a regular link - handle navigation here if needed
+            // Get the container element
+            const container = document.getElementById('team-content');
+            
+            if (!container) {
+                console.error("Container element 'team-content' not found!");
                 return;
             }
             
-            // Close all other mobile dropdowns
-            const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-            allMobileNavItems.forEach(item => {
-                if (item !== navItem) {
-                    item.classList.remove('active');
-                }
-            });
+            // Build HTML content - ALL sections from mission-data.json
+            let html = '';
             
-            // Toggle current dropdown
-            navItem.classList.toggle('active');
+            // Mission section
+            if (data.mission) {
+                html += `
+                    <div class="section">
+                        <h2>${data.mission.title || 'Mission'}</h2>`;
+                
+                // Split mission description into paragraphs
+                const missionParagraphs = data.mission.content ? data.mission.content.split('\n\n') : [];
+                missionParagraphs.forEach(paragraph => {
+                    // Process markdown bold format (**text**)
+                    const formattedParagraph = paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    html += `<p>${formattedParagraph}</p>`;
+                });
+                
+                html += `</div>`;
+            }
+            
+            // Vision section
+            if (data.vision) {
+                html += `
+                    <div class="section">
+                        <h2>${data.vision.title || 'Vision'}</h2>`;
+                
+                if (data.vision.items && data.vision.items.length > 0) {
+                    data.vision.items.forEach(item => {
+                        html += `<p>${item}</p>`;
+                    });
+                } else if (data.vision.content) {
+                    // Split vision content into paragraphs
+                    const visionParagraphs = data.vision.content.split('\n\n');
+                    visionParagraphs.forEach(paragraph => {
+                        const formattedParagraph = paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                        html += `<p>${formattedParagraph}</p>`;
+                    });
+                }
+                
+                html += `</div>`;
+            }
+            
+            // People/Team section (with ID for auto-scroll)
+            if (data.people) {
+                html += `
+                    <div class="section" id="team">
+                        <h2>${data.people.title || 'Team'}</h2>
+                        <ul class="people-list">`;
+                
+                if (data.people.team && data.people.team.length > 0) {
+                    data.people.team.forEach(person => {
+                        html += `<li>${person.name}${person.role ? ' - ' + person.role : ''}</li>`;
+                    });
+                } else if (data.people.list && data.people.list.length > 0) {
+                    data.people.list.forEach(person => {
+                        html += `<li>${person}</li>`;
+                    });
+                }
+                
+                html += `</ul></div>`;
+            }
+            
+            // Contact section
+            if (data.contact) {
+                html += `
+                    <div class="section">
+                        <h2>${data.contact.title || 'Contact'}</h2>`;
+                
+                if (data.contact.organization) {
+                    html += `<p>${data.contact.organization}</p>`;
+                }
+                if (data.contact.email) {
+                    html += `<p>Email: <a href="mailto:${data.contact.email}">${data.contact.email}</a></p>`;
+                }
+                if (data.contact.address) {
+                    html += `<p>Address: ${data.contact.address}</p>`;
+                }
+                
+                html += `</div>`;
+            }
+            
+            // Set the HTML content
+            container.innerHTML = html;
+            
+            // Auto-scroll to Team section after content loads
+            setTimeout(() => {
+                scrollToTeam();
+            }, 100);
         }
 
-        // Auto-handle screen resize
-        window.addEventListener('resize', function() {
-            const mobileNav = document.getElementById('mobileNav');
-            const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-            
-            // If resizing to desktop width, close mobile nav
-            if (window.innerWidth > 768) {
-                mobileNav.style.display = 'none';
-                mobileNav.classList.remove('show');
-                allMobileNavItems.forEach(item => {
-                    item.classList.remove('active');
+        // Auto-scroll to Team section
+        function scrollToTeam() {
+            const teamSection = document.getElementById('team');
+            if (teamSection) {
+                // Calculate the position to center the Team section
+                const headerHeight = document.querySelector('.top-banner') ? document.querySelector('.top-banner').offsetHeight : 80;
+                const teamPosition = teamSection.offsetTop - headerHeight;
+                const windowHeight = window.innerHeight;
+                const sectionHeight = teamSection.offsetHeight;
+                
+                // Center the team section in the viewport
+                const scrollPosition = teamPosition - (windowHeight - sectionHeight) / 2;
+                
+                window.scrollTo({
+                    top: Math.max(0, scrollPosition),
+                    behavior: 'smooth'
                 });
             }
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait a bit for navigation.js to load, then load team data
+            setTimeout(() => {
+                loadTeamData();
+            }, 200);
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Desktop dropdown toggle functionality
-            const navItems = document.querySelectorAll('.nav-item');
-            
-            navItems.forEach(item => {
-                const link = item.querySelector('a');
-                const dropdown = item.querySelector('.dropdown');
-                
-                if (dropdown) {
-                    link.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        
-                        // Close all other dropdowns
-                        navItems.forEach(otherItem => {
-                            if (otherItem !== item) {
-                                otherItem.classList.remove('active');
-                            }
-                        });
-                        
-                        // Toggle current dropdown
-                        item.classList.toggle('active');
+        // Netlify Identity Widget handling
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.href = "/admin/";
                     });
                 }
             });
-            
-            // Close dropdowns when clicking outside
-            document.addEventListener('click', function(e) {
-                const isNavClick = e.target.closest('.nav-item');
-                const isMobileNavClick = e.target.closest('.mobile-nav');
-                
-                if (!isNavClick && !isMobileNavClick) {
-                    navItems.forEach(item => {
-                        item.classList.remove('active');
-                    });
-                }
-            });
-        });
-        
-        // Close mobile nav when clicking outside
-        document.addEventListener('click', function(e) {
-            const mobileNav = document.getElementById('mobileNav');
-            const hamburger = document.querySelector('.hamburger-menu');
-            
-            if (!hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
-                mobileNav.style.display = 'none';
-                mobileNav.classList.remove('show');
-                // Close all mobile dropdowns when clicking outside
-                const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-                allMobileNavItems.forEach(item => {
-                    item.classList.remove('active');
-                });
-            }
-        });
+        }
     </script>
 </body>
 </html>
