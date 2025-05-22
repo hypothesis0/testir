@@ -2,11 +2,13 @@
   "page_title": "Exhibitions",
   "exhibitions": [
     {
-      "title": "Embodied Memories: Tracing Asian Diaspora Through Material Culture",
-      "date_range": "April 15 - June 30, 2025",
+      "pdf_file": "",
       "slug": "embodied-memories-2025",
-      "show_in_list": true,
+      "date_range": "April 15 - June 30, 2025",
+      "pdf_button_text": "download exhibition pdf",
       "order": 1,
+      "show_in_list": true,
+      "title": "Embodied Memories: Tracing Asian Diaspora Through Material Culture",
       "images": [
         {
           "url": "img/exhibition/1.png",
@@ -14,13 +16,13 @@
           "caption": "Exhibition overview: Embodied Memories"
         },
         {
-          "url": "img/exhibition/2.jpg", 
+          "url": "img/exhibition/2.jpg",
           "alt": "Sowon Kwon, 'Inherited Patterns'",
           "caption": "Sowon Kwon, \"Inherited Patterns\" (2024)"
         },
         {
           "url": "img/exhibition/3.jpg",
-          "alt": "Nini Dongnier, 'Ancestral Objects'", 
+          "alt": "Nini Dongnier, 'Ancestral Objects'",
           "caption": "Nini Dongnier, \"Ancestral Objects\" (2024)"
         },
         {
@@ -34,9 +36,27 @@
           "caption": "Patty Chang, \"Memory Objects\" (2023)"
         }
       ],
-      "description": "Initial Research presents **Embodied Memories: Tracing Asian Diaspora Through Material Culture**, a group exhibition exploring how artists of Asian diaspora use material culture to navigate complex identities and histories. The exhibition features works that examine cultural artifacts, family heirlooms, and everyday objects as repositories of memory, migration, and cultural transmission.\n\nThrough diverse media including sculpture, photography, video, and installation, participating artists investigate how material objects become vessels for intergenerational knowledge, cultural preservation, and identity formation in diaspora communities.\n\nThe exhibition considers how material objects become charged with cultural meaning and personal history, especially in the context of migration and diaspora. By working with and through objects—whether family heirlooms, cultural artifacts, or everyday items—the artists highlight how material culture serves as a tangible link to ancestral homelands, cultural heritage, and familial histories.",
-      "pdf_file": "",
-      "pdf_button_text": "download exhibition pdf"
+      "description": "Initial Research presents **Embodied Memories: Tracing Asian Diaspora Through Material Culture**, a group exhibition exploring how artists of Asian diaspora use material culture to navigate complex identities and histories. The exhibition features works that examine cultural artifacts, family heirlooms, and everyday objects as repositories of memory, migration, and cultural transmission.\n\nThrough diverse media including sculpture, photography, video, and installation, participating artists investigate how material objects become vessels for intergenerational knowledge, cultural preservation, and identity formation in diaspora communities.\n\nThe exhibition considers how material objects become charged with cultural meaning and personal history, especially in the context of migration and diaspora. By working with and through objects—whether family heirlooms, cultural artifacts, or everyday items—the artists highlight how material culture serves as a tangible link to ancestral homelands, cultural heritage, and familial histories."
+    },
+    {
+      "show_in_list": true,
+      "order": 2,
+      "pdf_button_text": "download exhibition pdf",
+      "title": "11",
+      "date_range": "11",
+      "slug": "the-universe-principle-is-love-2025",
+      "images": [
+        {
+          "url": "/img/uploads/brucesilverstein-constantin-br-ncu-i-endless-column-in-edward-steichen-s-garden-at-voulangis-1932.jpg",
+          "alt": "23",
+          "caption": "brancusi"
+        },
+        {
+          "url": "/img/uploads/judd_stool.jpg",
+          "caption": "4343"
+        }
+      ],
+      "description": "1﻿231231"
     }
   ]
 }
