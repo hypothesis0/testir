@@ -10,10 +10,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Netlify CMS Integration -->
+    <!-- Netlify Identity Widget (only this one for CMS login) -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-
-    <!-- Import navigation and exhibition styles -->
+    
+    <!-- Import navigation styles and scripts -->
     <link rel="stylesheet" href="../css/navigation.css">
     <script src="../js/navigation.js"></script>
     
@@ -244,7 +244,7 @@
             // Wait a bit for navigation.js to load, then load seasonal dinner data
             setTimeout(() => {
                 loadSeasonalDinnerData();
-            }, 100);
+            }, 200);
         });
 
         // Netlify Identity Widget handling
