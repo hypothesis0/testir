@@ -138,12 +138,11 @@
                 
                 // Try different possible paths
                 const possiblePaths = [
-    '/mission-data.json',        // ← This should work if file is in root
-    './mission-data.json',       // ← This looks in /about/ folder
-    '../mission-data.json',      // ← This looks one level up from /about/
-    'mission-data.json'
-];
-            
+                    '/mission-data.json',        // ← This should work if file is in root
+                    './mission-data.json',       // ← This looks in /about/ folder
+                    '../mission-data.json',      // ← This looks one level up from /about/
+                    'mission-data.json'
+                ];
                 
                 // Try each path until one works
                 for (const path of possiblePaths) {
@@ -219,11 +218,8 @@
                     <p>Address: New York City, NY</p>
                 </div>
             `;
-
-            // Auto-scroll to Mission section after content loads
-            setTimeout(() => {
-                scrollToMission();
-            }, 100);
+            
+            // NO AUTO-SCROLL - page loads normally
         }
 
         // Render mission content from CMS data
@@ -322,30 +318,7 @@
             // Set the HTML content
             container.innerHTML = html;
             
-            // Auto-scroll to Mission section after content loads
-            setTimeout(() => {
-                scrollToMission();
-            }, 100);
-        }
-
-        // Auto-scroll to Mission section
-        function scrollToMission() {
-            const missionSection = document.getElementById('mission');
-            if (missionSection) {
-                // Calculate the position to center the Mission section
-                const headerHeight = document.querySelector('.top-banner') ? document.querySelector('.top-banner').offsetHeight : 80;
-                const missionPosition = missionSection.offsetTop - headerHeight;
-                const windowHeight = window.innerHeight;
-                const sectionHeight = missionSection.offsetHeight;
-                
-                // Center the mission section in the viewport
-                const scrollPosition = missionPosition - (windowHeight - sectionHeight) / 2;
-                
-                window.scrollTo({
-                    top: Math.max(0, scrollPosition),
-                    behavior: 'smooth'
-                });
-            }
+            // NO AUTO-SCROLL - page loads normally at the top
         }
 
         // Initialize when DOM is ready
