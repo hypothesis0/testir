@@ -336,9 +336,10 @@ footer {
     
     /* MOBILE: Hero image section - ONLY touch handling changes */
     .hero-image-container {
+        
         width: 100vw; /* Full viewport width on mobile */
-        margin-top: 5vh;
         margin-left: calc(-24px); /* Offset the content padding */
+        margin-top: 5vh;
         margin-bottom: 5vh;
         position: relative;
         overflow: visible;
@@ -377,11 +378,11 @@ footer {
     }
     
     .hero-image-item img {
-        /* FIXED: Uniform height for all mobile images with proper scaling */
+        /* FIXED: Same height, variable width based on aspect ratio */
         height: 400px !important; /* Fixed height for all mobile images */
-        width: auto !important; /* Width adjusts to maintain aspect ratio */
-        max-width: 90vw !important; /* Maximum width constraint */
-        object-fit: cover !important; /* CHANGED: Cover ensures uniform height, crops if needed */
+        width: auto !important; /* Width automatically calculated from aspect ratio */
+        /* REMOVED: max-width constraint to allow natural width variation */
+        object-fit: contain !important; /* Maintain aspect ratio without cropping */
         display: block !important;
         cursor: pointer;
         border-radius: 0;
