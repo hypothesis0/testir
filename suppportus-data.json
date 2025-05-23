@@ -1,0 +1,57 @@
+{
+  "page_title": "Support Us",
+  "support_section": {
+    "title": "Support",
+    "intro": "Initial Research is a non-profit organization dedicated to fostering critical dialogue and creative practice. Your support enables us to continue our mission of supporting emerging artists, facilitating meaningful cultural exchanges, and creating spaces for important conversations.\n\nAs an independent arts organization, we rely on the generosity of individuals, foundations, and community partners to sustain our programs and initiatives."
+  },
+  "patron_levels": {
+    "title": "Patron Levels",
+    "levels": [
+      {
+        "name": "Friend",
+        "amount": "$100"
+      },
+      {
+        "name": "Supporter",
+        "amount": "$250"
+      },
+      {
+        "name": "Advocate",
+        "amount": "$500"
+      },
+      {
+        "name": "Patron",
+        "amount": "$1,000"
+      },
+      {
+        "name": "Sustaining Patron",
+        "amount": "$2,500"
+      }
+    ]
+  },
+  "how_to_support": {
+    "title": "How to Support",
+    "content": "**Make a Donation**\n\nTo make a tax-deductible donation, please contact us at [support@initialresearch.org](mailto:support@initialresearch.org) or send a check made payable to \"Initial Research\" to our mailing address.\n\n**Corporate Partnerships**\n\nWe welcome partnerships with organizations that share our commitment to supporting arts and culture. Contact us to discuss collaboration opportunities.\n\n**Volunteer**\n\nJoin our community of volunteers who help make our programs possible. We welcome support with events, administration, and outreach."
+  },
+  "donor_recognition": {
+    "title": "Donor Recognition",
+    "categories": [
+      {
+        "name": "Founding Patrons ($2,500+)",
+        "donors": "Anonymous, Jane Smith Foundation, The Miller Family Trust"
+      },
+      {
+        "name": "Sustaining Patrons ($1,000+)",
+        "donors": "Alex Chen, Maria Rodriguez, David Park, Sarah Johnson"
+      },
+      {
+        "name": "Patrons ($500+)",
+        "donors": "Lisa Wong, Michael Brown, Jennifer Kim, Robert Davis, Emma Wilson, James Lee"
+      },
+      {
+        "name": "Supporters ($250+)",
+        "donors": "Amy Zhang, Chris Taylor, Nicole Adams, Kevin Liu, Rachel Green, Tom Anderson, Laura Martinez, Sam Cooper"
+      }
+    ]
+  }
+}
