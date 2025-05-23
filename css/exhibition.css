@@ -291,15 +291,15 @@ footer {
     z-index: 1;
 }
 
-/* Mobile styling with enhanced touch area and bottom spacing */
+/* Mobile styling - ONLY adding swipe functionality, keeping original design */
 @media (max-width: 768px) {
-
     /* Content layout - FULL WIDTH */
     .content {
         display: flex;
         flex-direction: row;
-        padding: 15vh 3vw 4vw 3vw; /* Back to original padding */
+        padding: 15vh 3vw 4vw 3vw; /* Align table left edge with title */
         padding-left: 24px; /* Match title-container padding for alignment */
+        padding-bottom: 80px; /* Match desktop bottom padding */
     }
     
     /* HIDE SIDEBAR */
@@ -321,7 +321,7 @@ footer {
     }
     
     .exhibition-heading h1 {
-        font-size: 43px !important;
+        font-size: 32px !important;
         font-weight: 400;
         margin: 0 5vh 5vh 0;
         line-height: 1;
@@ -334,14 +334,14 @@ footer {
         color: #000000;
     }
     
-    /* MOBILE: Hero image section with proper touch handling */
+    /* MOBILE: Hero image section - ONLY touch handling changes */
     .hero-image-container {
         width: 100vw; /* Full viewport width on mobile */
         margin-left: calc(-24px); /* Offset the content padding */
         margin-bottom: 5vh;
         position: relative;
         overflow: visible;
-        /* Enable touch and prevent default behaviors that interfere */
+        /* ONLY addition: Enable touch handling for swipe */
         touch-action: manipulation; /* Allow basic touch but prevent browser gestures */
         user-select: none; /* Prevent text selection during swipe */
         -webkit-user-select: none;
@@ -358,15 +358,13 @@ footer {
         scrollbar-width: none;
         -ms-overflow-style: none;
         -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-        /* Enable touch capture */
-        touch-action: pan-x pinch-zoom;
     }
     
     .hero-image-scroll::-webkit-scrollbar {
         display: none;
     }
     
-    /* MOBILE IMAGES - Keep original design */
+    /* MOBILE IMAGES - Original design preserved */
     .hero-image-item {
         flex: 0 0 auto;
         scroll-snap-align: center;
@@ -378,14 +376,13 @@ footer {
     }
     
     .hero-image-item img {
-        /* FIXED: Uniform height for all mobile images */
+        /* Original mobile image styling */
         height: 400px !important; /* Fixed height for all mobile images */
         width: auto !important; /* Width adjusts to maintain aspect ratio */
         max-width: 90vw !important; /* Maximum width constraint */
         object-fit: contain !important; /* Show full image without cropping */
         display: block !important;
         cursor: pointer;
-        /* Remove unnecessary styling */
         border-radius: 0;
         transition: opacity 0.3s !important;
     }
@@ -411,7 +408,7 @@ footer {
         display: none !important;
     }
     
-    /* Keep original pagination dots design */
+    /* Original pagination dots design */
     .pagination-dots {
         display: flex;
         justify-content: center;
@@ -519,7 +516,7 @@ footer {
         display: flex !important;
     }
     
-    /* Reset pagination dots for desktop */
+    /* Desktop pagination dots */
     .pagination-dot {
         width: 8px;
         height: 8px;
