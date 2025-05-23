@@ -297,20 +297,43 @@ footer {
     .content {
         display: flex;
         flex-direction: row;
-        padding: 15vh 3vw 4vw 3vw; /* Align table left edge with title */
+        padding: 15vh 3vw 8vh 3vw; /* Increased bottom padding from 4vw to 8vh */
         padding-left: 24px; /* Match title-container padding for alignment */
+        padding-bottom: 10vh; /* Extra bottom space for mobile */
     }
+    
+    /* Alternative: Add margin-bottom to main-content instead */
+    .main-content {
+        width: 100% !important;
+        padding: 0;
+        margin-bottom: 8vh; /* Additional bottom margin */
+    }
+    
+    /* Ensure text content has proper bottom spacing */
+    .text-content {
+        width: 100%;
+        margin-bottom: 5vh; /* Add bottom margin to text content */
+    }
+    
+    /* Action buttons with more bottom space */
+    .action-buttons {
+        display: flex;
+        justify-content: flex-start;
+        margin: 10vh 0 8vh 0; /* Increased top and bottom margins */
+    }
+    
+    /* Add padding-bottom to body for extra safe space */
+    body {
+        padding-bottom: 5vh; /* Additional bottom padding on mobile */
+    }
+
     
     /* HIDE SIDEBAR */
     .sidebar {
         display: none !important;
     }
     
-    /* Main content area - FULL WIDTH */
-    .main-content {
-        width: 100% !important;
-        padding: 0;
-    }
+   
     
     /* Exhibition heading */
     .exhibition-heading {
@@ -320,7 +343,7 @@ footer {
     }
     
     .exhibition-heading h1 {
-        font-size: 32px !important;
+        font-size: 43px !important;
         font-weight: 400;
         margin: 0 5vh 5vh 0;
         line-height: 1;
