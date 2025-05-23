@@ -337,6 +337,7 @@ footer {
     /* MOBILE: Hero image section - ONLY touch handling changes */
     .hero-image-container {
         width: 100vw; /* Full viewport width on mobile */
+        margin-top: 5vh;
         margin-left: calc(-24px); /* Offset the content padding */
         margin-bottom: 5vh;
         position: relative;
