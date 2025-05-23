@@ -291,9 +291,10 @@ footer {
     z-index: 1;
 }
 
-/* Mobile styling */
+/* Mobile styling with enhanced touch area and bottom spacing */
 @media (max-width: 768px) {
-    /* Content layout - FULL WIDTH */
+
+    /* Content layout - FULL WIDTH with bottom spacing */
     .content {
         display: flex;
         flex-direction: row;
@@ -302,38 +303,17 @@ footer {
         padding-bottom: 10vh; /* Extra bottom space for mobile */
     }
     
-    /* Alternative: Add margin-bottom to main-content instead */
-    .main-content {
-        width: 100% !important;
-        padding: 0;
-        margin-bottom: 8vh; /* Additional bottom margin */
-    }
-    
-    /* Ensure text content has proper bottom spacing */
-    .text-content {
-        width: 100%;
-        margin-bottom: 5vh; /* Add bottom margin to text content */
-    }
-    
-    /* Action buttons with more bottom space */
-    .action-buttons {
-        display: flex;
-        justify-content: flex-start;
-        margin: 10vh 0 8vh 0; /* Increased top and bottom margins */
-    }
-    
-    /* Add padding-bottom to body for extra safe space */
-    body {
-        padding-bottom: 5vh; /* Additional bottom padding on mobile */
-    }
-
-    
     /* HIDE SIDEBAR */
     .sidebar {
         display: none !important;
     }
     
-   
+    /* Main content area - FULL WIDTH with additional bottom margin */
+    .main-content {
+        width: 100% !important;
+        padding: 0;
+        margin-bottom: 8vh; /* Additional bottom margin */
+    }
     
     /* Exhibition heading */
     .exhibition-heading {
@@ -356,25 +336,34 @@ footer {
         color: #000000;
     }
     
-    /* MOBILE: Hero image section with uniform height */
+    /* MOBILE: Enhanced hero image section with expanded touch area */
     .hero-image-container {
         width: 100vw; /* Full viewport width on mobile */
         margin-left: calc(-24px); /* Offset the content padding */
         margin-bottom: 5vh;
         position: relative;
         overflow: visible;
+        /* Expand touch area with padding */
+        padding: 30px 0; /* Add vertical padding for larger touch area */
+        /* Ensure the container captures all touch events */
+        touch-action: pan-x pinch-zoom; /* Allow horizontal panning and pinch zoom */
     }
 
+    /* Expand the scroll container's touch area */
     .hero-image-scroll {
         display: flex;
         overflow-x: auto;
         scroll-behavior: smooth;
         scroll-snap-type: x mandatory;
         gap: 20px; /* Increased gap for better separation */
-        padding: 0 24px 20px 24px; /* Match main content padding */
+        padding: 20px 24px 40px 24px; /* Increased padding for larger touch area */
         scrollbar-width: none;
         -ms-overflow-style: none;
         -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        /* Make sure the scroll container also captures touch */
+        touch-action: pan-x pinch-zoom;
+        /* Add minimum height to expand touch area */
+        min-height: 480px; /* Ensure enough height for touch area */
     }
     
     .hero-image-scroll::-webkit-scrollbar {
@@ -390,6 +379,8 @@ footer {
         display: flex;
         flex-direction: column;
         align-items: center;
+        /* Ensure touch events bubble up to container */
+        pointer-events: auto;
     }
     
     .hero-image-item img {
@@ -403,6 +394,8 @@ footer {
         /* Remove unnecessary styling */
         border-radius: 0;
         transition: opacity 0.3s !important;
+        /* Allow touch events to bubble up */
+        pointer-events: auto;
     }
     
     /* Mobile hover effect */
@@ -426,30 +419,49 @@ footer {
         display: none !important;
     }
     
+    /* Make pagination dots more touch-friendly */
     .pagination-dots {
         display: flex;
         justify-content: center;
-        gap: 8px;
-        margin-top: 15px;
-        padding: 0;
+        gap: 12px; /* Increased gap for better touch targets */
+        margin-top: 20px;
+        padding: 10px 0; /* Add padding for easier tapping */
     }
     
     .pagination-dot {
-        width: 8px;
-        height: 8px;
+        width: 12px; /* Larger dots for better touch targets */
+        height: 12px;
+        border-radius: 50%;
+        background-color: transparent; /* Remove original background */
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        /* Add touch-friendly sizing */
+        min-width: 44px; /* iOS recommended minimum touch target */
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+    
+    /* Visual dot inside the touch target */
+    .pagination-dot::before {
+        content: '';
+        width: 12px;
+        height: 12px;
         border-radius: 50%;
         background-color: #d0d0d0;
-        cursor: pointer;
         transition: background-color 0.3s ease;
     }
     
-    .pagination-dot.active {
+    .pagination-dot.active::before {
         background-color: #666;
     }
     
-    /* Text content */
+    /* Text content with proper bottom spacing */
     .text-content {
         width: 100%;
+        margin-bottom: 5vh; /* Add bottom margin to text content */
     }
     
     .text-content p {
@@ -458,12 +470,11 @@ footer {
         margin-bottom: 2.5vh;
     }
     
-    /* Action buttons */
+    /* Action buttons with more bottom space */
     .action-buttons {
         display: flex;
         justify-content: flex-start;
-        margin: 0 0 4vh 0;
-        margin-top: 10vh;
+        margin: 10vh 0 8vh 0; /* Increased top and bottom margins */
     }
     
     /* Download button */
@@ -505,9 +516,16 @@ footer {
         width: 60% !important;
     }
     
+    /* Desktop - keep original behavior */
+    .hero-image-container {
+        /* Standard desktop touch behavior */
+        touch-action: auto;
+    }
+    
     /* Reset image scroll for desktop */
     .hero-image-scroll {
         padding: 0 150px 20px 0 !important; /* Right padding for gradient space */
+        touch-action: auto;
     }
     
     .hero-image-item {
@@ -524,5 +542,22 @@ footer {
     /* Show arrows on desktop */
     .scroll-arrow {
         display: flex !important;
+    }
+    
+    /* Reset pagination dots for desktop */
+    .pagination-dot {
+        width: 8px;
+        height: 8px;
+        min-width: auto;
+        min-height: auto;
+        background-color: #d0d0d0;
+    }
+    
+    .pagination-dot::before {
+        display: none;
+    }
+    
+    .pagination-dot.active {
+        background-color: #666;
     }
 }
