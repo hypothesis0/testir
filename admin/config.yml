@@ -1,219 +1,4 @@
-backend:
-  name: git-gateway
-  branch: main
-
-media_folder: "img/uploads"
-public_folder: "/img/uploads"
-
-collections:
-  - name: "content"
-    label: "Content"
-    files:
-      # 保持现有的所有页面...
-      - name: "homepage"
-        label: "Homepage"
-        file: "homepage-data.json"
-        fields:
-          - {label: "Page Title", name: "page_title", widget: "string", default: "Initial Research", required: true, hint: "Title that appears in browser tab"}
-          - {label: "Hero Image", name: "hero_image", widget: "image", required: true, hint: "Main background image for homepage"}
-          - {label: "Hero Image Alt Text", name: "hero_alt_text", widget: "string", default: "Initial Research", required: true, hint: "Alternative text for screen readers"}
-
-      - name: "fellowship"
-        label: "Fellowship Page"
-        file: "fellowship-data.json"
-        fields:
-          - {label: "Page Title", name: "title", widget: "string", required: false}
-          - {label: "Main Heading", name: "heading", widget: "string", required: false}
-          - {label: "Introduction", name: "intro", widget: "text", required: false}
-          - {label: "Cohort Title", name: "cohort_title", widget: "string", required: false}
-          - label: "Fellows"
-            name: "fellows"
-            widget: "list"
-            required: false
-            fields:
-              - {label: "Fellow Number", name: "number", widget: "string", required: false}
-              - {label: "Fellow Name", name: "name", widget: "string", required: false}
-              - {label: "Fellow ID", name: "id", widget: "string", required: false, hint: "Unique ID (e.g., te-editions-2025)"}
-              - {label: "Fellow Title", name: "title", widget: "string", required: false}
-              - {label: "Fellow Bio", name: "bio", widget: "markdown", required: false}
-              - label: "Image Type"
-                name: "image_type"
-                widget: "select"
-                options:
-                  - {label: "Single Image", value: "single"}
-                  - {label: "Carousel", value: "carousel"}
-                default: "single"
-                required: false
-              - {label: "Image", name: "image", widget: "image", required: false, hint: "Main image or first carousel image"}
-              - {label: "Image Caption", name: "caption", widget: "string", required: false}
-              - label: "Additional Carousel Images"
-                name: "additional_images"
-                widget: "list"
-                required: false
-                hint: "Only for carousel image type - add additional images here"
-                fields:
-                  - {label: "Image", name: "src", widget: "image", required: false}
-                  - {label: "Caption", name: "caption", widget: "string", required: false}
-
-      - name: "calendar"
-        label: "Calendar Page"
-        file: "calendar-data.json"  
-        fields:
-          - {label: "Page Title", name: "title", widget: "string", required: false}
-          - label: "Events"
-            name: "events"
-            widget: "list"
-            required: false
-            fields:
-              - {label: "Event ID", name: "id", widget: "number", required: true}
-              - {label: "Event Title", name: "title", widget: "string", required: true}
-              - {label: "Subtitle/Type", name: "subtitle", widget: "string", required: true, hint: "e.g., exhibition, screening, lecture"}
-              - {label: "Event Date", name: "date", widget: "datetime", required: true, format: "YYYY-MM-DDTHH:mm:ssZ", date_format: "YYYY-MM-DD", time_format: "HH:mm"}
-              - {label: "Display Date (MM.DD.YY)", name: "displayDate", widget: "string", required: true, hint: "Format as MM.DD.YY (e.g., 05.20.25)"}
-              - {label: "Time Display", name: "timeDisplay", widget: "string", required: true, hint: "e.g., 6pm to 9pm"}
-              - {label: "Event Image", name: "image", widget: "image", required: false}
-              - {label: "Description", name: "description", widget: "text", required: true}
-              - {label: "RSVP Link", name: "rsvpLink", widget: "string", required: false}
-              - {label: "External Link (for past events)", name: "link", widget: "string", required: false}
-
-      # 其他现有页面保持不变...
-      - name: "communityhours"
-        label: "Community Hours Page"
-        file: "communityhours-data.json"
-        fields:
-          - {label: "Page Title", name: "title", widget: "string", default: "Community Hours", required: true}
-          - {label: "Hours", name: "hours", widget: "string", default: "11:00 am– 4:00 pm", required: true}
-          - {label: "Description", name: "description", widget: "markdown", required: true, hint: "Main description of community hours. Use double line breaks for paragraphs."}
-
-      - name: "seasonaldinner"
-        label: "Seasonal Dinner Page"
-        file: "seasonaldinner-data.json"
-        fields:
-          - {label: "Page Title", name: "title", widget: "string", default: "The Seasonal (shijie/时节) Dinner at Initial Research", required: true}
-          - {label: "Main Description", name: "description", widget: "markdown", required: true, hint: "Main description of the seasonal dinner. Use double line breaks for paragraphs."}
-
-      - name: "mission"
-        label: "Mission & About Page"
-        file: "mission-data.json"
-        fields:
-          - label: "Mission Section"
-            name: "mission"
-            widget: "object"
-            fields:
-              - {label: "Section Title", name: "title", widget: "string", default: "Mission", required: true}
-              - {label: "Mission Content", name: "content", widget: "markdown", required: true, hint: "Mission statement content. Use double line breaks for paragraphs."}
-          
-          - label: "Vision Section"
-            name: "vision"
-            widget: "object"
-            fields:
-              - {label: "Section Title", name: "title", widget: "string", default: "Vision", required: true}
-              - label: "Vision Items"
-                name: "items"
-                widget: "list"
-                required: true
-                hint: "List of vision statements"
-                field: {label: "Vision Statement", name: "statement", widget: "string"}
-          
-          - label: "People Section"
-            name: "people"
-            widget: "object"
-            fields:
-              - {label: "Section Title", name: "title", widget: "string", default: "People", required: true}
-              - label: "Team Members"
-                name: "team"
-                widget: "list"
-                required: true
-                fields:
-                  - {label: "Name", name: "name", widget: "string", required: true}
-                  - {label: "Role", name: "role", widget: "string", required: true}
-          
-          - label: "Contact Section"  
-            name: "contact"
-            widget: "object"
-            fields:
-              - {label: "Section Title", name: "title", widget: "string", default: "Contact", required: true}
-              - {label: "Organization Name", name: "organization", widget: "string", default: "Initial Research", required: true}
-              - {label: "Email Address", name: "email", widget: "string", required: true}
-              - {label: "Address", name: "address", widget: "string", required: true}
-
-      - name: "supportus"
-        label: "Support Us Page"
-        file: "supportus-data.json"
-        fields:
-          - {label: "Page Title", name: "page_title", widget: "string", default: "Support Us", required: true}
-          - label: "Support Section"
-            name: "support_section"
-            widget: "object"
-            fields:
-              - {label: "Section Title", name: "title", widget: "string", default: "Support", required: true}
-              - {label: "Introduction Text", name: "intro", widget: "markdown", required: true, hint: "Opening paragraph about supporting Initial Research"}
-          - label: "Patron Levels"
-            name: "patron_levels"
-            widget: "object"
-            fields:
-              - {label: "Section Title", name: "title", widget: "string", default: "Patron Levels", required: true}
-              - label: "Levels"
-                name: "levels"
-                widget: "list"
-                required: false
-                hint: "Add different patron support levels"
-                fields:
-                  - {label: "Level Name", name: "name", widget: "string", required: true, hint: "e.g., Friend, Supporter, Patron"}
-                  - {label: "Annual Amount", name: "amount", widget: "string", required: true, hint: "e.g., $100, $500, $1,000"}
-          - label: "How to Support"
-            name: "how_to_support"
-            widget: "object"
-            fields:
-              - {label: "Section Title", name: "title", widget: "string", default: "How to Support", required: true}
-              - {label: "Instructions", name: "content", widget: "markdown", required: true, hint: "Instructions on how to make donations"}
-          - label: "Donor Recognition"
-            name: "donor_recognition"
-            widget: "object"
-            fields:
-              - {label: "Section Title", name: "title", widget: "string", default: "Donor Recognition", required: true}
-              - label: "Donor Categories"
-                name: "categories"
-                widget: "list"
-                required: false
-                hint: "Add different donor recognition levels"
-                fields:
-                  - {label: "Category Name", name: "name", widget: "string", required: true, hint: "e.g., Founding Patrons, Major Donors"}
-                  - {label: "Donor Names", name: "donors", widget: "text", required: false, hint: "List donor names, separated by commas"}
-
-      # NEW: Exhibitions Manager - Client can manage all exhibitions
-      - name: "exhibitions_manager"
-        label: "Exhibitions Manager"
-        file: "exhibitions-manager.json"
-        fields:
-          - {label: "Exhibitions Page Title", name: "page_title", widget: "string", default: "Exhibitions", required: true}
-          - label: "All Exhibitions"
-            name: "exhibitions"
-            widget: "list"
-            required: false
-            hint: "Click 'Add All Exhibitions' to create new exhibition pages"
-            summary: "{{fields.title}} ({{fields.date_range}})"
-            fields:
-              - {label: "Exhibition Title", name: "title", widget: "string", required: true}
-              - {label: "Exhibition Date Range", name: "date_range", widget: "string", required: true, hint: "e.g., April 15 - June 30, 2025"}
-              - {label: "URL Slug", name: "slug", widget: "string", required: true, hint: "URL friendly name (e.g., embodied-memories-2025). Only use letters, numbers and hyphens"}
-              - {label: "Show in Exhibition List", name: "show_in_list", widget: "boolean", default: true, hint: "Uncheck to hide this exhibition from public view"}
-              - {label: "Display Order", name: "order", widget: "number", default: 1, hint: "Lower numbers appear first. The first exhibition becomes the main exhibition page"}
-              - label: "Exhibition Images"
-                name: "images"
-                widget: "list"
-                summary: "{{fields.caption}}"
-                required: false
-                hint: "Add all images for this exhibition"
-                fields:
-                  - {label: "Image", name: "url", widget: "image", required: true}
-                  - {label: "Alt Text", name: "alt", widget: "string", required: false, hint: "Image description for screen readers"}
-                  - {label: "Image Caption", name: "caption", widget: "string", required: false, hint: "Caption displayed below the image"}
-              - {label: "Exhibition Description", name: "description", widget: "markdown", required: true, hint: "Full exhibition description. Use **text** for bold and double line breaks for paragraphs"}
-              - {label: "PDF File", name: "pdf_file", widget: "file", required: false, hint: "Upload exhibition related PDF file"}
-              - {label: "PDF Button Text", name: "pdf_button_text", widget: "string", default: "download exhibition pdf", required: false}
-          
-  - name: "navigation"
+- name: "navigation"
     label: "Navigation"
     files:
       - name: "main_nav"
@@ -239,3 +24,38 @@ collections:
                   - {label: "Item Label", name: "label", widget: "string", required: true}
                   - {label: "Link URL", name: "link", widget: "string", required: true}
                   - {label: "Visible", name: "visible", widget: "boolean", default: true}
+      
+      # NEW: Homepage Settings
+      - name: "homepage_settings"
+        label: "Homepage Settings"
+        file: "homepage-settings.json"
+        fields:
+          - label: "Default Homepage"
+            name: "default_homepage"
+            widget: "select"
+            required: true
+            default: "calendar"
+            hint: "Choose which page visitors see when they go to your main website"
+            options:
+              - {label: "Calendar (Events)", value: "calendar"}
+              - {label: "Current Exhibition", value: "exhibition"}
+              - {label: "Community Hours", value: "community-hours"}
+              - {label: "Fellowship", value: "fellowship"}
+              - {label: "Custom Landing Page", value: "custom"}
+          - label: "Custom Homepage Content"
+            name: "custom_content"
+            widget: "object"
+            hint: "Only used if 'Custom Landing Page' is selected above"
+            fields:
+              - {label: "Page Title", name: "title", widget: "string", required: false, default: "Welcome to Initial Research"}
+              - {label: "Hero Image", name: "hero_image", widget: "image", required: false}
+              - {label: "Main Content", name: "content", widget: "markdown", required: false, hint: "Main content for custom homepage"}
+              - label: "Featured Links"
+                name: "featured_links"
+                widget: "list"
+                required: false
+                hint: "Add buttons/links to highlight on homepage"
+                fields:
+                  - {label: "Link Text", name: "text", widget: "string", required: true}
+                  - {label: "Link URL", name: "url", widget: "string", required: true}
+                  - {label: "Button Style", name: "style", widget: "select", options: ["primary", "secondary"], default: "primary"}
