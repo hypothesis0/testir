@@ -7,9 +7,7 @@ class CrossFolderNavigation {
         this.pathCache = new Map();
         this.isNavigating = false;
         
-        console.log('🌐 Cross-Folder Navigation System started');
-        console.log('📍 Current path:', this.currentPath);
-        console.log('📁 Current folder:', this.currentFolder);
+        // Silent initialization - no console output
     }
 
     // Detect which folder we're currently in
@@ -131,43 +129,40 @@ class CrossFolderNavigation {
         return [...new Set(paths)];
     }
 
-    // Fast navigation with correct cross-folder paths
+    // Silent navigation - stays on current page during loading
     async navigateTo(targetPath, event) {
         if (event) event.preventDefault();
         if (!targetPath || targetPath === '#' || this.isNavigating) return false;
 
         this.isNavigating = true;
-        console.log(`🧭 Navigating from ${this.currentFolder} to: ${targetPath}`);
 
         try {
-            // Check cache
+            // Check cache first - immediate navigation if found
             const cacheKey = `${this.currentPath}:${targetPath}`;
             if (this.pathCache.has(cacheKey)) {
                 const cachedPath = this.pathCache.get(cacheKey);
-                console.log(`📋 Using cached path: ${cachedPath}`);
                 window.location.href = cachedPath;
                 return false;
             }
 
             // Generate cross-folder paths
             const possiblePaths = this.buildCrossFolderPath(targetPath);
-            console.log('🔍 Testing paths:', possiblePaths);
 
-            // Test paths quickly
-            const workingPath = await this.testPathsQuick(possiblePaths);
+            // Test paths silently in background
+            const workingPath = await this.testPathsSilently(possiblePaths);
             
             if (workingPath) {
+                // Cache the working path
                 this.pathCache.set(cacheKey, workingPath);
-                console.log(`✅ Found working path: ${workingPath}`);
+                // Navigate immediately once found
                 window.location.href = workingPath;
             } else {
-                console.log(`❌ No working path found for: ${targetPath}`);
-                this.showQuickError(targetPath, possiblePaths);
+                // Silent fallback - try direct navigation without error messages
+                window.location.href = targetPath;
             }
 
         } catch (error) {
-            console.error('Navigation error:', error);
-            // Fallback: try the original path
+            // Silent fallback - no error messages, just try direct navigation
             window.location.href = targetPath;
         } finally {
             this.isNavigating = false;
@@ -176,19 +171,18 @@ class CrossFolderNavigation {
         return false;
     }
 
-    // Quick path testing
-    async testPathsQuick(paths) {
+    // Silent path testing - no console output, very fast
+    async testPathsSilently(paths) {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 200); // 200ms timeout
+        const timeoutId = setTimeout(() => controller.abort(), 100); // Very quick timeout
 
         try {
             for (const path of paths) {
                 try {
-                    console.log(`Testing: ${path}`);
                     const response = await fetch(path, { 
                         method: 'HEAD',
                         signal: controller.signal,
-                        cache: 'no-cache' // Force fresh check
+                        cache: 'force-cache' // Use cache when possible
                     });
                     
                     if (response.ok) {
@@ -201,31 +195,17 @@ class CrossFolderNavigation {
                 }
             }
         } catch (error) {
-            console.log('Path testing aborted or failed');
+            // Silent failure - no logging
         }
 
         clearTimeout(timeoutId);
         return null;
     }
 
-    // Show error with path details
-    showQuickError(targetPath, attemptedPaths) {
-        const message = `
-Navigation Failed!
+    // Remove error display - silent operation
+    // showQuickError method removed for silent operation
 
-Target: ${targetPath}
-Current folder: ${this.currentFolder}
-Current path: ${this.currentPath}
-
-Attempted paths:
-${attemptedPaths.slice(0, 5).map(p => `• ${p}`).join('\n')}
-
-Check browser console for more details.
-        `;
-        alert(message);
-    }
-
-    // Go home with correct path
+    // Silent home navigation
     goHome() {
         let homePath;
         switch (this.currentFolder) {
@@ -237,7 +217,7 @@ Check browser console for more details.
                 break;
         }
         
-        console.log(`🏠 Going home via: ${homePath}`);
+        // Navigate silently
         window.location.href = homePath;
     }
 }
@@ -245,12 +225,12 @@ Check browser console for more details.
 // Create global instance
 const crossNav = new CrossFolderNavigation();
 
-// Load navigation immediately
+// Load navigation silently
 function loadCrossFolderNavigation() {
     loadDefaultCrossNav();
     setupCrossNavEvents();
     setupCrossGlobalFunctions();
-    console.log('⚡ Cross-folder navigation loaded');
+    // Silent loading - no console output
 }
 
 // Default navigation with corrected paths
@@ -413,7 +393,7 @@ if (document.readyState === 'loading') {
 // Global access
 window.crossNav = crossNav;
 
-// Debug
+// Debug - only show when specifically requested
 document.addEventListener('keydown', function(e) {
     if (e.ctrlKey && e.shiftKey && e.key === 'N') {
         console.log('Cross-Folder Nav Debug:', {
