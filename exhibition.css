@@ -1,0 +1,530 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+    line-height: 1;
+    background-color: rgb(235, 235, 235);
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+
+/* Exhibition content */
+.content {
+    display: flex;
+    padding: 120px 24px 64px 48px; /* Match calendar page */
+    max-width: none; /* Remove max-width constraint like calendar page */
+    margin: 0; /* Remove auto centering like calendar page */
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    width: 100%; /* Match calendar page */
+    box-sizing: border-box; /* Match calendar page */
+    padding-bottom: 80px; /* Match calendar page */
+}
+
+/* Left sidebar */
+.sidebar {
+    width: 14%;
+    padding-right: 5vw;
+}
+
+/* Main content area */
+.main-content {
+    width: 50%;
+    padding: 0;
+}
+
+/* Loading message */
+.loading-message {
+    font-size: 16px;
+    color: #666;
+    margin: 20px 0;
+}
+
+/* Exhibition heading */
+.exhibition-heading {
+    margin-bottom: 10vh;
+    margin-top: 0;
+    width: 100%;
+}
+
+.exhibition-heading h1 {
+    font-size: 43px;
+    font-weight: 400;
+    margin: 0 5vh 5vh 0;
+    line-height: 1;
+}
+
+.exhibition-heading p {
+    font-size: 17px;
+    margin: 0;
+    font-weight: 300;
+    color: #000000;
+}
+
+/* HERO IMAGE SCROLL SYSTEM - Same width as content area */
+.hero-image-container {
+    width: 100%; /* Same width as main content */
+    margin-left: 0; /* No negative margin needed */
+    margin-bottom: 5vh;
+    position: relative;
+    overflow: hidden; /* Ensure gradient is contained */
+}
+
+/* Gradient overlay for image gallery - creates fade effect from right to left */
+.hero-image-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0; /* Start from the very right edge of the container */
+    width: 150px; /* Reasonable gradient width */
+    height: calc(100% - 20px); /* Account for bottom padding */
+    background: linear-gradient(to right, transparent 0%, rgba(235, 235, 235, 0) 70%, rgba(235, 235, 235, 0.541) 100%);
+    pointer-events: none; /* Allow clicking through the gradient */
+    z-index: 10; /* Above images */
+}
+
+.hero-image-scroll {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 15px;
+    padding: 0 100px 20px 0; /* Add right padding for gradient area */
+    position: relative; /* Needed for gradient positioning */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+.hero-image-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.hero-image-item {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    position: relative;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+/* FIXED: Desktop images - uniform height while maintaining aspect ratio */
+.hero-image-item img {
+    /* UNIFIED HEIGHT: All images will have the same height */
+    height: 500px; /* Fixed height for all images */
+    width: auto; /* Width adjusts automatically to maintain aspect ratio */
+    display: block;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    object-fit: contain; /* Show full image without cropping, may have letterboxing */
+}
+
+.hero-image-item img:hover {
+    opacity: 0.9;
+}
+
+/* Small grey caption below the image */
+.hero-image-caption {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #666;
+    font-weight: 300;
+    line-height: 1.2;
+    text-align: left;
+}
+
+/* Navigation arrows */
+.scroll-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 5;
+    font-size: 24px;
+    font-weight: normal;
+    color: #666;
+    transition: color 0.3s;
+    border: none;
+}
+
+.scroll-arrow:hover {
+    color: #000;
+}
+
+.scroll-left {
+    left: -45px;
+}
+
+.scroll-right {
+    right: -45px;
+}
+
+/* Pagination dots - visible on both desktop and mobile */
+.pagination-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 15px;
+    padding: 0;
+}
+
+.pagination-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #d0d0d0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pagination-dot.active {
+    background-color: #666;
+}
+
+/* Text content */
+.text-content {
+    width: 100%;
+}
+
+.text-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 2.5vh;
+}
+
+/* Action buttons */
+.action-buttons {
+    display: flex;
+    justify-content: flex-start;
+    margin: 0 0 4vh 0;
+    margin-top: 10vh;
+}
+
+/* Download button */
+.download-button {
+    display: inline-block;
+    background-color: #372011; /* 保持原来的棕色 */
+    color: rgb(249, 249, 249);
+    padding: 1vh 2vw;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-transform: lowercase;
+}
+
+.download-button:hover {
+    color: #777777;
+}
+
+/* Disabled button style - 保持棕色但降低透明度 */
+.download-button.disabled {
+    background-color: #372011; /* 保持棕色，不改成灰色 */
+    color: rgba(249, 249, 249, 0.6); /* 文字透明度降低 */
+    cursor: not-allowed;
+    opacity: 0.5; /* 整体透明度降低 */
+}
+
+/* Lightbox styles */
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.lightbox.active {
+    display: flex;
+}
+
+.lightbox img {
+    max-width: 85%;
+    max-height: 85vh;
+    object-fit: contain;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10000;
+}
+
+/* Footer styles */
+footer {
+    margin-top: auto;
+    width: 100%;
+    background-color: rgb(180, 180, 180);
+    padding: 10px 0;
+    text-align: center;
+    font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: rgb(23, 23, 23);
+    z-index: 1;
+}
+
+/* Mobile styling - ONLY adding swipe functionality, keeping original design */
+@media (max-width: 768px) {
+    /* Content layout - FULL WIDTH */
+    .content {
+        display: flex;
+        flex-direction: row;
+        padding: 15vh 3vw 4vw 3vw; /* Align table left edge with title */
+        padding-left: 24px; /* Match title-container padding for alignment */
+        padding-bottom: 80px; /* Match desktop bottom padding */
+    }
+    
+    /* HIDE SIDEBAR */
+    .sidebar {
+        display: none !important;
+    }
+    
+    /* Main content area - FULL WIDTH */
+    .main-content {
+        width: 100% !important;
+        padding: 0;
+    }
+    
+    /* Exhibition heading */
+    .exhibition-heading {
+        margin-bottom: 10vh;
+        margin-top: 5vh;
+        width: 100%;
+    }
+    
+    .exhibition-heading h1 {
+        font-size: 32px !important;
+        font-weight: 400;
+        margin: 0 5vh 5vh 0;
+        line-height: 1;
+    }
+    
+    .exhibition-heading p {
+        font-size: 17px !important;
+        margin: 0;
+        font-weight: 300;
+        color: #000000;
+        margin-bottom: 5vh;
+    }
+    
+    /* MOBILE: Hero image section - ONLY touch handling changes */
+    .hero-image-container {
+        width: 100vw; /* Full viewport width on mobile */
+        margin-left: calc(-24px); /* Offset the content padding */
+        margin-bottom: 5vh;
+        position: relative;
+        overflow: visible;
+        /* ONLY addition: Enable touch handling for swipe */
+        touch-action: manipulation; /* Allow basic touch but prevent browser gestures */
+        user-select: none; /* Prevent text selection during swipe */
+        -webkit-user-select: none;
+        -webkit-touch-callout: none; /* Prevent callout on iOS */
+    }
+
+    .hero-image-scroll {
+        display: flex;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+        gap: 20px; /* Increased gap for better separation */
+        padding: 0 24px 20px 24px; /* Match main content padding */
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    }
+    
+    .hero-image-scroll::-webkit-scrollbar {
+        display: none;
+    }
+    
+    /* MOBILE IMAGES - Original design preserved */
+    .hero-image-item {
+        flex: 0 0 auto;
+        scroll-snap-align: center;
+        position: relative;
+        transition: transform 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .hero-image-item img {
+        /* Original mobile image styling */
+        height: 400px !important; /* Fixed height for all mobile images */
+        width: auto !important; /* Width adjusts to maintain aspect ratio */
+        max-width: 90vw !important; /* Maximum width constraint */
+        object-fit: contain !important; /* Show full image without cropping */
+        display: block !important;
+        cursor: pointer;
+        border-radius: 0;
+        transition: opacity 0.3s !important;
+    }
+    
+    /* Mobile hover effect */
+    .hero-image-item img:hover {
+        opacity: 0.9 !important;
+    }
+    
+    .hero-image-caption {
+        margin-top: 10px;
+        font-size: 14px !important;
+        color: #666;
+        font-weight: 300;
+        line-height: 1.2;
+        text-align: left;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Hide arrows on mobile, show dots */
+    .scroll-arrow {
+        display: none !important;
+    }
+    
+    /* Original pagination dots design */
+    .pagination-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 15px;
+        padding: 0;
+    }
+    
+    .pagination-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #d0d0d0;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .pagination-dot.active {
+        background-color: #666;
+    }
+    
+    /* Text content */
+    .text-content {
+        width: 100%;
+    }
+    
+    .text-content p {
+        font-size: 16px !important;
+        line-height: 1.6;
+        margin-bottom: 2.5vh;
+    }
+    
+    /* Action buttons */
+    .action-buttons {
+        display: flex;
+        justify-content: flex-start;
+        margin: 0 0 4vh 0;
+        margin-top: 10vh;
+    }
+    
+    /* Download button */
+    .download-button {
+        display: inline-block;
+        background-color: #372011; /* 保持原来的棕色 */
+        color: rgb(249, 249, 249);
+        padding: 1vh 2vw;
+        text-decoration: none;
+        font-size: 13px !important;
+        font-weight: 400;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-transform: lowercase;
+    }
+    
+    /* Lightbox adjustments */
+    .lightbox img {
+        max-width: 85%;
+        max-height: 85vh;
+    }
+    
+    .lightbox-close {
+        top: 20px;
+        right: 30px;
+        font-size: 40px;
+    }
+}
+
+/* Auto-switch to desktop when screen is larger than 768px */
+@media (min-width: 769px) {
+    /* Reset content layout for desktop */
+    .sidebar {
+        display: block !important;
+    }
+    
+    .main-content {
+        width: 60% !important;
+    }
+    
+    /* Desktop - keep original behavior */
+    .hero-image-container {
+        /* Standard desktop touch behavior */
+        touch-action: auto;
+    }
+    
+    /* Reset image scroll for desktop */
+    .hero-image-scroll {
+        padding: 0 150px 20px 0 !important; /* Right padding for gradient space */
+        touch-action: auto;
+    }
+    
+    .hero-image-item {
+        min-width: auto !important;
+    }
+    
+    .hero-image-item img {
+        /* Desktop: uniform height maintained */
+        height: 500px !important; /* Fixed height for all desktop images */
+        width: auto !important; /* Width adjusts to maintain aspect ratio */
+        object-fit: contain !important; /* Show full image without cropping */
+    }
+    
+    /* Show arrows on desktop */
+    .scroll-arrow {
+        display: flex !important;
+    }
+    
+    /* Desktop pagination dots */
+    .pagination-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #d0d0d0;
+    }
+    
+    .pagination-dot.active {
+        background-color: #666;
+    }
+}
