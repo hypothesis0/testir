@@ -382,7 +382,7 @@ body {
         opacity: 0.9 !important;
     }
     
-    .hero-image-caption {
+    .hero-image-item .hero-image-caption {
         margin-top: 10px !important;
         font-size: 10px !important; 
         color: #666 !important;
