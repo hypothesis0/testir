@@ -389,7 +389,7 @@ body {
         font-weight: 300 !important;
         line-height: 1.2 !important;
         text-align: left !important;
-        width: 80% !important;
+        width: max-width: calc(100vw - 48px) !important;
         box-sizing: border-box !important;
     }
     
