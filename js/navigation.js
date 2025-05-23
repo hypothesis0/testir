@@ -1,53 +1,143 @@
-// universal-navigation.js - Universal navigation system compatible with existing CSS
+// fixed-navigation.js - Corrected cross-folder navigation system
 
-class UniversalNavigation {
+class CrossFolderNavigation {
     constructor() {
-        this.basePath = this.detectBasePath();
         this.currentPath = window.location.pathname;
+        this.currentFolder = this.detectCurrentFolder();
         this.pathCache = new Map();
         this.isNavigating = false;
         
-        console.log('🌐 Universal Navigation System started');
+        console.log('🌐 Cross-Folder Navigation System started');
         console.log('📍 Current path:', this.currentPath);
-        console.log('🏠 Base path:', this.basePath);
+        console.log('📁 Current folder:', this.currentFolder);
     }
 
-    // Intelligent detection of project root path
-    detectBasePath() {
-        const currentPath = window.location.pathname;
-        const pathSegments = currentPath.split('/').filter(s => s && s !== 'index.html');
+    // Detect which folder we're currently in
+    detectCurrentFolder() {
+        const path = this.currentPath;
         
-        // Remove filename, keep only directory path
-        const currentFile = pathSegments[pathSegments.length - 1];
-        if (currentFile && currentFile.includes('.html')) {
-            pathSegments.pop();
+        if (path.includes('/program/')) {
+            return 'program';
+        } else if (path.includes('/about/')) {
+            return 'about';
+        } else if (path.includes('/supportus/')) {
+            return 'supportus';
+        } else {
+            return 'root';
         }
+    }
+
+    // Build correct cross-folder path
+    buildCrossFolderPath(targetPath) {
+        // If target path starts with '/', it's absolute
+        if (targetPath.startsWith('/')) {
+            return targetPath;
+        }
+
+        // If target path starts with 'http', it's external
+        if (targetPath.startsWith('http')) {
+            return targetPath;
+        }
+
+        const paths = [];
         
-        // Build path back to root based on directory depth
-        const depth = pathSegments.length;
-        return depth === 0 ? './' : '../'.repeat(depth);
-    }
-
-    // Build absolute path
-    buildAbsolutePath(relativePath) {
-        if (relativePath.startsWith('/') || relativePath.startsWith('http')) {
-            return relativePath;
+        // Current folder logic
+        switch (this.currentFolder) {
+            case 'root':
+                // From root, paths are direct
+                paths.push(targetPath);
+                paths.push('./' + targetPath);
+                break;
+                
+            case 'program':
+                // From program folder
+                if (targetPath.startsWith('program/')) {
+                    // Same folder: program/calendar.html -> program/exhibition.html
+                    const fileName = targetPath.replace('program/', '');
+                    paths.push(fileName);              // exhibition.html
+                    paths.push('./' + fileName);       // ./exhibition.html
+                } else if (targetPath.startsWith('about/')) {
+                    // To about folder: program/calendar.html -> about/mission.html
+                    paths.push('../' + targetPath);    // ../about/mission.html
+                } else if (targetPath.startsWith('supportus/')) {
+                    // To supportus folder: program/calendar.html -> supportus/supportus.html
+                    paths.push('../' + targetPath);    // ../supportus/supportus.html
+                } else if (targetPath === 'index.html') {
+                    // To root: program/calendar.html -> index.html
+                    paths.push('../' + targetPath);    // ../index.html
+                    paths.push('../index.html');
+                } else {
+                    // Other cases
+                    paths.push('../' + targetPath);
+                    paths.push(targetPath);
+                }
+                break;
+                
+            case 'about':
+                // From about folder
+                if (targetPath.startsWith('about/')) {
+                    // Same folder: about/mission.html -> about/team.html
+                    const fileName = targetPath.replace('about/', '');
+                    paths.push(fileName);              // team.html
+                    paths.push('./' + fileName);       // ./team.html
+                } else if (targetPath.startsWith('program/')) {
+                    // To program folder: about/mission.html -> program/calendar.html
+                    paths.push('../' + targetPath);    // ../program/calendar.html
+                } else if (targetPath.startsWith('supportus/')) {
+                    // To supportus folder: about/mission.html -> supportus/supportus.html
+                    paths.push('../' + targetPath);    // ../supportus/supportus.html
+                } else if (targetPath === 'index.html') {
+                    // To root: about/mission.html -> index.html
+                    paths.push('../' + targetPath);    // ../index.html
+                    paths.push('../index.html');
+                } else {
+                    // Other cases
+                    paths.push('../' + targetPath);
+                    paths.push(targetPath);
+                }
+                break;
+                
+            case 'supportus':
+                // From supportus folder
+                if (targetPath.startsWith('supportus/')) {
+                    // Same folder: supportus/supportus.html -> supportus/other.html
+                    const fileName = targetPath.replace('supportus/', '');
+                    paths.push(fileName);              // other.html
+                    paths.push('./' + fileName);       // ./other.html
+                } else if (targetPath.startsWith('program/')) {
+                    // To program folder: supportus/supportus.html -> program/calendar.html
+                    paths.push('../' + targetPath);    // ../program/calendar.html
+                } else if (targetPath.startsWith('about/')) {
+                    // To about folder: supportus/supportus.html -> about/mission.html
+                    paths.push('../' + targetPath);    // ../about/mission.html
+                } else if (targetPath === 'index.html') {
+                    // To root: supportus/supportus.html -> index.html
+                    paths.push('../' + targetPath);    // ../index.html
+                    paths.push('../index.html');
+                } else {
+                    // Other cases
+                    paths.push('../' + targetPath);
+                    paths.push(targetPath);
+                }
+                break;
         }
-        return this.basePath + relativePath;
+
+        // Add fallback paths
+        paths.push(targetPath);                    // Original path
+        paths.push('../../' + targetPath);        // Two levels up
+        paths.push('/' + targetPath);             // Absolute path
+
+        // Remove duplicates
+        return [...new Set(paths)];
     }
 
-    // Universal navigation function
+    // Fast navigation with correct cross-folder paths
     async navigateTo(targetPath, event) {
-        if (event) {
-            event.preventDefault();
-        }
-
-        if (!targetPath || targetPath === '#' || this.isNavigating) {
-            return false;
-        }
+        if (event) event.preventDefault();
+        if (!targetPath || targetPath === '#' || this.isNavigating) return false;
 
         this.isNavigating = true;
-        console.log(`🧭 Navigating to: ${targetPath}`);
+        console.log(`🧭 Navigating from ${this.currentFolder} to: ${targetPath}`);
 
         try {
             // Check cache
@@ -59,31 +149,26 @@ class UniversalNavigation {
                 return false;
             }
 
-            // Try multiple path combinations
-            const possiblePaths = this.generatePossiblePaths(targetPath);
-            
-            for (const path of possiblePaths) {
-                try {
-                    console.log(`🔍 Testing path: ${path}`);
-                    const response = await fetch(path, { method: 'HEAD' });
-                    
-                    if (response.ok) {
-                        console.log(`✅ Valid path found: ${path}`);
-                        this.pathCache.set(cacheKey, path);
-                        window.location.href = path;
-                        return false;
-                    }
-                } catch (error) {
-                    // Continue to next path
-                }
-            }
+            // Generate cross-folder paths
+            const possiblePaths = this.buildCrossFolderPath(targetPath);
+            console.log('🔍 Testing paths:', possiblePaths);
 
-            console.log(`❌ No valid path found for: ${targetPath}`);
-            this.showNavigationError(targetPath, possiblePaths);
+            // Test paths quickly
+            const workingPath = await this.testPathsQuick(possiblePaths);
+            
+            if (workingPath) {
+                this.pathCache.set(cacheKey, workingPath);
+                console.log(`✅ Found working path: ${workingPath}`);
+                window.location.href = workingPath;
+            } else {
+                console.log(`❌ No working path found for: ${targetPath}`);
+                this.showQuickError(targetPath, possiblePaths);
+            }
 
         } catch (error) {
             console.error('Navigation error:', error);
-            this.showNavigationError(targetPath, []);
+            // Fallback: try the original path
+            window.location.href = targetPath;
         } finally {
             this.isNavigating = false;
         }
@@ -91,494 +176,251 @@ class UniversalNavigation {
         return false;
     }
 
-    // Generate all possible paths
-    generatePossiblePaths(targetPath) {
-        const paths = [];
-        
-        // 1. Based on detected base path
-        paths.push(this.buildAbsolutePath(targetPath));
-        
-        // 2. Original path
-        paths.push(targetPath);
-        
-        // 3. Relative path variations
-        paths.push(`./${targetPath}`);
-        
-        // 4. Different levels of back navigation
-        for (let i = 1; i <= 4; i++) {
-            paths.push('../'.repeat(i) + targetPath);
-        }
-        
-        // 5. Absolute path
-        paths.push(`/${targetPath}`);
-        
-        // 6. If path contains folders, try different base path combinations
-        if (targetPath.includes('/')) {
-            const parts = targetPath.split('/');
-            const fileName = parts[parts.length - 1];
-            
-            // Try just the filename
-            paths.push(fileName);
-            paths.push(this.buildAbsolutePath(fileName));
-        }
-        
-        // Remove duplicates and filter empty values
-        return [...new Set(paths)].filter(p => p && p !== '#');
-    }
+    // Quick path testing
+    async testPathsQuick(paths) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 200); // 200ms timeout
 
-    // Show navigation error - styled to match existing CSS
-    showNavigationError(targetPath, attemptedPaths) {
-        // Remove existing error
-        const existingError = document.querySelector('.nav-error-overlay');
-        if (existingError) {
-            existingError.remove();
-        }
-
-        const overlay = document.createElement('div');
-        overlay.className = 'nav-error-overlay';
-        overlay.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(23, 23, 23, 0.8);
-            z-index: 10001;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-        `;
-
-        overlay.innerHTML = `
-            <div style="
-                background: rgb(241, 61, 33);
-                border-radius: 0;
-                padding: 48px;
-                max-width: 600px;
-                width: 90%;
-                color: rgb(23, 23, 23);
-                font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-                box-shadow: none;
-            ">
-                <div style="text-align: center; margin-bottom: 32px;">
-                    <h2 style="
-                        font-size: 34px;
-                        font-weight: 500;
-                        margin: 0 0 16px 0;
-                        color: rgb(23, 23, 23);
-                        font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-                    ">Page Not Found</h2>
-                    <p style="
-                        font-size: 16px;
-                        font-weight: 300;
-                        margin: 0;
-                        color: rgb(23, 23, 23);
-                    ">Unable to access: <strong>${targetPath}</strong></p>
-                </div>
-
-                <div style="margin-bottom: 24px; font-size: 16px; font-weight: 300; line-height: 1.4;">
-                    <p style="margin: 0 0 12px 0;"><strong>Current location:</strong> ${this.currentPath}</p>
-                    <p style="margin: 0 0 12px 0;"><strong>Base path:</strong> ${this.basePath}</p>
-                    <p style="margin: 0;"><strong>Attempted paths:</strong> ${attemptedPaths.length} total</p>
-                </div>
-
-                <div style="
-                    background: rgba(23, 23, 23, 0.1);
-                    padding: 20px;
-                    margin-bottom: 24px;
-                    font-size: 14px;
-                ">
-                    <strong>Possible solutions:</strong><br>
-                    • Check if file exists in correct location<br>
-                    • Verify filename case sensitivity<br>
-                    • Ensure web server is running<br>
-                    • Check file permissions
-                </div>
-
-                <div style="text-align: center;">
-                    <button onclick="universalNav.goHome(); this.closest('.nav-error-overlay').remove();" style="
-                        background: rgb(23, 23, 23);
-                        color: rgb(241, 61, 33);
-                        border: none;
-                        padding: 12px 24px;
-                        margin-right: 12px;
-                        cursor: pointer;
-                        font-size: 16px;
-                        font-weight: 300;
-                        font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-                        transition: all 0.3s ease;
-                    " onmouseover="this.style.background='rgba(23, 23, 23, 0.8)'" onmouseout="this.style.background='rgb(23, 23, 23)'">
-                        Go Home
-                    </button>
-                    <button onclick="this.closest('.nav-error-overlay').remove()" style="
-                        background: transparent;
-                        color: rgb(23, 23, 23);
-                        border: 2px solid rgb(23, 23, 23);
-                        padding: 10px 22px;
-                        cursor: pointer;
-                        font-size: 16px;
-                        font-weight: 300;
-                        font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-                        transition: all 0.3s ease;
-                    " onmouseover="this.style.background='rgb(23, 23, 23)'; this.style.color='rgb(241, 61, 33)'" onmouseout="this.style.background='transparent'; this.style.color='rgb(23, 23, 23)'">
-                        Close
-                    </button>
-                </div>
-            </div>
-        `;
-
-        document.body.appendChild(overlay);
-
-        // Click background to close
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) {
-                overlay.remove();
-            }
-        });
-    }
-
-    // Smart home navigation
-    async goHome() {
-        const homePaths = [
-            this.buildAbsolutePath('index.html'),
-            this.buildAbsolutePath(''),
-            'index.html',
-            '../index.html',
-            '../../index.html',
-            '../../../index.html',
-            '/',
-            '/index.html'
-        ];
-
-        for (const path of homePaths) {
-            try {
-                const response = await fetch(path, { method: 'HEAD' });
-                if (response.ok) {
-                    window.location.href = path;
-                    return;
+        try {
+            for (const path of paths) {
+                try {
+                    console.log(`Testing: ${path}`);
+                    const response = await fetch(path, { 
+                        method: 'HEAD',
+                        signal: controller.signal,
+                        cache: 'no-cache' // Force fresh check
+                    });
+                    
+                    if (response.ok) {
+                        clearTimeout(timeoutId);
+                        return path;
+                    }
+                } catch (error) {
+                    if (error.name === 'AbortError') break;
+                    continue;
                 }
-            } catch (error) {
-                // Continue trying
             }
+        } catch (error) {
+            console.log('Path testing aborted or failed');
         }
 
-        // If all fail, go to root
-        window.location.href = '/';
+        clearTimeout(timeoutId);
+        return null;
+    }
+
+    // Show error with path details
+    showQuickError(targetPath, attemptedPaths) {
+        const message = `
+Navigation Failed!
+
+Target: ${targetPath}
+Current folder: ${this.currentFolder}
+Current path: ${this.currentPath}
+
+Attempted paths:
+${attemptedPaths.slice(0, 5).map(p => `• ${p}`).join('\n')}
+
+Check browser console for more details.
+        `;
+        alert(message);
+    }
+
+    // Go home with correct path
+    goHome() {
+        let homePath;
+        switch (this.currentFolder) {
+            case 'root':
+                homePath = 'index.html';
+                break;
+            default:
+                homePath = '../index.html';
+                break;
+        }
+        
+        console.log(`🏠 Going home via: ${homePath}`);
+        window.location.href = homePath;
     }
 }
 
 // Create global instance
-const universalNav = new UniversalNavigation();
+const crossNav = new CrossFolderNavigation();
 
-// Main navigation loading function - compatible with existing CSS
-async function loadUniversalNavigation() {
-    try {
-        // Try loading from CMS
-        const response = await fetch(universalNav.buildAbsolutePath('navigation-data.json'));
-        
-        if (!response.ok) {
-            throw new Error('CMS data loading failed');
-        }
-        
-        const navData = await response.json();
-        console.log('✅ Navigation data loaded from CMS');
-        document.body.insertAdjacentHTML('afterbegin', generateNavHTML(navData));
-        
-    } catch (error) {
-        console.log('📝 Using default navigation configuration');
-        loadDefaultNav();
-    }
-    
-    // Always execute setup
-    insertFooter();
-    setupNavEvents();
-    setupGlobalFunctions();
+// Load navigation immediately
+function loadCrossFolderNavigation() {
+    loadDefaultCrossNav();
+    setupCrossNavEvents();
+    setupCrossGlobalFunctions();
+    console.log('⚡ Cross-folder navigation loaded');
 }
 
-// Generate CMS navigation HTML - using existing CSS classes
-function generateNavHTML(navData) {
-    let desktopNavItems = '';
-    let mobileNavItems = '';
-    
-    (navData.nav_items || []).forEach((item, index) => {
-        if (!item.visible) return;
-        
-        if (item.direct_link) {
-            desktopNavItems += `
-                <div class="nav-item">
-                    <a href="${item.direct_link}" onclick="return universalNav.navigateTo('${item.direct_link}', event)">${item.label}</a>
-                </div>
-            `;
-            
-            mobileNavItems += `
-                <div class="mobile-nav-item">
-                    <a href="${item.direct_link}" onclick="return universalNav.navigateTo('${item.direct_link}', event)">${item.label}</a>
-                </div>
-            `;
-        } else if (item.dropdown_items && item.dropdown_items.length > 0) {
-            let dropdownLinks = '';
-            let mobileDropdownLinks = '';
-            
-            item.dropdown_items.forEach((dropItem) => {
-                if (!dropItem.visible) return;
-                
-                dropdownLinks += `
-                    <a href="${dropItem.link}" onclick="return universalNav.navigateTo('${dropItem.link}', event)">
-                        ${dropItem.label}
-                    </a>
-                `;
-                
-                mobileDropdownLinks += `
-                    <a href="${dropItem.link}" onclick="return universalNav.navigateTo('${dropItem.link}', event)">
-                        ${dropItem.label}
-                    </a>
-                `;
-            });
-            
-            if (dropdownLinks) {
-                desktopNavItems += `
-                    <div class="nav-item">
-                        <a href="#" class="dropdown-toggle">${item.label}</a>
-                        <div class="dropdown">
-                            <div class="dropdown-container">
-                                ${dropdownLinks}
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                mobileNavItems += `
-                    <div class="mobile-nav-item">
-                        <a href="#" class="mobile-dropdown-toggle" onclick="toggleMobileDropdown(event, this)">
-                            ${item.label}
-                            <span class="mobile-arrow">ᵥ</span>
-                        </a>
-                        <div class="mobile-dropdown">
-                            ${mobileDropdownLinks}
-                        </div>
-                    </div>
-                `;
-            }
-        }
-    });
-    
-    return generateNavHTMLTemplate(navData.site_title || 'initial research', desktopNavItems, mobileNavItems);
-}
-
-// Load default universal navigation - using existing CSS classes
-function loadDefaultNav() {
-    const desktopNavItems = `
-        <div class="nav-item">
-            <a href="#" class="dropdown-toggle">program</a>
-            <div class="dropdown">
-                <div class="dropdown-container">
-                    <a href="program/calendar.html" onclick="return universalNav.navigateTo('program/calendar.html', event)">calendar</a>
-                    <a href="program/fellowship.html" onclick="return universalNav.navigateTo('program/fellowship.html', event)">fellowship</a>
-                    <a href="program/communityhours.html" onclick="return universalNav.navigateTo('program/communityhours.html', event)">community hours</a>
-                    <a href="program/seasonaldinner.html" onclick="return universalNav.navigateTo('program/seasonaldinner.html', event)">seasonal dinner</a>
-                    <a href="program/exhibition.html" onclick="return universalNav.navigateTo('program/exhibition.html', event)">exhibitions</a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="nav-item">
-            <a href="#" class="dropdown-toggle">about</a>
-            <div class="dropdown">
-                <div class="dropdown-container">
-                    <a href="about/mission.html" onclick="return universalNav.navigateTo('about/mission.html', event)">mission</a>
-                    <a href="about/vision.html" onclick="return universalNav.navigateTo('about/vision.html', event)">vision</a>
-                    <a href="about/team.html" onclick="return universalNav.navigateTo('about/team.html', event)">team</a>
-                    <a href="about/contact.html" onclick="return universalNav.navigateTo('about/contact.html', event)">contact</a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="nav-item">
-            <a href="supportus/supportus.html" onclick="return universalNav.navigateTo('supportus/supportus.html', event)">support us</a>
-        </div>
-    `;
-
-    const mobileNavItems = `
-        <div class="mobile-nav-item">
-            <a href="#" class="mobile-dropdown-toggle" onclick="toggleMobileDropdown(event, this)">
-                program
-                <span class="mobile-arrow">ᵥ</span>
-            </a>
-            <div class="mobile-dropdown">
-                <a href="program/calendar.html" onclick="return universalNav.navigateTo('program/calendar.html', event)">calendar</a>
-                <a href="program/fellowship.html" onclick="return universalNav.navigateTo('program/fellowship.html', event)">fellowship</a>
-                <a href="program/communityhours.html" onclick="return universalNav.navigateTo('program/communityhours.html', event)">community hours</a>
-                <a href="program/seasonaldinner.html" onclick="return universalNav.navigateTo('program/seasonaldinner.html', event)">seasonal dinner</a>
-                <a href="program/exhibition.html" onclick="return universalNav.navigateTo('program/exhibition.html', event)">exhibitions</a>
-            </div>
-        </div>
-        
-        <div class="mobile-nav-item">
-            <a href="#" class="mobile-dropdown-toggle" onclick="toggleMobileDropdown(event, this)">
-                about
-                <span class="mobile-arrow">ᵥ</span>
-            </a>
-            <div class="mobile-dropdown">
-                <a href="about/mission.html" onclick="return universalNav.navigateTo('about/mission.html', event)">mission</a>
-                <a href="about/vision.html" onclick="return universalNav.navigateTo('about/vision.html', event)">vision</a>
-                <a href="about/team.html" onclick="return universalNav.navigateTo('about/team.html', event)">team</a>
-                <a href="about/contact.html" onclick="return universalNav.navigateTo('about/contact.html', event)">contact</a>
-            </div>
-        </div>
-        
-        <div class="mobile-nav-item">
-            <a href="supportus/supportus.html" onclick="return universalNav.navigateTo('supportus/supportus.html', event)">support us</a>
-        </div>
-    `;
-
-    const navHTML = generateNavHTMLTemplate('initial research', desktopNavItems, mobileNavItems);
-    document.body.insertAdjacentHTML('afterbegin', navHTML);
-}
-
-// Generate navigation HTML template - using existing CSS classes
-function generateNavHTMLTemplate(siteTitle, desktopNavItems, mobileNavItems) {
-    return `
+// Default navigation with corrected paths
+function loadDefaultCrossNav() {
+    const navHTML = `
         <div class="top-banner">
             <div class="title-container">
-                <h1 onclick="universalNav.goHome()" style="cursor: pointer;">${siteTitle}</h1>
+                <h1 onclick="crossNav.goHome()" style="cursor: pointer;">initial research</h1>
             </div>
             <nav class="nav-top">
-                ${desktopNavItems}
+                <div class="nav-item">
+                    <a href="#" class="dropdown-toggle">program</a>
+                    <div class="dropdown">
+                        <div class="dropdown-container">
+                            <a href="program/calendar.html" onclick="return crossNav.navigateTo('program/calendar.html', event)">calendar</a>
+                            <a href="program/fellowship.html" onclick="return crossNav.navigateTo('program/fellowship.html', event)">fellowship</a>
+                            <a href="program/communityhours.html" onclick="return crossNav.navigateTo('program/communityhours.html', event)">community hours</a>
+                            <a href="program/seasonaldinner.html" onclick="return crossNav.navigateTo('program/seasonaldinner.html', event)">seasonal dinner</a>
+                            <a href="program/exhibition.html" onclick="return crossNav.navigateTo('program/exhibition.html', event)">exhibitions</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="nav-item">
+                    <a href="#" class="dropdown-toggle">about</a>
+                    <div class="dropdown">
+                        <div class="dropdown-container">
+                            <a href="about/mission.html" onclick="return crossNav.navigateTo('about/mission.html', event)">mission</a>
+                            <a href="about/vision.html" onclick="return crossNav.navigateTo('about/vision.html', event)">vision</a>
+                            <a href="about/team.html" onclick="return crossNav.navigateTo('about/team.html', event)">team</a>
+                            <a href="about/contact.html" onclick="return crossNav.navigateTo('about/contact.html', event)">contact</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="nav-item">
+                    <a href="supportus/supportus.html" onclick="return crossNav.navigateTo('supportus/supportus.html', event)">support us</a>
+                </div>
             </nav>
             
-            <div class="hamburger-menu" onclick="toggleMobileNav()">
+            <div class="hamburger-menu" onclick="toggleMobileNavCross()">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
             
             <div class="mobile-nav" id="mobileNav">
-                ${mobileNavItems}
+                <div class="mobile-nav-item">
+                    <a href="#" class="mobile-dropdown-toggle" onclick="toggleMobileDropdownCross(event, this)">
+                        program
+                        <span class="mobile-arrow">ᵥ</span>
+                    </a>
+                    <div class="mobile-dropdown">
+                        <a href="program/calendar.html" onclick="return crossNav.navigateTo('program/calendar.html', event)">calendar</a>
+                        <a href="program/fellowship.html" onclick="return crossNav.navigateTo('program/fellowship.html', event)">fellowship</a>
+                        <a href="program/communityhours.html" onclick="return crossNav.navigateTo('program/communityhours.html', event)">community hours</a>
+                        <a href="program/seasonaldinner.html" onclick="return crossNav.navigateTo('program/seasonaldinner.html', event)">seasonal dinner</a>
+                        <a href="program/exhibition.html" onclick="return crossNav.navigateTo('program/exhibition.html', event)">exhibitions</a>
+                    </div>
+                </div>
+                
+                <div class="mobile-nav-item">
+                    <a href="#" class="mobile-dropdown-toggle" onclick="toggleMobileDropdownCross(event, this)">
+                        about
+                        <span class="mobile-arrow">ᵥ</span>
+                    </a>
+                    <div class="mobile-dropdown">
+                        <a href="about/mission.html" onclick="return crossNav.navigateTo('about/mission.html', event)">mission</a>
+                        <a href="about/vision.html" onclick="return crossNav.navigateTo('about/vision.html', event)">vision</a>
+                        <a href="about/team.html" onclick="return crossNav.navigateTo('about/team.html', event)">team</a>
+                        <a href="about/contact.html" onclick="return crossNav.navigateTo('about/contact.html', event)">contact</a>
+                    </div>
+                </div>
+                
+                <div class="mobile-nav-item">
+                    <a href="supportus/supportus.html" onclick="return crossNav.navigateTo('supportus/supportus.html', event)">support us</a>
+                </div>
             </div>
         </div>
     `;
+    
+    document.body.insertAdjacentHTML('afterbegin', navHTML);
+    
+    // Add footer
+    if (!document.querySelector('footer')) {
+        document.body.insertAdjacentHTML('beforeend', '<footer>124 Gallery Street, New York, NY 10001</footer>');
+    }
 }
 
-// Setup navigation events - compatible with existing CSS
-function setupNavEvents() {
-    const navItems = document.querySelectorAll('.nav-item');
-    
-    navItems.forEach(item => {
-        const dropdown = item.querySelector('.dropdown');
-        if (dropdown) {
-            // Desktop hover - matches original behavior
-            if (window.innerWidth > 768) {
-                item.addEventListener('mouseenter', () => {
-                    document.querySelectorAll('.nav-item').forEach(i => {
-                        if (i !== item) i.classList.remove('active');
-                    });
-                    item.classList.add('active');
-                });
-                
-                item.addEventListener('mouseleave', () => {
-                    item.classList.remove('active');
-                });
-            }
+// Event setup
+function setupCrossNavEvents() {
+    // Use event delegation
+    document.addEventListener('click', function(e) {
+        const navItem = e.target.closest('.nav-item');
+        if (navItem && navItem.querySelector('.dropdown-toggle') === e.target) {
+            e.preventDefault();
             
-            // Click toggle - matches original behavior
-            const toggle = item.querySelector('.dropdown-toggle');
-            if (toggle) {
-                toggle.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    document.querySelectorAll('.nav-item').forEach(i => {
-                        if (i !== item) i.classList.remove('active');
-                    });
-                    item.classList.toggle('active');
-                    e.stopPropagation();
+            document.querySelectorAll('.nav-item.active').forEach(item => {
+                if (item !== navItem) item.classList.remove('active');
+            });
+            navItem.classList.toggle('active');
+        }
+        
+        // Close dropdowns when clicking outside
+        if (!e.target.closest('.nav-item') && !e.target.closest('.mobile-nav')) {
+            document.querySelectorAll('.nav-item.active').forEach(item => {
+                item.classList.remove('active');
+            });
+        }
+    });
+
+    // Hover for desktop
+    if (window.innerWidth > 768) {
+        document.addEventListener('mouseover', function(e) {
+            const navItem = e.target.closest('.nav-item');
+            if (navItem && navItem.querySelector('.dropdown')) {
+                document.querySelectorAll('.nav-item.active').forEach(item => {
+                    if (item !== navItem) item.classList.remove('active');
                 });
+                navItem.classList.add('active');
             }
-        }
-    });
-    
-    // Click outside to close - matches original behavior
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.nav-item') && 
-            !e.target.closest('.mobile-nav') && 
-            !e.target.closest('.hamburger-menu')) {
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-        }
-    });
-}
-
-// Setup global functions - compatible with existing CSS
-function setupGlobalFunctions() {
-    // Mobile navigation toggle - matches original behavior
-    window.toggleMobileNav = function() {
-        const mobileNav = document.getElementById('mobileNav');
-        if (mobileNav.classList.contains('show')) {
-            mobileNav.classList.remove('show');
-            document.querySelectorAll('.mobile-nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-        } else {
-            mobileNav.classList.add('show');
-        }
-    };
-
-    // Mobile dropdown toggle - matches original behavior
-    window.toggleMobileDropdown = function(e, element) {
-        e.preventDefault();
-        const navItem = element.parentElement;
-        const dropdown = navItem.querySelector('.mobile-dropdown');
-        
-        if (!dropdown) return;
-        
-        document.querySelectorAll('.mobile-nav-item').forEach(item => {
-            if (item !== navItem) item.classList.remove('active');
         });
         
+        document.addEventListener('mouseout', function(e) {
+            const navItem = e.target.closest('.nav-item');
+            if (navItem && !navItem.contains(e.relatedTarget)) {
+                navItem.classList.remove('active');
+            }
+        });
+    }
+}
+
+// Global functions
+function setupCrossGlobalFunctions() {
+    window.toggleMobileNavCross = function() {
+        const mobileNav = document.getElementById('mobileNav');
+        mobileNav.classList.toggle('show');
+    };
+
+    window.toggleMobileDropdownCross = function(e, element) {
+        e.preventDefault();
+        const navItem = element.parentElement;
         navItem.classList.toggle('active');
     };
 
     // Compatibility functions
-    window.navigateToPage = (url, event) => universalNav.navigateTo(url, event);
-    window.smartNavigate = (url, event) => universalNav.navigateTo(url, event);
-    window.goToHomepage = () => universalNav.goHome();
-    window.smartGoHome = () => universalNav.goHome();
+    window.navigateToPage = (url, event) => crossNav.navigateTo(url, event);
+    window.goToHomepage = () => crossNav.goHome();
+    window.toggleMobileNav = window.toggleMobileNavCross;
+    window.toggleMobileDropdown = window.toggleMobileDropdownCross;
 }
 
-// Insert footer - using existing styles
-function insertFooter() {
-    // Check if footer already exists
-    if (document.querySelector('footer')) {
-        return;
-    }
-    
-    const footer = `
-        <footer>
-            124 Gallery Street, New York, NY 10001
-        </footer>
-    `;
-    document.body.insertAdjacentHTML('beforeend', footer);
+// Initialize immediately
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadCrossFolderNavigation);
+} else {
+    loadCrossFolderNavigation();
 }
 
-// Initialize - compatible with existing CSS
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Universal Navigation System started');
-    loadUniversalNavigation();
-});
+// Global access
+window.crossNav = crossNav;
 
-// Debug functionality
-window.universalNav = universalNav;
+// Debug
 document.addEventListener('keydown', function(e) {
     if (e.ctrlKey && e.shiftKey && e.key === 'N') {
-        e.preventDefault();
-        console.log('🔍 Navigation debug info:');
-        console.log('Current path:', universalNav.currentPath);
-        console.log('Base path:', universalNav.basePath);
-        console.log('Path cache:', universalNav.pathCache);
-    }
-    
-    if (e.ctrlKey && e.shiftKey && e.key === 'H') {
-        e.preventDefault();
-        universalNav.goHome();
+        console.log('Cross-Folder Nav Debug:', {
+            currentPath: crossNav.currentPath,
+            currentFolder: crossNav.currentFolder,
+            cacheSize: crossNav.pathCache.size,
+            cache: Object.fromEntries(crossNav.pathCache)
+        });
     }
 });
