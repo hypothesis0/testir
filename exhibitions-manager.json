@@ -39,12 +39,13 @@
       "description": "Initial Research presents **Embodied Memories: Tracing Asian Diaspora Through Material Culture**, a group exhibition exploring how artists of Asian diaspora use material culture to navigate complex identities and histories. The exhibition features works that examine cultural artifacts, family heirlooms, and everyday objects as repositories of memory, migration, and cultural transmission.\n\nThrough diverse media including sculpture, photography, video, and installation, participating artists investigate how material objects become vessels for intergenerational knowledge, cultural preservation, and identity formation in diaspora communities.\n\nThe exhibition considers how material objects become charged with cultural meaning and personal history, especially in the context of migration and diaspora. By working with and through objects—whether family heirlooms, cultural artifacts, or everyday items—the artists highlight how material culture serves as a tangible link to ancestral homelands, cultural heritage, and familial histories."
     },
     {
-      "show_in_list": true,
-      "order": 2,
-      "pdf_button_text": "download exhibition pdf",
-      "title": "11",
-      "date_range": "11",
+      "pdf_file": "/img/uploads/bob-dylan-s-nobel.pdf",
       "slug": "the-universe-principle-is-love-2025",
+      "date_range": "11",
+      "pdf_button_text": "download exhibition pdf",
+      "order": 2,
+      "show_in_list": true,
+      "title": "11",
       "images": [
         {
           "url": "/img/uploads/brucesilverstein-constantin-br-ncu-i-endless-column-in-edward-steichen-s-garden-at-voulangis-1932.jpg",
