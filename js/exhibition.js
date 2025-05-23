@@ -193,7 +193,7 @@ function renderExhibition(data) {
             html += `
                 <div class="hero-image-item">
                     <img src="${image.url}" alt="${image.alt || data.title}" title="Click to enlarge" onclick="openLightbox(this)">
-                    <div class="hero-image-caption">${image.caption || ''}</div>
+                    <div class="hero-image-caption mobile-caption">${image.caption || ''}</div>
                 </div>`;
         });
     } else {
@@ -253,18 +253,25 @@ function renderExhibition(data) {
     
     console.log("Exhibition rendered successfully");
     
-    // FIXED: Force scroll to first image immediately without animation
+    // FIXED: More robust scroll reset to prevent jumping to second image
     const scrollContainer = document.getElementById('heroImageScroll');
     if (scrollContainer) {
-        // Disable smooth scrolling temporarily
+        // Temporarily disable scroll snap and smooth scrolling
+        scrollContainer.style.scrollSnapType = 'none';
         scrollContainer.style.scrollBehavior = 'auto';
+        
+        // Force immediate scroll to start
         scrollContainer.scrollLeft = 0;
         
-        // Re-enable smooth scrolling after a short delay
+        // Force DOM to update
+        scrollContainer.offsetHeight; // Trigger reflow
+        
+        // Re-enable scroll snap and smooth scrolling after DOM settles
         setTimeout(() => {
+            scrollContainer.style.scrollSnapType = 'x mandatory';
             scrollContainer.style.scrollBehavior = 'smooth';
             updatePaginationDots();
-        }, 50);
+        }, 100);
     }
     
     // 初始化滚动功能
@@ -295,27 +302,27 @@ function renderStaticExhibition() {
             <div class="hero-image-scroll" id="heroImageScroll">
                 <div class="hero-image-item">
                     <img src="img/exhibition/1.png" alt="Exhibition: Embodied Memories" title="Click to enlarge" onclick="openLightbox(this)">
-                    <div class="hero-image-caption">Exhibition overview: Embodied Memories</div>
+                    <div class="hero-image-caption mobile-caption">Exhibition overview: Embodied Memories</div>
                 </div>
                 
                 <div class="hero-image-item">
                     <img src="img/exhibition/2.jpg" alt="Sowon Kwon, 'Inherited Patterns'" title="Click to enlarge" onclick="openLightbox(this)">
-                    <div class="hero-image-caption">Sowon Kwon, "Inherited Patterns" (2024)</div>
+                    <div class="hero-image-caption mobile-caption">Sowon Kwon, "Inherited Patterns" (2024)</div>
                 </div>
                 
                 <div class="hero-image-item">
                     <img src="img/exhibition/3.jpg" alt="Nini Dongnier, 'Ancestral Objects'" title="Click to enlarge" onclick="openLightbox(this)">
-                    <div class="hero-image-caption">Nini Dongnier, "Ancestral Objects" (2024)</div>
+                    <div class="hero-image-caption mobile-caption">Nini Dongnier, "Ancestral Objects" (2024)</div>
                 </div>
                 
                 <div class="hero-image-item">
                     <img src="img/exhibition/4.jpg" alt="Yu Ji & Ho King Man, 'Intergenerational Dialogue'" title="Click to enlarge" onclick="openLightbox(this)">
-                    <div class="hero-image-caption">Yu Ji & Ho King Man, "Intergenerational Dialogue" (2023)</div>
+                    <div class="hero-image-caption mobile-caption">Yu Ji & Ho King Man, "Intergenerational Dialogue" (2023)</div>
                 </div>
                 
                 <div class="hero-image-item">
                     <img src="img/exhibition/5.jpg" alt="Patty Chang, 'Memory Objects'" title="Click to enlarge" onclick="openLightbox(this)">
-                    <div class="hero-image-caption">Patty Chang, "Memory Objects" (2023)</div>
+                    <div class="hero-image-caption mobile-caption">Patty Chang, "Memory Objects" (2023)</div>
                 </div>
             </div>
             
@@ -346,20 +353,25 @@ function renderStaticExhibition() {
     
     // Initialize scroll indicators and pagination for the static content
     initScrollIndicators();
-    updatePaginationDots();
     
-    // FIXED: Force scroll to first image for static content too
-    setTimeout(() => {
-        const scrollContainer = document.getElementById('heroImageScroll');
-        if (scrollContainer) {
-            scrollContainer.style.scrollBehavior = 'auto';
-            scrollContainer.scrollLeft = 0;
-            setTimeout(() => {
-                scrollContainer.style.scrollBehavior = 'smooth';
-                updatePaginationDots();
-            }, 50);
-        }
-    }, 10);
+    // FIXED: More robust scroll reset for static content too
+    const scrollContainer = document.getElementById('heroImageScroll');
+    if (scrollContainer) {
+        // Temporarily disable scroll snap and smooth scrolling
+        scrollContainer.style.scrollSnapType = 'none';
+        scrollContainer.style.scrollBehavior = 'auto';
+        scrollContainer.scrollLeft = 0;
+        
+        // Force DOM update
+        scrollContainer.offsetHeight;
+        
+        // Re-enable after DOM settles
+        setTimeout(() => {
+            scrollContainer.style.scrollSnapType = 'x mandatory';
+            scrollContainer.style.scrollBehavior = 'smooth';
+            updatePaginationDots();
+        }, 100);
+    }
     
     // Initialize mobile improvements if on mobile
     if (window.innerWidth <= 768) {
