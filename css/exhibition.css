@@ -334,20 +334,19 @@ footer {
         color: #000000;
     }
     
-    /* MOBILE: Hero image section - Fixed sizing */
+    /* MOBILE: Hero image section - Fixed to match content width */
     .hero-image-container {
-        width: 100vw; /* Full viewport width on mobile */
-        margin-left: calc(-24px); /* Offset the content padding */
+        width: 100%; /* Match content width instead of full viewport */
+        margin-left: 0; /* No negative margin needed */
         margin-bottom: 5vh;
         position: relative;
         overflow: visible;
-        /* ONLY addition: Enable touch handling for swipe */
-        touch-action: manipulation; /* Allow basic touch but prevent browser gestures */
-        user-select: none; /* Prevent text selection during swipe */
+        /* Enable touch handling for swipe */
+        touch-action: manipulation;
+        user-select: none;
         -webkit-user-select: none;
-        -webkit-touch-callout: none; /* Prevent callout on iOS */
-        /* FIXED: Remove any extra height */
-        height: auto; /* Let content determine height */
+        -webkit-touch-callout: none;
+        height: auto;
     }
 
     .hero-image-scroll {
@@ -355,14 +354,13 @@ footer {
         overflow-x: auto;
         scroll-behavior: smooth;
         scroll-snap-type: x mandatory;
-        gap: 20px; /* Increased gap for better separation */
-        padding: 0 24px 20px 24px; /* Match main content padding */
+        gap: 20px;
+        padding: 0 0 20px 0; /* Remove horizontal padding to match container width */
         scrollbar-width: none;
         -ms-overflow-style: none;
-        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-        /* FIXED: Remove extra height */
-        height: auto; /* Let images determine height */
-        min-height: auto; /* Remove any minimum height */
+        -webkit-overflow-scrolling: touch;
+        height: auto;
+        min-height: auto;
     }
     
     .hero-image-scroll::-webkit-scrollbar {
@@ -381,11 +379,10 @@ footer {
     }
     
     .hero-image-item img {
-        /* FIXED: Same height, variable width based on aspect ratio */
-        height: 400px !important; /* Fixed height for all mobile images */
-        width: auto !important; /* Width automatically calculated from aspect ratio */
-        /* REMOVED: max-width constraint to allow natural width variation */
-        object-fit: contain !important; /* Maintain aspect ratio without cropping */
+        /* Restore original mobile height */
+        height: 400px !important; /* Back to 400px since height wasn't the issue */
+        width: auto !important;
+        object-fit: contain !important;
         display: block !important;
         cursor: pointer;
         border-radius: 0;
