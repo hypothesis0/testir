@@ -253,14 +253,19 @@ function renderExhibition(data) {
     
     console.log("Exhibition rendered successfully");
     
-    // Force scroll to first image on load
-    setTimeout(() => {
-        const scrollContainer = document.getElementById('heroImageScroll');
-        if (scrollContainer) {
-            scrollContainer.scrollLeft = 0;
+    // FIXED: Force scroll to first image immediately without animation
+    const scrollContainer = document.getElementById('heroImageScroll');
+    if (scrollContainer) {
+        // Disable smooth scrolling temporarily
+        scrollContainer.style.scrollBehavior = 'auto';
+        scrollContainer.scrollLeft = 0;
+        
+        // Re-enable smooth scrolling after a short delay
+        setTimeout(() => {
+            scrollContainer.style.scrollBehavior = 'smooth';
             updatePaginationDots();
-        }
-    }, 100);
+        }, 50);
+    }
     
     // 初始化滚动功能
     initScrollIndicators();
@@ -342,6 +347,19 @@ function renderStaticExhibition() {
     // Initialize scroll indicators and pagination for the static content
     initScrollIndicators();
     updatePaginationDots();
+    
+    // FIXED: Force scroll to first image for static content too
+    setTimeout(() => {
+        const scrollContainer = document.getElementById('heroImageScroll');
+        if (scrollContainer) {
+            scrollContainer.style.scrollBehavior = 'auto';
+            scrollContainer.scrollLeft = 0;
+            setTimeout(() => {
+                scrollContainer.style.scrollBehavior = 'smooth';
+                updatePaginationDots();
+            }, 50);
+        }
+    }, 10);
     
     // Initialize mobile improvements if on mobile
     if (window.innerWidth <= 768) {
