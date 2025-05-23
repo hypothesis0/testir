@@ -237,18 +237,16 @@ function renderExhibition(data) {
     
     html += `</div>`;
     
-    // 添加下载按钮
-    html += `<div class="action-buttons">`;
-    
-    if (data.pdf_file) {
+    // 添加下载按钮（只有在有PDF文件时才显示）
+    if (data.pdf_file && data.pdf_file.trim() !== '') {
         console.log("Adding PDF download button with file:", data.pdf_file);
+        html += `<div class="action-buttons">`;
         html += `<a href="${data.pdf_file}" class="download-button" target="_blank">${data.pdf_button_text || 'download exhibition pdf'}</a>`;
+        html += `</div>`;
     } else {
-        console.log("No PDF file found, adding disabled button");
-        html += `<a href="#" class="download-button disabled" onclick="event.preventDefault();">${data.pdf_button_text || 'download exhibition pdf'}</a>`;
+        console.log("No PDF file found, not showing download button");
+        // 完全不显示按钮区域
     }
-    
-    html += `</div>`;
     
     // 设置HTML内容
     container.innerHTML = html;
@@ -319,7 +317,7 @@ function renderStaticExhibition() {
             <p>The exhibition considers how material objects become charged with cultural meaning and personal history, especially in the context of migration and diaspora. By working with and through objects—whether family heirlooms, cultural artifacts, or everyday items—the artists highlight how material culture serves as a tangible link to ancestral homelands, cultural heritage, and familial histories.</p>
         </div>
         
-        <!-- Download PDF button -->
+        <!-- Download PDF button (only if PDF exists) -->
         <div class="action-buttons">
             <a href="#" class="download-button">download exhibition pdf</a>
         </div>
