@@ -240,6 +240,14 @@ collections:
                   - {label: "Link URL", name: "link", widget: "string", required: true}
                   - {label: "Visible", name: "visible", widget: "boolean", default: true}
       
+      # NEW: Footer Settings
+      - name: "footer"
+        label: "Footer"
+        file: "footer-data.json"
+        fields:
+          - {label: "Footer Text", name: "footer_text", widget: "string", default: "124 Gallery Street, New York, NY 10001", required: true, hint: "Text that appears in the footer across all pages"}
+          - {label: "Show Footer", name: "show_footer", widget: "boolean", default: true, hint: "Toggle to show or hide the footer"}
+      
       # NEW: Homepage Settings
       - name: "homepage_settings"
         label: "Homepage Settings"
