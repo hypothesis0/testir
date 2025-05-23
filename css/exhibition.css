@@ -48,7 +48,7 @@ body {
 
 /* Exhibition heading */
 .exhibition-heading {
-    margin-bottom: 10vh;
+    margin-bottom: 5vh; /* Reduced from 10vh to 5vh */
     margin-top: 0;
     width: 100%;
 }
@@ -315,13 +315,13 @@ footer {
     
     /* Exhibition heading */
     .exhibition-heading {
-        margin-bottom: 10vh;
+        margin-bottom: 5vh; /* Reduced from 10vh to 5vh */
         margin-top: 5vh;
         width: 100%;
     }
     
     .exhibition-heading h1 {
-        font-size: 32px !important;
+        font-size: 43px !important;
         font-weight: 400;
         margin: 0 5vh 5vh 0;
         line-height: 1;
@@ -376,11 +376,11 @@ footer {
     }
     
     .hero-image-item img {
-        /* Original mobile image styling */
+        /* FIXED: Uniform height for all mobile images with proper scaling */
         height: 400px !important; /* Fixed height for all mobile images */
         width: auto !important; /* Width adjusts to maintain aspect ratio */
         max-width: 90vw !important; /* Maximum width constraint */
-        object-fit: contain !important; /* Show full image without cropping */
+        object-fit: cover !important; /* CHANGED: Cover ensures uniform height, crops if needed */
         display: block !important;
         cursor: pointer;
         border-radius: 0;
