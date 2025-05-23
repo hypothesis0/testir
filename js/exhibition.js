@@ -253,6 +253,15 @@ function renderExhibition(data) {
     
     console.log("Exhibition rendered successfully");
     
+    // Force scroll to first image on load
+    setTimeout(() => {
+        const scrollContainer = document.getElementById('heroImageScroll');
+        if (scrollContainer) {
+            scrollContainer.scrollLeft = 0;
+            updatePaginationDots();
+        }
+    }, 100);
+    
     // 初始化滚动功能
     initScrollIndicators();
     
