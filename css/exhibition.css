@@ -380,7 +380,7 @@ footer {
     
     .hero-image-item img {
         /* Restore original mobile height */
-        height: 400px !important; /* Back to 400px since height wasn't the issue */
+        height: 280px !important; /* Back to 400px since height wasn't the issue */
         width: auto !important;
         object-fit: contain !important;
         display: block !important;
