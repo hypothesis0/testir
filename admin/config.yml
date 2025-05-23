@@ -137,6 +137,50 @@ collections:
               - {label: "Email Address", name: "email", widget: "string", required: true}
               - {label: "Address", name: "address", widget: "string", required: true}
 
+      - name: "supportus"
+        label: "Support Us Page"
+        file: "supportus-data.json"
+        fields:
+          - {label: "Page Title", name: "page_title", widget: "string", default: "Support Us", required: true}
+          - label: "Support Section"
+            name: "support_section"
+            widget: "object"
+            fields:
+              - {label: "Section Title", name: "title", widget: "string", default: "Support", required: true}
+              - {label: "Introduction Text", name: "intro", widget: "markdown", required: true, hint: "Opening paragraph about supporting Initial Research"}
+          - label: "Patron Levels"
+            name: "patron_levels"
+            widget: "object"
+            fields:
+              - {label: "Section Title", name: "title", widget: "string", default: "Patron Levels", required: true}
+              - label: "Levels"
+                name: "levels"
+                widget: "list"
+                required: false
+                hint: "Add different patron support levels"
+                fields:
+                  - {label: "Level Name", name: "name", widget: "string", required: true, hint: "e.g., Friend, Supporter, Patron"}
+                  - {label: "Annual Amount", name: "amount", widget: "string", required: true, hint: "e.g., $100, $500, $1,000"}
+          - label: "How to Support"
+            name: "how_to_support"
+            widget: "object"
+            fields:
+              - {label: "Section Title", name: "title", widget: "string", default: "How to Support", required: true}
+              - {label: "Instructions", name: "content", widget: "markdown", required: true, hint: "Instructions on how to make donations"}
+          - label: "Donor Recognition"
+            name: "donor_recognition"
+            widget: "object"
+            fields:
+              - {label: "Section Title", name: "title", widget: "string", default: "Donor Recognition", required: true}
+              - label: "Donor Categories"
+                name: "categories"
+                widget: "list"
+                required: false
+                hint: "Add different donor recognition levels"
+                fields:
+                  - {label: "Category Name", name: "name", widget: "string", required: true, hint: "e.g., Founding Patrons, Major Donors"}
+                  - {label: "Donor Names", name: "donors", widget: "text", required: false, hint: "List donor names, separated by commas"}
+
       # NEW: Exhibitions Manager - Client can manage all exhibitions
       - name: "exhibitions_manager"
         label: "Exhibitions Manager"
