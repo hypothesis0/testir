@@ -7,27 +7,27 @@
       "dropdown_items": [
         {
           "label": "calendar",
-          "link": "/calendar.html",
+          "link": "program/calendar.html",
           "visible": true
         },
         {
           "label": "fellowship",
-          "link": "/fellowship.html",
+          "link": "program/fellowship.html",
           "visible": true
         },
         {
           "label": "community hours",
-          "link": "/communityhours.html",
+          "link": "program/communityhours.html",
           "visible": true
         },
         {
           "label": "seasonal dinner",
-          "link": "/seasonaldinner.html",
+          "link": "program/seasonaldinner.html",
           "visible": true
         },
         {
           "label": "exhibitions",
-          "link": "/exhibition.html",
+          "link": "program/exhibition.html",
           "visible": true
         }
       ]
@@ -38,29 +38,29 @@
       "dropdown_items": [
         {
           "label": "mission",
-          "link": "/about/mission.html",
+          "link": "about/mission.html",
           "visible": true
         },
         {
           "label": "vision",
-          "link": "/about/vision.html",
+          "link": "about/vision.html",
           "visible": true
         },
         {
           "label": "team",
-          "link": "/about/team.html",
+          "link": "about/team.html",
           "visible": true
         },
         {
           "label": "contact",
-          "link": "/about/contact.html",
+          "link": "about/contact.html",
           "visible": true
         }
       ]
     },
     {
       "label": "support us",
-      "direct_link": "/supportus.html",
+      "direct_link": "supportus/supportus.html",
       "visible": true
     }
   ]
