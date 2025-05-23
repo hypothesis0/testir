@@ -255,7 +255,14 @@ function renderExhibition(data) {
     
     // 初始化滚动功能
     initScrollIndicators();
-    addTouchSwipeSupport();
+    
+    // Initialize mobile improvements if on mobile
+    if (window.innerWidth <= 768) {
+        initMobileImprovements();
+    } else {
+        // Desktop: just add basic touch support
+        addTouchSwipeSupport();
+    }
 }
 
 // 渲染静态展览内容（作为后备方案）
@@ -326,6 +333,13 @@ function renderStaticExhibition() {
     // Initialize scroll indicators and pagination for the static content
     initScrollIndicators();
     updatePaginationDots();
+    
+    // Initialize mobile improvements if on mobile
+    if (window.innerWidth <= 768) {
+        initMobileImprovements();
+    } else {
+        addTouchSwipeSupport();
+    }
 }
 
 // 渲染"无展览"页面
@@ -367,38 +381,159 @@ function initScrollIndicators() {
     }
 }
 
-// Add touch swipe support for the image scroll
+// Simplified and more reliable touch swipe support
 function addTouchSwipeSupport() {
     const scrollContainer = document.getElementById('heroImageScroll');
-    if (!scrollContainer) return;
+    const imageContainer = document.querySelector('.hero-image-container');
     
-    let startX, startY, isDragging = false;
+    if (!scrollContainer || !imageContainer) {
+        console.log('Swipe setup failed: containers not found');
+        return;
+    }
     
-    scrollContainer.addEventListener('touchstart', function(e) {
+    console.log('Setting up swipe on:', imageContainer);
+    
+    let startX = 0;
+    let startY = 0;
+    let isSwipeActive = false;
+    
+    // Simple swipe detection on the entire image container
+    imageContainer.addEventListener('touchstart', function(e) {
+        console.log('Touch start detected');
         startX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
-        isDragging = true;
+        isSwipeActive = true;
     }, { passive: true });
     
-    scrollContainer.addEventListener('touchmove', function(e) {
-        if (!isDragging) return;
+    imageContainer.addEventListener('touchmove', function(e) {
+        if (!isSwipeActive) return;
         
-        const touchX = e.touches[0].clientX;
-        const touchY = e.touches[0].clientY;
+        const currentX = e.touches[0].clientX;
+        const currentY = e.touches[0].clientY;
+        const deltaX = startX - currentX;
+        const deltaY = startY - currentY;
         
-        // Check if the user is scrolling horizontally
-        const deltaX = startX - touchX;
-        const deltaY = startY - touchY;
-        
-        // If scrolling more horizontally than vertically, prevent the default page scroll
-        if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            e.preventDefault();
+        // If moving more horizontally than vertically
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+            e.preventDefault(); // Prevent page scroll
+            console.log('Horizontal swipe detected, deltaX:', deltaX);
         }
     }, { passive: false });
     
-    scrollContainer.addEventListener('touchend', function(e) {
-        isDragging = false;
+    imageContainer.addEventListener('touchend', function(e) {
+        if (!isSwipeActive) return;
+        
+        const endX = e.changedTouches[0].clientX;
+        const endY = e.changedTouches[0].clientY;
+        const deltaX = startX - endX;
+        const deltaY = startY - endY;
+        
+        console.log('Touch end - deltaX:', deltaX, 'deltaY:', deltaY);
+        
+        // Check if it's a horizontal swipe with enough distance
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+            console.log('Swipe confirmed!');
+            
+            if (deltaX > 0) {
+                console.log('Swiping to next image');
+                scrollImages('right');
+            } else {
+                console.log('Swiping to previous image');
+                scrollImages('left');
+            }
+        }
+        
+        isSwipeActive = false;
     }, { passive: true });
+    
+    // Fallback: also listen on the scroll container itself
+    let scrollStartX = 0;
+    let scrollStartY = 0;
+    
+    scrollContainer.addEventListener('touchstart', function(e) {
+        scrollStartX = e.touches[0].clientX;
+        scrollStartY = e.touches[0].clientY;
+    }, { passive: true });
+    
+    scrollContainer.addEventListener('touchend', function(e) {
+        const scrollEndX = e.changedTouches[0].clientX;
+        const scrollEndY = e.changedTouches[0].clientY;
+        const scrollDeltaX = scrollStartX - scrollEndX;
+        const scrollDeltaY = scrollStartY - scrollEndY;
+        
+        if (Math.abs(scrollDeltaX) > Math.abs(scrollDeltaY) && Math.abs(scrollDeltaX) > 50) {
+            console.log('Fallback swipe on scroll container');
+            if (scrollDeltaX > 0) {
+                scrollImages('right');
+            } else {
+                scrollImages('left');
+            }
+        }
+    }, { passive: true });
+}
+
+// Add scroll end detection for better pagination dot updates
+function addScrollEndDetection() {
+    const scrollContainer = document.getElementById('heroImageScroll');
+    if (!scrollContainer) return;
+    
+    let scrollTimeout;
+    
+    scrollContainer.addEventListener('scroll', function() {
+        // Clear the previous timeout
+        clearTimeout(scrollTimeout);
+        
+        // Set a new timeout to detect when scrolling has stopped
+        scrollTimeout = setTimeout(() => {
+            updatePaginationDots();
+        }, 150);
+    });
+}
+
+// Initialize mobile improvements
+function initMobileImprovements() {
+    addTouchSwipeSupport();
+    addScrollEndDetection();
+    
+    // Add resize handler to reinitialize on orientation change
+    window.addEventListener('resize', function() {
+        setTimeout(() => {
+            updatePaginationDots();
+        }, 300);
+    });
+}
+
+// Enhanced getCurrentImageIndex function for better accuracy
+function getCurrentImageIndex() {
+    const scrollContainer = document.getElementById('heroImageScroll');
+    if (!scrollContainer) return 0;
+    
+    const items = scrollContainer.querySelectorAll('.hero-image-item');
+    const scrollPosition = scrollContainer.scrollLeft;
+    const containerWidth = scrollContainer.offsetWidth;
+    
+    let closestIndex = 0;
+    let closestDistance = Infinity;
+    
+    items.forEach((item, index) => {
+        // Calculate the center of each item
+        const itemLeft = item.offsetLeft;
+        const itemWidth = item.offsetWidth;
+        const itemCenter = itemLeft + (itemWidth / 2);
+        
+        // Calculate the center of the visible area
+        const viewCenter = scrollPosition + (containerWidth / 2);
+        
+        // Find the distance between item center and view center
+        const distance = Math.abs(itemCenter - viewCenter);
+        
+        if (distance < closestDistance) {
+            closestDistance = distance;
+            closestIndex = index;
+        }
+    });
+    
+    return closestIndex;
 }
 
 // 根据当前图片更新分页点
@@ -413,31 +548,6 @@ function updatePaginationDots() {
             dot.classList.remove('active');
         }
     });
-}
-
-// 获取当前图片索引
-function getCurrentImageIndex() {
-    const scrollContainer = document.getElementById('heroImageScroll');
-    if (!scrollContainer) return 0;
-    
-    const items = scrollContainer.querySelectorAll('.hero-image-item');
-    const scrollPosition = scrollContainer.scrollLeft;
-    
-    let closestIndex = 0;
-    let closestDistance = Infinity;
-    
-    items.forEach((item, index) => {
-        const itemCenter = item.offsetLeft + (item.offsetWidth / 2);
-        const containerCenter = scrollPosition + (scrollContainer.offsetWidth / 2);
-        const distance = Math.abs(itemCenter - containerCenter);
-        
-        if (distance < closestDistance) {
-            closestDistance = distance;
-            closestIndex = index;
-        }
-    });
-    
-    return closestIndex;
 }
 
 // 滚动到指定图片
@@ -458,7 +568,7 @@ function scrollImages(direction) {
     scrollToImage(targetIndex);
 }
 
-// 滚动到指定索引的图片
+// Enhanced scrollToImage function with better positioning
 function scrollToImage(index) {
     const scrollContainer = document.getElementById('heroImageScroll');
     if (!scrollContainer) return;
@@ -467,11 +577,25 @@ function scrollToImage(index) {
     
     if (items[index]) {
         const targetItem = items[index];
-        const targetPosition = targetItem.offsetLeft - ((scrollContainer.offsetWidth - targetItem.offsetWidth) / 2);
-        scrollContainer.scrollTo({ left: targetPosition, behavior: 'smooth' });
+        const containerWidth = scrollContainer.offsetWidth;
+        const itemWidth = targetItem.offsetWidth;
         
-        // 立即更新分页点
-        updatePaginationDots();
+        // Calculate position to center the image in the viewport
+        const targetPosition = targetItem.offsetLeft - ((containerWidth - itemWidth) / 2);
+        
+        // Ensure we don't scroll past the boundaries
+        const maxScroll = scrollContainer.scrollWidth - containerWidth;
+        const finalPosition = Math.max(0, Math.min(targetPosition, maxScroll));
+        
+        scrollContainer.scrollTo({ 
+            left: finalPosition, 
+            behavior: 'smooth' 
+        });
+        
+        // Update pagination dots after a short delay
+        setTimeout(() => {
+            updatePaginationDots();
+        }, 100);
     }
 }
 
