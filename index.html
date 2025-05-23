@@ -54,6 +54,77 @@
             top: 0;
             left: 0;
         }
+
+        /* Custom homepage styles */
+        .custom-homepage {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .hero-image {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            margin-bottom: 30px;
+        }
+        .homepage-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+        .homepage-content p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .featured-links {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .featured-link {
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .button-primary {
+            background-color: #372011;
+            color: white;
+        }
+        .button-primary:hover {
+            background-color: #2a1a0d;
+        }
+        .button-secondary {
+            background-color: transparent;
+            color: #372011;
+            border: 2px solid #372011;
+        }
+        .button-secondary:hover {
+            background-color: #372011;
+            color: white;
+        }
+        @media (max-width: 768px) {
+            .custom-homepage {
+                padding: 20px 15px;
+            }
+            .homepage-title {
+                font-size: 2em;
+            }
+            .featured-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -62,10 +133,13 @@
     <!-- Loading message -->
     <div class="loading-message" id="loadingMessage">Loading homepage...</div>
     
-    <!-- Main image that fills the entire screen -->
+    <!-- Main image that fills the entire screen (for custom homepage) -->
     <div class="main-image-container" id="mainImageContainer" style="display: none;">
         <img src="program/img/exhibition/5.jpg" alt="Initial Research" class="main-image" id="mainImage" />
     </div>
+
+    <!-- Custom homepage content container -->
+    <div id="customHomepageContainer" style="display: none;"></div>
     
     <!-- Footer will be loaded by navigation.js -->
     
@@ -75,7 +149,141 @@
             window.location.href = 'index.html';
         }
 
-        // Load homepage data from JSON
+        // NEW: Homepage redirect system
+        async function loadHomepageSettings() {
+            try {
+                console.log('Loading homepage settings...');
+                
+                // Try multiple paths for the settings file
+                const possiblePaths = [
+                    './homepage-settings.json',
+                    '/homepage-settings.json',
+                    'homepage-settings.json'
+                ];
+                
+                let response;
+                for (const path of possiblePaths) {
+                    try {
+                        const tempResponse = await fetch(path);
+                        if (tempResponse.ok) {
+                            response = tempResponse;
+                            console.log(`✓ Loaded homepage settings from: ${path}`);
+                            break;
+                        }
+                    } catch (err) {
+                        console.log(`✗ Failed to load ${path}`);
+                    }
+                }
+                
+                if (!response || !response.ok) {
+                    console.log('No homepage settings found, loading custom homepage');
+                    loadHomepageData(); // Load original homepage behavior
+                    return;
+                }
+                
+                const settings = await response.json();
+                console.log('Homepage settings:', settings);
+                
+                const homepageType = settings.default_homepage || 'custom';
+                
+                if (homepageType === 'custom') {
+                    // Load custom homepage (your original design + any custom content)
+                    loadCustomHomepage(settings.custom_content);
+                } else {
+                    // Redirect to selected page
+                    redirectToHomepage(homepageType);
+                }
+                
+            } catch (error) {
+                console.error('Error loading homepage settings:', error);
+                // Default fallback - load original homepage
+                loadHomepageData();
+            }
+        }
+
+        function redirectToHomepage(type) {
+            const redirectMap = {
+                'calendar': 'program/calendar.html',
+                'exhibition': 'program/exhibition.html',
+                'community-hours': 'program/communityhours.html',
+                'fellowship': 'program/fellowship.html'
+            };
+            
+            const targetPage = redirectMap[type];
+            if (targetPage) {
+                console.log(`Redirecting to: ${targetPage}`);
+                window.location.href = targetPage;
+            } else {
+                console.log('Invalid homepage type, loading custom homepage');
+                loadHomepageData();
+            }
+        }
+
+        function loadCustomHomepage(customContent) {
+            console.log('Loading custom homepage');
+            
+            if (customContent && (customContent.title || customContent.content || customContent.featured_links)) {
+                // Show custom CMS content
+                renderCustomContent(customContent);
+            } else {
+                // Show your original image-based homepage
+                loadHomepageData();
+            }
+        }
+
+        function renderCustomContent(customContent) {
+            console.log('Rendering custom CMS content');
+            
+            // Update page title
+            if (customContent.title) {
+                document.title = customContent.title;
+            }
+            
+            // Create custom homepage HTML
+            let html = `<div class="custom-homepage">`;
+            
+            if (customContent.hero_image) {
+                html += `<div class="hero-section">
+                    <img src="${customContent.hero_image}" alt="${customContent.title || 'Initial Research'}" class="hero-image">
+                </div>`;
+            }
+            
+            if (customContent.title) {
+                html += `<h1 class="homepage-title">${customContent.title}</h1>`;
+            }
+            
+            if (customContent.content) {
+                // Convert markdown to HTML (basic conversion)
+                const contentHtml = customContent.content
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .split('\n\n')
+                    .map(p => `<p>${p}</p>`)
+                    .join('');
+                
+                html += `<div class="homepage-content">${contentHtml}</div>`;
+            }
+            
+            if (customContent.featured_links && customContent.featured_links.length > 0) {
+                html += `<div class="featured-links">`;
+                customContent.featured_links.forEach(link => {
+                    const buttonClass = link.style === 'secondary' ? 'button-secondary' : 'button-primary';
+                    html += `<a href="${link.url}" class="featured-link ${buttonClass}">${link.text}</a>`;
+                });
+                html += `</div>`;
+            }
+            
+            html += `</div>`;
+            
+            // Insert into custom container
+            document.getElementById('customHomepageContainer').innerHTML = html;
+            
+            // Hide loading message and show custom content
+            document.getElementById('loadingMessage').style.display = 'none';
+            document.getElementById('customHomepageContainer').style.display = 'block';
+        }
+
+        // EXISTING: Load homepage data from JSON (your original function)
         async function loadHomepageData() {
             try {
                 console.log('Attempting to load homepage data');
@@ -128,7 +336,7 @@
             }
         }
 
-        // Render static homepage content (fallback)
+        // EXISTING: Render static homepage content (fallback)
         function renderStaticHomepage() {
             const mainImage = document.getElementById('mainImage');
             
@@ -141,7 +349,7 @@
             document.getElementById('mainImageContainer').style.display = 'flex';
         }
 
-        // Render homepage content from CMS data
+        // EXISTING: Render homepage content from CMS data
         function renderHomepage(data) {
             console.log("Rendering homepage with data:", data);
             
@@ -174,9 +382,9 @@
 
         // Initialize when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
-            // Wait a bit for navigation.js to load, then load homepage data
+            // Wait a bit for navigation.js to load, then check homepage settings
             setTimeout(() => {
-                loadHomepageData();
+                loadHomepageSettings(); // NEW: Start with homepage settings check
             }, 200);
         });
 
