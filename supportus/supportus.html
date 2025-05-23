@@ -9,7 +9,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+     <!-- Netlify CMS Integration -->
+     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     
+     <!-- Import navigation styles and scripts -->
+     <link rel="stylesheet" href="../css/navigation.css">
+     <script src="../js/navigation.js"></script>
    <style>
        body {
            margin: 0;
@@ -24,271 +29,21 @@
            flex-direction: column;
            width: 100%;
        }
-        
-        /* Red top banner - matching demo design */
-        .top-banner {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgb(241, 61, 33);
-            padding: 4px 0; /* Match demo page padding */
-            z-index: 10;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .title-container {
-            padding-left: 24px;
-            flex-shrink: 0;
-        }
-        
-        .top-banner h1 {
-            font-size: 34px;
-            font-weight: 500;
-            color: rgb(23, 23, 23);
-            margin: 0;
-            letter-spacing: 0em;
-            line-height: 1;
-            font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-            white-space: nowrap;
-        }
-        
-        /* Navigation - matching demo style */
-        .nav-top {
-            display: flex;
-            gap: 0;
-            padding-right: 48px;
-            padding-left: 0px;
-            align-items: flex-end;
-        }
-        
-        .nav-top a {
-            color: rgb(23, 23, 23);
-            text-decoration: none;
-            font-size: 16px;
-            transition: color 0.2s ease-in-out;
-            line-height: 1;
-            display: inline-block;
-            font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-            font-weight: 300;
-            border-bottom: none !important;
-        }
-        
-        .nav-top a:hover {
-            color: #f8f8f8;
-        }
-        
-        /* Nav item positioning - block style */
-        .nav-item {
-            position: relative;
-            cursor: pointer;
-            padding: 4px 12px;
-            display: flex;
-            align-items: center;
-            margin-top: -8px;
-            margin-bottom: -8px;
-            padding-top: 16px;
-            padding-bottom: 8px;
-        }
-        
-        .nav-item.active {
-            color: #ffffff;
-        }
-        
-        .nav-item.active > a {
-            font-style: italic !important;
-            color: #ffffff;
-        }
-        
-        /* Horizontal Dropdown styles */
-        .dropdown {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: rgba(159, 144, 142, 0.486);
-            padding: 0;
-            z-index: 1000;
-            transition: opacity ease;
-            min-width: 600px;
-        }
-        
-        /* Special case for "program" dropdown */
-        .nav-item:first-child .dropdown {
-            width: 600px;
-        }
-        
-        /* Dropdown container */
-        .dropdown-container {
-            display: flex;
-            flex-direction: column;
-            background-color: rgb(241, 61, 33);
-            width: 100%;
-            padding: 0;
-        }
-        
-        /* Dropdown links */
-        .dropdown a {
-            display: block;
-            font-size: 16px;
-            padding: 10px 10px 10px 12px;
-            margin: 0;
-            color: rgb(23, 23, 23);
-            text-align: left;
-            text-decoration: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-weight: 300;
-            white-space: nowrap;
-        }
-        
-        .dropdown a:first-child {
-            border-top: none;
-        }
-        
-        .dropdown a:last-child {
-            border-bottom: none;
-        }
-        
-        /* Show dropdown when active */
-        .nav-item.active .dropdown {
-            display: block;
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .dropdown a:hover {
-           background-color: rgba(243, 135, 135, 0.691);
-        }
-        
-        /* MOBILE HAMBURGER MENU */
-        .hamburger-menu {
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding-right: 12px;
-            cursor: pointer;
-        }
-        
-        .hamburger-menu span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background-color: rgb(23, 23, 23);
-            margin: 3px 0;
-            transition: 0.3s;
-        }
-        
-        /* Mobile navigation menu */
-        .mobile-nav {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            background-color: rgb(241, 61, 33);
-            display: none;
-            flex-direction: column;
-            padding: 0;
-            z-index: 1000;
-        }
-        
-        /* Mobile nav item structure */
-        .mobile-nav-item {
-            
-            position: relative;
-            border-bottom: 0.5px solid rgba(23, 23, 23, 0.15) !important;
-        }
-        
-        .mobile-nav-item > a {
-            color: rgb(23, 23, 23);
-            text-decoration: none;
-            padding: 1vh 3vw;
-            font-size: 16px;
-            font-weight: 300;
-            border: none !important;
-            display: block !important;
-            position: relative;
-            padding-left: 24px !important;
-            box-sizing: border-box;
-        }
-        
-        .mobile-nav-item > a:hover {
-            background-color: rgba(243, 135, 135, 0.691);
-            color: #f8f8f8;
-        }
-        
-        .mobile-nav-item.active > a {
-            font-style: italic !important;
-            color: #ffffff;
-        }
-        
-        /* Mobile arrow indicator */
-        .mobile-arrow {
-            position: absolute !important;
-            right: 24px;
-            top: 50%;
-            transform: translateY(-50%);
-            margin: 0 !important;
-            font-size: 20px;
-            transition: transform 0.3s ease;
-            width: 20px;
-            text-align: center;
-        }
-        
-        /* Only show arrow for items with dropdowns */
-        .mobile-nav-item:last-child .mobile-arrow {
-            display: none;
-        }
-        
-        .mobile-nav-item.active .mobile-arrow {
-            transform: rotate(180deg);
-        }
-        
-        /* Mobile dropdown */
-        .mobile-dropdown {
-            display: none;
-            background-color: rgb(241, 61, 33);
-            border-top: none !important;
-            flex-direction: column;
-        }
-        
-        .mobile-nav-item.active .mobile-dropdown {
-            display: flex;
-        }
-        
-        .mobile-dropdown a {
-            color: rgb(23, 23, 23);
-            text-decoration: none;
-            padding: 1vh 3vw 0.5vh 6vw;
-            font-size: 16px;
-            font-weight: 300;
-            border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            padding-left: 48px;
-        }
-        
-        .mobile-dropdown a:hover {
-            background-color: rgba(243, 135, 135, 0.691);
-            color: #f8f8f8;
-        }
-        
-        /* Make sure mobile nav shows when toggled */
-        .mobile-nav.show {
-            display: flex !important;
-        }
-        
+       
         /* Content area - updated for fixed header */
         .content {
             padding: 120px 48px 100px 48px;
-            /* max-width: 1000px; */
             margin: 0 auto;
             position: relative;
             z-index: 2;
             width:50%;
+        }
+
+        /* Loading message */
+        .loading-message {
+            font-size: 16px;
+            color: #666;
+            margin: 20px 0;
         }
 
         /* Section styling */
@@ -402,15 +157,6 @@
 
         /* Mobile styling */
         @media (max-width: 768px) {
-            /* Hide desktop nav, show hamburger */
-            .nav-top {
-                display: none !important;
-            }
-            
-            .hamburger-menu {
-                display: flex !important;
-            }
-            
             /* Content adjustments for mobile - align with title */
             .content {
                 padding-left: 24px;
@@ -420,182 +166,238 @@
                 width: calc(100% - 48px); /* Full width minus left and right padding */
             }
             
-            .top-banner h1 {
-                font-size: 28px;
-            }
-            
             .section h2 {
                 font-size: 28px;
-            }
-            
-            .title-container {
-                padding-left: 24px;
             }
         }
         
         /* Auto-switch to desktop when screen is larger than 768px */
         @media (min-width: 769px) {
-            .nav-top {
-                display: flex !important;
-            }
-            
-            .hamburger-menu {
-                display: none !important;
-            }
-            
-            .mobile-nav {
-                display: none !important;
-            }
+          
         }
     </style>
 </head>
 <body>
-    <!-- Top red banner with title and navigation -->
-    <div class="top-banner">
-        <div class="title-container">
-            <h1 onclick="goToHomepage()" style="cursor: pointer;">initial research</h1>
-        </div>
-        <nav class="nav-top">
-            <div class="nav-item">
-                <a href="#">program</a>
-                <div class="dropdown">
-                    <div class="dropdown-container">
-                        <a href="calendar.html">calendar</a>
-                        <a href="fellowship.html">fellowship</a>
-                        <a href="communityhours.html">community hours</a>
-                        <a href="seasonaldinner.html">seasonal dinner</a>
-                        <a href="exhibition.html">exhibitions</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="nav-item">
-                <a href="#">about</a>
-                <div class="dropdown">
-                    <div class="dropdown-container">
-                        <a href="about.html">mission & vision</a>
-                        <a href="about.html">team</a>
-                        <a href="about.html">contact</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="nav-item">
-                <a href="supportus.html">support us</a>
-            </div>
-        </nav>
-        
-        <!-- Hamburger menu for mobile -->
-        <div class="hamburger-menu" onclick="toggleMobileNav()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        
-        <!-- Mobile navigation menu -->
-        <div class="mobile-nav" id="mobileNav">
-            <div class="mobile-nav-item">
-                <a href="#" onclick="toggleMobileDropdown(event, this)">
-                    program
-                    <span class="mobile-arrow">ᵥ</span>
-                </a>
-                <div class="mobile-dropdown">
-                    <a href="calendar.html">calendar</a>
-                    <a href="fellowship.html">fellowship</a>
-                    <a href="communityhours.html">community hours</a>
-                    <a href="seasonaldinner.html">seasonal dinner</a>
-                    <a href="exhibition.html">exhibitions</a>
-                </div>
-            </div>
-            
-            <div class="mobile-nav-item">
-                <a href="#" onclick="toggleMobileDropdown(event, this)">
-                    about
-                    <span class="mobile-arrow">ᵥ</span>
-                </a>
-                <div class="mobile-dropdown">
-                    <a href="about.html">mission & vision</a>
-                    <a href="about.html">team</a>
-                    <a href="about.html">contact</a>
-                </div>
-            </div>
-            
-            <div class="mobile-nav-item">
-                <a href="supportus.html">support us</a>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Content area -->
-    <div class="content">
-        <div class="section">
-            <h2>Support Us</h2>
-            <p>
-                We're a new public foundation dedicated to supporting early-stage artistic research and building cross-cultural connections. As we build our programs and community from the ground up, your support is essential. Donations directly sustain our fellowship program, shared workspace, and public events — helping us provide resources and visibility to artists and cultural practitioners.
-            </p>
-            <p>
-                If you share our belief in the value of early research and artistic experimentation, please consider supporting us by becoming a patron. Your contributions are deeply appreciated — they help us stay open, pay artists for their time and labor, and keep space for experimentation and exchange alive.
-            </p>
-
-            <h3>Individual Patron Levels</h3>
-            <div class="patron-levels">
-                <div class="patron-level">
-                    <div class="patron-name">Friend</div>
-                    <div class="patron-amount">US$3,000</div>
-                </div>
-                <div class="patron-level">
-                    <div class="patron-name">Supporter</div>
-                    <div class="patron-amount">US$8,000</div>
-                </div>
-                <div class="patron-level">
-                    <div class="patron-name">Founding Patron</div>
-                    <div class="patron-amount">US$25,000 and above</div>
-                </div>
-            </div>
-
-            <p>
-                As a thank you, patrons are listed on our Patron Board (unless you'd rather stay anonymous!) and get access to special experiences like studio visits with artists, guaranteed seats at programs, cozy dinners hosted by creatives, and more behind-the-scenes moments.
-            </p>
-
-            <p>
-                To donate, just reach out to us at <a href="mailto:donate@initialresearch.org">donate@initialresearch.org</a> — we'll provide further details and answer any questions.
-            </p>
-
-            <p>
-                We're currently in the process of securing 501(c)(3) status. Once that's finalized, your gift will be tax-deductible to the extent allowed by law. Thank you so much for supporting this work at the very beginning — it truly makes a difference.
-            </p>
-        </div>
-
-        <div class="section">
-            <h2>Donor Board</h2>
-            
-            <div class="donor-category">
-                <h3>Friends</h3>
-                <div class="donor-list">Doris Yong, Harrison Chen</div>
-            </div>
-
-            <div class="donor-category">
-                <h3>Supporters</h3>
-                <div class="donor-list">Mimi Chen, Kay & Edward</div>
-            </div>
-
-            <div class="donor-category">
-                <h3>Founding Patrons</h3>
-                <div class="donor-list">Sun Yuan, Dai Wang</div>
-            </div>
-
-            <div class="donor-category">
-                <h3>Institutional Partners</h3>
-                <div class="donor-list">De Ying Foundation</div>
-            </div>
-        </div>
+    <!-- Navigation will be loaded here -->
+   
+    <!-- Main content -->
+    <div class="content" id="support-content">
+        <div class="loading-message">Loading support information...</div>
     </div>
 
-    <footer>
-        123 Gallery Street, New York, NY 10001
-    </footer>
+ 
 
     <script>
+        async function loadSupportData() {
+            try {
+                console.log('Loading support data...');
+                
+                // Try different possible paths
+                const possiblePaths = [
+                    './supportus-data.json',
+                    '../supportus-data.json',
+                    '/supportus-data.json',
+                    'supportus-data.json'
+                ];
+                
+                let response;
+                for (const path of possiblePaths) {
+                    try {
+                        const tempResponse = await fetch(path);
+                        if (tempResponse.ok) {
+                            response = tempResponse;
+                            console.log(`Found support data at: ${path}`);
+                            break;
+                        }
+                    } catch (err) {
+                        console.log(`Failed to load from ${path}`);
+                    }
+                }
+                
+                if (!response || !response.ok) {
+                    throw new Error('Could not load support data');
+                }
+                
+                const data = await response.json();
+                console.log('Loaded support data:', data);
+                
+                // Update page title
+                if (data.page_title) {
+                    document.title = data.page_title;
+                }
+                
+                renderSupportContent(data);
+                
+            } catch (error) {
+                console.error('Error loading support data:', error);
+                renderStaticContent();
+            }
+        }
+        
+        function renderSupportContent(data) {
+            const container = document.getElementById('support-content');
+            let html = '';
+            
+            // Support Section
+            if (data.support_section) {
+                html += `
+                    <div class="section">
+                        <h2>${data.support_section.title || 'Support'}</h2>
+                        ${formatMarkdownText(data.support_section.intro || '')}
+                    </div>
+                `;
+            }
+            
+            // Patron Levels Section
+            if (data.patron_levels) {
+                html += `
+                    <div class="section">
+                        <h2>${data.patron_levels.title || 'Patron Levels'}</h2>
+                        <div class="patron-levels">
+                `;
+                
+                if (data.patron_levels.levels && data.patron_levels.levels.length > 0) {
+                    data.patron_levels.levels.forEach(level => {
+                        html += `
+                            <div class="patron-level">
+                                <div class="patron-name">${level.name || ''}</div>
+                                <div class="patron-amount">${level.amount || ''}</div>
+                            </div>
+                        `;
+                    });
+                }
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // How to Support Section
+            if (data.how_to_support) {
+                html += `
+                    <div class="section">
+                        <h2>${data.how_to_support.title || 'How to Support'}</h2>
+                        ${formatMarkdownText(data.how_to_support.content || '')}
+                    </div>
+                `;
+            }
+            
+            // Donor Recognition Section
+            if (data.donor_recognition) {
+                html += `
+                    <div class="section">
+                        <h2>${data.donor_recognition.title || 'Donor Recognition'}</h2>
+                `;
+                
+                if (data.donor_recognition.categories && data.donor_recognition.categories.length > 0) {
+                    data.donor_recognition.categories.forEach(category => {
+                        html += `
+                            <div class="donor-category">
+                                <h3>${category.name || ''}</h3>
+                                <div class="donor-list">${category.donors || ''}</div>
+                            </div>
+                        `;
+                    });
+                }
+                
+                html += `
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        function formatMarkdownText(text) {
+            if (!text) return '';
+            
+            // Convert markdown to HTML
+            let html = text
+                // Bold text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                // Links
+                .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+                // Line breaks
+                .split('\n\n')
+                .map(paragraph => paragraph.trim() ? `<p>${paragraph}</p>` : '')
+                .join('');
+            
+            return html;
+        }
+        
+        function renderStaticContent() {
+            const container = document.getElementById('support-content');
+            container.innerHTML = `
+                <div class="section">
+                    <h2>Support</h2>
+                    <p>Initial Research is a non-profit organization dedicated to fostering critical dialogue and creative practice. Your support enables us to continue our mission of supporting emerging artists, facilitating meaningful cultural exchanges, and creating spaces for important conversations.</p>
+                    <p>As an independent arts organization, we rely on the generosity of individuals, foundations, and community partners to sustain our programs and initiatives.</p>
+                </div>
+                
+                <div class="section">
+                    <h2>Patron Levels</h2>
+                    <div class="patron-levels">
+                        <div class="patron-level">
+                            <div class="patron-name">Friend</div>
+                            <div class="patron-amount">$100</div>
+                        </div>
+                        <div class="patron-level">
+                            <div class="patron-name">Supporter</div>
+                            <div class="patron-amount">$250</div>
+                        </div>
+                        <div class="patron-level">
+                            <div class="patron-name">Advocate</div>
+                            <div class="patron-amount">$500</div>
+                        </div>
+                        <div class="patron-level">
+                            <div class="patron-name">Patron</div>
+                            <div class="patron-amount">$1,000</div>
+                        </div>
+                        <div class="patron-level">
+                            <div class="patron-name">Sustaining Patron</div>
+                            <div class="patron-amount">$2,500</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>How to Support</h2>
+                    <p><strong>Make a Donation</strong></p>
+                    <p>To make a tax-deductible donation, please contact us at <a href="mailto:support@initialresearch.org">support@initialresearch.org</a> or send a check made payable to "Initial Research" to our mailing address.</p>
+                    
+                    <p><strong>Corporate Partnerships</strong></p>
+                    <p>We welcome partnerships with organizations that share our commitment to supporting arts and culture. Contact us to discuss collaboration opportunities.</p>
+                    
+                    <p><strong>Volunteer</strong></p>
+                    <p>Join our community of volunteers who help make our programs possible. We welcome support with events, administration, and outreach.</p>
+                </div>
+                
+                <div class="section">
+                    <h2>Donor Recognition</h2>
+                    <div class="donor-category">
+                        <h3>Founding Patrons ($2,500+)</h3>
+                        <div class="donor-list">Anonymous, Jane Smith Foundation, The Miller Family Trust</div>
+                    </div>
+                    
+                    <div class="donor-category">
+                        <h3>Sustaining Patrons ($1,000+)</h3>
+                        <div class="donor-list">Alex Chen, Maria Rodriguez, David Park, Sarah Johnson</div>
+                    </div>
+                    
+                    <div class="donor-category">
+                        <h3>Patrons ($500+)</h3>
+                        <div class="donor-list">Lisa Wong, Michael Brown, Jennifer Kim, Robert Davis, Emma Wilson, James Lee</div>
+                    </div>
+                    
+                    <div class="donor-category">
+                        <h3>Supporters ($250+)</h3>
+                        <div class="donor-list">Amy Zhang, Chris Taylor, Nicole Adams, Kevin Liu, Rachel Green, Tom Anderson, Laura Martinez, Sam Cooper</div>
+                    </div>
+                </div>
+            `;
+        }
+        
         // Homepage navigation function
         function goToHomepage() {
             window.location.href = '../index.html';
@@ -659,6 +461,9 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
+            // Load support data
+            loadSupportData();
+            
             // Desktop dropdown toggle functionality
             const navItems = document.querySelectorAll('.nav-item');
             
@@ -701,7 +506,7 @@
             const mobileNav = document.getElementById('mobileNav');
             const hamburger = document.querySelector('.hamburger-menu');
             
-            if (!hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
+            if (hamburger && !hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
                 mobileNav.style.display = 'none';
                 mobileNav.classList.remove('show');
                 // Close all mobile dropdowns when clicking outside
@@ -711,6 +516,17 @@
                 });
             }
         });
+
+        // Netlify CMS Authentication Script
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.href = "/admin/";
+                    });
+                }
+            });
+        }
     </script>
 </body>
 </html>
