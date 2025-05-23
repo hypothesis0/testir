@@ -334,12 +334,10 @@ footer {
         color: #000000;
     }
     
-    /* MOBILE: Hero image section - ONLY touch handling changes */
+    /* MOBILE: Hero image section - Fixed sizing */
     .hero-image-container {
-        
         width: 100vw; /* Full viewport width on mobile */
         margin-left: calc(-24px); /* Offset the content padding */
-        margin-top: 5vh;
         margin-bottom: 5vh;
         position: relative;
         overflow: visible;
@@ -348,6 +346,8 @@ footer {
         user-select: none; /* Prevent text selection during swipe */
         -webkit-user-select: none;
         -webkit-touch-callout: none; /* Prevent callout on iOS */
+        /* FIXED: Remove any extra height */
+        height: auto; /* Let content determine height */
     }
 
     .hero-image-scroll {
@@ -360,6 +360,9 @@ footer {
         scrollbar-width: none;
         -ms-overflow-style: none;
         -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        /* FIXED: Remove extra height */
+        height: auto; /* Let images determine height */
+        min-height: auto; /* Remove any minimum height */
     }
     
     .hero-image-scroll::-webkit-scrollbar {
