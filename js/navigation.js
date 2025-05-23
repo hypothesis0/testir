@@ -1,4 +1,4 @@
-// reliable-navigation.js - Consistent and reliable navigation system
+// reliable-navigation.js - Consistent and reliable navigation system with dynamic footer
 
 class ReliableNavigation {
     constructor() {
@@ -270,11 +270,70 @@ class ReliableNavigation {
 // Create global instance
 const reliableNav = new ReliableNavigation();
 
+// NEW: Load footer data dynamically
+async function loadFooterData() {
+    try {
+        console.log('Loading footer data...');
+        
+        // Try multiple possible paths for footer data
+        const possiblePaths = [
+            './footer-data.json',
+            '../footer-data.json',
+            '/footer-data.json',
+            'footer-data.json'
+        ];
+        
+        let response;
+        for (const path of possiblePaths) {
+            try {
+                const tempResponse = await fetch(path);
+                if (tempResponse.ok) {
+                    response = tempResponse;
+                    console.log(`✓ Loaded footer data from: ${path}`);
+                    break;
+                }
+            } catch (err) {
+                console.log(`✗ Failed to load footer from ${path}`);
+            }
+        }
+        
+        if (response && response.ok) {
+            const footerData = await response.json();
+            console.log('Footer data loaded:', footerData);
+            
+            // Only add footer if show_footer is true
+            if (footerData.show_footer) {
+                const footerHTML = `<footer>${footerData.footer_text || '124 Gallery Street, New York, NY 10001'}</footer>`;
+                document.body.insertAdjacentHTML('beforeend', footerHTML);
+            }
+        } else {
+            // Fallback to hardcoded footer
+            console.log('Using fallback footer');
+            addFallbackFooter();
+        }
+        
+    } catch (error) {
+        console.error('Error loading footer data:', error);
+        // Fallback to hardcoded footer
+        addFallbackFooter();
+    }
+}
+
+// Fallback footer function
+function addFallbackFooter() {
+    if (!document.querySelector('footer')) {
+        document.body.insertAdjacentHTML('beforeend', '<footer>124 Gallery Street, New York, NY 10001</footer>');
+    }
+}
+
 // Load navigation with reliability enhancements
 function loadReliableNavigation() {
     loadDefaultReliableNav();
     setupReliableNavEvents();
     setupReliableGlobalFunctions();
+    
+    // Load footer data
+    loadFooterData();
     
     // Preload critical pages after a short delay
     setTimeout(() => {
@@ -363,10 +422,7 @@ function loadDefaultReliableNav() {
     
     document.body.insertAdjacentHTML('afterbegin', navHTML);
     
-    // Add footer
-    if (!document.querySelector('footer')) {
-        document.body.insertAdjacentHTML('beforeend', '<footer>124 Gallery Street, New York, NY 10001</footer>');
-    }
+    // Footer will be loaded by loadFooterData() function
 }
 
 // Reliable event setup
