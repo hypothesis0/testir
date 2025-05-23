@@ -1,5 +1,7 @@
-// 获取URL中的展览ID - 支持query参数和hash
+// 获取URL参数中的展览ID - 支持query参数和hash
 function getExhibitionIdFromUrl() {
+    console.log('Getting exhibition ID from URL...');
+    
     // 首先尝试从URL参数获取 (?id=xxx)
     const urlParams = new URLSearchParams(window.location.search);
     const queryId = urlParams.get('id');
@@ -7,8 +9,16 @@ function getExhibitionIdFromUrl() {
     // 然后尝试从hash获取 (#exhibition-name)
     const hash = window.location.hash.substring(1); // 移除#号
     
+    console.log('URL search string:', window.location.search);
+    console.log('URL hash:', window.location.hash);
+    console.log('Query ID:', queryId);
+    console.log('Hash ID:', hash);
+    
     // 优先使用query参数，如果没有则使用hash
-    return queryId || hash || null;
+    const finalId = queryId || hash || null;
+    console.log('Final exhibition ID:', finalId);
+    
+    return finalId;
 }
 
 // 监听hash变化，当用户在archive页面点击不同展览时
@@ -37,12 +47,18 @@ function navigateToExhibition(slug, fromArchive = false) {
 
 async function loadExhibitionData() {
     try {
-        console.log('Attempting to load exhibition data');
+        console.log('=== EXHIBITION DEBUG START ===');
+        console.log('Current URL:', window.location.href);
+        console.log('Search params:', window.location.search);
+        console.log('Hash:', window.location.hash);
         
-        // 获取URL中的展览ID（支持query和hash）
+        // 获取URL中的展览ID
         const exhibitionId = getExhibitionIdFromUrl();
+        console.log('Parsed exhibition ID:', exhibitionId);
         
-        console.log(`Exhibition ID from URL: ${exhibitionId}`);
+        if (!exhibitionId) {
+            console.log('No exhibition ID found, will show default exhibition');
+        }
         
         // 加载展览管理数据
         let response;
@@ -55,15 +71,15 @@ async function loadExhibitionData() {
         
         for (const path of possiblePaths) {
             try {
-                console.log(`Trying path: ${path}`);
+                console.log(`Trying to load: ${path}`);
                 const tempResponse = await fetch(path);
                 if (tempResponse.ok) {
                     response = tempResponse;
-                    console.log(`Found working path: ${path}`);
+                    console.log(`✓ Successfully loaded from: ${path}`);
                     break;
                 }
             } catch (err) {
-                console.log(`Failed with path ${path}: ${err.message}`);
+                console.log(`✗ Failed to load ${path}: ${err.message}`);
             }
         }
         
@@ -74,26 +90,41 @@ async function loadExhibitionData() {
         }
         
         const managerData = await response.json();
-        console.log('Successfully loaded manager data:', managerData);
+        console.log('Raw manager data:', managerData);
         
         const exhibitions = managerData.exhibitions || [];
+        console.log('Number of exhibitions found:', exhibitions.length);
+        console.log('All exhibition slugs:', exhibitions.map(ex => ex.slug));
+        
         let exhibition;
         
         if (exhibitionId) {
-            // 如果URL中有指定展览ID，查找该展览
-            exhibition = exhibitions.find(ex => ex.slug === exhibitionId);
+            // 查找指定的展览
+            console.log(`Looking for exhibition with slug: "${exhibitionId}"`);
+            exhibition = exhibitions.find(ex => {
+                console.log(`Comparing "${ex.slug}" with "${exhibitionId}"`);
+                return ex.slug === exhibitionId;
+            });
+            
             if (!exhibition) {
-                console.log(`Exhibition ${exhibitionId} not found`);
+                console.log(`✗ Exhibition "${exhibitionId}" not found`);
+                console.log('Available exhibitions:', exhibitions.map(ex => ({
+                    title: ex.title,
+                    slug: ex.slug
+                })));
                 renderNotFound(exhibitionId);
                 return;
+            } else {
+                console.log(`✓ Found exhibition: "${exhibition.title}"`);
             }
         } else {
-            // 如果没有指定ID，显示第一个可见的展览（按order排序）
+            // 显示默认展览（第一个可见的，按order排序）
             const visibleExhibitions = exhibitions
                 .filter(ex => ex.show_in_list !== false)
                 .sort((a, b) => (a.order || 999) - (b.order || 999));
             
             exhibition = visibleExhibitions[0];
+            console.log('Using default exhibition:', exhibition ? exhibition.title : 'none');
             
             if (!exhibition) {
                 console.log('No exhibitions available');
@@ -102,34 +133,44 @@ async function loadExhibitionData() {
             }
         }
         
-        console.log('Found exhibition:', exhibition);
+        console.log('Final exhibition to render:', {
+            title: exhibition.title,
+            slug: exhibition.slug,
+            order: exhibition.order
+        });
         
         // 渲染展览内容
         renderExhibition(exhibition);
+        console.log('=== EXHIBITION DEBUG END ===');
         
     } catch (error) {
-        console.error('Error loading exhibition data:', error);
+        console.error('Error in loadExhibitionData:', error);
         renderStaticExhibition();
     }
 }
 
-// 其余函数保持不变...
+// 渲染展览内容
 function renderExhibition(data) {
-    console.log("Rendering exhibition with data:", data);
+    console.log("=== RENDERING EXHIBITION ===");
+    console.log("Exhibition data:", data);
+    console.log("Exhibition title:", data.title);
+    console.log("Exhibition slug:", data.slug);
     
     // 更新页面标题和URL
     if (data.title) {
         document.title = `Initial Research - ${data.title}`;
         
-        // 更新URL但不刷新页面
-        const newUrl = `${window.location.pathname}#${data.slug}`;
-        window.history.replaceState({}, '', newUrl);
+        // 更新URL但不刷新页面（仅当使用hash时）
+        if (window.location.hash && data.slug) {
+            const newUrl = `${window.location.pathname}#${data.slug}`;
+            window.history.replaceState({}, '', newUrl);
+        }
     }
     
     // 获取主内容容器
     const container = document.getElementById('exhibition-content');
     
-    // 构建HTML内容 - 和之前一样
+    // 构建HTML内容
     let html = `
         <div class="exhibition-heading">
             <h1>${data.title || 'Exhibition'}</h1>
@@ -200,8 +241,10 @@ function renderExhibition(data) {
     html += `<div class="action-buttons">`;
     
     if (data.pdf_file) {
+        console.log("Adding PDF download button with file:", data.pdf_file);
         html += `<a href="${data.pdf_file}" class="download-button" target="_blank">${data.pdf_button_text || 'download exhibition pdf'}</a>`;
     } else {
+        console.log("No PDF file found, adding disabled button");
         html += `<a href="#" class="download-button disabled" onclick="event.preventDefault();">${data.pdf_button_text || 'download exhibition pdf'}</a>`;
     }
     
@@ -210,6 +253,8 @@ function renderExhibition(data) {
     // 设置HTML内容
     container.innerHTML = html;
     
+    console.log("Exhibition rendered successfully");
+    
     // 初始化滚动功能
     initScrollIndicators();
     addTouchSwipeSupport();
@@ -217,6 +262,7 @@ function renderExhibition(data) {
 
 // 渲染静态展览内容（作为后备方案）
 function renderStaticExhibition() {
+    console.log("Rendering static exhibition content");
     document.getElementById('exhibition-content').innerHTML = `
         <div class="exhibition-heading">
             <h1>Embodied Memories</h1>
@@ -312,8 +358,161 @@ function renderNotFound(exhibitionId) {
     `;
 }
 
+// 初始化滚动指示器
+function initScrollIndicators() {
+    const scrollContainer = document.getElementById('heroImageScroll');
+    if (scrollContainer) {
+        scrollContainer.addEventListener('scroll', function() {
+            // 滚动时更新分页点
+            updatePaginationDots();
+        });
+    }
+}
+
+// Add touch swipe support for the image scroll
+function addTouchSwipeSupport() {
+    const scrollContainer = document.getElementById('heroImageScroll');
+    if (!scrollContainer) return;
+    
+    let startX, startY, isDragging = false;
+    
+    scrollContainer.addEventListener('touchstart', function(e) {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isDragging = true;
+    }, { passive: true });
+    
+    scrollContainer.addEventListener('touchmove', function(e) {
+        if (!isDragging) return;
+        
+        const touchX = e.touches[0].clientX;
+        const touchY = e.touches[0].clientY;
+        
+        // Check if the user is scrolling horizontally
+        const deltaX = startX - touchX;
+        const deltaY = startY - touchY;
+        
+        // If scrolling more horizontally than vertically, prevent the default page scroll
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+    
+    scrollContainer.addEventListener('touchend', function(e) {
+        isDragging = false;
+    }, { passive: true });
+}
+
+// 根据当前图片更新分页点
+function updatePaginationDots() {
+    const dots = document.querySelectorAll('.pagination-dot');
+    const currentIndex = getCurrentImageIndex();
+    
+    dots.forEach((dot, index) => {
+        if (index === currentIndex) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+}
+
+// 获取当前图片索引
+function getCurrentImageIndex() {
+    const scrollContainer = document.getElementById('heroImageScroll');
+    if (!scrollContainer) return 0;
+    
+    const items = scrollContainer.querySelectorAll('.hero-image-item');
+    const scrollPosition = scrollContainer.scrollLeft;
+    
+    let closestIndex = 0;
+    let closestDistance = Infinity;
+    
+    items.forEach((item, index) => {
+        const itemCenter = item.offsetLeft + (item.offsetWidth / 2);
+        const containerCenter = scrollPosition + (scrollContainer.offsetWidth / 2);
+        const distance = Math.abs(itemCenter - containerCenter);
+        
+        if (distance < closestDistance) {
+            closestDistance = distance;
+            closestIndex = index;
+        }
+    });
+    
+    return closestIndex;
+}
+
+// 滚动到指定图片
+function scrollImages(direction) {
+    const scrollContainer = document.getElementById('heroImageScroll');
+    if (!scrollContainer) return;
+    
+    const items = scrollContainer.querySelectorAll('.hero-image-item');
+    const currentIndex = getCurrentImageIndex();
+    
+    let targetIndex;
+    if (direction === 'left') {
+        targetIndex = Math.max(0, currentIndex - 1);
+    } else {
+        targetIndex = Math.min(items.length - 1, currentIndex + 1);
+    }
+    
+    scrollToImage(targetIndex);
+}
+
+// 滚动到指定索引的图片
+function scrollToImage(index) {
+    const scrollContainer = document.getElementById('heroImageScroll');
+    if (!scrollContainer) return;
+    
+    const items = scrollContainer.querySelectorAll('.hero-image-item');
+    
+    if (items[index]) {
+        const targetItem = items[index];
+        const targetPosition = targetItem.offsetLeft - ((scrollContainer.offsetWidth - targetItem.offsetWidth) / 2);
+        scrollContainer.scrollTo({ left: targetPosition, behavior: 'smooth' });
+        
+        // 立即更新分页点
+        updatePaginationDots();
+    }
+}
+
+// 灯箱功能
+function openLightbox(img) {
+    var lightbox = document.getElementById('lightbox');
+    var lightboxImg = document.getElementById('lightbox-img');
+    
+    if (lightbox && lightboxImg) {
+        lightboxImg.src = img.src;
+        lightbox.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+// 关闭灯箱
+function closeLightbox() {
+    var lightbox = document.getElementById('lightbox');
+    if (lightbox) {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+}
+
+// 添加键盘支持
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeLightbox();
+    } else if (e.key === 'ArrowLeft') {
+        scrollImages('left');
+    } else if (e.key === 'ArrowRight') {
+        scrollImages('right');
+    }
+});
+
 // DOM准备就绪时初始化
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM content loaded, initializing exhibition page");
+    
+    // 从管理数据中加载展览数据
     loadExhibitionData();
 });
