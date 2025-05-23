@@ -133,7 +133,7 @@ body {
 /* Small grey caption below the image */
 .hero-image-caption {
     margin-top: 10px;
-    font-size: 14px; /* Desktop: 14px base size */
+    font-size: 14px;
     color: #666;
     font-weight: 300;
     line-height: 1.2;
@@ -277,19 +277,7 @@ body {
     z-index: 10000;
 }
 
-/* Footer styles */
-footer {
-    margin-top: auto;
-    width: 100%;
-    background-color: rgb(180, 180, 180);
-    padding: 10px 0;
-    text-align: center;
-    font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    font-weight: 300;
-    color: rgb(23, 23, 23);
-    z-index: 1;
-}
+
 
 /* Mobile styling - ONLY adding swipe functionality, keeping original design */
 @media (max-width: 768px) {
@@ -321,7 +309,7 @@ footer {
     }
     
     .exhibition-heading h1 {
-        font-size: 43px !important;
+        font-size: 32px !important;
         font-weight: 400;
         margin: 0 5vh 5vh 0;
         line-height: 1;
@@ -355,21 +343,19 @@ footer {
         scroll-behavior: smooth;
         scroll-snap-type: x mandatory;
         gap: 20px;
-        padding: 0 20px 20px 20px; /* Add some horizontal padding for spacing */
+        padding: 0 0 20px 0; /* Remove horizontal padding to match container width */
         scrollbar-width: none;
         -ms-overflow-style: none;
         -webkit-overflow-scrolling: touch;
         height: auto;
         min-height: auto;
-        /* Ensure scroll container can handle wide images */
-        width: 100%;
     }
     
     .hero-image-scroll::-webkit-scrollbar {
         display: none;
     }
     
-    /* MOBILE IMAGES - Allow full image display */
+    /* MOBILE IMAGES - Original design preserved */
     .hero-image-item {
         flex: 0 0 auto;
         scroll-snap-align: center;
@@ -378,16 +364,12 @@ footer {
         display: flex;
         flex-direction: column;
         align-items: center;
-        /* Ensure item can accommodate full image width */
-        max-width: none;
-        width: auto;
     }
     
     .hero-image-item img {
-        /* FIXED: Much smaller height for mobile screens */
-        height: 200px !important; /* Significantly reduced from 400px to 200px */
+        /* Restore original mobile height */
+        height: 280px !important; /* Back to 400px since height wasn't the issue */
         width: auto !important;
-        max-width: none !important;
         object-fit: contain !important;
         display: block !important;
         cursor: pointer;
@@ -400,10 +382,9 @@ footer {
         opacity: 0.9 !important;
     }
     
-    /* MOBILE CAPTIONS - Use specific mobile class */
-    .mobile-caption {
+    .hero-image-caption {
         margin-top: 10px !important;
-        font-size: 14px !important; 
+        font-size: 10px !important; 
         color: #666 !important;
         font-weight: 300 !important;
         line-height: 1.2 !important;
