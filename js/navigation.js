@@ -1,16 +1,19 @@
-// fixed-navigation.js - Corrected cross-folder navigation system
+// reliable-navigation.js - Consistent and reliable navigation system
 
-class CrossFolderNavigation {
+class ReliableNavigation {
     constructor() {
         this.currentPath = window.location.pathname;
         this.currentFolder = this.detectCurrentFolder();
         this.pathCache = new Map();
         this.isNavigating = false;
+        this.retryCount = 0;
+        this.maxRetries = 2;
         
-        // Silent initialization - no console output
+        // Pre-populate cache with known working paths
+        this.initializePathCache();
     }
 
-    // Detect which folder we're currently in
+    // Detect current folder location
     detectCurrentFolder() {
         const path = this.currentPath;
         
@@ -25,144 +28,91 @@ class CrossFolderNavigation {
         }
     }
 
-    // Build correct cross-folder path
-    buildCrossFolderPath(targetPath) {
-        // If target path starts with '/', it's absolute
-        if (targetPath.startsWith('/')) {
-            return targetPath;
+    // Pre-populate cache with standard navigation paths
+    initializePathCache() {
+        const pathMappings = {
+            // From root
+            'root': {
+                'program/calendar.html': 'program/calendar.html',
+                'program/fellowship.html': 'program/fellowship.html',
+                'program/communityhours.html': 'program/communityhours.html',
+                'program/seasonaldinner.html': 'program/seasonaldinner.html',
+                'program/exhibition.html': 'program/exhibition.html',
+                'about/mission.html': 'about/mission.html',
+                'about/vision.html': 'about/vision.html',
+                'about/team.html': 'about/team.html',
+                'about/contact.html': 'about/contact.html',
+                'supportus/supportus.html': 'supportus/supportus.html'
+            },
+            // From program folder
+            'program': {
+                'program/calendar.html': 'calendar.html',
+                'program/fellowship.html': 'fellowship.html',
+                'program/communityhours.html': 'communityhours.html',
+                'program/seasonaldinner.html': 'seasonaldinner.html',
+                'program/exhibition.html': 'exhibition.html',
+                'about/mission.html': '../about/mission.html',
+                'about/vision.html': '../about/vision.html',
+                'about/team.html': '../about/team.html',
+                'about/contact.html': '../about/contact.html',
+                'supportus/supportus.html': '../supportus/supportus.html',
+                'index.html': '../index.html'
+            },
+            // From about folder
+            'about': {
+                'about/mission.html': 'mission.html',
+                'about/vision.html': 'vision.html',
+                'about/team.html': 'team.html',
+                'about/contact.html': 'contact.html',
+                'program/calendar.html': '../program/calendar.html',
+                'program/fellowship.html': '../program/fellowship.html',
+                'program/communityhours.html': '../program/communityhours.html',
+                'program/seasonaldinner.html': '../program/seasonaldinner.html',
+                'program/exhibition.html': '../program/exhibition.html',
+                'supportus/supportus.html': '../supportus/supportus.html',
+                'index.html': '../index.html'
+            },
+            // From supportus folder
+            'supportus': {
+                'supportus/supportus.html': 'supportus.html',
+                'program/calendar.html': '../program/calendar.html',
+                'program/fellowship.html': '../program/fellowship.html',
+                'program/communityhours.html': '../program/communityhours.html',
+                'program/seasonaldinner.html': '../program/seasonaldinner.html',
+                'program/exhibition.html': '../program/exhibition.html',
+                'about/mission.html': '../about/mission.html',
+                'about/vision.html': '../about/vision.html',
+                'about/team.html': '../about/team.html',
+                'about/contact.html': '../about/contact.html',
+                'index.html': '../index.html'
+            }
+        };
+
+        // Pre-populate cache based on current folder
+        const currentMappings = pathMappings[this.currentFolder] || {};
+        for (const [target, actualPath] of Object.entries(currentMappings)) {
+            const cacheKey = `${this.currentPath}:${target}`;
+            this.pathCache.set(cacheKey, actualPath);
         }
-
-        // If target path starts with 'http', it's external
-        if (targetPath.startsWith('http')) {
-            return targetPath;
-        }
-
-        const paths = [];
-        
-        // Current folder logic
-        switch (this.currentFolder) {
-            case 'root':
-                // From root, paths are direct
-                paths.push(targetPath);
-                paths.push('./' + targetPath);
-                break;
-                
-            case 'program':
-                // From program folder
-                if (targetPath.startsWith('program/')) {
-                    // Same folder: program/calendar.html -> program/exhibition.html
-                    const fileName = targetPath.replace('program/', '');
-                    paths.push(fileName);              // exhibition.html
-                    paths.push('./' + fileName);       // ./exhibition.html
-                } else if (targetPath.startsWith('about/')) {
-                    // To about folder: program/calendar.html -> about/mission.html
-                    paths.push('../' + targetPath);    // ../about/mission.html
-                } else if (targetPath.startsWith('supportus/')) {
-                    // To supportus folder: program/calendar.html -> supportus/supportus.html
-                    paths.push('../' + targetPath);    // ../supportus/supportus.html
-                } else if (targetPath === 'index.html') {
-                    // To root: program/calendar.html -> index.html
-                    paths.push('../' + targetPath);    // ../index.html
-                    paths.push('../index.html');
-                } else {
-                    // Other cases
-                    paths.push('../' + targetPath);
-                    paths.push(targetPath);
-                }
-                break;
-                
-            case 'about':
-                // From about folder
-                if (targetPath.startsWith('about/')) {
-                    // Same folder: about/mission.html -> about/team.html
-                    const fileName = targetPath.replace('about/', '');
-                    paths.push(fileName);              // team.html
-                    paths.push('./' + fileName);       // ./team.html
-                } else if (targetPath.startsWith('program/')) {
-                    // To program folder: about/mission.html -> program/calendar.html
-                    paths.push('../' + targetPath);    // ../program/calendar.html
-                } else if (targetPath.startsWith('supportus/')) {
-                    // To supportus folder: about/mission.html -> supportus/supportus.html
-                    paths.push('../' + targetPath);    // ../supportus/supportus.html
-                } else if (targetPath === 'index.html') {
-                    // To root: about/mission.html -> index.html
-                    paths.push('../' + targetPath);    // ../index.html
-                    paths.push('../index.html');
-                } else {
-                    // Other cases
-                    paths.push('../' + targetPath);
-                    paths.push(targetPath);
-                }
-                break;
-                
-            case 'supportus':
-                // From supportus folder
-                if (targetPath.startsWith('supportus/')) {
-                    // Same folder: supportus/supportus.html -> supportus/other.html
-                    const fileName = targetPath.replace('supportus/', '');
-                    paths.push(fileName);              // other.html
-                    paths.push('./' + fileName);       // ./other.html
-                } else if (targetPath.startsWith('program/')) {
-                    // To program folder: supportus/supportus.html -> program/calendar.html
-                    paths.push('../' + targetPath);    // ../program/calendar.html
-                } else if (targetPath.startsWith('about/')) {
-                    // To about folder: supportus/supportus.html -> about/mission.html
-                    paths.push('../' + targetPath);    // ../about/mission.html
-                } else if (targetPath === 'index.html') {
-                    // To root: supportus/supportus.html -> index.html
-                    paths.push('../' + targetPath);    // ../index.html
-                    paths.push('../index.html');
-                } else {
-                    // Other cases
-                    paths.push('../' + targetPath);
-                    paths.push(targetPath);
-                }
-                break;
-        }
-
-        // Add fallback paths
-        paths.push(targetPath);                    // Original path
-        paths.push('../../' + targetPath);        // Two levels up
-        paths.push('/' + targetPath);             // Absolute path
-
-        // Remove duplicates
-        return [...new Set(paths)];
     }
 
-    // Silent navigation - stays on current page during loading
+    // Reliable navigation with fallback strategies
     async navigateTo(targetPath, event) {
         if (event) event.preventDefault();
-        if (!targetPath || targetPath === '#' || this.isNavigating) return false;
+        if (!targetPath || targetPath === '#') return false;
+
+        // Prevent multiple simultaneous navigation attempts
+        if (this.isNavigating) {
+            return false;
+        }
 
         this.isNavigating = true;
+        this.retryCount = 0;
 
         try {
-            // Check cache first - immediate navigation if found
-            const cacheKey = `${this.currentPath}:${targetPath}`;
-            if (this.pathCache.has(cacheKey)) {
-                const cachedPath = this.pathCache.get(cacheKey);
-                window.location.href = cachedPath;
-                return false;
-            }
-
-            // Generate cross-folder paths
-            const possiblePaths = this.buildCrossFolderPath(targetPath);
-
-            // Test paths silently in background
-            const workingPath = await this.testPathsSilently(possiblePaths);
-            
-            if (workingPath) {
-                // Cache the working path
-                this.pathCache.set(cacheKey, workingPath);
-                // Navigate immediately once found
-                window.location.href = workingPath;
-            } else {
-                // Silent fallback - try direct navigation without error messages
-                window.location.href = targetPath;
-            }
-
+            await this.attemptNavigation(targetPath);
         } catch (error) {
-            // Silent fallback - no error messages, just try direct navigation
+            // Final fallback - direct navigation
             window.location.href = targetPath;
         } finally {
             this.isNavigating = false;
@@ -171,85 +121,184 @@ class CrossFolderNavigation {
         return false;
     }
 
-    // Silent path testing - no console output, very fast
-    async testPathsSilently(paths) {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 100); // Very quick timeout
-
-        try {
-            for (const path of paths) {
-                try {
-                    const response = await fetch(path, { 
-                        method: 'HEAD',
-                        signal: controller.signal,
-                        cache: 'force-cache' // Use cache when possible
-                    });
-                    
-                    if (response.ok) {
-                        clearTimeout(timeoutId);
-                        return path;
-                    }
-                } catch (error) {
-                    if (error.name === 'AbortError') break;
-                    continue;
-                }
+    // Attempt navigation with multiple strategies
+    async attemptNavigation(targetPath) {
+        const cacheKey = `${this.currentPath}:${targetPath}`;
+        
+        // Strategy 1: Use cached path if available
+        if (this.pathCache.has(cacheKey)) {
+            const cachedPath = this.pathCache.get(cacheKey);
+            if (await this.validatePath(cachedPath)) {
+                window.location.href = cachedPath;
+                return;
+            } else {
+                // Remove invalid cached path
+                this.pathCache.delete(cacheKey);
             }
-        } catch (error) {
-            // Silent failure - no logging
         }
 
-        clearTimeout(timeoutId);
-        return null;
+        // Strategy 2: Try pre-calculated paths
+        const calculatedPaths = this.calculateReliablePaths(targetPath);
+        
+        for (const path of calculatedPaths) {
+            if (await this.validatePath(path)) {
+                this.pathCache.set(cacheKey, path);
+                window.location.href = path;
+                return;
+            }
+        }
+
+        // Strategy 3: Retry with different approach
+        if (this.retryCount < this.maxRetries) {
+            this.retryCount++;
+            setTimeout(() => {
+                this.attemptNavigation(targetPath);
+            }, 100 * this.retryCount); // Increasing delay
+            return;
+        }
+
+        // Strategy 4: Final fallback - try original path
+        window.location.href = targetPath;
     }
 
-    // Remove error display - silent operation
-    // showQuickError method removed for silent operation
-
-    // Silent home navigation
-    goHome() {
-        let homePath;
+    // Calculate reliable paths based on current location
+    calculateReliablePaths(targetPath) {
+        const paths = [];
+        
+        // Add most likely paths first
         switch (this.currentFolder) {
             case 'root':
-                homePath = 'index.html';
+                paths.push(targetPath);
+                paths.push('./' + targetPath);
                 break;
-            default:
-                homePath = '../index.html';
+                
+            case 'program':
+                if (targetPath.startsWith('program/')) {
+                    paths.push(targetPath.replace('program/', ''));
+                    paths.push('./' + targetPath.replace('program/', ''));
+                } else {
+                    paths.push('../' + targetPath);
+                }
+                paths.push(targetPath);
+                break;
+                
+            case 'about':
+                if (targetPath.startsWith('about/')) {
+                    paths.push(targetPath.replace('about/', ''));
+                    paths.push('./' + targetPath.replace('about/', ''));
+                } else {
+                    paths.push('../' + targetPath);
+                }
+                paths.push(targetPath);
+                break;
+                
+            case 'supportus':
+                if (targetPath.startsWith('supportus/')) {
+                    paths.push(targetPath.replace('supportus/', ''));
+                    paths.push('./' + targetPath.replace('supportus/', ''));
+                } else {
+                    paths.push('../' + targetPath);
+                }
+                paths.push(targetPath);
                 break;
         }
+
+        // Add additional fallback paths
+        paths.push('/' + targetPath);
+        paths.push('../../' + targetPath);
+
+        // Remove duplicates and empty values
+        return [...new Set(paths.filter(p => p && p !== '#'))];
+    }
+
+    // Validate path with better error handling
+    async validatePath(path) {
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 300); // Longer timeout for reliability
+
+            const response = await fetch(path, { 
+                method: 'HEAD',
+                signal: controller.signal,
+                cache: 'no-cache', // Always check fresh
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache'
+                }
+            });
+            
+            clearTimeout(timeoutId);
+            return response.ok && response.status === 200;
+            
+        } catch (error) {
+            return false;
+        }
+    }
+
+    // Reliable home navigation
+    goHome() {
+        const homePaths = this.calculateReliablePaths('index.html');
         
-        // Navigate silently
+        // Try the most likely home path first
+        let homePath = '../index.html';
+        if (this.currentFolder === 'root') {
+            homePath = 'index.html';
+        }
+        
         window.location.href = homePath;
+    }
+
+    // Preload critical pages for better reliability
+    preloadCriticalPages() {
+        const criticalPages = [
+            'program/calendar.html',
+            'about/mission.html',
+            'supportus/supportus.html',
+            'index.html'
+        ];
+
+        criticalPages.forEach(page => {
+            const paths = this.calculateReliablePaths(page);
+            paths.slice(0, 2).forEach(path => {
+                // Preload silently
+                fetch(path, { method: 'HEAD', cache: 'force-cache' }).catch(() => {});
+            });
+        });
     }
 }
 
 // Create global instance
-const crossNav = new CrossFolderNavigation();
+const reliableNav = new ReliableNavigation();
 
-// Load navigation silently
-function loadCrossFolderNavigation() {
-    loadDefaultCrossNav();
-    setupCrossNavEvents();
-    setupCrossGlobalFunctions();
-    // Silent loading - no console output
+// Load navigation with reliability enhancements
+function loadReliableNavigation() {
+    loadDefaultReliableNav();
+    setupReliableNavEvents();
+    setupReliableGlobalFunctions();
+    
+    // Preload critical pages after a short delay
+    setTimeout(() => {
+        reliableNav.preloadCriticalPages();
+    }, 1000);
 }
 
-// Default navigation with corrected paths
-function loadDefaultCrossNav() {
+// Default navigation HTML
+function loadDefaultReliableNav() {
     const navHTML = `
         <div class="top-banner">
             <div class="title-container">
-                <h1 onclick="crossNav.goHome()" style="cursor: pointer;">initial research</h1>
+                <h1 onclick="reliableNav.goHome()" style="cursor: pointer;">initial research</h1>
             </div>
             <nav class="nav-top">
                 <div class="nav-item">
                     <a href="#" class="dropdown-toggle">program</a>
                     <div class="dropdown">
                         <div class="dropdown-container">
-                            <a href="program/calendar.html" onclick="return crossNav.navigateTo('program/calendar.html', event)">calendar</a>
-                            <a href="program/fellowship.html" onclick="return crossNav.navigateTo('program/fellowship.html', event)">fellowship</a>
-                            <a href="program/communityhours.html" onclick="return crossNav.navigateTo('program/communityhours.html', event)">community hours</a>
-                            <a href="program/seasonaldinner.html" onclick="return crossNav.navigateTo('program/seasonaldinner.html', event)">seasonal dinner</a>
-                            <a href="program/exhibition.html" onclick="return crossNav.navigateTo('program/exhibition.html', event)">exhibitions</a>
+                            <a href="program/calendar.html" onclick="return reliableNav.navigateTo('program/calendar.html', event)">calendar</a>
+                            <a href="program/fellowship.html" onclick="return reliableNav.navigateTo('program/fellowship.html', event)">fellowship</a>
+                            <a href="program/communityhours.html" onclick="return reliableNav.navigateTo('program/communityhours.html', event)">community hours</a>
+                            <a href="program/seasonaldinner.html" onclick="return reliableNav.navigateTo('program/seasonaldinner.html', event)">seasonal dinner</a>
+                            <a href="program/exhibition.html" onclick="return reliableNav.navigateTo('program/exhibition.html', event)">exhibitions</a>
                         </div>
                     </div>
                 </div>
@@ -258,20 +307,20 @@ function loadDefaultCrossNav() {
                     <a href="#" class="dropdown-toggle">about</a>
                     <div class="dropdown">
                         <div class="dropdown-container">
-                            <a href="about/mission.html" onclick="return crossNav.navigateTo('about/mission.html', event)">mission</a>
-                            <a href="about/vision.html" onclick="return crossNav.navigateTo('about/vision.html', event)">vision</a>
-                            <a href="about/team.html" onclick="return crossNav.navigateTo('about/team.html', event)">team</a>
-                            <a href="about/contact.html" onclick="return crossNav.navigateTo('about/contact.html', event)">contact</a>
+                            <a href="about/mission.html" onclick="return reliableNav.navigateTo('about/mission.html', event)">mission</a>
+                            <a href="about/vision.html" onclick="return reliableNav.navigateTo('about/vision.html', event)">vision</a>
+                            <a href="about/team.html" onclick="return reliableNav.navigateTo('about/team.html', event)">team</a>
+                            <a href="about/contact.html" onclick="return reliableNav.navigateTo('about/contact.html', event)">contact</a>
                         </div>
                     </div>
                 </div>
                 
                 <div class="nav-item">
-                    <a href="supportus/supportus.html" onclick="return crossNav.navigateTo('supportus/supportus.html', event)">support us</a>
+                    <a href="supportus/supportus.html" onclick="return reliableNav.navigateTo('supportus/supportus.html', event)">support us</a>
                 </div>
             </nav>
             
-            <div class="hamburger-menu" onclick="toggleMobileNavCross()">
+            <div class="hamburger-menu" onclick="toggleMobileNavReliable()">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -279,34 +328,34 @@ function loadDefaultCrossNav() {
             
             <div class="mobile-nav" id="mobileNav">
                 <div class="mobile-nav-item">
-                    <a href="#" class="mobile-dropdown-toggle" onclick="toggleMobileDropdownCross(event, this)">
+                    <a href="#" class="mobile-dropdown-toggle" onclick="toggleMobileDropdownReliable(event, this)">
                         program
                         <span class="mobile-arrow">ᵥ</span>
                     </a>
                     <div class="mobile-dropdown">
-                        <a href="program/calendar.html" onclick="return crossNav.navigateTo('program/calendar.html', event)">calendar</a>
-                        <a href="program/fellowship.html" onclick="return crossNav.navigateTo('program/fellowship.html', event)">fellowship</a>
-                        <a href="program/communityhours.html" onclick="return crossNav.navigateTo('program/communityhours.html', event)">community hours</a>
-                        <a href="program/seasonaldinner.html" onclick="return crossNav.navigateTo('program/seasonaldinner.html', event)">seasonal dinner</a>
-                        <a href="program/exhibition.html" onclick="return crossNav.navigateTo('program/exhibition.html', event)">exhibitions</a>
+                        <a href="program/calendar.html" onclick="return reliableNav.navigateTo('program/calendar.html', event)">calendar</a>
+                        <a href="program/fellowship.html" onclick="return reliableNav.navigateTo('program/fellowship.html', event)">fellowship</a>
+                        <a href="program/communityhours.html" onclick="return reliableNav.navigateTo('program/communityhours.html', event)">community hours</a>
+                        <a href="program/seasonaldinner.html" onclick="return reliableNav.navigateTo('program/seasonaldinner.html', event)">seasonal dinner</a>
+                        <a href="program/exhibition.html" onclick="return reliableNav.navigateTo('program/exhibition.html', event)">exhibitions</a>
                     </div>
                 </div>
                 
                 <div class="mobile-nav-item">
-                    <a href="#" class="mobile-dropdown-toggle" onclick="toggleMobileDropdownCross(event, this)">
+                    <a href="#" class="mobile-dropdown-toggle" onclick="toggleMobileDropdownReliable(event, this)">
                         about
                         <span class="mobile-arrow">ᵥ</span>
                     </a>
                     <div class="mobile-dropdown">
-                        <a href="about/mission.html" onclick="return crossNav.navigateTo('about/mission.html', event)">mission</a>
-                        <a href="about/vision.html" onclick="return crossNav.navigateTo('about/vision.html', event)">vision</a>
-                        <a href="about/team.html" onclick="return crossNav.navigateTo('about/team.html', event)">team</a>
-                        <a href="about/contact.html" onclick="return crossNav.navigateTo('about/contact.html', event)">contact</a>
+                        <a href="about/mission.html" onclick="return reliableNav.navigateTo('about/mission.html', event)">mission</a>
+                        <a href="about/vision.html" onclick="return reliableNav.navigateTo('about/vision.html', event)">vision</a>
+                        <a href="about/team.html" onclick="return reliableNav.navigateTo('about/team.html', event)">team</a>
+                        <a href="about/contact.html" onclick="return reliableNav.navigateTo('about/contact.html', event)">contact</a>
                     </div>
                 </div>
                 
                 <div class="mobile-nav-item">
-                    <a href="supportus/supportus.html" onclick="return crossNav.navigateTo('supportus/supportus.html', event)">support us</a>
+                    <a href="supportus/supportus.html" onclick="return reliableNav.navigateTo('supportus/supportus.html', event)">support us</a>
                 </div>
             </div>
         </div>
@@ -320,9 +369,8 @@ function loadDefaultCrossNav() {
     }
 }
 
-// Event setup
-function setupCrossNavEvents() {
-    // Use event delegation
+// Reliable event setup
+function setupReliableNavEvents() {
     document.addEventListener('click', function(e) {
         const navItem = e.target.closest('.nav-item');
         if (navItem && navItem.querySelector('.dropdown-toggle') === e.target) {
@@ -334,7 +382,6 @@ function setupCrossNavEvents() {
             navItem.classList.toggle('active');
         }
         
-        // Close dropdowns when clicking outside
         if (!e.target.closest('.nav-item') && !e.target.closest('.mobile-nav')) {
             document.querySelectorAll('.nav-item.active').forEach(item => {
                 item.classList.remove('active');
@@ -342,7 +389,6 @@ function setupCrossNavEvents() {
         }
     });
 
-    // Hover for desktop
     if (window.innerWidth > 768) {
         document.addEventListener('mouseover', function(e) {
             const navItem = e.target.closest('.nav-item');
@@ -364,43 +410,44 @@ function setupCrossNavEvents() {
 }
 
 // Global functions
-function setupCrossGlobalFunctions() {
-    window.toggleMobileNavCross = function() {
+function setupReliableGlobalFunctions() {
+    window.toggleMobileNavReliable = function() {
         const mobileNav = document.getElementById('mobileNav');
         mobileNav.classList.toggle('show');
     };
 
-    window.toggleMobileDropdownCross = function(e, element) {
+    window.toggleMobileDropdownReliable = function(e, element) {
         e.preventDefault();
         const navItem = element.parentElement;
         navItem.classList.toggle('active');
     };
 
     // Compatibility functions
-    window.navigateToPage = (url, event) => crossNav.navigateTo(url, event);
-    window.goToHomepage = () => crossNav.goHome();
-    window.toggleMobileNav = window.toggleMobileNavCross;
-    window.toggleMobileDropdown = window.toggleMobileDropdownCross;
+    window.navigateToPage = (url, event) => reliableNav.navigateTo(url, event);
+    window.goToHomepage = () => reliableNav.goHome();
+    window.toggleMobileNav = window.toggleMobileNavReliable;
+    window.toggleMobileDropdown = window.toggleMobileDropdownReliable;
 }
 
-// Initialize immediately
+// Initialize with proper timing
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadCrossFolderNavigation);
+    document.addEventListener('DOMContentLoaded', loadReliableNavigation);
 } else {
-    loadCrossFolderNavigation();
+    loadReliableNavigation();
 }
 
 // Global access
-window.crossNav = crossNav;
+window.reliableNav = reliableNav;
 
-// Debug - only show when specifically requested
+// Debug only when requested
 document.addEventListener('keydown', function(e) {
     if (e.ctrlKey && e.shiftKey && e.key === 'N') {
-        console.log('Cross-Folder Nav Debug:', {
-            currentPath: crossNav.currentPath,
-            currentFolder: crossNav.currentFolder,
-            cacheSize: crossNav.pathCache.size,
-            cache: Object.fromEntries(crossNav.pathCache)
+        console.log('Reliable Nav Debug:', {
+            currentPath: reliableNav.currentPath,
+            currentFolder: reliableNav.currentFolder,
+            cacheSize: reliableNav.pathCache.size,
+            isNavigating: reliableNav.isNavigating,
+            cache: Object.fromEntries(reliableNav.pathCache)
         });
     }
 });
