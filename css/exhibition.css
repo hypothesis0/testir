@@ -115,16 +115,15 @@ body {
     flex-direction: column;
 }
 
-/* IMPROVED: Better image sizing */
+/* FIXED: Desktop images - uniform height while maintaining aspect ratio */
 .hero-image-item img {
-    height: auto;
-    max-height: 600px;
-    width: auto;
-    max-width: 100%;
+    /* UNIFIED HEIGHT: All images will have the same height */
+    height: 500px; /* Fixed height for all images */
+    width: auto; /* Width adjusts automatically to maintain aspect ratio */
     display: block;
     cursor: pointer;
     transition: opacity 0.3s;
-    object-fit: contain;
+    object-fit: contain; /* Show full image without cropping, may have letterboxing */
 }
 
 .hero-image-item img:hover {
@@ -217,7 +216,7 @@ body {
 /* Download button */
 .download-button {
     display: inline-block;
-    background-color: #372011;
+    background-color: #372011; /* 保持原来的棕色 */
     color: rgb(249, 249, 249);
     padding: 1vh 2vw;
     text-decoration: none;
@@ -233,11 +232,12 @@ body {
     color: #777777;
 }
 
-/* Disabled button style */
+/* Disabled button style - 保持棕色但降低透明度 */
 .download-button.disabled {
-    background-color: #8a8a8a;
+    background-color: #372011; /* 保持棕色，不改成灰色 */
+    color: rgba(249, 249, 249, 0.6); /* 文字透明度降低 */
     cursor: not-allowed;
-    opacity: 0.7;
+    opacity: 0.5; /* 整体透明度降低 */
 }
 
 /* Lightbox styles */
@@ -293,9 +293,6 @@ footer {
 
 /* Mobile styling */
 @media (max-width: 768px) {
-    /* Hide desktop nav, show hamburger */
-   
-    
     /* Content layout - FULL WIDTH */
     .content {
         display: flex;
@@ -336,7 +333,7 @@ footer {
         color: #000000;
     }
     
-    /* MOBILE: Improved hero image section with pagination dots */
+    /* MOBILE: Hero image section with uniform height */
     .hero-image-container {
         width: 100vw; /* Full viewport width on mobile */
         margin-left: calc(-24px); /* Offset the content padding */
@@ -351,7 +348,6 @@ footer {
         scroll-behavior: smooth;
         scroll-snap-type: x mandatory;
         gap: 20px; /* Increased gap for better separation */
-        /* FIXED: Use content padding to align properly */
         padding: 0 24px 20px 24px; /* Match main content padding */
         scrollbar-width: none;
         -ms-overflow-style: none;
@@ -362,7 +358,7 @@ footer {
         display: none;
     }
     
-    /* MOBILE IMAGES - Screen-responsive sizing with uniform height */
+    /* MOBILE IMAGES - Uniform height with maintained aspect ratio */
     .hero-image-item {
         flex: 0 0 auto;
         scroll-snap-align: center;
@@ -374,22 +370,21 @@ footer {
     }
     
     .hero-image-item img {
-        /* FIXED: Responsive sizing based on screen width, uniform height */
-        width: auto !important; /* Let width adjust naturally */
-        max-width: 85vw !important; /* Maximum width based on screen */
-        height: calc(85vw * 0.6) !important; /* Height proportional to screen width */
-        max-height: 60vh !important; /* Cap the height on very wide screens */
-        min-height: 200px !important; /* Minimum height for very narrow screens */
-        object-fit: cover !important; /* Cover to fill dimensions */
+        /* FIXED: Uniform height for all mobile images */
+        height: 400px !important; /* Fixed height for all mobile images */
+        width: auto !important; /* Width adjusts to maintain aspect ratio */
+        max-width: 90vw !important; /* Maximum width constraint */
+        object-fit: contain !important; /* Show full image without cropping */
         display: block !important;
-        /* Remove all visual effects */
-        border-radius: 0; /* Remove border radius */
-        transition: none !important; /* Remove transition effects */
+        cursor: pointer;
+        /* Remove unnecessary styling */
+        border-radius: 0;
+        transition: opacity 0.3s !important;
     }
     
-    /* Remove hover effect on mobile images */
+    /* Mobile hover effect */
     .hero-image-item img:hover {
-        opacity: 1 !important; /* Keep opacity at 1, no hover effect */
+        opacity: 0.9 !important;
     }
     
     .hero-image-caption {
@@ -399,7 +394,6 @@ footer {
         font-weight: 300;
         line-height: 1.2;
         text-align: left;
-        /* FIXED: Ensure caption width matches image */
         width: 100%;
         box-sizing: border-box;
     }
@@ -452,7 +446,7 @@ footer {
     /* Download button */
     .download-button {
         display: inline-block;
-        background-color: #372011;
+        background-color: #372011; /* 保持原来的棕色 */
         color: rgb(249, 249, 249);
         padding: 1vh 2vw;
         text-decoration: none;
@@ -479,11 +473,6 @@ footer {
 
 /* Auto-switch to desktop when screen is larger than 768px */
 @media (min-width: 769px) {
-   
-    
-    
-    
-   
     /* Reset content layout for desktop */
     .sidebar {
         display: block !important;
@@ -503,15 +492,14 @@ footer {
     }
     
     .hero-image-item img {
-        max-height: 500px !important;
-        max-width: 100% !important;
-        width: auto !important;
-        object-fit: contain !important;
+        /* Desktop: uniform height maintained */
+        height: 500px !important; /* Fixed height for all desktop images */
+        width: auto !important; /* Width adjusts to maintain aspect ratio */
+        object-fit: contain !important; /* Show full image without cropping */
     }
     
     /* Show arrows on desktop */
     .scroll-arrow {
         display: flex !important;
     }
-    
 }
