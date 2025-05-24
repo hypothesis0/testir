@@ -22,38 +22,54 @@ collections:
         label: "Fellowship Page"
         file: "fellowship-data.json"
         fields:
-          - {label: "Page Title", name: "title", widget: "string", required: false}
-          - {label: "Main Heading", name: "heading", widget: "string", required: false}
-          - {label: "Introduction", name: "intro", widget: "text", required: false}
-          - {label: "Cohort Title", name: "cohort_title", widget: "string", required: false}
-          - label: "Fellows"
-            name: "fellows"
+          - {label: "Page Title", name: "title", widget: "string", default: "Fellowship - Inaugural Cohort", required: true}
+          - {label: "Main Heading", name: "heading", widget: "string", default: "Fellowship", required: true}
+          - {label: "Introduction", name: "intro", widget: "markdown", required: true, hint: "Fellowship program description. Use double line breaks for paragraphs."}
+          
+          - label: "Cohorts"
+            name: "cohorts"
             widget: "list"
             required: false
+            hint: "Add different fellowship cohorts (e.g., 2025/2026, 2027, etc.)"
+            summary: "{{fields.cohort_title}}"
             fields:
-              - {label: "Fellow Number", name: "number", widget: "string", required: false}
-              - {label: "Fellow Name", name: "name", widget: "string", required: false}
-              - {label: "Fellow ID", name: "id", widget: "string", required: false, hint: "Unique ID (e.g., te-editions-2025)"}
-              - {label: "Fellow Title", name: "title", widget: "string", required: false}
-              - {label: "Fellow Bio", name: "bio", widget: "markdown", required: false}
-              - label: "Image Type"
-                name: "image_type"
-                widget: "select"
-                options:
-                  - {label: "Single Image", value: "single"}
-                  - {label: "Carousel", value: "carousel"}
-                default: "single"
-                required: false
-              - {label: "Image", name: "image", widget: "image", required: false, hint: "Main image or first carousel image"}
-              - {label: "Image Caption", name: "caption", widget: "string", required: false}
-              - label: "Additional Carousel Images"
-                name: "additional_images"
+              - {label: "Cohort Title", name: "cohort_title", widget: "string", required: true, hint: "e.g., 2025/2026 Inaugural Cohort, 2027 Cohort"}
+              - {label: "Display Order", name: "order", widget: "number", default: 1, hint: "Lower numbers appear first"}
+              - {label: "Show Cohort", name: "show_cohort", widget: "boolean", default: true, hint: "Toggle to show or hide this cohort"}
+              
+              - label: "Fellows"
+                name: "fellows"
                 widget: "list"
                 required: false
-                hint: "Only for carousel image type - add additional images here"
+                hint: "Add fellows for this cohort"
+                summary: "{{fields.number}}. {{fields.name}}"
                 fields:
-                  - {label: "Image", name: "src", widget: "image", required: false}
-                  - {label: "Caption", name: "caption", widget: "string", required: false}
+                  - {label: "Fellow Number", name: "number", widget: "string", required: true, hint: "e.g., 01, 02, 03"}
+                  - {label: "Fellow Name", name: "name", widget: "string", required: true}
+                  - {label: "Fellow ID", name: "id", widget: "string", required: true, hint: "Unique ID (e.g., te-editions-2025, john-smith-2027)"}
+                  - {label: "Fellow Title/Position", name: "fellow_title", widget: "string", required: false, hint: "Optional title or position"}
+                  - {label: "Fellow Bio", name: "bio", widget: "markdown", required: true, hint: "Full biography. Use **text** for bold and double line breaks for paragraphs"}
+                  
+                  - label: "Image Type"
+                    name: "image_type"
+                    widget: "select"
+                    options:
+                      - {label: "Single Image", value: "single"}
+                      - {label: "Carousel", value: "carousel"}
+                    default: "single"
+                    required: true
+                  
+                  - {label: "Main Image", name: "image", widget: "image", required: true, hint: "Main image or first carousel image"}
+                  - {label: "Image Caption", name: "caption", widget: "string", required: false}
+                  
+                  - label: "Additional Carousel Images"
+                    name: "additional_images"
+                    widget: "list"
+                    required: false
+                    hint: "Only for carousel image type - add additional images here"
+                    fields:
+                      - {label: "Image", name: "src", widget: "image", required: true}
+                      - {label: "Caption", name: "caption", widget: "string", required: false}
 
       - name: "calendar"
         label: "Calendar Page"
