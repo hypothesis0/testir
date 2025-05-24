@@ -369,11 +369,9 @@ body {
     }
     
     .hero-image-item img {
-        /* FIXED: Use flexible sizing instead of fixed height for mobile */
-        max-height: 350px !important; /* Maximum height */
-        max-width: calc(100vw - 100px) !important; /* Maximum width with margin */
-        height: auto !important; /* Let height be flexible */
-        width: auto !important; /* Let width be flexible */
+        /* UNIFORM HEIGHT: All mobile images same height */
+        height: 280px !important; /* Fixed height for consistent look */
+        width: auto !important; /* Width adjusts to maintain aspect ratio */
         object-fit: contain !important; /* Show full image without cropping */
         display: block !important;
         cursor: pointer;
