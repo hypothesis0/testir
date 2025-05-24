@@ -5,7 +5,7 @@
   "cohorts": [
     {
       "cohort_title": "2025/2026 Inaugural Cohort",
-      "order": 1,
+      "order": 2,
       "show_cohort": true,
       "fellows": [
         {
@@ -60,7 +60,7 @@
         {
           "fellow_title": "",
           "caption": "",
-          "bio": "**Sowon Kwon** works in a range of media including sculptural and video installations, animation, drawing, printmaking, and artist books. Her projects exploring the interplay between making and writing, portraiture, perception, and historical memory, have been featured at Full Haus, Los Angeles; Triple Canopy magazine; The Poetry Project; and Broodthaers Society of America. She has had solo exhibitions at Gallery Simon, Seoul; The Kitchen, New York; Matrix Gallery/Berkeley Art Museum; and the Whitney Museum of American Art, New York. Her work has also been featured in many group exhibitions in the US and abroad: New Museum, New York; ICA Boston; MOCA Los Angeles; Queens Museum, New York; Yerba Buena Center for the Arts, San Francisco; Artists Space, New York; The Drawing Center, New York; Artsonje Center, Seoul; the Gwangju Biennale, the Yokohama Triennale; and San Art, Ho Chi Minh City. As an educator she has also taught at Columbia University, The Cooper Union, the School of the Art Institute of Chicago, and the Vermont College of Fine Arts. She is a regular contributor to 4 Columns magazine.",
+          "bio": "Sowon Kwon works in a range of media including sculptural and video installations, animation, drawing, printmaking, and artist books. Her projects exploring the interplay between making and writing, portraiture, perception, and historical memory, have been featured at Full Haus, Los Angeles; Triple Canopy magazine; The Poetry Project; and Broodthaers Society of America. She has had solo exhibitions at Gallery Simon, Seoul; The Kitchen, New York; Matrix Gallery/Berkeley Art Museum; and the Whitney Museum of American Art, New York. Her work has also been featured in many group exhibitions in the US and abroad: New Museum, New York; ICA Boston; MOCA Los Angeles; Queens Museum, New York; Yerba Buena Center for the Arts, San Francisco; Artists Space, New York; The Drawing Center, New York; Artsonje Center, Seoul; the Gwangju Biennale, the Yokohama Triennale; and San Art, Ho Chi Minh City. As an educator she has also taught at Columbia University, The Cooper Union, the School of the Art Institute of Chicago, and the Vermont College of Fine Arts. She is a regular contributor to 4 Columns magazine.",
           "number": "05",
           "name": "Sowon Kwon",
           "additional_images": [],
@@ -72,7 +72,7 @@
     },
     {
       "cohort_title": "2027 Cohort",
-      "order": 2,
+      "order": 1,
       "show_cohort": true,
       "fellows": [
         {
