@@ -16,8 +16,6 @@
     <script src="../js/navigation.js"></script>
 
     <style>
-       
-        
         /* Content area - updated for fixed header */
         .content {
             padding: 120px 48px 64px 48px;
@@ -28,9 +26,14 @@
             flex:1;
             width: 100%; /* Explicitly set to 100% */
             box-sizing: border-box; /* Include padding in width calculation */
-            .content {
-  padding-bottom: 80px; /* Prevents footer from overlapping content */
-}
+            padding-bottom: 80px; /* Prevents footer from overlapping content */
+        }
+        
+        /* Loading message */
+        .loading-message {
+            font-size: 16px;
+            color: #666;
+            margin: 20px 0;
         }
         
         /* Intro container */
@@ -78,6 +81,11 @@
             justify-self: center;
             line-height: 1.6; /* Better readability */
             font-weight: 300;
+        }
+        
+        /* Cohort section */
+        .cohort-section {
+            margin-bottom: 120px;
         }
         
         /* Fellows table */
@@ -252,7 +260,7 @@
         .carousel-container {
             position: relative;
             overflow: hidden;
-            
+            border-radius: 8px;
         }
         
         .carousel-slide {
@@ -310,9 +318,6 @@
         
         /* Mobile styling */
         @media (max-width: 768px) {
-         
-  
-       
             .content {
                 padding: 15vh 3vw 4vw 3vw; 
                 padding-left:24px;
@@ -400,177 +405,247 @@
                 font-size: 14px;
             }
         }
-        
-        /* Auto-switch to desktop when screen is larger than 768px */
-        @media (min-width: 769px) {
-          
-
-          
-        }
     </style>
 </head>
-<body>
-    
-    <!-- Top red banner with title and navigation -->
-  
+<body>    
+    <!-- Navigation will be loaded by navigation.js -->
     
     <!-- Content area with fellowship info and cohort -->
-    <div class="content">
-        <div class="intro-container">
-            <div class="intro-left">
-                <h1 class="main-headline">Fellowship</h1>
-            </div>
-            <div class="intro-right">
-                <div class="fellowship-intro">
-                    <p>Initial Research is a meeting space for creative talents, fostering a continuous exchange of experiences and ideas. At its core, the Initial Research Fellowship provides a select group of creatives with the resources to pursue a self-directed, yearlong research project. Fellows receive access to office and project space, where they develop their work through a series of gatherings, including workshops, lectures, screenings, and reading groups. Each participant will present their research internally and will organize public-facing events.</p>
-                </div>
-            </div>
-        </div>
-        <h2 class="section-heading">2025/2026 Inaugural Cohort</h2>
-        <table class="fellows-table" id="cohort-2025">
-            <tbody>
-                <!-- te editions 2025 -->
-                <tr class="fellow-row" data-fellow-id="te-editions-2025">
-                    <td class="fellow-number">01</td>
-                    <td class="fellow-name">te editions (Michael Guo & Kechun Qin)</td>
-                </tr>
-                <tr class="expanded-row" id="te-editions-2025-row">
-                    <td colspan="2" class="expanded-cell">
-                        <div class="expanded-content" id="te-editions-2025-content">
-                            <div class="expanded-left">
-                                <h3 class="expanded-title">te editions</h3>
-                                
-                                <div class="expanded-text">
-                                    <p>te editions is an independent publishing house launched in 2023 by Michael Guo and Kechun Qin. It currently operates in New York and Beijing. te explores the intersection of the arts and humanities, examining historical and contemporary social landscapes through a diversified and microscopic lens. The focus lies on how cultures encounter, collapse, and transform each other within global cultural flows. Driven by “curatorial thinking on paper” in the editorial approach, te editions aims to foster new discussions informed by a genuinely interdisciplinary perspective.</p>
-                                    <p>In 2021, te editions launched the first issue of its annual bilingual publication, te magazine. Each issue draws inspiration from current events, developing a theme that encapsulates the thinking sparked by the moment. Researchers and creators from various fields are invited to contribute their work around this central theme. te editions consistently collaborates with artists, scholars, communities, and cultural organizations to expand on existing projects and to envision new ones.
-                                    </p>
-                                </div>
-                                
-                            </div>
-                            <div class="expanded-right">
-                                <div class="image-carousel" data-carousel="te-editions-2025">
-                                    <div class="carousel-container">
-                                        <div class="carousel-slide active">
-                                            <img src="img/fellowship/2025&2026cohort/teeditions_Kechun Qin.jpg" alt="Kechun Qin" class="expanded-image">
-                                            <div class="photo-credit"></div>
-                                        </div>
-                                        <div class="carousel-slide">
-                                            <img src="img/fellowship/2025&2026cohort/teeditions_Michael Guo.jpg" alt="Michael Guo" class="expanded-image">
-                                            <div class="photo-credit"></div>
-                                        </div>
-                                    </div>
-                                    <div class="carousel-dots">
-                                        <div class="carousel-dot active" onclick="goToSlide('te-editions-2025', 0)"></div>
-                                        <div class="carousel-dot" onclick="goToSlide('te-editions-2025', 1)"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="close-btn">&times;</button>
-                        </div>
-                    </td>
-                </tr>
-                
-                <!-- Nini Dongnier 2025 -->
-                <tr class="fellow-row" data-fellow-id="nini-dongnier-2025">
-                    <td class="fellow-number">02</td>
-                    <td class="fellow-name">Nini Dongnier</td>
-                </tr>
-                <tr class="expanded-row" id="nini-dongnier-2025-row">
-                    <td colspan="2" class="expanded-cell">
-                        <div class="expanded-content" id="nini-dongnier-2025-content">
-                            <div class="expanded-left">
-                                <h3 class="expanded-title">Nini Dongnier</h3>
-                                
-                                <div class="expanded-text">
-                                    <p>Hailing from Inner Mongolia and based in New York, choreographer and artist NiNi Dongnier works in choreographic performance, moving image, and painting. She delves deeply into questions about form, faith, constancy, migration, and the experience of life through explorations of movement, visual art, garment, and the use of tech intervention where necessary. Her work in dialogue with multiple nourishments—from her nomadic roots, classical training in a wide range of traditional to contemporary dance, to art history and Mahāyāna Buddhism. “My desire is to record intuitive truths through the sensual body and its material extensions.”
-                                    </p>
-                                    <p>Dongnier’s work has been performed and exhibited at The Watermill Center, New York Live Arts, Movement Research, Mana Contemporary, G Museum, Aranya Art Center, Shanghai Ming Contemporary Art Museum, National Centre for the Performing Arts, and Shanghai International Dance Center Theater, among others. She was a recipient of nominations for the China Dance Lotus Award. She has been an artist in residence at Monira Foundation, La MaMa|CultureHub, The Watermill Center, Media Art Xploration, Jacob’s Pillow, and Barnard Movement Lab at Columbia University.</p>
-                              <p>Dongnier’s initial learning stemmed from the vast, textured nature of Inner Mongolia, as well as from her parents. She graduated from the Beijing Dance Academy, received her MFA from New York University, and studied at the Skowhegan School of Painting and Sculpture. Dongnier has served on the faculty of Beijing Dance Academy (2012-17), taught at Hunter College—CUNY (2020), and at Barnard College—Columbia University (2020, 2024). She was an assistant professor at the School for the Contemporary Arts—Simon Fraser University (2021-24).</p>
-                                </div>
-                               
-                            </div>
-                            <div class="expanded-right">
-                                <div class="single-image-container">
-                                    <img src="img/fellowship/2025&2026cohort/NiNiDongnier_Portrait_byLucreziaPollice.JPG" alt="Nini Dongnier" class="expanded-image">
-                                    <div class="photo-credit">Portrait by Lucrezia Pollice</div>
-                                </div>
-                            </div>
-                            <button class="close-btn">&times;</button>
-                        </div>
-                    </td>
-                </tr>
-                
-                <!-- Sowon Kwon 2025 -->
-                <tr class="fellow-row" data-fellow-id="anh-vo-2025">
-                    <td class="fellow-number">03</td>
-                    <td class="fellow-name">Anh Vo</td>
-                </tr>
-                <tr class="expanded-row" id="anh-vo-2025-row">
-                    <td colspan="2" class="expanded-cell">
-                        <div class="expanded-content" id="anh-vo-2025-content">
-                            <div class="expanded-left">
-                                <h3 class="expanded-title">Anh Vo</h3>
-                                
-                                <div class="expanded-text">
-                                    <p>Anh Vo is a Vietnamese choreographer and writer working primarily in New York City, with a second base in Hanoi. Their practice fleshes out the body as a vessel for apparitional forces. Their work is situated in the unlikely lineage convergences between Downtown New York experimental performance, Hanoi performance art, and Vietnamese folk ritual practices. Vo is indebted to Miguel Gutierrez's unapologetic queerness and amorphous excess, Moriah Evan's speculative commitment to the depth of interiority, Tehching Hsieh’s existential sense of time, and Ngoc Dai’s guttural sonic landscape of postwar Vietnam. Their formal training is in Performance Studies, studying with esteemed theorists and practitioners at Brown University (BA) and New York University (MA). </p>
-                                  
-                                </div>
-                              
-                            </div>
-                            <div class="expanded-right">
-                               
-                                        <div class="single-image-container">
-                                    <img src="img/fellowship/2025&2026cohort/Anh_Vo_PortraitbyMariaBaranova.jpg" alt="Anh Vo" class="expanded-image">
-                                    <div class="photo-credit">Portrait by Maria Baranova</div>
-                                </div>
-                                        
-                                    
-                                </div>
-                            </div>
-                            <button class="close-btn">&times;</button>
-                        </div>
-                    </td>
-                </tr>
-                
-                <!-- Yu Ji & Ho King Man 2025 -->
-                <tr class="fellow-row" data-fellow-id="yu-ji-ho-king-2025">
-                    <td class="fellow-number">04</td>
-                    <td class="fellow-name">Yu Ji & Ho King Man</td>
-                </tr>
-                <tr class="expanded-row" id="yu-ji-ho-king-2025-row">
-                    <td colspan="2" class="expanded-cell">
-                        <div class="expanded-content" id="yu-ji-ho-king-2025-content">
-                            <div class="expanded-left">
-                                <h3 class="expanded-title">Yu Ji & Ho King Man</h3>
-                               
-                                <div class="expanded-text">
-                                    <p>Yu Ji is known for the diversity of her practice, working primarily in sculpture and installation, as well as performance and video. Her long-term interest has been in transforming ongoing investigations into specific spaces that become charged with geographical and historical narratives. Reflecting on and moderating the fragile presence of the human body in relation to objects found in their everyday environments, her performances often coincide with exhibitions of sculptural works, which turn the space of artistic presentation into a site for the production of labor. 
-                                    </p>
-                                    <p>Yu Ji's Institutional exhibitions include those at the Centro Pecci, Prato, Italy (2024), ICA Institute of Contemporary Art, NYU, Shanghai (2023), OCMA Orange County Museum of Art, Costa Mesa (2023), New Museum in New York (2021), West Bund Museum + Pompidou in Shanghai (2021), Chisenhale Gallery in London (2021), Tensta Konsthall in Stockholm (2018), Rock Bund Art Museum in Shanghai (2017). From 2008 till 2021, she co-founded AM Art Space — an artist-led space in Shanghai, promoting experimentation and exchanges between artists, curators and the public.
-                                    </p>
-                                    <p>BHKM is a conceptual publishing house. Between private and public, they often addressing issues of belonging and authorship, loneliness and otherness. Recent exhibitions include projects at 人人人人, Harmony Community Foundation, Guangzhou (2024); PP3, Columbus Park (Chinatown), New York (2023); Bungee Space, New York (2023); Motto Berlin (2023).</p>
-                                </div>
-                              
-                            </div>
-                            <div class="expanded-right">
-                                <div class="single-image-container">
-                                    <img src="img/fellowship/2025&2026cohort/YUJIANDBHKM.jpg" alt="Yu Ji & Ho King Man" class="expanded-image">
-                                    <div class="photo-credit">Portrait by Amiko Li, 2025</div>
-                                </div>
-                            </div>
-                            <button class="close-btn">&times;</button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="content" id="fellowship-content">
+        <div class="loading-message">Loading fellowship data...</div>
     </div>
-   
     
+    <!-- Footer will be loaded by navigation.js -->
+   
     <script>
-          function goToHomepage() {
+        function goToHomepage() {
             window.location.href = '../index.html';
         }
+        
+        // Load fellowship data from JSON
+        async function loadFellowshipData() {
+            try {
+                console.log('Loading fellowship data...');
+                
+                const possiblePaths = [
+                    './fellowship-data.json',
+                    '../fellowship-data.json', 
+                    '/fellowship-data.json',
+                    'fellowship-data.json'
+                ];
+                
+                let response;
+                for (const path of possiblePaths) {
+                    try {
+                        const tempResponse = await fetch(path);
+                        if (tempResponse.ok) {
+                            response = tempResponse;
+                            console.log(`✓ Loaded fellowship data from: ${path}`);
+                            break;
+                        }
+                    } catch (err) {
+                        console.log(`✗ Failed to load ${path}`);
+                    }
+                }
+                
+                if (!response || !response.ok) {
+                    console.log('Could not load fellowship data, using static content');
+                    renderStaticContent();
+                    return;
+                }
+                
+                const data = await response.json();
+                console.log('Fellowship data loaded:', data);
+                
+                renderFellowshipContent(data);
+                
+            } catch (error) {
+                console.error('Error loading fellowship data:', error);
+                renderStaticContent();
+            }
+        }
+        
+        function renderFellowshipContent(data) {
+            console.log('Rendering fellowship content with data:', data);
+            
+            // Update page title
+            if (data.title) document.title = data.title;
+            
+            const container = document.getElementById('fellowship-content');
+            let html = '';
+            
+            // Intro section
+            html += `
+                <div class="intro-container">
+                    <div class="intro-left">
+                        <h1 class="main-headline">${data.heading || 'Fellowship'}</h1>
+                    </div>
+                    <div class="intro-right">
+                        <div class="fellowship-intro">
+                            <p>${formatMarkdownText(data.intro || '')}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Render cohorts
+            if (data.cohorts && data.cohorts.length > 0) {
+                // Sort cohorts by order
+                const sortedCohorts = data.cohorts
+                    .filter(cohort => cohort.show_cohort !== false)
+                    .sort((a, b) => (a.order || 999) - (b.order || 999));
+                
+                sortedCohorts.forEach(cohort => {
+                    html += `
+                        <div class="cohort-section">
+                            <h2 class="section-heading">${cohort.cohort_title || 'Cohort'}</h2>
+                            <table class="fellows-table" id="cohort-${cohort.order || 1}">
+                                <tbody>
+                    `;
+                    
+                    if (cohort.fellows && cohort.fellows.length > 0) {
+                        cohort.fellows.forEach(fellow => {
+                            html += renderFellowRow(fellow);
+                        });
+                    }
+                    
+                    html += `
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                });
+            }
+            
+            container.innerHTML = html;
+            
+            // Initialize functionality after rendering
+            setTimeout(() => {
+                initializeFellowshipFunctionality();
+                initCarousels();
+            }, 100);
+        }
+        
+        function renderFellowRow(fellow) {
+            let html = `
+                <!-- ${fellow.name} -->
+                <tr class="fellow-row" data-fellow-id="${fellow.id}">
+                    <td class="fellow-number">${fellow.number}</td>
+                    <td class="fellow-name">${fellow.name}</td>
+                </tr>
+                <tr class="expanded-row" id="${fellow.id}-row">
+                    <td colspan="2" class="expanded-cell">
+                        <div class="expanded-content" id="${fellow.id}-content">
+                            <div class="expanded-left">
+                                <h3 class="expanded-title">${fellow.name}</h3>
+                                ${fellow.fellow_title ? `<div class="expanded-subtitle">${fellow.fellow_title}</div>` : ''}
+                                <div class="expanded-text">
+                                    ${formatMarkdownText(fellow.bio || '')}
+                                </div>
+                            </div>
+                            <div class="expanded-right">
+                                ${renderFellowImage(fellow)}
+                            </div>
+                            <button class="close-btn">&times;</button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            return html;
+        }
+        
+        function renderFellowImage(fellow) {
+            if (fellow.image_type === 'carousel' && fellow.additional_images && fellow.additional_images.length > 0) {
+                // Carousel with multiple images
+                let html = `
+                    <div class="image-carousel" data-carousel="${fellow.id}">
+                        <div class="carousel-container">
+                `;
+                
+                // First image
+                html += `
+                    <div class="carousel-slide active">
+                        <img src="${fellow.image}" alt="${fellow.name}" class="expanded-image">
+                        <div class="photo-credit">${fellow.caption || ''}</div>
+                    </div>
+                `;
+                
+                // Additional images
+                fellow.additional_images.forEach(img => {
+                    html += `
+                        <div class="carousel-slide">
+                            <img src="${img.src}" alt="${fellow.name}" class="expanded-image">
+                            <div class="photo-credit">${img.caption || ''}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                        <div class="carousel-dots">
+                `;
+                
+                // Dots for main image + additional images
+                const totalImages = 1 + (fellow.additional_images ? fellow.additional_images.length : 0);
+                for (let i = 0; i < totalImages; i++) {
+                    html += `<div class="carousel-dot ${i === 0 ? 'active' : ''}" onclick="goToSlide('${fellow.id}', ${i})"></div>`;
+                }
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+                
+                return html;
+            } else {
+                // Single image
+                return `
+                    <div class="single-image-container">
+                        ${fellow.image ? `<img src="${fellow.image}" alt="${fellow.name}" class="expanded-image">` : ''}
+                        ${fellow.caption ? `<div class="photo-credit">${fellow.caption}</div>` : ''}
+                    </div>
+                `;
+            }
+        }
+        
+        function formatMarkdownText(text) {
+            if (!text) return '';
+            
+            // Convert markdown to HTML
+            let html = text
+                // Bold text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                // Links
+                .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+                // Line breaks
+                .split('\n\n')
+                .map(paragraph => paragraph.trim() ? `<p>${paragraph}</p>` : '')
+                .join('');
+            
+            return html;
+        }
+        
+        function renderStaticContent() {
+            console.log('Rendering static fellowship content');
+            const container = document.getElementById('fellowship-content');
+            container.innerHTML = `
+                <div class="intro-container">
+                    <div class="intro-left">
+                        <h1 class="main-headline">Fellowship</h1>
+                    </div>
+                    <div class="intro-right">
+                        <div class="fellowship-intro">
+                            <p>Initial Research is a meeting space for creative talents, fostering a continuous exchange of experiences and ideas. At its core, the Initial Research Fellowship provides a select group of creatives with the resources to pursue a self-directed, yearlong research project. Fellows receive access to office and project space, where they develop their work through a series of gatherings, including workshops, lectures, screenings, and reading groups. Each participant will present their research internally and will organize public-facing events.</p>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="section-heading">Fellowship Program</h2>
+                <div class="expanded-text">
+                    <p>Fellowship data is currently being loaded. Please check back soon for information about our current cohort.</p>
+                </div>
+            `;
+        }
+        
         // Carousel management
         const carousels = new Map();
         let carouselIntervals = new Map();
@@ -672,105 +747,8 @@
             pauseAutoSwipe(carouselId);
             startAutoSwipe(carouselId);
         }
-
-        // Mobile navigation functions - matching exhibition page
-        function toggleMobileNav() {
-            const mobileNav = document.getElementById('mobileNav');
-            
-            if (mobileNav.style.display === 'flex' || mobileNav.classList.contains('show')) {
-                mobileNav.style.display = 'none';
-                mobileNav.classList.remove('show');
-                // Close all mobile dropdowns when closing nav
-                const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-                allMobileNavItems.forEach(item => {
-                    item.classList.remove('active');
-                });
-            } else {
-                mobileNav.style.display = 'flex';
-                mobileNav.classList.add('show');
-            }
-        }
         
-        // Mobile dropdown toggle
-        function toggleMobileDropdown(event, element) {
-            event.preventDefault();
-            const navItem = element.parentElement;
-            
-            // Check if this nav item has a dropdown
-            const dropdown = navItem.querySelector('.mobile-dropdown');
-            if (!dropdown) {
-                // If no dropdown, it's a regular link - handle navigation here if needed
-                return;
-            }
-            
-            // Close all other mobile dropdowns
-            const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-            allMobileNavItems.forEach(item => {
-                if (item !== navItem) {
-                    item.classList.remove('active');
-                }
-            });
-            
-            // Toggle current dropdown
-            navItem.classList.toggle('active');
-        }
-
-        // Auto-handle screen resize
-        window.addEventListener('resize', function() {
-            const mobileNav = document.getElementById('mobileNav');
-            const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-            
-            // If resizing to desktop width, close mobile nav
-            if (window.innerWidth > 768) {
-                mobileNav.style.display = 'none';
-                mobileNav.classList.remove('show');
-                allMobileNavItems.forEach(item => {
-                    item.classList.remove('active');
-                });
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Desktop dropdown toggle functionality
-            const navItems = document.querySelectorAll('.nav-item');
-            
-            navItems.forEach(item => {
-                const link = item.querySelector('a');
-                const dropdown = item.querySelector('.dropdown');
-                
-                if (dropdown) {
-                    link.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        
-                        // Close all other dropdowns
-                        navItems.forEach(otherItem => {
-                            if (otherItem !== item) {
-                                otherItem.classList.remove('active');
-                            }
-                        });
-                        
-                        // Toggle current dropdown
-                        item.classList.toggle('active');
-                    });
-                }
-            });
-            
-            // Close dropdowns when clicking outside
-            document.addEventListener('click', function(e) {
-                const isNavClick = e.target.closest('.nav-item');
-                const isMobileNavClick = e.target.closest('.mobile-nav');
-                
-                if (!isNavClick && !isMobileNavClick) {
-                    navItems.forEach(item => {
-                        item.classList.remove('active');
-                    });
-                }
-            });
-
-            // Initialize carousels immediately for any visible content
-            initCarousels();
-
-            // Fellowship table functionality
+        function initializeFellowshipFunctionality() {
             // Get all fellow rows that should be clickable
             const fellowRows = document.querySelectorAll('.fellow-row');
             
@@ -788,20 +766,16 @@
                     const fellowId = this.getAttribute('data-fellow-id');
                     if (!fellowId) return;
                     
-                    console.log('Clicking fellow row:', fellowId); // Debug log
-                    
                     // Find the expanded row and content
                     const expandedRow = document.getElementById(`${fellowId}-row`);
                     const expandedContent = document.getElementById(`${fellowId}-content`);
                     
                     if (!expandedRow || !expandedContent) {
-                        console.log('Could not find expanded elements for:', fellowId); // Debug log
                         return;
                     }
                     
                     // Check if this row is already active
                     const isActive = this.classList.contains('active');
-                    console.log('Is currently active:', isActive); // Debug log
                     
                     // Remove active class from all fellow rows
                     document.querySelectorAll('.fellow-row.active').forEach(row => {
@@ -882,57 +856,6 @@
                 });
             });
             
-            // Close expanded content when clicking outside
-            document.addEventListener('click', function(event) {
-                // Check if the click was outside both a fellow row and expanded content
-                const targetRow = event.target.closest('.fellow-row');
-                const targetExpandedContent = event.target.closest('.expanded-content');
-                const closeButton = event.target.closest('.close-btn');
-                
-                if (!targetRow && !targetExpandedContent && !closeButton) {
-                    // Reset all fellow rows
-                    document.querySelectorAll('.fellow-row.active').forEach(row => {
-                        row.classList.remove('active');
-                    });
-                    
-                    // Close all expanded contents
-                    document.querySelectorAll('.expanded-row.active').forEach(row => {
-                        row.classList.remove('active');
-                        const content = row.querySelector('.expanded-content');
-                        if (content) content.classList.remove('active');
-                    });
-                    
-                    // Reset active expansion
-                    activeExpansion = null;
-                    
-                    // Pause all carousels
-                    pauseAllCarousels();
-                }
-            });
-            
-            // Add keyboard navigation (Escape key to close expanded content)
-            document.addEventListener('keydown', function(event) {
-                if (event.key === 'Escape') {
-                    // Reset all fellow rows
-                    document.querySelectorAll('.fellow-row.active').forEach(row => {
-                        row.classList.remove('active');
-                    });
-                    
-                    // Close all expanded contents
-                    document.querySelectorAll('.expanded-row.active').forEach(row => {
-                        row.classList.remove('active');
-                        const content = row.querySelector('.expanded-content');
-                        if (content) content.classList.remove('active');
-                    });
-                    
-                    // Reset active expansion
-                    activeExpansion = null;
-                    
-                    // Pause all carousels
-                    pauseAllCarousels();
-                }
-            });
-            
             // Smooth scrolling to expanded content when opened
             function scrollToExpandedContent(expandedRow) {
                 if (!expandedRow.classList.contains('active')) return;
@@ -948,58 +871,24 @@
                     behavior: 'smooth'
                 });
             }
-            
-            // Handle window resize to ensure proper layout
-            window.addEventListener('resize', function() {
-                // If there's an active expansion, adjust scroll position
-                if (activeExpansion) {
-                    const expandedRow = document.getElementById(`${activeExpansion}-row`);
-                    if (expandedRow && expandedRow.classList.contains('active')) {
-                        scrollToExpandedContent(expandedRow);
-                    }
-                }
-            });
-            
-            // Handle image loading errors
-            document.querySelectorAll('.expanded-image').forEach(img => {
-                img.addEventListener('error', function() {
-                    console.log('Image failed to load: ' + this.src);
-                    // The onerror attribute should already handle this, but just in case
-                    if (!this.src.includes('/api/placeholder')) {
-                        this.src = this.getAttribute('width') ? 
-                            `/api/placeholder/${this.getAttribute('width')}/${this.getAttribute('height')}` : 
-                            '/api/placeholder/500/400';
-                    }
-                });
-            });
-        });
-        
-        // Close mobile nav when clicking outside
-        document.addEventListener('click', function(e) {
-            const mobileNav = document.getElementById('mobileNav');
-            const hamburger = document.querySelector('.hamburger-menu');
-            
-            if (!hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
-                mobileNav.style.display = 'none';
-                mobileNav.classList.remove('show');
-                // Close all mobile dropdowns when clicking outside
-                const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-                allMobileNavItems.forEach(item => {
-                    item.classList.remove('active');
-                });
-            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for navigation to load, then load fellowship data
+            setTimeout(() => {
+                loadFellowshipData();
+            }, 200);
         });
 
         if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-            if (!user) {
-                window.netlifyIdentity.on("login", () => {
-                    document.location.href = "/admin/";
-                });
-            }
-        });
-    }
-    
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.href = "/admin/";
+                    });
+                }
+            });
+        }
     </script>
 </body>
 </html>
