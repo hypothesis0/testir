@@ -1,79 +1,80 @@
 {
-  "title": "",
+  "title": "Fellowship - Inaugural Cohort",
   "heading": "Fellowship",
   "intro": "Initial Research is a meeting space for creative talents, fostering a continuous exchange of experiences and ideas. At its core, the Initial Research Fellowship provides a select group of creatives with the resources to pursue a self-directed, yearlong research project. Fellows receive access to office and project space, where they develop their work through a series of gatherings, including workshops, lectures, screenings, and reading groups. Each participant will present their research internally and will organize public-facing events.",
-  "cohort_title": "2025/2026 Inaugural Cohort",
-  "fellows": [
+  "cohorts": [
     {
-      "single_image": {
-        "src": "/img/uploads/teeditions_kechun-qin.jpg"
-      },
-      "bio": "<p>te editions is an independent publishing house launched in 2023 by Michael Guo and Kechun Qin. It currently operates in New York and Beijing. te explores the intersection of the arts and humanities, examining historical and contemporary social landscapes through a diversified and microscopic lens. The focus lies on how cultures encounter, collapse, and transform each other within global cultural flows. Driven by “curatorial thinking on paper” in the editorial approach, te editions aims to foster new discussions informed by a genuinely interdisciplinary perspective.</p>\n\n<p>In 2021, te editions launched the first issue of its annual bilingual publication, te magazine. Each issue draws inspiration from current events, developing a theme that encapsulates the thinking sparked by the moment. Researchers and creators from various fields are invited to contribute their work around this central theme. te editions consistently collaborates with artists, scholars, communities, and cultural organizations to expand on existing projects and to envision new ones.</p>",
-      "number": "01",
-      "name": "te editions (Michael Guo & Kechun Qin)",
-      "additional_images": [
+      "cohort_title": "2025/2026 Inaugural Cohort",
+      "order": 1,
+      "show_cohort": true,
+      "fellows": [
         {
-          "src": "img/uploads/teeditions_michael_guo.jpg"
-        }
-      ],
-      "carousel_images": [
-        {
-          "src": "/img/uploads/teeditions_kechun-qin.jpg"
+          "number": "01",
+          "name": "te editions (Michael Guo & Kechun Qin)",
+          "id": "te-editions-2025",
+          "fellow_title": "",
+          "bio": "te editions is an independent publishing house launched in 2023 by Michael Guo and Kechun Qin. It currently operates in New York and Beijing. te explores the intersection of the arts and humanities, examining historical and contemporary social landscapes through a diversified and microscopic lens. The focus lies on how cultures encounter, collapse, and transform each other within global cultural flows. Driven by "curatorial thinking on paper" in the editorial approach, te editions aims to foster new discussions informed by a genuinely interdisciplinary perspective.\n\nIn 2021, te editions launched the first issue of its annual bilingual publication, te magazine. Each issue draws inspiration from current events, developing a theme that encapsulates the thinking sparked by the moment. Researchers and creators from various fields are invited to contribute their work around this central theme. te editions consistently collaborates with artists, scholars, communities, and cultural organizations to expand on existing projects and to envision new ones.",
+          "image_type": "carousel",
+          "image": "/img/uploads/teeditions_kechun-qin.jpg",
+          "caption": "",
+          "additional_images": [
+            {
+              "src": "/img/uploads/teeditions_michael-guo.jpg",
+              "caption": ""
+            }
+          ]
         },
         {
-          "src": "/img/uploads/teeditions_michael-guo.jpg"
+          "number": "02",
+          "name": "Nini Dongnier",
+          "id": "nini-dongnier-2025",
+          "fellow_title": "",
+          "bio": "Hailing from Inner Mongolia and based in New York, choreographer and artist NiNi Dongnier works in choreographic performance, moving image, and painting. She delves deeply into questions about form, faith, constancy, migration, and the experience of life through explorations of movement, visual art, garment, and the use of tech intervention where necessary. Her work in dialogue with multiple nourishments—from her nomadic roots, classical training in a wide range of traditional to contemporary dance, to art history and Mahāyāna Buddhism. \"My desire is to record intuitive truths through the sensual body and its material extensions.\"\n\nDongnier's work has been performed and exhibited at The Watermill Center, New York Live Arts, Movement Research, Mana Contemporary, G Museum, Aranya Art Center, Shanghai Ming Contemporary Art Museum, National Centre for the Performing Arts, and Shanghai International Dance Center Theater, among others. She was a recipient of nominations for the China Dance Lotus Award. She has been an artist in residence at Monira Foundation, La MaMa|CultureHub, The Watermill Center, Media Art Xploration, Jacob's Pillow, and Barnard Movement Lab at Columbia University.\n\nDongnier's initial learning stemmed from the vast, textured nature of Inner Mongolia, as well as from her parents. She graduated from the Beijing Dance Academy, received her MFA from New York University, and studied at the Skowhegan School of Painting and Sculpture. Dongnier has served on the faculty of Beijing Dance Academy (2012-17), taught at Hunter College—CUNY (2020), and at Barnard College—Columbia University (2020, 2024). She was an assistant professor at the School for the Contemporary Arts—Simon Fraser University (2021-24).",
+          "image_type": "single",
+          "image": "/img/uploads/ninidongnier_portrait_bylucreziapollice.jpg",
+          "caption": "Portrait by Lucrezia Pollice",
+          "additional_images": []
+        },
+        {
+          "number": "03",
+          "name": "Anh Vo",
+          "id": "anh-vo-2025",
+          "fellow_title": "",
+          "bio": "Anh Vo is a Vietnamese choreographer and writer working primarily in New York City, with a second base in Hanoi. Their practice fleshes out the body as a vessel for apparitional forces. Their work is situated in the unlikely lineage convergences between Downtown New York experimental performance, Hanoi performance art, and Vietnamese folk ritual practices. Vo is indebted to Miguel Gutierrez's unapologetic queerness and amorphous excess, Moriah Evan's speculative commitment to the depth of interiority, Tehching Hsieh's existential sense of time, and Ngoc Dai's guttural sonic landscape of postwar Vietnam. Their formal training is in Performance Studies, studying with esteemed theorists and practitioners at Brown University (BA) and New York University (MA).",
+          "image_type": "single",
+          "image": "/img/uploads/anh_vo_portraitbymariabaranova.jpg",
+          "caption": "Portrait by Maria Baranova",
+          "additional_images": []
+        },
+        {
+          "number": "04",
+          "name": "Yu Ji & Ho King Man",
+          "id": "yu-ji-ho-king-2025",
+          "fellow_title": "",
+          "bio": "Yu Ji is known for the diversity of her practice, working primarily in sculpture and installation, as well as performance and video. Her long-term interest has been in transforming ongoing investigations into specific spaces that become charged with geographical and historical narratives. Reflecting on and moderating the fragile presence of the human body in relation to objects found in their everyday environments, her performances often coincide with exhibitions of sculptural works, which turn the space of artistic presentation into a site for the production of labor.\n\nYu Ji's Institutional exhibitions include those at the Centro Pecci, Prato, Italy (2024), ICA Institute of Contemporary Art, NYU, Shanghai (2023), OCMA Orange County Museum of Art, Costa Mesa (2023), New Museum in New York (2021), West Bund Museum + Pompidou in Shanghai (2021), Chisenhale Gallery in London (2021), Tensta Konsthall in Stockholm (2018), Rock Bund Art Museum in Shanghai (2017). From 2008 till 2021, she co-founded AM Art Space — an artist-led space in Shanghai, promoting experimentation and exchanges between artists, curators and the public.\n\nBHKM is a conceptual publishing house. Between private and public, they often addressing issues of belonging and authorship, loneliness and otherness. Recent exhibitions include projects at 人人人人, Harmony Community Foundation, Guangzhou (2024); PP3, Columbus Park (Chinatown), New York (2023); Bungee Space, New York (2023); Motto Berlin (2023).",
+          "image_type": "single",
+          "image": "/img/uploads/yujiandbhkm.jpg",
+          "caption": "Portrait by Amiko Li, 2025",
+          "additional_images": []
+        },
+        {
+          "number": "05",
+          "name": "Sowon Kwon",
+          "id": "sowon-kwon-2025",
+          "fellow_title": "",
+          "bio": "**Sowon Kwon** works in a range of media including sculptural and video installations, animation, drawing, printmaking, and artist books. Her projects exploring the interplay between making and writing, portraiture, perception, and historical memory, have been featured at Full Haus, Los Angeles; Triple Canopy magazine; The Poetry Project; and Broodthaers Society of America. She has had solo exhibitions at Gallery Simon, Seoul; The Kitchen, New York; Matrix Gallery/Berkeley Art Museum; and the Whitney Museum of American Art, New York. Her work has also been featured in many group exhibitions in the US and abroad: New Museum, New York; ICA Boston; MOCA Los Angeles; Queens Museum, New York; Yerba Buena Center for the Arts, San Francisco; Artists Space, New York; The Drawing Center, New York; Artsonje Center, Seoul; the Gwangju Biennale, the Yokohama Triennale; and San Art, Ho Chi Minh City. As an educator she has also taught at Columbia University, The Cooper Union, the School of the Art Institute of Chicago, and the Vermont College of Fine Arts. She is a regular contributor to 4 Columns magazine.",
+          "image_type": "single",
+          "image": "",
+          "caption": "",
+          "additional_images": []
         }
-      ],
-      "title": "te editions (Michael Guo & Kechun Qin)",
-      "id": "01",
-      "image": "img/uploads/teeditions_kechun_qin.jpg",
-      "image_type": "carousel"
+      ]
     },
     {
-      "single_image": {
-        "src": "/img/uploads/ninidongnier_portrait_bylucreziapollice.jpg",
-        "caption": "Portrait by Lucrezia Pollice"
-      },
-      "caption": "Portrait by Lucrezia Pollice",
-      "bio": "<p>Hailing from Inner Mongolia and based in New York, choreographer and artist NiNi Dongnier works in choreographic performance, moving image, and painting. She delves deeply into questions about form, faith, constancy, migration, and the experience of life through explorations of movement, visual art, garment, and the use of tech intervention where necessary. Her work in dialogue with multiple nourishments—from her nomadic roots, classical training in a wide range of traditional to contemporary dance, to art history and Mahāyāna Buddhism. “My desire is to record intuitive truths through the sensual body and its material extensions.”</p>\n\n<p>Dongnier’s work has been performed and exhibited at The Watermill Center, New York Live Arts, Movement Research, Mana Contemporary, G Museum, Aranya Art Center, Shanghai Ming Contemporary Art Museum, National Centre for the Performing Arts, and Shanghai International Dance Center Theater, among others. She was a recipient of nominations for the China Dance Lotus Award. She has been an artist in residence at Monira Foundation, La MaMa|CultureHub, The Watermill Center, Media Art Xploration, Jacob’s Pillow, and Barnard Movement Lab at Columbia University.</p>\n\n<p>Dongnier’s initial learning stemmed from the vast, textured nature of Inner Mongolia, as well as from her parents. She graduated from the Beijing Dance Academy, received her MFA from New York University, and studied at the Skowhegan School of Painting and Sculpture. Dongnier has served on the faculty of Beijing Dance Academy (2012-17), taught at Hunter College—CUNY (2020), and at Barnard College—Columbia University (2020, 2024). She was an assistant professor at the School for the Contemporary Arts—Simon Fraser University (2021-24).</p>",
-      "number": "02",
-      "name": "Nini Dongnier",
-      "title": "Nini Dongnier",
-      "id": "02",
-      "image": "img/uploads/ninidongnier_portrait_bylucreziapollice.jpg",
-      "image_type": "single"
-    },
-    {
-      "single_image": {
-        "caption": "Portrait by Maria Baranova",
-        "src": "/img/uploads/anh_vo_portraitbymariabaranova.jpg"
-      },
-      "caption": "Portrait by Maria Baranova",
-      "bio": "Anh Vo is a Vietnamese choreographer and writer working primarily in New York City, with a second base in Hanoi. Their practice fleshes out the body as a vessel for apparitional forces. Their work is situated in the unlikely lineage convergences between Downtown New York experimental performance, Hanoi performance art, and Vietnamese folk ritual practices. Vo is indebted to Miguel Gutierrez's unapologetic queerness and amorphous excess, Moriah Evan's speculative commitment to the depth of interiority, Tehching Hsieh’s existential sense of time, and Ngoc Dai’s guttural sonic landscape of postwar Vietnam. Their formal training is in Performance Studies, studying with esteemed theorists and practitioners at Brown University (BA) and New York University (MA).",
-      "number": "03",
-      "name": "Anh Vo",
-      "title": "Anh Vo",
-      "id": "03",
-      "image": "img/uploads/anh_vo_portraitbymariabaranova.jpg",
-      "image_type": "single"
-    },
-    {
-      "image_type": "single",
-      "number": "04",
-      "name": "Yu Ji & Ho King Man",
-      "id": "04",
-      "title": "Yu Ji & Ho King Man",
-      "bio": "<p>Yu Ji is known for the diversity of her practice, working primarily in sculpture and installation, as well as performance and video. Her long-term interest has been in transforming ongoing investigations into specific spaces that become charged with geographical and historical narratives. Reflecting on and moderating the fragile presence of the human body in relation to objects found in their everyday environments, her performances often coincide with exhibitions of sculptural works, which turn the space of artistic presentation into a site for the production of labor.</p>\n\n<p>Yu Ji's Institutional exhibitions include those at the Centro Pecci, Prato, Italy (2024), ICA Institute of Contemporary Art, NYU, Shanghai (2023), OCMA Orange County Museum of Art, Costa Mesa (2023), New Museum in New York (2021), West Bund Museum + Pompidou in Shanghai (2021), Chisenhale Gallery in London (2021), Tensta Konsthall in Stockholm (2018), Rock Bund Art Museum in Shanghai (2017). From 2008 till 2021, she co-founded AM Art Space — an artist-led space in Shanghai, promoting experimentation and exchanges between artists, curators and the public.</p>\n\n<p>BHKM is a conceptual publishing house. Between private and public, they often addressing issues of belonging and authorship, loneliness and otherness. Recent exhibitions include projects at 人人人人, Harmony Community Foundation, Guangzhou (2024); PP3, Columbus Park (Chinatown), New York (2023); Bungee Space, New York (2023); Motto Berlin (2023).</p>",
-      "caption": "Portrait by Amiko Li, 2025",
-      "image": "img/uploads/yujiandbhkm.jpg"
-    },
-    {
-      "image_type": "single",
-      "number": "05",
-      "name": "Sowon Kwon",
-      "id": "05",
-      "title": "Sowon Kwon",
-      "bio": "**Sowon Kwon works in a range of media including sculptural and video installations, animation, drawing, printmaking, and artist books. Her projects exploring the interplay between making and writing, portraiture, perception, and historical memory, have been featured at Full Haus, Los Angeles; Triple Canopy magazine; The Poetry Project; and Broodthaers Society of America. She has had solo exhibitions at Gallery Simon, Seoul; The Kitchen, New York; Matrix Gallery/Berkeley Art Museum; and the Whitney Museum of American Art, New York. Her work has also been featured in many group exhibitions in the US and abroad: New Museum, New York; ICA Boston; MOCA Los Angeles; Queens Museum, New York; Yerba Buena Center for the Arts, San Francisco; Artists Space, New York; The Drawing Center, New York; Artsonje Center, Seoul; the Gwangju Biennale, the Yokohama Triennale; and San Art, Ho Chi Minh City. As an educator she has also taught at Columbia University, The Cooper Union, the School of the Art Institute of Chicago, and the Vermont College of Fine Arts. She is a regular contributor to 4 Columns magazine.**"
+      "cohort_title": "2027 Cohort",
+      "order": 2,
+      "show_cohort": false,
+      "fellows": []
     }
   ]
 }
