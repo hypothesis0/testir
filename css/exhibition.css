@@ -84,7 +84,7 @@ body {
     right: 0; /* Start from the very right edge of the container */
     width: 150px; /* Reasonable gradient width */
     height: calc(100% - 20px); /* Account for bottom padding */
-    background: linear-gradient(to right, transparent 0%, rgba(235, 235, 235, 0) 70%, rgba(235, 235, 235, 0.541) 100%);
+   
     pointer-events: none; /* Allow clicking through the gradient */
     z-index: 10; /* Above images */
 }
