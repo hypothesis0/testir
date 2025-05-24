@@ -426,25 +426,29 @@
         async function loadFellowshipData() {
             try {
                 console.log('Loading fellowship data...');
+                console.log('Current page location:', window.location.pathname);
                 
                 const possiblePaths = [
+                    '/fellowship-data.json',     // Try absolute path first  
                     './fellowship-data.json',
                     '../fellowship-data.json', 
-                    '/fellowship-data.json',
                     'fellowship-data.json'
                 ];
                 
                 let response;
                 for (const path of possiblePaths) {
                     try {
+                        console.log(`Trying path: ${path}`);
                         const tempResponse = await fetch(path);
                         if (tempResponse.ok) {
                             response = tempResponse;
                             console.log(`✓ Loaded fellowship data from: ${path}`);
                             break;
+                        } else {
+                            console.log(`✗ Failed to load ${path} - Status: ${tempResponse.status}`);
                         }
                     } catch (err) {
-                        console.log(`✗ Failed to load ${path}`);
+                        console.log(`✗ Error loading ${path}:`, err.message);
                     }
                 }
                 
