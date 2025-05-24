@@ -12,6 +12,7 @@ body {
     width: 100%;
 }
 
+
 /* Exhibition content */
 .content {
     display: flex;
@@ -75,18 +76,18 @@ body {
     overflow: hidden; /* Ensure gradient is contained */
 }
 
-/* REMOVED GRADIENT - Commented out the gradient overlay */
-/* .hero-image-container::before {
+/* Gradient overlay for image gallery - creates fade effect from right to left */
+.hero-image-container::before {
     content: '';
     position: absolute;
     top: 0;
-    right: 0;
-    width: 150px;
-    height: calc(100% - 20px);
+    right: 0; /* Start from the very right edge of the container */
+    width: 150px; /* Reasonable gradient width */
+    height: calc(100% - 20px); /* Account for bottom padding */
     background: linear-gradient(to right, transparent 0%, rgba(235, 235, 235, 0) 70%, rgba(235, 235, 235, 0.541) 100%);
-    pointer-events: none;
-    z-index: 10;
-} */
+    pointer-events: none; /* Allow clicking through the gradient */
+    z-index: 10; /* Above images */
+}
 
 .hero-image-scroll {
     display: flex;
@@ -276,7 +277,9 @@ body {
     z-index: 10000;
 }
 
-/* Mobile styling - FIXED for better image display and no gradient */
+
+
+/* Mobile styling - ONLY adding swipe functionality, keeping original design */
 @media (max-width: 768px) {
     /* Content layout - FULL WIDTH */
     .content {
@@ -319,24 +322,19 @@ body {
         color: #000000;
     }
     
-    /* MOBILE: Hero image section - NO GRADIENT */
+    /* MOBILE: Hero image section - Fixed to match content width */
     .hero-image-container {
         width: 100%; /* Match content width instead of full viewport */
         margin-left: 0; /* No negative margin needed */
         margin-bottom: 5vh;
         position: relative;
-        overflow: visible; /* Changed from hidden to visible */
+        overflow: visible;
         /* Enable touch handling for swipe */
         touch-action: manipulation;
         user-select: none;
         -webkit-user-select: none;
         -webkit-touch-callout: none;
         height: auto;
-    }
-    
-    /* REMOVE gradient completely on mobile */
-    .hero-image-container::before {
-        display: none !important;
     }
 
     .hero-image-scroll {
@@ -357,7 +355,7 @@ body {
         display: none;
     }
     
-    /* FIXED MOBILE IMAGES - Better sizing for mobile */
+    /* MOBILE IMAGES - Original design preserved */
     .hero-image-item {
         flex: 0 0 auto;
         scroll-snap-align: center;
@@ -369,10 +367,10 @@ body {
     }
     
     .hero-image-item img {
-        /* UNIFORM HEIGHT: All mobile images same height */
-        height: 280px !important; /* Fixed height for consistent look */
-        width: auto !important; /* Width adjusts to maintain aspect ratio */
-        object-fit: contain !important; /* Show full image without cropping */
+        /* Restore original mobile height */
+        height: 280px !important; /* Back to 400px since height wasn't the issue */
+        width: auto !important;
+        object-fit: contain !important;
         display: block !important;
         cursor: pointer;
         border-radius: 0;
@@ -384,15 +382,14 @@ body {
         opacity: 0.9 !important;
     }
     
-    /* FIXED: Use hero-image-caption instead of mobile-caption */
-    .hero-image-caption {
+    .mobile-caption {
         margin-top: 10px !important;
         font-size: 14px !important; 
         color: #666 !important;
         font-weight: 300 !important;
         line-height: 1.2 !important;
         text-align: left !important;
-        max-width: calc(100vw - 100px) !important; /* Match image max-width */
+        width: calc(100vw - 48px) !important;
         box-sizing: border-box !important;
     }
     
