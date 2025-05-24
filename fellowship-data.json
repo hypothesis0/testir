@@ -5,7 +5,7 @@
   "cohorts": [
     {
       "cohort_title": "2025/2026 Inaugural Cohort",
-      "order": 2,
+      "order": 1,
       "show_cohort": true,
       "fellows": [
         {
@@ -72,8 +72,8 @@
     },
     {
       "cohort_title": "2027 Cohort",
-      "order": 1,
-      "show_cohort": true,
+      "order": 2,
+      "show_cohort": false,
       "fellows": [
         {
           "image_type": "single",
