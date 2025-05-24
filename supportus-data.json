@@ -1,56 +1,47 @@
 {
   "page_title": "Support Us",
   "support_section": {
-    "title": "Support",
-    "intro": "Initial Research is a non-profit organization dedicated to fostering critical dialogue and creative practice. Your support enables us to continue our mission of supporting emerging artists, facilitating meaningful cultural exchanges, and creating spaces for important conversations.\n\nAs an independent arts organization, we rely on the generosity of individuals, foundations, and community partners to sustain our programs and initiatives."
+    "title": "Support Us",
+    "intro": "We're a new public foundation dedicated to supporting early-stage artistic research and building cross-cultural connections. As we build our programs and community from the ground up, your support is essential. Donations directly sustain our fellowship program, shared workspace, and public events — helping us provide resources and visibility to artists and cultural practitioners.\n\nIf you share our belief in the value of early research and artistic experimentation, please consider supporting us by becoming a patron. Your contributions are deeply appreciated — they help us stay open, pay artists for their time and labor, and keep space for experimentation and exchange alive.\n\n**Individual Patron Levels**"
   },
   "patron_levels": {
-    "title": "Patron Levels",
+    "title": "",
     "levels": [
       {
         "name": "Friend",
-        "amount": "$100"
+        "amount": "US$3,000"
       },
       {
         "name": "Supporter",
-        "amount": "$250"
+        "amount": "US$8,000"
       },
       {
-        "name": "Advocate",
-        "amount": "$500"
-      },
-      {
-        "name": "Patron",
-        "amount": "$1,000"
-      },
-      {
-        "name": "Sustaining Patron",
-        "amount": "$2,500"
+        "name": "Founding Patron",
+        "amount": "US$25,000 and above"
       }
     ]
   },
-  "how_to_support": {
-    "title": "How to Support",
-    "content": "**Make a Donation**\n\nTo make a tax-deductible donation, please contact us at [support@initialresearch.org](mailto:support@initialresearch.org) or send a check made payable to \"Initial Research\" to our mailing address.\n\n**Corporate Partnerships**\n\nWe welcome partnerships with organizations that share our commitment to supporting arts and culture. Contact us to discuss collaboration opportunities.\n\n**Volunteer**\n\nJoin our community of volunteers who help make our programs possible. We welcome support with events, administration, and outreach."
+  "additional_content": {
+    "text": "As a thank you, patrons are listed on our Patron Board (unless you'd rather stay anonymous!) and get access to special experiences like studio visits with artists, guaranteed seats at programs, cozy dinners hosted by creatives, and more behind-the-scenes moments.\n\nTo donate, just reach out to us at [donate@initialresearch.org](mailto:donate@initialresearch.org) — we'll provide further details and answer any questions.\n\nWe're currently in the process of securing 501(c)(3) status. Once that's finalized, your gift will be tax-deductible to the extent allowed by law. Thank you so much for supporting this work at the very beginning — it truly makes a difference."
   },
   "donor_recognition": {
-    "title": "Donor Recognition",
+    "title": "Donor Board",
     "categories": [
       {
-        "name": "Founding Patrons ($2,500+)",
-        "donors": "Anonymous, Jane Smith Foundation, The Miller Family Trust"
+        "name": "Friends",
+        "donors": "Doris Yong, Harrison Chen"
       },
       {
-        "name": "Sustaining Patrons ($1,000+)",
-        "donors": "Alex Chen, Maria Rodriguez, David Park, Sarah Johnson"
+        "name": "Supporters",
+        "donors": "Mimi Chen, Kay & Edward"
       },
       {
-        "name": "Patrons ($500+)",
-        "donors": "Lisa Wong, Michael Brown, Jennifer Kim, Robert Davis, Emma Wilson, James Lee"
+        "name": "Founding Patrons",
+        "donors": "Sun Yuan, Dai Wang"
       },
       {
-        "name": "Supporters ($250+)",
-        "donors": "Amy Zhang, Chris Taylor, Nicole Adams, Kevin Liu, Rachel Green, Tom Anderson, Laura Martinez, Sam Cooper"
+        "name": "Institutional Partners",
+        "donors": "De Ying Foundation"
       }
     ]
   }
