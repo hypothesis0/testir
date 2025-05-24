@@ -3,282 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community Hours</title>
+    <title>Community Hours - Initial Research</title>
     
     <!-- Google Font - Space Grotesk -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-   <style>
-       body {
-           margin: 0;
-           padding: 0;
-           font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-           line-height: 1;
-           background-color: rgb(235, 235, 235);
-           position: relative;
-           min-height: 100vh;
-           overflow-x: hidden;
-           display: flex;
-           flex-direction: column;
-           width: 100%;
-       }
-        
-        /* Red top banner - matching demo design */
-        .top-banner {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgb(241, 61, 33);
-            padding: 4px 0; /* Match demo page padding */
-            z-index: 10;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .title-container {
-            padding-left: 24px;
-            flex-shrink: 0;
-        }
-        
-        .top-banner h1 {
-            font-size: 34px;
-            font-weight: 500;
-            color: rgb(23, 23, 23);
+    <!-- Netlify Identity Widget (only this one for CMS login) -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    
+    <!-- Import navigation styles and scripts -->
+    <link rel="stylesheet" href="../css/navigation.css">
+    <script src="../js/navigation.js"></script>
+    
+    <style>
+        body {
             margin: 0;
-            letter-spacing: 0em;
-            line-height: 1;
+            padding: 0;
             font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-            white-space: nowrap;
-        }
-        
-        /* Navigation - matching demo style */
-        .nav-top {
-            display: flex;
-            gap: 0;
-            padding-right: 48px;
-            padding-left: 0px;
-            align-items: flex-end;
-        }
-        
-        .nav-top a {
-            color: rgb(23, 23, 23);
-            text-decoration: none;
-            font-size: 16px;
-            transition: color 0.2s ease-in-out;
             line-height: 1;
-            display: inline-block;
-            font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-            font-weight: 300;
-            border-bottom: none !important;
-        }
-        
-        .nav-top a:hover {
-            color: #f8f8f8;
-        }
-        
-        /* Nav item positioning - block style */
-        .nav-item {
+            background-color: rgb(235, 235, 235);
             position: relative;
-            cursor: pointer;
-            padding: 4px 12px;
-            display: flex;
-            align-items: center;
-            margin-top: -8px;
-            margin-bottom: -8px;
-            padding-top: 16px;
-            padding-bottom: 8px;
-        }
-        
-        .nav-item.active {
-            color: #ffffff;
-        }
-        
-        .nav-item.active > a {
-            font-style: italic !important;
-            color: #ffffff;
-        }
-        
-        /* Horizontal Dropdown styles */
-        .dropdown {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: rgba(159, 144, 142, 0.486);
-            padding: 0;
-            z-index: 1000;
-            transition: opacity ease;
-            min-width: 600px;
-        }
-        
-        /* Special case for "program" dropdown */
-        .nav-item:first-child .dropdown {
-            width: 600px;
-        }
-        
-        /* Dropdown container */
-        .dropdown-container {
+            min-height: 100vh;
+            overflow-x: hidden;
             display: flex;
             flex-direction: column;
-            background-color: rgb(241, 61, 33);
             width: 100%;
-            padding: 0;
-        }
-        
-        /* Dropdown links */
-        .dropdown a {
-            display: block;
-            font-size: 16px;
-            padding: 10px 10px 10px 12px;
-            margin: 0;
-            color: rgb(23, 23, 23);
-            text-align: left;
-            text-decoration: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-weight: 300;
-            white-space: nowrap;
-        }
-        
-        .dropdown a:first-child {
-            border-top: none;
-        }
-        
-        .dropdown a:last-child {
-            border-bottom: none;
-        }
-        
-        /* Show dropdown when active */
-        .nav-item.active .dropdown {
-            display: block;
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .dropdown a:hover {
-           background-color: rgba(243, 135, 135, 0.691);
-        }
-        
-        /* MOBILE HAMBURGER MENU */
-        .hamburger-menu {
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding-right: 12px;
-            cursor: pointer;
-        }
-        
-        .hamburger-menu span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background-color: rgb(23, 23, 23);
-            margin: 3px 0;
-            transition: 0.3s;
-        }
-        
-        /* Mobile navigation menu */
-        .mobile-nav {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            background-color: rgb(241, 61, 33);
-            display: none;
-            flex-direction: column;
-            padding: 0;
-            z-index: 1000;
-        }
-        
-        /* Mobile nav item structure */
-        .mobile-nav-item {
-            
-            position: relative;
-            border-bottom: 0.5px solid rgba(23, 23, 23, 0.15) !important;
-        }
-        
-        .mobile-nav-item > a {
-            color: rgb(23, 23, 23);
-            text-decoration: none;
-            padding: 1vh 3vw;
-            font-size: 16px;
-            font-weight: 300;
-            border: none !important;
-            display: block !important;
-            position: relative;
-            padding-left: 24px !important;
-            box-sizing: border-box;
-        }
-        
-        .mobile-nav-item > a:hover {
-            background-color: rgba(243, 135, 135, 0.691);
-            color: #f8f8f8;
-        }
-        
-        .mobile-nav-item.active > a {
-            font-style: italic !important;
-            color: #ffffff;
-        }
-        
-        /* Mobile arrow indicator */
-        .mobile-arrow {
-            position: absolute !important;
-            right: 24px;
-            top: 50%;
-            transform: translateY(-50%);
-            margin: 0 !important;
-            font-size: 20px;
-            transition: transform 0.3s ease;
-            width: 20px;
-            text-align: center;
-        }
-        
-        /* Only show arrow for items with dropdowns */
-        .mobile-nav-item:last-child .mobile-arrow {
-            display: none;
-        }
-        
-        .mobile-nav-item.active .mobile-arrow {
-            transform: rotate(180deg);
-        }
-        
-        /* Mobile dropdown */
-        .mobile-dropdown {
-            display: none;
-            background-color: rgb(241, 61, 33);
-            border-top: none !important;
-            flex-direction: column;
-        }
-        
-        .mobile-nav-item.active .mobile-dropdown {
-            display: flex;
-        }
-        
-        .mobile-dropdown a {
-            color: rgb(23, 23, 23);
-            text-decoration: none;
-            padding: 1vh 3vw 0.5vh 6vw;
-            font-size: 16px;
-            font-weight: 300;
-            border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            padding-left: 48px;
-        }
-        
-        .mobile-dropdown a:hover {
-            background-color: rgba(243, 135, 135, 0.691);
-            color: #f8f8f8;
-        }
-        
-        /* Make sure mobile nav shows when toggled */
-        .mobile-nav.show {
-            display: flex !important;
         }
         
         /* Content area - updated for fixed header */
@@ -289,6 +40,13 @@
             position: relative;
             z-index: 2;
             flex: 1;
+        }
+
+        /* Loading message */
+        .loading-message {
+            font-size: 16px;
+            color: #666;
+            margin: 20px 0;
         }
 
         /* Section styling */
@@ -329,55 +87,15 @@
             margin-bottom: 24px;
         }
 
-        /* Contact links */
-        a {
-            color: rgb(43, 43, 43);
-            text-decoration: none;
-            border-bottom: 1px solid rgb(43, 43, 43);
-            padding-bottom: 0.1rem;
-            transition: all 0.2s ease;
-        }
-
-        a:hover {
-            color: rgb(241, 61, 33);
-            border-color: rgb(241, 61, 33);
-        }
-
-        /* Footer styling */
-        footer {
-            position: relative;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgb(180, 180, 180);
-            padding: 10px 0;
-            text-align: center;
-            font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
-            font-size: 16px;
-            font-weight: 300;
-            color: rgb(23, 23, 23);
-            z-index: 1000;
-            margin-top: auto;
-        }
-
         /* Mobile styling */
         @media (max-width: 768px) {
-            /* Hide desktop nav, show hamburger */
-            .nav-top {
-                display: none !important;
-            }
-            
-            .hamburger-menu {
-                display: flex !important;
-            }
-            
             /* Content adjustments for mobile - align with title */
             .content {
                 padding-left: 24px;
                 padding-right: 24px;
                 padding-top: 105px;
                 padding-bottom: 24px;
-                width: calc(100% - 48px); /* Full width minus left and right padding */
+                width: calc(100%); /* Full width minus left and right padding */
             }
             
             .top-banner h1 {
@@ -392,232 +110,164 @@
                 padding-left: 24px;
             }
         }
-        
-        /* Auto-switch to desktop when screen is larger than 768px */
-        @media (min-width: 769px) {
-            .nav-top {
-                display: flex !important;
-            }
-            
-            .hamburger-menu {
-                display: none !important;
-            }
-            
-            .mobile-nav {
-                display: none !important;
-            }
-        }
     </style>
 </head>
 <body>
-    <!-- Top red banner with title and navigation -->
-    <div class="top-banner">
-        <div class="title-container">
-            <h1 onclick="goToHomepage()" style="cursor: pointer;">initial research</h1>
-        </div>
-        <nav class="nav-top">
-            <div class="nav-item">
-                <a href="#">program</a>
-                <div class="dropdown">
-                    <div class="dropdown-container">
-                        <a href="calendar.html">calendar</a>
-                        <a href="fellowship.html">fellowship</a>
-                        <a href="communityhours.html">community hours</a>
-                        <a href="seasonaldinner.html">seasonal dinner</a>
-                        <a href="exhibition.html">exhibitions</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="nav-item">
-                <a href="#">about</a>
-                <div class="dropdown">
-                    <div class="dropdown-container">
-                        <a href="about.html">mission & vision</a>
-                        <a href="about.html">team</a>
-                        <a href="about.html">contact</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="nav-item">
-                <a href="supportus.html">support us</a>
-            </div>
-        </nav>
-        
-        <!-- Hamburger menu for mobile -->
-        <div class="hamburger-menu" onclick="toggleMobileNav()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        
-        <!-- Mobile navigation menu -->
-        <div class="mobile-nav" id="mobileNav">
-            <div class="mobile-nav-item">
-                <a href="#" onclick="toggleMobileDropdown(event, this)">
-                    program
-                    <span class="mobile-arrow">ᵥ</span>
-                </a>
-                <div class="mobile-dropdown">
-                    <a href="calendar.html">calendar</a>
-                    <a href="fellowship.html">fellowship</a>
-                    <a href="communityhours.html">community hours</a>
-                    <a href="seasonaldinner.html">seasonal dinner</a>
-                    <a href="exhibition.html">exhibitions</a>
-                </div>
-            </div>
-            
-            <div class="mobile-nav-item">
-                <a href="#" onclick="toggleMobileDropdown(event, this)">
-                    about
-                    <span class="mobile-arrow">ᵥ</span>
-                </a>
-                <div class="mobile-dropdown">
-                    <a href="about.html">mission</a>
-                    <a href="about.html">vision</a>
-                    <a href="about.html">team</a>
-                    <a href="about.html">contact</a>
-                </div>
-            </div>
-            
-            <div class="mobile-nav-item">
-                <a href="supportus.html">support us</a>
-            </div>
-        </div>
-    </div>
+    <!-- Navigation will be loaded by navigation.js -->
     
     <!-- Content area -->
-    <div class="content">
-        <div class="section">
-            <h2>Community Hours</h2>
-            <p class="hours">11:00 am– 4:00 pm</p>
-            <p>
-                Join us on Wednesdays and Thursdays, from 11:00am-4:00pm, during our regular community hours at IR. The space is open for work, meetings, and intimate weekday programs. WiFi, a growing book collection, and tea are all provided. No RSVP required, stop by and say hi!
-            </p>
-        </div>
+    <div class="content" id="community-hours-content">
+        <!-- Content will be loaded from the JSON file -->
+        <div class="loading-message"></div>
     </div>
 
-    <footer>
-        123 Gallery Street, New York, NY 10001
-    </footer>
+    <!-- Footer will be loaded by navigation.js -->
 
     <script>
-        // Homepage navigation function
-        function goToHomepage() {
-            window.location.href = '../index.html';
-        }
-
-        // Mobile navigation functions
-        function toggleMobileNav() {
-            const mobileNav = document.getElementById('mobileNav');
-            
-            if (mobileNav.style.display === 'flex' || mobileNav.classList.contains('show')) {
-                mobileNav.style.display = 'none';
-                mobileNav.classList.remove('show');
-                // Close all mobile dropdowns when closing nav
-                const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-                allMobileNavItems.forEach(item => {
-                    item.classList.remove('active');
-                });
-            } else {
-                mobileNav.style.display = 'flex';
-                mobileNav.classList.add('show');
+        // Load community hours data from JSON
+        async function loadCommunityHoursData() {
+            try {
+                console.log('Attempting to load community hours data');
+                
+                // Try multiple possible paths for the JSON file
+                let response;
+                let foundPath = '';
+                
+                // Try different possible paths
+                const possiblePaths = [
+                    '/communityhours-data.json',
+                    './communityhours-data.json',
+                    '../communityhours-data.json',
+                    'communityhours-data.json',
+                    '/community-hours.json',
+                    './community-hours.json',
+                    '../community-hours.json',
+                    'community-hours.json'
+                ];
+                
+                // Try each path until one works
+                for (const path of possiblePaths) {
+                    try {
+                        console.log(`Trying path: ${path}`);
+                        const tempResponse = await fetch(path);
+                        if (tempResponse.ok) {
+                            response = tempResponse;
+                            foundPath = path;
+                            console.log(`Found working path: ${path}`);
+                            break;
+                        }
+                    } catch (err) {
+                        console.log(`Failed with path ${path}: ${err.message}`);
+                    }
+                }
+                
+                // If we didn't find a working path
+                if (!response || !response.ok) {
+                    throw new Error('Could not find community hours data file in any of the tried paths');
+                }
+                
+                const data = await response.json();
+                console.log('Successfully loaded community hours data:', data);
+                
+                // Render community hours content
+                renderCommunityHours(data);
+                
+            } catch (error) {
+                console.error('Error loading community hours data:', error);
+                
+                // Fallback content if loading fails
+                document.getElementById('community-hours-content').innerHTML = `
+                    <div class="section">
+                        <h2>Community Hours</h2>
+                        <p class="hours">11:00 am– 4:00 pm</p>
+                        <p>
+                            Join us on Wednesdays and Thursdays, from 11:00am-4:00pm, during our regular community hours at IR. The space is open for work, meetings, and intimate weekday programs. WiFi, a growing book collection, and tea are all provided. No RSVP required, stop by and say hi!
+                        </p>
+                    </div>`;
             }
         }
-        
-        // Mobile dropdown toggle
-        function toggleMobileDropdown(event, element) {
-            event.preventDefault();
-            const navItem = element.parentElement;
+
+        // Render community hours content
+        function renderCommunityHours(data) {
+            console.log("Rendering community hours with data:", data);
             
-            // Check if this nav item has a dropdown
-            const dropdown = navItem.querySelector('.mobile-dropdown');
-            if (!dropdown) {
-                // If no dropdown, it's a regular link - handle navigation here if needed
+            // Get the container element
+            const container = document.getElementById('community-hours-content');
+            
+            if (!container) {
+                console.error("Container element 'community-hours-content' not found!");
                 return;
             }
             
-            // Close all other mobile dropdowns
-            const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-            allMobileNavItems.forEach(item => {
-                if (item !== navItem) {
-                    item.classList.remove('active');
-                }
+            // Build HTML content
+            let html = '';
+            
+            // Add main section
+            html += `
+                <div class="section">
+                    <h2>${data.title || 'Community Hours'}</h2>`;
+            
+            // Add hours if provided
+            if (data.hours) {
+                html += `<p class="hours">${data.hours}</p>`;
+            }
+            
+            // Split description into paragraphs
+            const paragraphs = data.description ? data.description.split('\n\n') : [];
+            
+            paragraphs.forEach(paragraph => {
+                // Process markdown bold format (**text**)
+                const formattedParagraph = paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                html += `<p>${formattedParagraph}</p>`;
             });
             
-            // Toggle current dropdown
-            navItem.classList.toggle('active');
+            html += `</div>`;
+            
+            // Add additional sections (if any)
+            if (data.additional_sections && data.additional_sections.length > 0) {
+                data.additional_sections.forEach(section => {
+                    html += `
+                    <div class="section">
+                        <h2>${section.title || ''}</h2>`;
+                    
+                    if (section.hours) {
+                        html += `<p class="hours">${section.hours}</p>`;
+                    }
+                    
+                    // Split section.content into paragraphs
+                    const sectionParagraphs = section.content ? section.content.split('\n\n') : [];
+                    sectionParagraphs.forEach(paragraph => {
+                        // Process markdown bold format (**text**)
+                        const formattedParagraph = paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                        html += `<p>${formattedParagraph}</p>`;
+                    });
+                    
+                    html += `</div>`;
+                });
+            }
+            
+            // Set the HTML content
+            container.innerHTML = html;
         }
 
-        // Auto-handle screen resize
-        window.addEventListener('resize', function() {
-            const mobileNav = document.getElementById('mobileNav');
-            const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-            
-            // If resizing to desktop width, close mobile nav
-            if (window.innerWidth > 768) {
-                mobileNav.style.display = 'none';
-                mobileNav.classList.remove('show');
-                allMobileNavItems.forEach(item => {
-                    item.classList.remove('active');
-                });
-            }
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait a bit for navigation.js to load, then load community hours data
+            setTimeout(() => {
+                loadCommunityHoursData();
+            }, 200);
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Desktop dropdown toggle functionality
-            const navItems = document.querySelectorAll('.nav-item');
-            
-            navItems.forEach(item => {
-                const link = item.querySelector('a');
-                const dropdown = item.querySelector('.dropdown');
-                
-                if (dropdown) {
-                    link.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        
-                        // Close all other dropdowns
-                        navItems.forEach(otherItem => {
-                            if (otherItem !== item) {
-                                otherItem.classList.remove('active');
-                            }
-                        });
-                        
-                        // Toggle current dropdown
-                        item.classList.toggle('active');
+        // Netlify Identity Widget handling
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.href = "/admin/";
                     });
                 }
             });
-            
-            // Close dropdowns when clicking outside
-            document.addEventListener('click', function(e) {
-                const isNavClick = e.target.closest('.nav-item');
-                const isMobileNavClick = e.target.closest('.mobile-nav');
-                
-                if (!isNavClick && !isMobileNavClick) {
-                    navItems.forEach(item => {
-                        item.classList.remove('active');
-                    });
-                }
-            });
-        });
-        
-        // Close mobile nav when clicking outside
-        document.addEventListener('click', function(e) {
-            const mobileNav = document.getElementById('mobileNav');
-            const hamburger = document.querySelector('.hamburger-menu');
-            
-            if (!hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
-                mobileNav.style.display = 'none';
-                mobileNav.classList.remove('show');
-                // Close all mobile dropdowns when clicking outside
-                const allMobileNavItems = document.querySelectorAll('.mobile-nav-item');
-                allMobileNavItems.forEach(item => {
-                    item.classList.remove('active');
-                });
-            }
-        });
+        }
     </script>
 </body>
 </html>
